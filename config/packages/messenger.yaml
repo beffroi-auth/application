@@ -1,0 +1,99 @@
+# Rule of the project (docs/11-architecture.md §5.6): no write is synchronous unless the protocol
+# requires it, and every synchronous exception is listed here with its reason.
+framework:
+    messenger:
+        default_bus: command.bus
+        failure_transport: failed
+
+        transports:
+            sync: 'sync://'
+            async_priority_high:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: heidi_messages
+                        type: direct
+                        default_publish_routing_key: high
+                    queues:
+                        heidi_messages_high:
+                            binding_keys: [high]
+                retry_strategy:
+                    max_retries: 4
+                    delay: 1000
+                    max_delay: 30000
+                    multiplier: 4
+            async_priority_medium:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: heidi_messages
+                        type: direct
+                        default_publish_routing_key: medium
+                    queues:
+                        heidi_messages_medium:
+                            binding_keys: [medium]
+                retry_strategy:
+                    max_retries: 4
+                    delay: 1000
+                    max_delay: 30000
+                    multiplier: 4
+            async_priority_low:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: heidi_messages
+                        type: direct
+                        default_publish_routing_key: low
+                    queues:
+                        heidi_messages_low:
+                            binding_keys: [low]
+                retry_strategy:
+                    max_retries: 4
+                    delay: 1000
+                    max_delay: 30000
+                    multiplier: 4
+            failed: 'doctrine://default?queue_name=failed'
+
+        routing:
+            # Synchronous exceptions go here, one per line, each with the protocol reason.
+            Heidi\Bundle\Message\Command: async_priority_medium
+            Heidi\Bundle\Message\Event: async_priority_low
+            Heidi\Bundle\Message\Query: sync
+
+        buses:
+            query.bus: ~
+            command.bus:
+                middleware:
+                    # Restated because overriding "middleware" replaces the defaults: events dispatched
+                    # from a handler must leave after the transaction has committed.
+                    - dispatch_after_current_bus
+                    - router_context
+                    - validation
+                    - doctrine_ping_connection
+                    - doctrine_close_connection
+                    - doctrine_transaction
+            event.bus:
+                middleware:
+                    - dispatch_after_current_bus
+                default_middleware: allow_no_handlers
+
+when@test:
+    framework:
+        messenger:
+            transports:
+                async_priority_high: 'sync://'
+                async_priority_medium: 'sync://'
+                async_priority_low: 'sync://'
+                sync: 'sync://'
+                failed: 'sync://'
+            routing:
+                Heidi\Bundle\Message\Command: sync
+                Heidi\Bundle\Message\Event: sync
+                Heidi\Bundle\Message\Query: sync
+            buses:
+                command.bus:
+                    middleware:
+                        - dispatch_after_current_bus
+                        - router_context
+                        - validation
+                        - doctrine_transaction

@@ -1,0 +1,100 @@
+{
+    "type": "project",
+    "license": ["MIT"],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.4",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "doctrine/doctrine-bundle": "^3.3",
+        "doctrine/doctrine-migrations-bundle": "^4.0",
+        "doctrine/orm": "^3.7",
+        "heidi/symfony-bundle": "@dev",
+        "symfony/amqp-messenger": "8.2.*",
+        "symfony/asset": "8.2.*",
+        "symfony/asset-mapper": "8.2.*",
+        "symfony/console": "8.2.*",
+        "symfony/doctrine-messenger": "8.2.*",
+        "symfony/dotenv": "8.2.*",
+        "symfony/flex": "^2",
+        "symfony/framework-bundle": "8.2.*",
+        "symfony/intl": "8.2.*",
+        "symfony/messenger": "8.2.*",
+        "symfony/monolog-bundle": "^4.1",
+        "symfony/runtime": "8.2.*",
+        "symfony/security-bundle": "8.2.*",
+        "symfony/translation": "8.2.*",
+        "symfony/twig-bundle": "8.2.*",
+        "symfony/validator": "8.2.*",
+        "symfony/yaml": "8.2.*"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "bump-after-update": true,
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*",
+        "symfony/polyfill-php82": "*",
+        "symfony/polyfill-php83": "*",
+        "symfony/polyfill-php84": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "importmap:install": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": "true",
+            "require": "8.2.*"
+        }
+    },
+    "name": "heidi/op",
+    "description": "Heidi: the standalone identity provider application (Symfony skeleton plus the bundle).",
+    "repositories": [{
+        "name": "heidi-bundle",
+        "type": "path",
+        "url": "../../src/symfony"
+    },{
+        "name": "heidi-oidc",
+        "type": "path",
+        "url": "../../src/oidc"
+    },{
+        "name": "heidi-core",
+        "type": "path",
+        "url": "../../src/core"
+    }]
+}
