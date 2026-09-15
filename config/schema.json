@@ -2480,6 +2480,206 @@
                 },
                 "additionalProperties": false
             },
+            "heidi": {
+                "$ref": "#/$defs/types/object_null",
+                "properties": {
+                    "tenant": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "issuer": {
+                                "$ref": "#/$defs/types/scalar",
+                                "description": "Issuer identifier (OIDC Discovery §3): an absolute HTTPS URL, no query, no fragment, no trailing slash; plain HTTP on a loopback host only."
+                            },
+                            "slug": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": "default",
+                                "description": "Stable name of the tenant, from which its identifier is derived; renaming it is creating another tenant."
+                            },
+                            "name": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "Display name; the host of the issuer when absent."
+                            }
+                        },
+                        "required": [
+                            "issuer"
+                        ],
+                        "additionalProperties": false,
+                        "description": "The one tenant of this deployment: the key is already a tenant, a table comes later."
+                    },
+                    "keys": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "kms": {
+                                "$ref": "#/$defs/types/scalar",
+                                "description": "DSN of the KMS that seals the private keys (\"sodium://...\" locally, a Vault or cloud scheme in production); the KMS keeps, it never signs."
+                            },
+                            "key_id": {
+                                "$ref": "#/$defs/types/scalar",
+                                "description": "The key of that KMS the signing keys are sealed under (backend-specific: the id of a sodium key, a Vault transit key name, an ARN)."
+                            },
+                            "storage": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": "%kernel.project_dir%/var/keys",
+                                "description": "Directory of the sealed signing keys, one file per key and per tenant."
+                            }
+                        },
+                        "required": [
+                            "kms",
+                            "key_id"
+                        ],
+                        "additionalProperties": false,
+                        "description": "Where the signing keys live: sealed by the KMS named here, stored as files until a table takes over (architecture §3.3)."
+                    },
+                    "tokens": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "authorization_code_ttl": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "maximum": 600,
+                                "default": 60,
+                                "description": "RFC 6749 §4.1.2 recommends ten minutes at most; sixty seconds bound the injection window."
+                            },
+                            "access_token_ttl": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 600,
+                                "description": "Access tokens are stateless and cannot be revoked: a short lifetime bounds the exposure."
+                            },
+                            "id_token_ttl": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 600
+                            },
+                            "refresh_token_ttl": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 2592000,
+                                "description": "Sliding lifetime of a refresh token, renewed at each rotation."
+                            },
+                            "refresh_token_absolute_ttl": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 7776000,
+                                "description": "Lifetime of a refresh token family from the authorization that started it; no rotation extends it."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "authorization_code_ttl": 60,
+                            "access_token_ttl": 600,
+                            "id_token_ttl": 600,
+                            "refresh_token_ttl": 2592000,
+                            "refresh_token_absolute_ttl": 7776000
+                        },
+                        "description": "Lifetimes in seconds. The defaults are the choices of architecture §9."
+                    },
+                    "clients": {
+                        "$ref": "#/$defs/types/object_null",
+                        "additionalProperties": {
+                            "$ref": "#/$defs/types/object_null",
+                            "properties": {
+                                "name": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "Shown on the consent page; the client identifier when absent."
+                                },
+                                "secret": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "At least 32 visible ASCII characters, generated, never chosen; absent for a public client."
+                                },
+                                "redirect_uris": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "Compared byte for byte with the redirect_uri of a request (RFC 6749 §3.1.2.3); HTTPS, or plain HTTP on a loopback host."
+                                },
+                                "post_logout_redirect_uris": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "Compared byte for byte with the post_logout_redirect_uri of a logout request (RP-Initiated Logout §3)."
+                                },
+                                "grant_types": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "anyOf": [
+                                            {
+                                                "enum": [
+                                                    "authorization_code",
+                                                    "refresh_token"
+                                                ]
+                                            },
+                                            {
+                                                "$ref": "#/$defs/types/param"
+                                            }
+                                        ]
+                                    },
+                                    "default": [
+                                        "authorization_code",
+                                        "refresh_token"
+                                    ]
+                                },
+                                "allowed_scopes": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "default": [
+                                        "openid",
+                                        "profile",
+                                        "email"
+                                    ]
+                                },
+                                "token_endpoint_auth_method": {
+                                    "anyOf": [
+                                        {
+                                            "enum": [
+                                                "client_secret_basic",
+                                                "client_secret_post",
+                                                "none"
+                                            ]
+                                        },
+                                        {
+                                            "$ref": "#/$defs/types/param"
+                                        }
+                                    ],
+                                    "default": "client_secret_basic"
+                                },
+                                "requires_consent": {
+                                    "$ref": "#/$defs/types/boolean",
+                                    "default": true,
+                                    "description": "Consent is the rule; a first-party application is the named exception."
+                                },
+                                "id_token_signed_response_alg": {
+                                    "anyOf": [
+                                        {
+                                            "enum": [
+                                                "RS256"
+                                            ]
+                                        },
+                                        {
+                                            "$ref": "#/$defs/types/param"
+                                        }
+                                    ],
+                                    "default": "RS256"
+                                }
+                            },
+                            "additionalProperties": false
+                        },
+                        "description": "The clients of the tenant, keyed by client identifier. A secret is hashed when the client is loaded and never kept in clear."
+                    }
+                },
+                "required": [
+                    "tenant",
+                    "keys"
+                ],
+                "additionalProperties": false
+            },
             "http_client": {
                 "anyOf": [
                     {
@@ -7440,6 +7640,9 @@
         "framework": {
             "$ref": "#/$defs/nodes/framework"
         },
+        "heidi": {
+            "$ref": "#/$defs/nodes/heidi"
+        },
         "http_client": {
             "$ref": "#/$defs/nodes/http_client"
         },
@@ -7501,6 +7704,9 @@
                 },
                 "framework": {
                     "$ref": "#/$defs/nodes/framework"
+                },
+                "heidi": {
+                    "$ref": "#/$defs/nodes/heidi"
                 },
                 "http_client": {
                     "$ref": "#/$defs/nodes/http_client"

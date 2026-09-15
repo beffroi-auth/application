@@ -1,1 +1,16 @@
-heidi: ~
+# The configuration of the bundle (docs/11-architecture.md §5.1). Everything that varies by deployment is an
+# environment variable; the clients, the test user and the local KMS come with the fixtures of the application.
+heidi:
+    tenant:
+        issuer: '%env(HEIDI_ISSUER)%'
+    keys:
+        kms: '%env(HEIDI_KMS_DSN)%'
+        key_id: '%env(HEIDI_KMS_KEY_ID)%'
+        storage: '%kernel.project_dir%/var/keys'
+    tokens:
+        authorization_code_ttl: 60
+        access_token_ttl: 600
+        id_token_ttl: 600
+        refresh_token_ttl: 2592000
+        refresh_token_absolute_ttl: 7776000
+    clients: []

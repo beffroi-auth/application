@@ -1,5 +1,13 @@
 # Rule of the project (docs/11-architecture.md §5.6): no write is synchronous unless the protocol
 # requires it, and every synchronous exception is listed here with its reason.
+#
+# The writes the protocol requires before answering are use cases the controllers call directly, in the
+# request: the interaction persisted before the redirect to the login, the session created at login, the
+# consent recorded before the code is issued, the code issued before the redirect to the relying party,
+# the code consumed and the refresh token issued or rotated in the token request, the session ended and
+# its refresh tokens revoked at logout. A message that must be handled in the request all the same
+# implements Heidi\Bundle\Message\SyncMessage, never Command, and is listed below with its reason.
+# Everything else is a Command or an Event and leaves through RabbitMQ.
 framework:
     messenger:
         default_bus: command.bus
@@ -55,10 +63,14 @@ framework:
             failed: 'doctrine://default?queue_name=failed'
 
         routing:
-            # Synchronous exceptions go here, one per line, each with the protocol reason.
             Heidi\Bundle\Message\Command: async_priority_medium
             Heidi\Bundle\Message\Event: async_priority_low
+            # The events of the core and of the module, replayed on event.bus by the bundle
+            # (Heidi\Bundle\Messenger\EventBusDispatcher): audit, enrichment and reactions are asynchronous.
+            Heidi\Core\Domain\Event\DomainEventInterface: async_priority_low
             Heidi\Bundle\Message\Query: sync
+            # Synchronous exceptions: the marker below, then one line per class with the protocol reason.
+            Heidi\Bundle\Message\SyncMessage: sync
 
         buses:
             query.bus: ~
@@ -89,7 +101,9 @@ when@test:
             routing:
                 Heidi\Bundle\Message\Command: sync
                 Heidi\Bundle\Message\Event: sync
+                Heidi\Core\Domain\Event\DomainEventInterface: sync
                 Heidi\Bundle\Message\Query: sync
+                Heidi\Bundle\Message\SyncMessage: sync
             buses:
                 command.bus:
                     middleware:

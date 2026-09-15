@@ -1397,6 +1397,36 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         html_to_text_converter?: scalar|Param|null, // A service implementing the "Symfony\Component\Mime\HtmlToTextConverter\HtmlToTextConverterInterface". // Default: null
  *     },
  * }
+ * @psalm-type HeidiConfig = array{
+ *     tenant?: array{ // The one tenant of this deployment: the key is already a tenant, a table comes later.
+ *         issuer?: scalar|Param|null, // Issuer identifier (OIDC Discovery §3): an absolute HTTPS URL, no query, no fragment, no trailing slash; plain HTTP on a loopback host only.
+ *         slug?: scalar|Param|null, // Stable name of the tenant, from which its identifier is derived; renaming it is creating another tenant. // Default: "default"
+ *         name?: scalar|Param|null, // Display name; the host of the issuer when absent. // Default: null
+ *     },
+ *     keys?: array{ // Where the signing keys live: sealed by the KMS named here, stored as files until a table takes over (architecture §3.3).
+ *         kms?: scalar|Param|null, // DSN of the KMS that seals the private keys ("sodium://..." locally, a Vault or cloud scheme in production); the KMS keeps, it never signs.
+ *         key_id?: scalar|Param|null, // The key of that KMS the signing keys are sealed under (backend-specific: the id of a sodium key, a Vault transit key name, an ARN).
+ *         storage?: scalar|Param|null, // Directory of the sealed signing keys, one file per key and per tenant. // Default: "%kernel.project_dir%/var/keys"
+ *     },
+ *     tokens?: array{ // Lifetimes in seconds. The defaults are the choices of architecture §9.
+ *         authorization_code_ttl?: int|Param, // RFC 6749 §4.1.2 recommends ten minutes at most; sixty seconds bound the injection window. // Default: 60
+ *         access_token_ttl?: int|Param, // Access tokens are stateless and cannot be revoked: a short lifetime bounds the exposure. // Default: 600
+ *         id_token_ttl?: int|Param, // Default: 600
+ *         refresh_token_ttl?: int|Param, // Sliding lifetime of a refresh token, renewed at each rotation. // Default: 2592000
+ *         refresh_token_absolute_ttl?: int|Param, // Lifetime of a refresh token family from the authorization that started it; no rotation extends it. // Default: 7776000
+ *     },
+ *     clients?: array<string, array{ // Default: []
+ *         name?: scalar|Param|null, // Shown on the consent page; the client identifier when absent. // Default: null
+ *         secret?: scalar|Param|null, // At least 32 visible ASCII characters, generated, never chosen; absent for a public client. // Default: null
+ *         redirect_uris?: list<scalar|Param|null>,
+ *         post_logout_redirect_uris?: list<scalar|Param|null>,
+ *         grant_types?: list<"authorization_code"|"refresh_token"|Param>,
+ *         allowed_scopes?: list<scalar|Param|null>,
+ *         token_endpoint_auth_method?: "client_secret_basic"|"client_secret_post"|"none"|Param, // Default: "client_secret_basic"
+ *         requires_consent?: bool|Param, // Consent is the rule; a first-party application is the named exception. // Default: true
+ *         id_token_signed_response_alg?: "RS256"|Param, // Default: "RS256"
+ *     }>,
+ * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -1420,6 +1450,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     monolog?: MonologConfig,
  *     security?: SecurityConfig,
  *     twig?: TwigConfig,
+ *     heidi?: HeidiConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -1443,6 +1474,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         monolog?: MonologConfig,
  *         security?: SecurityConfig,
  *         twig?: TwigConfig,
+ *         heidi?: HeidiConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -1467,6 +1499,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         monolog?: MonologConfig,
  *         security?: SecurityConfig,
  *         twig?: TwigConfig,
+ *         heidi?: HeidiConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -1491,6 +1524,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         monolog?: MonologConfig,
  *         security?: SecurityConfig,
  *         twig?: TwigConfig,
+ *         heidi?: HeidiConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,
