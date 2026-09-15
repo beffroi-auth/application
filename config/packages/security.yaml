@@ -1,39 +1,37 @@
+# The firewall of the interaction pages (architecture §5.4): the users of the bundle, never a User of this
+# application (decision 0002); a form login on the login page of an interaction, with the CSRF token the
+# page renders; the state of the account checked after the password; the handlers that send the browser
+# back to the page of its interaction. The hasher of the users of the bundle is declared by the bundle.
+#
+# The protocol plane (discovery, JWKS, token, UserInfo) sits outside of any firewall: nothing there reads
+# a cookie or starts a session, a bearer token is checked by the endpoint itself.
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
-    password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory: { memory: null }
+        heidi:
+            id: Heidi\Bundle\Security\IdentityUserProvider
 
     firewalls:
         dev:
             # Ensure dev tools and static assets are always allowed
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
-        main:
+        heidi_protocol:
+            pattern: ^/(\.well-known/openid-configuration|jwks|token|userinfo)$
+            security: false
+        heidi_interaction:
             lazy: true
-            provider: users_in_memory
+            provider: heidi
+            user_checker: Heidi\Bundle\Security\UserChecker
+            form_login:
+                login_path: heidi_interaction_login
+                check_path: heidi_interaction_login
+                username_parameter: _username
+                password_parameter: _password
+                enable_csrf: true
+                csrf_token_id: authenticate
+                success_handler: Heidi\Bundle\Security\InteractionLoginHandler
+                failure_handler: Heidi\Bundle\Security\InteractionLoginHandler
 
-            # Activate different ways to authenticate:
-            # https://symfony.com/doc/current/security.html#the-firewall
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Note: Only the *first* matching rule is applied
-    access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
-
-when@test:
-    security:
-        password_hashers:
-            # Password hashers are resource-intensive by design to ensure security.
-            # In tests, it's safe to reduce their cost to improve performance.
-            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
-                algorithm: auto
-                cost: 4 # Lowest possible value for bcrypt
-                time_cost: 3 # Lowest possible value for argon
-                memory_cost: 10 # Lowest possible value for argon
+    # The pages decide for themselves whether a session is needed (the login page shows its form, the
+    # consent page sends a browser without a session back to the login): no rule here.
+    access_control: []
