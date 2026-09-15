@@ -1,3 +1,64 @@
-body {
-    background-color: skyblue;
+/*
+ * The look of the pages of the bundle (architecture §5.2, §6): Tailwind and DaisyUI, built by the Tailwind
+ * standalone binary (symfonycasts/tailwind-bundle) and served by the asset mapper as styles/app.css.
+ *
+ * The bundle ships bare structure and the codes of its pages in data-* attributes, never a class. The
+ * application styles that structure from here, so that its layout override (templates/bundles/HeidiBundle/
+ * layout.html.twig) is the one file it adds and the pages of the bundle stay untouched.
+ */
+@import "tailwindcss";
+
+@source "../../templates";
+
+@plugin "../vendor/daisyui/daisyui.index.js" {
+    themes: light --default, dark --prefersdark;
+}
+
+@layer components {
+    main p {
+        @apply text-base-content;
+    }
+
+    main p[data-error],
+    main p[data-description] {
+        @apply alert alert-error alert-soft mt-4;
+    }
+
+    main p[data-description] {
+        @apply alert-info font-mono text-sm;
+    }
+
+    main p[data-requirement] {
+        @apply alert alert-info alert-soft mt-4;
+    }
+
+    main form {
+        @apply mt-6 flex flex-col gap-4;
+    }
+
+    main form label {
+        @apply label;
+    }
+
+    main form input[type="text"],
+    main form input[type="password"] {
+        @apply input w-full;
+    }
+
+    main form button[type="submit"] {
+        @apply btn btn-primary;
+    }
+
+    main form button[type="submit"][value="deny"],
+    main form button[type="submit"][value="no"] {
+        @apply btn-ghost;
+    }
+
+    main ul {
+        @apply mt-4 flex flex-wrap gap-2;
+    }
+
+    main li[data-scope] {
+        @apply badge badge-outline badge-lg;
+    }
 }

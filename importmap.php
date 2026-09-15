@@ -1,19 +1,13 @@
 <?php
 
 /**
- * Returns the importmap for this application.
+ * The import map of the application (Asset Mapper). The pages of the bundle load no script: the two
+ * entries are the DaisyUI plugin and its theme helper that assets/styles/app.css hands to Tailwind,
+ * installed into assets/vendor by "importmap:install" and pinned here.
  *
- * - "path" is a path inside the asset mapper system. Use the
- *     "debug:asset-map" command to see the full list of paths.
- *
- * - "entrypoint" (JavaScript only) set to true for any module that will
- *     be used as an "entrypoint" (and passed to the importmap() Twig function).
- *
- * The "importmap:require" command can be used to add new entries to this file.
+ * @return array<string, array{version: string, type?: 'js'|'css'|'json'}>
  */
 return [
-    'app' => [
-        'path' => './assets/app.js',
-        'entrypoint' => true,
-    ],
+    'daisyui' => ['version' => '5.7.38'],
+    'daisyui/theme' => ['version' => '5.7.38'],
 ];

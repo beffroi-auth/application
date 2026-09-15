@@ -1,0 +1,26 @@
+{# The layout of the pages of the bundle, overridden by the application to give them their look
+   (architecture §5.2, §6): the same document and the same blocks as the layout of the bundle, one
+   stylesheet built from assets/styles/app.css (Tailwind and DaisyUI), no script. The pages of the
+   bundle come with it untouched: what they render is styled by its structure and its data-* codes. #}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|replace({'_': '-'}) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body class="min-h-screen bg-base-200">
+    {% block body %}
+        <main class="min-h-screen flex items-center justify-center p-4">
+            <div class="card w-full max-w-md bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h1 class="card-title text-2xl">{% block heading %}{{ block('title') }}{% endblock %}</h1>
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+</body>
+</html>

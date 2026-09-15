@@ -35,9 +35,15 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 			echo "The database is now ready and reachable"
 		fi
 
-		if [ "$( find ./migrations -iname '*.php' -print -quit )" ]; then
-			php bin/console doctrine:migrations:migrate --no-interaction --all-or-nothing
-		fi
+		# The migrations of the bundle (heidi_* tables) come with its migrations path, not from ./migrations.
+		php bin/console doctrine:migrations:migrate --no-interaction --all-or-nothing
+	fi
+
+	if [ "$APP_ENV" != 'prod' ]; then
+		# The stylesheet of the pages: the DaisyUI plugin from the import map, then the Tailwind build
+		# (the binary is downloaded into var/tailwind the first time). The production image builds at image time.
+		php bin/console importmap:install --no-interaction
+		php bin/console tailwind:build --no-interaction
 	fi
 
 	setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX var 2>/dev/null || true

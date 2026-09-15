@@ -6982,6 +6982,73 @@
                 ],
                 "additionalProperties": false
             },
+            "symfonycasts_tailwind": {
+                "$ref": "#/$defs/types/object_null",
+                "properties": {
+                    "input_css": {
+                        "$ref": "#/$defs/types/array_null",
+                        "items": {
+                            "$ref": "#/$defs/types/scalar"
+                        },
+                        "default": [
+                            "%kernel.project_dir%/assets/styles/app.css"
+                        ],
+                        "description": "Paths to CSS files to process through Tailwind"
+                    },
+                    "config_file": {
+                        "$ref": "#/$defs/types/scalar",
+                        "default": "%kernel.project_dir%/tailwind.config.js",
+                        "description": "Path to the tailwind.config.js file"
+                    },
+                    "binary": {
+                        "$ref": "#/$defs/types/scalar",
+                        "default": null,
+                        "description": "The tailwind binary to use instead of downloading a new one"
+                    },
+                    "binary_version": {
+                        "$ref": "#/$defs/types/scalar",
+                        "default": null,
+                        "description": "Tailwind CLI version to download - required unless \"binary\" is set (run \"tailwind:init\" to configure)"
+                    },
+                    "binary_platform": {
+                        "anyOf": [
+                            {
+                                "enum": [
+                                    "auto",
+                                    "linux-arm64",
+                                    "linux-arm64-musl",
+                                    "linux-x64",
+                                    "linux-x64-musl",
+                                    "macos-arm64",
+                                    "macos-x64",
+                                    "windows-x64"
+                                ]
+                            },
+                            {
+                                "$ref": "#/$defs/types/param"
+                            }
+                        ],
+                        "default": "auto",
+                        "description": "Tailwind CLI platform to download - \"auto\" will try to detect the platform automatically"
+                    },
+                    "postcss_config_file": {
+                        "$ref": "#/$defs/types/scalar",
+                        "default": null,
+                        "description": "Path to PostCSS config file which is passed to the Tailwind CLI"
+                    },
+                    "strict_mode": {
+                        "$ref": "#/$defs/types/boolean_null",
+                        "default": null,
+                        "description": "When enabled, an exception will be thrown if there are no built assets (default: false in `test` env, true otherwise)"
+                    },
+                    "process_timeout": {
+                        "$ref": "#/$defs/types/integer",
+                        "default": 60,
+                        "description": "Timeout in seconds for the Tailwind build process - use \"0\" to disable"
+                    }
+                },
+                "additionalProperties": false
+            },
             "translation": {
                 "anyOf": [
                     {
@@ -7667,6 +7734,9 @@
         "security": {
             "$ref": "#/$defs/nodes/security"
         },
+        "symfonycasts_tailwind": {
+            "$ref": "#/$defs/nodes/symfonycasts_tailwind"
+        },
         "translation": {
             "$ref": "#/$defs/nodes/translation"
         },
@@ -7731,6 +7801,9 @@
                 },
                 "security": {
                     "$ref": "#/$defs/nodes/security"
+                },
+                "symfonycasts_tailwind": {
+                    "$ref": "#/$defs/nodes/symfonycasts_tailwind"
                 },
                 "translation": {
                     "$ref": "#/$defs/nodes/translation"

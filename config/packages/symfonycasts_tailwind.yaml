@@ -1,0 +1,4 @@
+# The Tailwind standalone binary, pinned (architecture §6); downloaded into var/tailwind on the first build.
+# DaisyUI comes through the import map (importmap.php) and is loaded as a plugin by assets/styles/app.css.
+symfonycasts_tailwind:
+    binary_version: 'v4.3.3'
