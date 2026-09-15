@@ -2655,6 +2655,11 @@
                                     "default": true,
                                     "description": "Consent is the rule; a first-party application is the named exception."
                                 },
+                                "requires_pkce": {
+                                    "$ref": "#/$defs/types/boolean",
+                                    "default": true,
+                                    "description": "PKCE S256 is the rule; a confidential client that cannot send a code_challenge is the named exception of decision 0008, refused for a public client. A challenge the client sends is verified all the same."
+                                },
                                 "id_token_signed_response_alg": {
                                     "anyOf": [
                                         {

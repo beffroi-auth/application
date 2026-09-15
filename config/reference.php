@@ -1424,6 +1424,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         allowed_scopes?: list<scalar|Param|null>,
  *         token_endpoint_auth_method?: "client_secret_basic"|"client_secret_post"|"none"|Param, // Default: "client_secret_basic"
  *         requires_consent?: bool|Param, // Consent is the rule; a first-party application is the named exception. // Default: true
+ *         requires_pkce?: bool|Param, // PKCE S256 is the rule; a confidential client that cannot send a code_challenge is the named exception of decision 0008, refused for a public client. A challenge the client sends is verified all the same. // Default: true
  *         id_token_signed_response_alg?: "RS256"|Param, // Default: "RS256"
  *     }>,
  * }
