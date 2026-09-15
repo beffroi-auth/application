@@ -1,0 +1,4 @@
+# The routes of the bundle (docs/11-architecture.md §5.2), under the path of the issuer: none here, the
+# issuer of this application is the origin alone. Every route name carries its plane, which HEIDI_PLANE reads.
+heidi:
+    resource: '@HeidiBundle/config/routes.php'
