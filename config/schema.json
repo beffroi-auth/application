@@ -4717,6 +4717,15 @@
                             "600"
                         ]
                     },
+                    "very_recent_authentication_lifetime": {
+                        "$ref": "#/$defs/types/integer",
+                        "minimum": 0,
+                        "default": 300,
+                        "description": "Number of seconds an interactive authentication keeps granting IS_AUTHENTICATED_VERY_RECENTLY, a stricter bar than IS_AUTHENTICATED_RECENTLY for the most sensitive actions.",
+                        "examples": [
+                            "60"
+                        ]
+                    },
                     "session_fixation_strategy": {
                         "anyOf": [
                             {
@@ -5119,7 +5128,7 @@
                                 },
                                 "re_authentication_entry_point": {
                                     "$ref": "#/$defs/types/scalar",
-                                    "description": "Service id implementing \"Symfony\\Component\\Security\\Http\\EntryPoint\\ReAuthenticationEntryPointInterface\", asking an already authenticated user to prove possession of their credentials again when IS_AUTHENTICATED_RECENTLY is denied. Defaults to the firewall entry point when that one implements it."
+                                    "description": "Service id implementing \"Symfony\\Component\\Security\\Http\\EntryPoint\\ReAuthenticationEntryPointInterface\", asking an already authenticated user to prove possession of their credentials again when IS_AUTHENTICATED_RECENTLY or IS_AUTHENTICATED_VERY_RECENTLY is denied. Defaults to the firewall entry point when that one implements it."
                                 },
                                 "provider": {
                                     "$ref": "#/$defs/types/scalar"
