@@ -26,7 +26,12 @@ heidi:
 # The three clients of the suite carry the named exception of decision 0008: the Basic OP profile sends no
 # code_challenge, so PKCE is not required of them (it is verified when they send one). oidc-demo sends
 # PKCE, as oidc_login does, and keeps the rule.
+# CONFORMANCE_ACCESS_TOKEN_FORMAT (.env) gives the three clients of the suite their access token shape, so
+# that the plans run with either; the parameter is the default the container validates the option against.
 when@dev:
+    parameters:
+        env(CONFORMANCE_ACCESS_TOKEN_FORMAT): jwt
+
     heidi:
         clients:
             conformance-basic:
@@ -37,6 +42,7 @@ when@dev:
                 token_endpoint_auth_method: client_secret_basic
                 allowed_scopes: ['openid', 'profile', 'email', 'address', 'phone', 'offline_access']
                 requires_pkce: false
+                access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
             conformance-basic-second:
                 name: 'OpenID conformance suite, second client (client_secret_basic)'
                 secret: '%env(CONFORMANCE_BASIC_SECOND_SECRET)%'
@@ -45,6 +51,7 @@ when@dev:
                 token_endpoint_auth_method: client_secret_basic
                 allowed_scopes: ['openid', 'profile', 'email', 'address', 'phone', 'offline_access']
                 requires_pkce: false
+                access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
             conformance-post:
                 name: 'OpenID conformance suite (client_secret_post)'
                 secret: '%env(CONFORMANCE_POST_SECRET)%'
@@ -53,6 +60,7 @@ when@dev:
                 token_endpoint_auth_method: client_secret_post
                 allowed_scopes: ['openid', 'profile', 'email', 'address', 'phone', 'offline_access']
                 requires_pkce: false
+                access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
             oidc-demo:
                 name: 'oidc-demo'
                 secret: '%env(OIDC_DEMO_SECRET)%'

@@ -1,10 +1,13 @@
+# APP_PROFILER (.env) stops the profiler from collecting on a stack that serves the conformance suite:
+# "enabled" and "toolbar" are read at compile time and stay, "collect" is the one option read at runtime,
+# and without a profile the toolbar shows nothing.
 when@dev:
     web_profiler:
         toolbar: true
 
     framework:
         profiler:
-            collect: true
+            collect: '%env(bool:APP_PROFILER)%'
             excluded_paths:
                 - '^/\.well-known/'
                 - '^/favicon\.ico$'

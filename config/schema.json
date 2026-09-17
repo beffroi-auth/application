@@ -2595,7 +2595,7 @@
                                 "$ref": "#/$defs/types/integer",
                                 "minimum": 1,
                                 "default": 600,
-                                "description": "Access tokens are stateless and cannot be revoked: a short lifetime bounds the exposure."
+                                "description": "Both shapes of access token (architecture §4.6): the self-contained one cannot be revoked, and a short lifetime bounds the exposure; the opaque one gets the same, a revocation is a facility and not a reason to live longer."
                             },
                             "id_token_ttl": {
                                 "$ref": "#/$defs/types/integer",
@@ -2722,6 +2722,21 @@
                                         }
                                     ],
                                     "default": "RS256"
+                                },
+                                "access_token_format": {
+                                    "anyOf": [
+                                        {
+                                            "enum": [
+                                                "jwt",
+                                                "opaque"
+                                            ]
+                                        },
+                                        {
+                                            "$ref": "#/$defs/types/param"
+                                        }
+                                    ],
+                                    "default": "jwt",
+                                    "description": "The shape of the access tokens: \"jwt\" (RFC 9068, verified offline against the JWK Set) or \"opaque\" (a reference the resource server introspects, RFC 7662, revocable at once). Per client, nothing global."
                                 }
                             },
                             "additionalProperties": false

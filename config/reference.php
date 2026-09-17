@@ -1411,7 +1411,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     },
  *     tokens?: array{ // Lifetimes in seconds. The defaults are the choices of architecture §9.
  *         authorization_code_ttl?: int|Param, // RFC 6749 §4.1.2 recommends ten minutes at most; sixty seconds bound the injection window. // Default: 60
- *         access_token_ttl?: int|Param, // Access tokens are stateless and cannot be revoked: a short lifetime bounds the exposure. // Default: 600
+ *         access_token_ttl?: int|Param, // Both shapes of access token (architecture §4.6): the self-contained one cannot be revoked, and a short lifetime bounds the exposure; the opaque one gets the same, a revocation is a facility and not a reason to live longer. // Default: 600
  *         id_token_ttl?: int|Param, // Default: 600
  *         refresh_token_ttl?: int|Param, // Sliding lifetime of a refresh token, renewed at each rotation. // Default: 2592000
  *         refresh_token_absolute_ttl?: int|Param, // Lifetime of a refresh token family from the authorization that started it; no rotation extends it. // Default: 7776000
@@ -1427,6 +1427,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         requires_consent?: bool|Param, // Consent is the rule; a first-party application is the named exception. // Default: true
  *         requires_pkce?: bool|Param, // PKCE S256 is the rule; a confidential client that cannot send a code_challenge is the named exception of decision 0008, refused for a public client. A challenge the client sends is verified all the same. // Default: true
  *         id_token_signed_response_alg?: "RS256"|Param, // Default: "RS256"
+ *         access_token_format?: "jwt"|"opaque"|Param, // The shape of the access tokens: "jwt" (RFC 9068, verified offline against the JWK Set) or "opaque" (a reference the resource server introspects, RFC 7662, revocable at once). Per client, nothing global. // Default: "jwt"
  *     }>,
  * }
  * @psalm-type SymfonycastsTailwindConfig = array{
