@@ -2566,7 +2566,7 @@
                             },
                             "key_id": {
                                 "$ref": "#/$defs/types/scalar",
-                                "description": "The key of that KMS the signing keys are sealed under (backend-specific: the id of a sodium key, a Vault transit key name, an ARN)."
+                                "description": "The key of that KMS the signing keys are sealed under (backend-specific: the id of a sodium key, a Vault transit key name, an ARN); \"{tenant}\" stands for the slug of the tenant, one master key each."
                             },
                             "storage": {
                                 "$ref": "#/$defs/types/scalar",

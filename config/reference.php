@@ -1406,7 +1406,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     },
  *     keys?: array{ // Where the signing keys live: sealed by the KMS named here, stored as files until a table takes over (architecture §3.3).
  *         kms?: scalar|Param|null, // DSN of the KMS that seals the private keys ("sodium://..." locally, a Vault or cloud scheme in production); the KMS keeps, it never signs.
- *         key_id?: scalar|Param|null, // The key of that KMS the signing keys are sealed under (backend-specific: the id of a sodium key, a Vault transit key name, an ARN).
+ *         key_id?: scalar|Param|null, // The key of that KMS the signing keys are sealed under (backend-specific: the id of a sodium key, a Vault transit key name, an ARN); "{tenant}" stands for the slug of the tenant, one master key each.
  *         storage?: scalar|Param|null, // Directory of the sealed signing keys, one file per key and per tenant. // Default: "%kernel.project_dir%/var/keys"
  *     },
  *     tokens?: array{ // Lifetimes in seconds. The defaults are the choices of architecture §9.
