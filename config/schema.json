@@ -2572,6 +2572,12 @@
                                 "$ref": "#/$defs/types/scalar",
                                 "default": "%kernel.project_dir%/var/keys",
                                 "description": "Directory of the sealed signing keys, one file per key and per tenant."
+                            },
+                            "jwks_max_age": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 0,
+                                "default": 300,
+                                "description": "How long a relying party may cache the JWK Set, in seconds (RFC 7517 §5, architecture §4.8); the staging window of a rotation derives from it, so that the two cannot drift apart (§3.3)."
                             }
                         },
                         "required": [

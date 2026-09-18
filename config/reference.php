@@ -1408,6 +1408,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         kms?: scalar|Param|null, // DSN of the KMS that seals the private keys ("sodium://..." locally, a Vault or cloud scheme in production); the KMS keeps, it never signs.
  *         key_id?: scalar|Param|null, // The key of that KMS the signing keys are sealed under (backend-specific: the id of a sodium key, a Vault transit key name, an ARN); "{tenant}" stands for the slug of the tenant, one master key each.
  *         storage?: scalar|Param|null, // Directory of the sealed signing keys, one file per key and per tenant. // Default: "%kernel.project_dir%/var/keys"
+ *         jwks_max_age?: int|Param, // How long a relying party may cache the JWK Set, in seconds (RFC 7517 §5, architecture §4.8); the staging window of a rotation derives from it, so that the two cannot drift apart (§3.3). // Default: 300
  *     },
  *     tokens?: array{ // Lifetimes in seconds. The defaults are the choices of architecture §9.
  *         authorization_code_ttl?: int|Param, // RFC 6749 §4.1.2 recommends ten minutes at most; sixty seconds bound the injection window. // Default: 60
