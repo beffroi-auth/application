@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "072a39f9449bbf1089836761126aab22",
+    "content-hash": "4cdae22e57d298f2324aeec2d21d0989",
     "packages": [
         {
             "name": "brick/math",
@@ -1264,7 +1264,7 @@
         },
         {
             "name": "heidi/core",
-            "version": "dev-main",
+            "version": "dev-feat/vault-transit-key-custody",
             "dist": {
                 "type": "path",
                 "url": "../../src/core",
@@ -1309,7 +1309,7 @@
         },
         {
             "name": "heidi/oidc",
-            "version": "dev-main",
+            "version": "dev-feat/vault-transit-key-custody",
             "dist": {
                 "type": "path",
                 "url": "../../src/oidc",
@@ -1351,11 +1351,11 @@
         },
         {
             "name": "heidi/symfony-bundle",
-            "version": "dev-main",
+            "version": "dev-feat/vault-transit-key-custody",
             "dist": {
                 "type": "path",
                 "url": "../../src/symfony",
-                "reference": "fcced2906cefd9bd0f5476ebe58e64d3bec5a999"
+                "reference": "cc217c20ffb2b85712e2ab6e031389ec7afe6aa8"
             },
             "require": {
                 "doctrine/dbal": "^4.4",
@@ -1379,6 +1379,7 @@
                 "symfony/messenger": "8.2.*",
                 "symfony/password-hasher": "^8.1",
                 "symfony/routing": "8.2.*",
+                "symfony/scheduler": "8.2.*",
                 "symfony/security-bundle": "8.2.*",
                 "symfony/security-core": "8.2.*",
                 "symfony/security-csrf": "8.2.*",
@@ -3605,6 +3606,85 @@
                 }
             ],
             "time": "2026-09-16T14:15:10+00:00"
+        },
+        {
+            "name": "symfony/hashicorp-vault-key-management",
+            "version": "8.2.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/hashicorp-vault-key-management.git",
+                "reference": "a56cdaaaa69edca03d39240959691ba01b34d8bb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/hashicorp-vault-key-management/zipball/a56cdaaaa69edca03d39240959691ba01b34d8bb",
+                "reference": "a56cdaaaa69edca03d39240959691ba01b34d8bb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.4.1",
+                "symfony/http-client": "^7.4|^8.0",
+                "symfony/key-management": "^8.2"
+            },
+            "default-branch": true,
+            "type": "symfony-key-management-bridge",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\KeyManagement\\Bridge\\HashiCorpVault\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jérôme Tamarelle",
+                    "email": "jerome@tamarelle.net"
+                },
+                {
+                    "name": "Florent Morselli",
+                    "email": "florent.morselli@spomky-labs.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony HashiCorp Vault Key Management Bridge",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "encryption",
+                "hashicorp",
+                "kms",
+                "transit",
+                "vault"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/hashicorp-vault-key-management/tree/8.2"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-09-14T08:33:05+00:00"
         },
         {
             "name": "symfony/http-client",

@@ -23,6 +23,7 @@ ENV PHP_INI_SCAN_DIR=":$PHP_INI_DIR/app.conf.d"
 COPY --link apps/op/frankenphp/conf.d/10-app.ini $PHP_INI_DIR/app.conf.d/
 COPY --link --chmod=755 apps/op/frankenphp/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 COPY --link apps/op/frankenphp/Caddyfile /etc/frankenphp/Caddyfile
+COPY --link apps/op/frankenphp/worker.Caddyfile /etc/frankenphp/worker.Caddyfile
 
 ENTRYPOINT ["docker-entrypoint"]
 
@@ -34,7 +35,6 @@ FROM frankenphp_base AS frankenphp_dev
 
 ENV APP_ENV=dev
 ENV XDEBUG_MODE=off
-ENV FRANKENPHP_WORKER_CONFIG=watch
 
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
@@ -51,7 +51,6 @@ ENV FRANKENPHP_CONFIG="import worker.Caddyfile"
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 COPY --link apps/op/frankenphp/conf.d/20-app.prod.ini $PHP_INI_DIR/app.conf.d/
-COPY --link apps/op/frankenphp/worker.Caddyfile /etc/frankenphp/worker.Caddyfile
 
 # Build context is the monorepo root (see compose.yaml). The packages land in /src so that the
 # path repositories of composer.json (../../src/<package>, relative to /app) resolve unchanged.
