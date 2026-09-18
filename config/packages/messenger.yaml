@@ -9,6 +9,11 @@
 # implements Heidi\Bundle\Message\SyncMessage, never Command, and is listed below with its reason.
 # Everything else is a Command or an Event and leaves through RabbitMQ.
 framework:
+    # The recurring messages of the bundle (Heidi\Bundle\Scheduler\HeidiSchedule: the timed steps of the key
+    # lifecycle, architecture §3.3) are routed like every other message, by their class, and not handled
+    # inside the worker that ticks: the scheduler worker only says when, the command worker does.
+    scheduler:
+        use_messenger_routing: true
     messenger:
         default_bus: command.bus
         failure_transport: failed
@@ -62,6 +67,8 @@ framework:
                     multiplier: 4
             failed: 'doctrine://default?queue_name=failed'
 
+        # The transport "scheduler_heidi" is the schedule of the bundle, consumed by the worker next to the
+        # three below (compose.yaml, "worker"); one worker at a time consumes it.
         routing:
             Heidi\Bundle\Message\Command: async_priority_medium
             Heidi\Bundle\Message\Event: async_priority_low

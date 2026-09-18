@@ -306,6 +306,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     time_based_uuid_node?: scalar|Param|null,
  *     uuid47_secret?: scalar|Param|null, // A high-entropy secret used by the "uuid47_transformer" service. Defaults to the "kernel.secret" parameter; the service is not registered when neither is defined. // Default: null
  * }
+ * @psalm-type SchedulerConfig = bool|array{
+ *     enabled?: bool|Param, // Default: true
+ *     use_messenger_routing?: bool|Param|null, // Whether scheduled messages are routed to the Messenger senders configured for their class, as any other dispatched message is. A class with no sender configured still runs in the scheduler worker, and a "transports" option set on a task still wins. // Default: null
+ * }
  * @psalm-type AssetMapperConfig = bool|array{
  *     enabled?: bool|Param, // Default: true
  *     paths?: Param|string|array<string, scalar|Param|null>,
@@ -535,7 +539,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     lock?: mixed,
  *     semaphore?: mixed,
  *     messenger?: MessengerConfig,
- *     scheduler?: mixed,
+ *     scheduler?: SchedulerConfig,
  *     http_client?: HttpClientConfig,
  *     mailer?: mixed,
  *     notifier?: mixed,
@@ -1409,6 +1413,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         key_id?: scalar|Param|null, // The key of that KMS the signing keys are sealed under (backend-specific: the id of a sodium key, a Vault transit key name, an ARN); "{tenant}" stands for the slug of the tenant, one master key each.
  *         storage?: scalar|Param|null, // Directory of the sealed signing keys, one file per key and per tenant. // Default: "%kernel.project_dir%/var/keys"
  *         jwks_max_age?: int|Param, // How long a relying party may cache the JWK Set, in seconds (RFC 7517 §5, architecture §4.8); the staging window of a rotation derives from it, so that the two cannot drift apart (§3.3). // Default: 300
+ *         staging_delay?: int|Param, // How long a new key is published before it signs, in seconds (architecture §3.3, §9); unless set, jwks_max_age plus the 60 s refetch cooldown of oidc_login, what a relying party with a warm cache needs to see the new key. // Default: null
  *     },
  *     tokens?: array{ // Lifetimes in seconds. The defaults are the choices of architecture §9.
  *         authorization_code_ttl?: int|Param, // RFC 6749 §4.1.2 recommends ten minutes at most; sixty seconds bound the injection window. // Default: 60
@@ -1470,6 +1475,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     property_access?: PropertyAccessConfig,
  *     property_info?: PropertyInfoConfig,
  *     uid?: UidConfig,
+ *     scheduler?: SchedulerConfig,
  *     asset_mapper?: AssetMapperConfig,
  *     http_client?: HttpClientConfig,
  *     key_management?: KeyManagementConfig,
@@ -1495,6 +1501,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         property_access?: PropertyAccessConfig,
  *         property_info?: PropertyInfoConfig,
  *         uid?: UidConfig,
+ *         scheduler?: SchedulerConfig,
  *         asset_mapper?: AssetMapperConfig,
  *         http_client?: HttpClientConfig,
  *         key_management?: KeyManagementConfig,
@@ -1523,6 +1530,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         property_access?: PropertyAccessConfig,
  *         property_info?: PropertyInfoConfig,
  *         uid?: UidConfig,
+ *         scheduler?: SchedulerConfig,
  *         asset_mapper?: AssetMapperConfig,
  *         http_client?: HttpClientConfig,
  *         key_management?: KeyManagementConfig,
@@ -1549,6 +1557,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         property_access?: PropertyAccessConfig,
  *         property_info?: PropertyInfoConfig,
  *         uid?: UidConfig,
+ *         scheduler?: SchedulerConfig,
  *         asset_mapper?: AssetMapperConfig,
  *         http_client?: HttpClientConfig,
  *         key_management?: KeyManagementConfig,

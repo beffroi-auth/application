@@ -2261,7 +2261,7 @@
                         "$ref": "#/$defs/nodes/messenger"
                     },
                     "scheduler": {
-                        "$ref": "#/$defs/types/variable"
+                        "$ref": "#/$defs/nodes/scheduler"
                     },
                     "http_client": {
                         "$ref": "#/$defs/nodes/http_client"
@@ -2578,6 +2578,12 @@
                                 "minimum": 0,
                                 "default": 300,
                                 "description": "How long a relying party may cache the JWK Set, in seconds (RFC 7517 §5, architecture §4.8); the staging window of a rotation derives from it, so that the two cannot drift apart (§3.3)."
+                            },
+                            "staging_delay": {
+                                "$ref": "#/$defs/types/integer_null",
+                                "minimum": 0,
+                                "default": null,
+                                "description": "How long a new key is published before it signs, in seconds (architecture §3.3, §9); unless set, jwks_max_age plus the 60 s refetch cooldown of oidc_login, what a relying party with a warm cache needs to see the new key."
                             }
                         },
                         "required": [
@@ -4717,6 +4723,34 @@
                     "https_port": 443,
                     "strict_requirements": true,
                     "utf8": true
+                }
+            },
+            "scheduler": {
+                "anyOf": [
+                    {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "enabled": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true
+                            },
+                            "use_messenger_routing": {
+                                "$ref": "#/$defs/types/boolean_null",
+                                "default": null,
+                                "description": "Whether scheduled messages are routed to the Messenger senders configured for their class, as any other dispatched message is. A class with no sender configured still runs in the scheduler worker, and a \"transports\" option set on a task still wins."
+                            }
+                        },
+                        "additionalProperties": false
+                    },
+                    {
+                        "type": [
+                            "boolean"
+                        ]
+                    }
+                ],
+                "default": {
+                    "enabled": true,
+                    "use_messenger_routing": null
                 }
             },
             "security": {
@@ -7859,6 +7893,9 @@
         "router": {
             "$ref": "#/$defs/nodes/router"
         },
+        "scheduler": {
+            "$ref": "#/$defs/nodes/scheduler"
+        },
         "security": {
             "$ref": "#/$defs/nodes/security"
         },
@@ -7927,6 +7964,9 @@
                 },
                 "router": {
                     "$ref": "#/$defs/nodes/router"
+                },
+                "scheduler": {
+                    "$ref": "#/$defs/nodes/scheduler"
                 },
                 "security": {
                     "$ref": "#/$defs/nodes/security"
@@ -7999,6 +8039,9 @@
                 },
                 "router": {
                     "$ref": "#/$defs/nodes/router"
+                },
+                "scheduler": {
+                    "$ref": "#/$defs/nodes/scheduler"
                 },
                 "security": {
                     "$ref": "#/$defs/nodes/security"
@@ -8073,6 +8116,9 @@
                 },
                 "router": {
                     "$ref": "#/$defs/nodes/router"
+                },
+                "scheduler": {
+                    "$ref": "#/$defs/nodes/scheduler"
                 },
                 "security": {
                     "$ref": "#/$defs/nodes/security"
