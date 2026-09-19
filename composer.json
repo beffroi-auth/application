@@ -14,6 +14,7 @@
         "symfony/amqp-messenger": "8.2.*",
         "symfony/asset": "8.2.*",
         "symfony/asset-mapper": "8.2.*",
+        "symfony/aws-key-management": "8.2.*",
         "symfony/console": "8.2.*",
         "symfony/doctrine-messenger": "8.2.*",
         "symfony/dotenv": "8.2.*",
