@@ -31,6 +31,10 @@ security:
                 csrf_token_id: authenticate
                 success_handler: Heidi\Bundle\Security\InteractionLoginHandler
                 failure_handler: Heidi\Bundle\Security\InteractionLoginHandler
+            # The passkey login on the same firewall: the assertion posted by the login page, one
+            # LoginSuccessListener for both (architecture §5.4).
+            custom_authenticators:
+                - Heidi\Bundle\Security\PasskeyLoginAuthenticator
 
     # The pages decide for themselves whether a session is needed (the login page shows its form, the
     # consent page sends a browser without a session back to the login): no rule here.
