@@ -8,10 +8,13 @@ heidi:
         kms: '%env(HEIDI_KMS_DSN)%'
         key_id: '%env(HEIDI_KMS_KEY_ID)%'
         storage: '%kernel.project_dir%/var/keys'
+        # Read at runtime with the two lifetimes below, so that "castor demo --rotate" can shorten the windows of a
+        # rotation for its run without recompiling anything (.env documents the values).
+        jwks_max_age: '%env(int:HEIDI_JWKS_MAX_AGE)%'
     tokens:
         authorization_code_ttl: 60
-        access_token_ttl: 600
-        id_token_ttl: 600
+        access_token_ttl: '%env(int:HEIDI_ACCESS_TOKEN_TTL)%'
+        id_token_ttl: '%env(int:HEIDI_ID_TOKEN_TTL)%'
         refresh_token_ttl: 2592000
         refresh_token_absolute_ttl: 7776000
     clients: []

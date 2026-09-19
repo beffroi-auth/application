@@ -2583,7 +2583,7 @@
                                 "$ref": "#/$defs/types/integer_null",
                                 "minimum": 0,
                                 "default": null,
-                                "description": "How long a new key is published before it signs, in seconds (architecture §3.3, §9); unless set, jwks_max_age plus the 60 s refetch cooldown of oidc_login, what a relying party with a warm cache needs to see the new key."
+                                "description": "How long a new key is published before it signs, in seconds (architecture §3.3, §9); unless set, jwks_max_age plus the 60 s refetch cooldown of oidc_login: the max-age is what a relying party with a warm cache needs to see the new key, the cooldown what one served by a shared HTTP cache needs to refetch it."
                             }
                         },
                         "required": [
