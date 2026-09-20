@@ -11,6 +11,12 @@ heidi:
         # Read at runtime with the two lifetimes below, so that "castor demo --rotate" can shorten the windows of a
         # rotation for its run without recompiling anything (.env documents the values).
         jwks_max_age: '%env(int:HEIDI_JWKS_MAX_AGE)%'
+    webauthn:
+        # The FIDO metadata the passkey ceremonies check an attestation against, next to the keys: filled by hand
+        # with "heidi:webauthn:mds-refresh" (the blob of the FIDO Alliance, verified under its root) and
+        # "heidi:webauthn:mds-import" (a statement of a manufacturer or of the FIDO conformance tools); empty
+        # until then, which the enrolment of the provider does not need (it asks for no attestation).
+        metadata_storage: '%kernel.project_dir%/var/webauthn'
     tokens:
         authorization_code_ttl: 60
         access_token_ttl: '%env(int:HEIDI_ACCESS_TOKEN_TTL)%'

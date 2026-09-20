@@ -1,0 +1,7 @@
+# The endpoints of the FIDO2 server API the FIDO Conformance Tools drive (tests/conformance/README.md), in
+# development only, as the clients of the OpenID conformance suite are: not an API of the product. The tools
+# are pointed at "https://op.localhost/fido/conformance" and append the four paths of the API.
+when@dev:
+    heidi_fido_conformance:
+        resource: '@HeidiBundle/config/routes/fido-conformance.php'
+        prefix: /fido/conformance

@@ -1434,6 +1434,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         jwks_max_age?: int|Param, // How long a relying party may cache the JWK Set, in seconds (RFC 7517 §5, architecture §4.8); the staging window of a rotation derives from it, so that the two cannot drift apart (§3.3). // Default: 300
  *         staging_delay?: int|Param, // How long a new key is published before it signs, in seconds (architecture §3.3, §9); unless set, jwks_max_age plus the 60 s refetch cooldown of oidc_login: the max-age is what a relying party with a warm cache needs to see the new key, the cooldown what one served by a shared HTTP cache needs to refetch it. // Default: null
  *     },
+ *     webauthn?: array{ // What the passkey ceremonies read besides the tenant (architecture §3.4).
+ *         metadata_storage?: scalar|Param|null, // Directory of the FIDO metadata the ceremonies check an attestation against: the documents "heidi:webauthn:mds-refresh" verified and "heidi:webauthn:mds-import" stored, next to the keys; empty until one of them ran, which the enrolment of the provider does not need. // Default: "%kernel.project_dir%/var/webauthn"
+ *     },
  *     tokens?: array{ // Lifetimes in seconds. The defaults are the choices of architecture §9.
  *         authorization_code_ttl?: int|Param, // RFC 6749 §4.1.2 recommends ten minutes at most; sixty seconds bound the injection window. // Default: 60
  *         access_token_ttl?: int|Param, // Both shapes of access token (architecture §4.6): the self-contained one cannot be revoked, and a short lifetime bounds the exposure; the opaque one gets the same, a revocation is a facility and not a reason to live longer. // Default: 600

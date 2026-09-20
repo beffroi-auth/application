@@ -1,11 +1,11 @@
 # yaml-language-server: $schema=../vendor/symfony/routing/Loader/schema/routing.schema.json
 
-# This file is the entry point to configure the routes of your app.
-# Methods with the #[Route] attribute are automatically imported.
-# See also https://symfony.com/doc/current/routing.html
+# The routes of this application are the ones it imports by name: the bundle's under the path of the issuer
+# (routes/heidi.yaml), the endpoints for the FIDO conformance tools in development only (routes/fido_conformance.yaml).
+# The "routing.controllers" resource Symfony 8.2 offers here is not used: it routes every service that
+# carries a #[Route] attribute, whatever file imports it and with no prefix, which would put the bundle's
+# routes at the root of an issuer with a path and the endpoints of the conformance tools in every environment.
+# This application has no controller of its own.
 
 # To list all registered routes, run the following command:
 #   bin/console debug:router
-
-controllers:
-    resource: routing.controllers

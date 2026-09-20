@@ -2618,6 +2618,21 @@
                         "additionalProperties": false,
                         "description": "Where the signing keys live: sealed by the KMS named here, stored as files until a table takes over (architecture §3.3)."
                     },
+                    "webauthn": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "metadata_storage": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": "%kernel.project_dir%/var/webauthn",
+                                "description": "Directory of the FIDO metadata the ceremonies check an attestation against: the documents \"heidi:webauthn:mds-refresh\" verified and \"heidi:webauthn:mds-import\" stored, next to the keys; empty until one of them ran, which the enrolment of the provider does not need."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "metadata_storage": "%kernel.project_dir%/var/webauthn"
+                        },
+                        "description": "What the passkey ceremonies read besides the tenant (architecture §3.4)."
+                    },
                     "tokens": {
                         "$ref": "#/$defs/types/object_null",
                         "properties": {

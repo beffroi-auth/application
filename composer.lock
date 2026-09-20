@@ -1503,7 +1503,7 @@
         },
         {
             "name": "heidi/core",
-            "version": "dev-feat/totp-second-factor",
+            "version": "dev-feat/fido-conformance-mds",
             "dist": {
                 "type": "path",
                 "url": "../../src/core",
@@ -1551,7 +1551,7 @@
         },
         {
             "name": "heidi/oidc",
-            "version": "dev-feat/totp-second-factor",
+            "version": "dev-feat/fido-conformance-mds",
             "dist": {
                 "type": "path",
                 "url": "../../src/oidc",
@@ -1593,11 +1593,11 @@
         },
         {
             "name": "heidi/symfony-bundle",
-            "version": "dev-feat/totp-second-factor",
+            "version": "dev-feat/fido-conformance-mds",
             "dist": {
                 "type": "path",
                 "url": "../../src/symfony",
-                "reference": "2efb36434f148d0ab0d048708a7640f8b52d6d38"
+                "reference": "8463d1dcbfa1d0fe66eecc9dd2cb523a164a62f4"
             },
             "require": {
                 "bacon/bacon-qr-code": "^3.0",
@@ -1616,6 +1616,7 @@
                 "symfony/doctrine-bridge": "8.2.*",
                 "symfony/event-dispatcher": "8.2.*",
                 "symfony/framework-bundle": "8.2.*",
+                "symfony/http-client": "8.2.*",
                 "symfony/http-foundation": "8.2.*",
                 "symfony/http-kernel": "8.2.*",
                 "symfony/key-management": "8.2.*",
