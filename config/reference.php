@@ -1425,6 +1425,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         issuer?: scalar|Param|null, // Issuer identifier (OIDC Discovery §3): an absolute HTTPS URL, no query, no fragment, no trailing slash; plain HTTP on a loopback host only.
  *         slug?: scalar|Param|null, // Stable name of the tenant, from which its identifier is derived; renaming it is creating another tenant. // Default: "default"
  *         name?: scalar|Param|null, // Display name; the host of the issuer when absent. // Default: null
+ *         authentication_classes?: array<string, "single_factor"|"two_factors"|"phishing_resistant"|"phishing_resistant_hardware"|Param>,
  *     },
  *     keys?: array{ // Where the signing keys live: sealed by the KMS named here, stored as files until a table takes over (architecture §3.3).
  *         kms?: scalar|Param|null, // DSN of the KMS that seals the private keys ("sodium://..." locally, a Vault or cloud scheme in production); the KMS keeps, it never signs.
