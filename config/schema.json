@@ -2234,7 +2234,7 @@
                         "$ref": "#/$defs/nodes/validation"
                     },
                     "serializer": {
-                        "$ref": "#/$defs/types/variable"
+                        "$ref": "#/$defs/nodes/serializer"
                     },
                     "property_access": {
                         "$ref": "#/$defs/nodes/property_access"
@@ -5168,6 +5168,11 @@
                                     "default": "security.user_checker",
                                     "description": "The UserChecker to use when authenticating users in this firewall."
                                 },
+                                "user_checker_on_refresh": {
+                                    "$ref": "#/$defs/types/boolean",
+                                    "default": false,
+                                    "description": "Whether to run this firewall's UserChecker again when the user is refreshed from the session, so that an account disabled during the session is rejected on the next request. It then runs on every request of this firewall, so enable it only if that checker is safe to call that often."
+                                },
                                 "request_matcher": {
                                     "$ref": "#/$defs/types/scalar"
                                 },
@@ -7101,6 +7106,96 @@
                 ],
                 "additionalProperties": false
             },
+            "serializer": {
+                "anyOf": [
+                    {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "enabled": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true
+                            },
+                            "enable_attributes": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true
+                            },
+                            "name_converter": {
+                                "$ref": "#/$defs/types/scalar"
+                            },
+                            "circular_reference_handler": {
+                                "$ref": "#/$defs/types/scalar"
+                            },
+                            "max_depth_handler": {
+                                "$ref": "#/$defs/types/scalar"
+                            },
+                            "mapping": {
+                                "$ref": "#/$defs/types/object_null",
+                                "properties": {
+                                    "paths": {
+                                        "$ref": "#/$defs/types/array_null",
+                                        "items": {
+                                            "$ref": "#/$defs/types/scalar"
+                                        }
+                                    }
+                                },
+                                "additionalProperties": false,
+                                "default": {
+                                    "paths": []
+                                }
+                            },
+                            "default_context": {
+                                "$ref": "#/$defs/types/object_null",
+                                "additionalProperties": {
+                                    "$ref": "#/$defs/types/variable"
+                                }
+                            },
+                            "named_serializers": {
+                                "$ref": "#/$defs/types/object_null",
+                                "additionalProperties": {
+                                    "$ref": "#/$defs/types/object_null",
+                                    "properties": {
+                                        "name_converter": {
+                                            "$ref": "#/$defs/types/scalar"
+                                        },
+                                        "default_context": {
+                                            "$ref": "#/$defs/types/object_null",
+                                            "additionalProperties": {
+                                                "$ref": "#/$defs/types/variable"
+                                            }
+                                        },
+                                        "include_built_in_normalizers": {
+                                            "$ref": "#/$defs/types/boolean",
+                                            "default": true,
+                                            "description": "Whether to include the built-in normalizers"
+                                        },
+                                        "include_built_in_encoders": {
+                                            "$ref": "#/$defs/types/boolean",
+                                            "default": true,
+                                            "description": "Whether to include the built-in encoders"
+                                        }
+                                    },
+                                    "additionalProperties": false
+                                }
+                            }
+                        },
+                        "additionalProperties": false
+                    },
+                    {
+                        "type": [
+                            "boolean"
+                        ]
+                    }
+                ],
+                "default": {
+                    "enabled": true,
+                    "enable_attributes": true,
+                    "mapping": {
+                        "paths": []
+                    },
+                    "default_context": [],
+                    "named_serializers": []
+                }
+            },
             "symfonycasts_tailwind": {
                 "$ref": "#/$defs/types/object_null",
                 "properties": {
@@ -7899,6 +7994,9 @@
         "security": {
             "$ref": "#/$defs/nodes/security"
         },
+        "serializer": {
+            "$ref": "#/$defs/nodes/serializer"
+        },
         "symfonycasts_tailwind": {
             "$ref": "#/$defs/nodes/symfonycasts_tailwind"
         },
@@ -7970,6 +8068,9 @@
                 },
                 "security": {
                     "$ref": "#/$defs/nodes/security"
+                },
+                "serializer": {
+                    "$ref": "#/$defs/nodes/serializer"
                 },
                 "symfonycasts_tailwind": {
                     "$ref": "#/$defs/nodes/symfonycasts_tailwind"
@@ -8045,6 +8146,9 @@
                 },
                 "security": {
                     "$ref": "#/$defs/nodes/security"
+                },
+                "serializer": {
+                    "$ref": "#/$defs/nodes/serializer"
                 },
                 "symfonycasts_tailwind": {
                     "$ref": "#/$defs/nodes/symfonycasts_tailwind"
@@ -8122,6 +8226,9 @@
                 },
                 "security": {
                     "$ref": "#/$defs/nodes/security"
+                },
+                "serializer": {
+                    "$ref": "#/$defs/nodes/serializer"
                 },
                 "symfonycasts_tailwind": {
                     "$ref": "#/$defs/nodes/symfonycasts_tailwind"

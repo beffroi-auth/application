@@ -186,6 +186,23 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         base_urls?: Param|string|list<scalar|Param|null>,
  *     }>,
  * }
+ * @psalm-type SerializerConfig = bool|array{
+ *     enabled?: bool|Param, // Default: true
+ *     enable_attributes?: bool|Param, // Default: true
+ *     name_converter?: scalar|Param|null,
+ *     circular_reference_handler?: scalar|Param|null,
+ *     max_depth_handler?: scalar|Param|null,
+ *     mapping?: array{
+ *         paths?: list<scalar|Param|null>,
+ *     },
+ *     default_context?: array<string, mixed>,
+ *     named_serializers?: array<string, array{ // Default: []
+ *         name_converter?: scalar|Param|null,
+ *         default_context?: array<string, mixed>,
+ *         include_built_in_normalizers?: bool|Param, // Whether to include the built-in normalizers // Default: true
+ *         include_built_in_encoders?: bool|Param, // Whether to include the built-in encoders // Default: true
+ *     }>,
+ * }
  * @psalm-type ValidationConfig = bool|array{
  *     enabled?: bool|Param, // Default: true
  *     enable_attributes?: bool|Param, // Default: true
@@ -530,7 +547,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     asset_mapper?: AssetMapperConfig,
  *     translator?: TranslationConfig,
  *     validation?: ValidationConfig,
- *     serializer?: mixed,
+ *     serializer?: SerializerConfig,
  *     property_access?: PropertyAccessConfig,
  *     type_info?: TypeInfoConfig,
  *     property_info?: PropertyInfoConfig,
@@ -1018,6 +1035,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         methods?: Param|string|list<scalar|Param|null>,
  *         security?: bool|Param, // Default: true
  *         user_checker?: scalar|Param|null, // The UserChecker to use when authenticating users in this firewall. // Default: "security.user_checker"
+ *         user_checker_on_refresh?: bool|Param, // Whether to run this firewall's UserChecker again when the user is refreshed from the session, so that an account disabled during the session is rejected on the next request. It then runs on every request of this firewall, so enable it only if that checker is safe to call that often. // Default: false
  *         request_matcher?: scalar|Param|null,
  *         access_denied_url?: scalar|Param|null,
  *         access_denied_handler?: scalar|Param|null,
@@ -1468,6 +1486,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     router?: RouterConfig,
  *     cache?: CacheConfig,
  *     asset?: AssetConfig,
+ *     serializer?: SerializerConfig,
  *     validation?: ValidationConfig,
  *     translation?: TranslationConfig,
  *     messenger?: MessengerConfig,
@@ -1494,6 +1513,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         router?: RouterConfig,
  *         cache?: CacheConfig,
  *         asset?: AssetConfig,
+ *         serializer?: SerializerConfig,
  *         validation?: ValidationConfig,
  *         translation?: TranslationConfig,
  *         messenger?: MessengerConfig,
@@ -1523,6 +1543,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         router?: RouterConfig,
  *         cache?: CacheConfig,
  *         asset?: AssetConfig,
+ *         serializer?: SerializerConfig,
  *         validation?: ValidationConfig,
  *         translation?: TranslationConfig,
  *         messenger?: MessengerConfig,
@@ -1550,6 +1571,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         router?: RouterConfig,
  *         cache?: CacheConfig,
  *         asset?: AssetConfig,
+ *         serializer?: SerializerConfig,
  *         validation?: ValidationConfig,
  *         translation?: TranslationConfig,
  *         messenger?: MessengerConfig,
