@@ -24,6 +24,7 @@ COPY --link apps/op/frankenphp/conf.d/10-app.ini $PHP_INI_DIR/app.conf.d/
 COPY --link --chmod=755 apps/op/frankenphp/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 COPY --link apps/op/frankenphp/Caddyfile /etc/frankenphp/Caddyfile
 COPY --link apps/op/frankenphp/worker.Caddyfile /etc/frankenphp/worker.Caddyfile
+COPY --link apps/op/frankenphp/mtls.Caddyfile /etc/frankenphp/mtls.Caddyfile
 
 ENTRYPOINT ["docker-entrypoint"]
 
