@@ -1468,6 +1468,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         refresh_token_ttl?: int|Param, // Sliding lifetime of a refresh token, renewed at each rotation. // Default: 2592000
  *         refresh_token_absolute_ttl?: int|Param, // Lifetime of a refresh token family from the authorization that started it; no rotation extends it. // Default: 7776000
  *     },
+ *     back_channel_logout?: array{ // How a logout token reaches a client that registered a backchannel_logout_uri (Back-Channel Logout 1.0 §2.5). How many times a send is tried again is the retry policy of the transport the message is routed to, in the application.
+ *         timeout?: float|Param, // Seconds one attempt is given, connection included. A relying party that hangs must not hold a worker; five seconds is long for a request that reads nothing back, and a client that needs longer is a client that is down, which the retries cover. // Default: 5.0
+ *     },
  *     clients?: array<string, array{ // Default: []
  *         name?: scalar|Param|null, // Shown on the consent page; the client identifier when absent. // Default: null
  *         secret?: scalar|Param|null, // At least 32 visible ASCII characters, generated, never chosen; absent for a public client. // Default: null
@@ -1480,6 +1483,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         requires_pkce?: bool|Param, // PKCE S256 is the rule; a confidential client that cannot send a code_challenge is the named exception of decision 0008, refused for a public client. A challenge the client sends is verified all the same. // Default: true
  *         id_token_signed_response_alg?: "RS256"|Param, // Default: "RS256"
  *         access_token_format?: "jwt"|"opaque"|Param, // The shape of the access tokens: "jwt" (RFC 9068, verified offline against the JWK Set) or "opaque" (a reference the resource server introspects, RFC 7662, revocable at once). Per client, nothing global. // Default: "jwt"
+ *         backchannel_logout_uri?: scalar|Param|null, // Where the provider posts a logout token when a session this client signed in ends (Back-Channel Logout 1.0 §2.2); HTTPS, or plain HTTP on a loopback host. Absent for a client the provider does not tell. // Default: null
+ *         backchannel_logout_session_required?: bool|Param, // The client reads the "sid" of the logout token to know which session ended (Back-Channel Logout 1.0 §2.2); it needs a backchannel_logout_uri. The provider sends "sid" either way. // Default: false
+ *         frontchannel_logout_uri?: scalar|Param|null, // Loaded in a frame of the logout page when a session this client signed in ends (Front-Channel Logout 1.0 §3); HTTPS, or plain HTTP on a loopback host. Absent for a client the page does not load. It reaches the client only if the browser sends that client its cookies. // Default: null
+ *         frontchannel_logout_session_required?: bool|Param, // The client reads "iss" and "sid" on its logout URI to know which session ended (Front-Channel Logout 1.0 §2); it needs a frontchannel_logout_uri. The two parameters are added for this client only, §2 making them conditional. // Default: false
  *     }>,
  * }
  * @psalm-type SymfonycastsTailwindConfig = array{
