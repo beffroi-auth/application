@@ -2779,17 +2779,9 @@
                                     "description": "PKCE S256 is the rule; a confidential client that cannot send a code_challenge is the named exception of decision 0008, refused for a public client. A challenge the client sends is verified all the same."
                                 },
                                 "id_token_signed_response_alg": {
-                                    "anyOf": [
-                                        {
-                                            "enum": [
-                                                "RS256"
-                                            ]
-                                        },
-                                        {
-                                            "$ref": "#/$defs/types/param"
-                                        }
-                                    ],
-                                    "default": "RS256"
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The JWS algorithm the ID tokens and the logout tokens of this client are signed with (OIDC Registration §2), among those the provider is wired with; left out, the provider signs them with its default. A name nothing signs under fails at boot."
                                 },
                                 "access_token_format": {
                                     "anyOf": [
