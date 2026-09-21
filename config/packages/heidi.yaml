@@ -70,6 +70,32 @@ when@dev:
                 allowed_scopes: ['openid', 'profile', 'email', 'address', 'phone', 'offline_access']
                 requires_pkce: false
                 access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
+            # One client per logout channel. The suite certifies one channel at a time: a client that
+            # registers a logout URI is told at every logout of its sessions, and a module of another
+            # plan fails on a request it did not expect. The metadata is per client, so the three logout
+            # profiles take three clients.
+            conformance-front-channel-logout:
+                name: 'OpenID conformance suite (front-channel logout)'
+                secret: '%env(CONFORMANCE_FRONT_CHANNEL_LOGOUT_SECRET)%'
+                redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
+                post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
+                token_endpoint_auth_method: client_secret_basic
+                allowed_scopes: ['openid', 'profile', 'email', 'address', 'phone', 'offline_access']
+                requires_pkce: false
+                access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
+                frontchannel_logout_uri: 'https://localhost:8443/test/a/heidi/frontchannel_logout'
+                frontchannel_logout_session_required: true
+            conformance-back-channel-logout:
+                name: 'OpenID conformance suite (back-channel logout)'
+                secret: '%env(CONFORMANCE_BACK_CHANNEL_LOGOUT_SECRET)%'
+                redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
+                post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
+                token_endpoint_auth_method: client_secret_basic
+                allowed_scopes: ['openid', 'profile', 'email', 'address', 'phone', 'offline_access']
+                requires_pkce: false
+                access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
+                backchannel_logout_uri: 'https://localhost:8443/test/a/heidi/backchannel_logout'
+                backchannel_logout_session_required: true
             oidc-demo:
                 name: 'oidc-demo'
                 secret: '%env(OIDC_DEMO_SECRET)%'
