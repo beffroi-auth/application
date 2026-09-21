@@ -30,7 +30,12 @@ heidi:
 # the wrong client of some modules, and the "client_secret_post" one of the single module that authenticates
 # that way, because a client authenticates with the one method it registered, RFC 6749 §2.3.1), and the
 # reference client of the core, oidc-demo on Symfony's oidc_login, which authenticates with
-# client_secret_post and calls back on /oidc/callback.
+# client_secret_basic and calls back on /oidc/callback. That method is the one the demonstration is
+# also a resource server with (issue #64): RFC 7662 §2.2 describes a token to the client it was issued
+# to and to nobody else, so the caller of the introspection endpoint is that client, and the "oauth2"
+# token handler of Symfony sends its credentials as HTTP Basic. A client authenticates with the one
+# method it registered (RFC 6749 §2.3.1), so the three clients of the demonstration register that one;
+# client_secret_post stays covered by the conformance client of the same name.
 #
 # The three clients of the suite carry the named exception of decision 0008: the Basic OP profile sends no
 # code_challenge, so PKCE is not required of them (it is verified when they send one). oidc-demo sends
@@ -101,8 +106,21 @@ when@dev:
                 secret: '%env(OIDC_DEMO_SECRET)%'
                 redirect_uris: ['https://localhost:8002/oidc/callback']
                 post_logout_redirect_uris: ['https://localhost:8002/']
-                token_endpoint_auth_method: client_secret_post
+                token_endpoint_auth_method: client_secret_basic
                 requires_consent: false
+            # The same demonstration registered a second time, for the one thing that tells the two
+            # apart: the shape of its access token. "castor demo --resource-server" signs in as this
+            # one to hold an opaque token, which says nothing to whoever reads it and everything to
+            # the introspection endpoint, then as the one above to hold an "at+jwt", which a resource
+            # server verifies offline and which revoking therefore does not reach (issue #64).
+            oidc-demo-opaque:
+                name: 'oidc-demo, opaque access tokens'
+                secret: '%env(OIDC_DEMO_OPAQUE_SECRET)%'
+                redirect_uris: ['https://localhost:8002/oidc/callback']
+                post_logout_redirect_uris: ['https://localhost:8002/']
+                token_endpoint_auth_method: client_secret_basic
+                requires_consent: false
+                access_token_format: opaque
             # The second instance of oidc-demo, the one "castor demo --logout-others" logs out by
             # back-channel from the first: another client, another port, and a host the worker can
             # reach, which "localhost" is not from inside its container (compose.yaml maps
@@ -114,7 +132,7 @@ when@dev:
                 secret: '%env(OIDC_DEMO_SECOND_SECRET)%'
                 redirect_uris: ['http://demo.localhost:8003/oidc/callback']
                 post_logout_redirect_uris: ['http://demo.localhost:8003/']
-                token_endpoint_auth_method: client_secret_post
+                token_endpoint_auth_method: client_secret_basic
                 requires_consent: false
                 backchannel_logout_uri: 'http://demo.localhost:8003/oidc/backchannel-logout'
                 backchannel_logout_session_required: true
