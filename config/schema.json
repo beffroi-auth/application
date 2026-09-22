@@ -2596,7 +2596,7 @@
                         "properties": {
                             "kms": {
                                 "$ref": "#/$defs/types/scalar",
-                                "description": "DSN of the KMS that seals the private keys (\"sodium://...\" locally, a Vault or cloud scheme in production); the KMS keeps, it never signs."
+                                "description": "Name of the KMS client that seals the private keys, an entry of \"key_management.clients\" of the framework configuration (a DSN there, or the members of a composite client); the KMS keeps, it never signs."
                             },
                             "key_id": {
                                 "$ref": "#/$defs/types/scalar",

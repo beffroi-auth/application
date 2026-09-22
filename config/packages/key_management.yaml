@@ -1,0 +1,18 @@
+# The KMS clients of the deployment. The bundle seals with the one "heidi.keys.kms" names and builds none
+# itself, so what that client is, one provider or several, is decided here and nowhere else: a DSN, or the
+# members of a composite client that wraps under each of them and reads back through the first to answer.
+#
+# The client is named through "service://" instead of carrying the DSN, because the "dsn" of a client
+# refuses an environment variable: the node cannot be empty and carries a final validation closure, which
+# is what Config\VariableNode denies a placeholder for. The DSN of a deployment comes from the environment
+# (apps/op/.env: it may carry a credential), so the application builds the client from it and names the
+# service. This is a limit of symfony/key-management, to be fixed there rather than worked around further.
+key_management:
+    clients:
+        op: 'service://heidi.kms.op'
+
+services:
+    heidi.kms.op:
+        class: Symfony\Component\KeyManagement\EncrypterInterface
+        factory: ['@key_management.factory', 'fromString']
+        arguments: ['%env(HEIDI_KMS_DSN)%']

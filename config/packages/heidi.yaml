@@ -5,7 +5,9 @@ heidi:
     tenant:
         issuer: '%env(HEIDI_ISSUER)%'
     keys:
-        kms: '%env(HEIDI_KMS_DSN)%'
+        # The KMS client of config/packages/key_management.yaml the private keys are sealed with; the DSN
+        # of that client, and whether it is one provider or several, are declared there.
+        kms: op
         key_id: '%env(HEIDI_KMS_KEY_ID)%'
         storage: '%kernel.project_dir%/var/keys'
         # Read at runtime with the two lifetimes below, so that "castor demo --rotate" can shorten the windows of a

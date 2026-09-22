@@ -1456,7 +1456,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         authentication_classes?: array<string, "single_factor"|"two_factors"|"phishing_resistant"|"phishing_resistant_hardware"|Param>,
  *     },
  *     keys?: array{ // Where the keys of the tenants live: sealed by the KMS named here, stored as files until a table takes over (architecture §3.3).
- *         kms?: scalar|Param|null, // DSN of the KMS that seals the private keys ("sodium://..." locally, a Vault or cloud scheme in production); the KMS keeps, it never signs.
+ *         kms?: scalar|Param|null, // Name of the KMS client that seals the private keys, an entry of "key_management.clients" of the framework configuration (a DSN there, or the members of a composite client); the KMS keeps, it never signs.
  *         key_id?: scalar|Param|null, // The key of that KMS the keys of the tenants are sealed under (backend-specific: the id of a sodium key, a Vault transit key name, an ARN); "{tenant}" stands for the slug of the tenant, one master key each.
  *         storage?: scalar|Param|null, // Directory of the sealed keys, one file per key and per tenant. // Default: "%kernel.project_dir%/var/keys"
  *         jwks_max_age?: int|Param, // How long a relying party may cache the JWK Set, in seconds (RFC 7517 §5, architecture §4.8); the staging window of a rotation derives from it, so that the two cannot drift apart (§3.3). // Default: 300
