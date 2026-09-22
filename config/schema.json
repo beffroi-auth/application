@@ -2960,6 +2960,16 @@
                                     "default": false,
                                     "description": "The only way this client starts an authorization request is by pushing it (RFC 9126 §6), which is what FAPI 2.0 asks of one; an ordinary request from it is refused on a page before its redirect URI is even read. Per client, nothing global: the document announces the requirement when every registered client carries it."
                                 },
+                                "require_sender_constrained_tokens": {
+                                    "$ref": "#/$defs/types/boolean",
+                                    "default": false,
+                                    "description": "The tokens of this client are bound to what the request proves it holds, or the request is refused (FAPI 2.0 Security Profile §5.3.1): a token request that proves neither a certificate (RFC 8705 §3) nor a key (RFC 9449 §5) is answered with an error rather than with bearer tokens. Per client, nothing global."
+                                },
+                                "require_signed_request_object": {
+                                    "$ref": "#/$defs/types/boolean",
+                                    "default": false,
+                                    "description": "An authorization request of this client is only read from a request object it signed (OIDC Registration, require_signed_request_object; FAPI 2.0 Message Signing §5.3.1), whether the object arrives in the query, behind a request_uri, or inside the record it pushed. An unsigned one is refused on a page before its redirect URI is read, exactly as a request that was not pushed is."
+                                },
                                 "id_token_signed_response_alg": {
                                     "$ref": "#/$defs/types/scalar",
                                     "default": null,
