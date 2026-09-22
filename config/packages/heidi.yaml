@@ -61,6 +61,12 @@ when@dev:
                 allowed_scopes: ['openid', 'profile', 'email', 'address', 'phone', 'offline_access']
                 requires_pkce: false
                 access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
+                # The second named exception this client carries (issue #161): the modules of the Basic
+                # and Form Post profiles that send a request object send it unsigned, so the client of
+                # those plans registers "none" and the OP reads the object instead of refusing it unread
+                # (OIDC Core §6, heidi#142). No FAPI client registers it; the plans of FAPI 2 run with
+                # their own clients, which sign what they send.
+                request_object_signing_alg: none
             conformance-basic-second:
                 name: 'OpenID conformance suite, second client (client_secret_basic)'
                 secret: '%env(CONFORMANCE_BASIC_SECOND_SECRET)%'
