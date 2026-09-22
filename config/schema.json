@@ -321,6 +321,14 @@
                                 "default": "/assets/",
                                 "description": "The public path where the assets will be written to (and served from when \"server\" is true)."
                             },
+                            "metadata_dir": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "The directory where \"asset-map:compile\" writes manifest.json, importmap.json and entrypoint.*.json. These files are read by PHP only, so they do not need to be exposed to the browser.",
+                                "examples": [
+                                    "%kernel.project_dir%/var/assets"
+                                ]
+                            },
                             "missing_import_mode": {
                                 "anyOf": [
                                     {
@@ -509,6 +517,7 @@
                     "exclude_dotfiles": true,
                     "server": "%kernel.debug%",
                     "public_prefix": "/assets/",
+                    "metadata_dir": null,
                     "missing_import_mode": "warn",
                     "extensions": [],
                     "importmap_path": "%kernel.project_dir%/importmap.php",
@@ -7468,7 +7477,7 @@
                                                     "$ref": "#/$defs/types/param"
                                                 }
                                             ],
-                                            "default": "auto"
+                                            "description": "Defaults to the value of \"framework.session.cookie_secure\", or to \"auto\"."
                                         },
                                         "httponly": {
                                             "$ref": "#/$defs/types/boolean",
@@ -7488,7 +7497,7 @@
                                                     "$ref": "#/$defs/types/param"
                                                 }
                                             ],
-                                            "default": "lax"
+                                            "description": "Defaults to the value of \"framework.session.cookie_samesite\", or to \"lax\"."
                                         },
                                         "always_remember_me": {
                                             "$ref": "#/$defs/types/boolean",
