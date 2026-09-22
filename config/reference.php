@@ -485,10 +485,13 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * @psalm-type KeyManagementConfig = Param|bool|string|array{
  *     enabled?: bool|Param, // Default: true
  *     default_client?: scalar|Param|null, // Name of the default client (must match an entry of "clients"); inferred when only one client is registered. // Default: null
- *     clients?: Param|string|array<string, scalar|Param|null>,
+ *     clients?: Param|string|array<string, Param|string|array{ // Default: []
+ *         dsn?: scalar|Param|null,
+ *         members?: array<string, scalar|Param|null>,
+ *     }>,
  *     store?: array{ // Data key store: payloads then refer to a stored data key instead of carrying it, so the KMS is reached once per key and per process, and that key can be rewrapped under another provider without rewriting a payload.
  *         connection?: scalar|Param|null, // Service id of the DBAL connection holding the table. // Default: "doctrine.dbal.default_connection"
- *         client?: scalar|Param|null, // Name of the client wrapping the data keys this store creates (must match an entry of "clients").
+ *         client?: scalar|Param|null, // Name of the client wrapping the data keys this store creates (must match an entry of "clients"); defaults to the default client. // Default: null
  *         key_id?: scalar|Param|null, // Master key wrapping the data keys this store creates (backend-specific: alias, ARN, key URL, ...).
  *         table?: scalar|Param|null, // Name of the table holding the wrapped data keys. // Default: "key_management_data_keys"
  *         max_age?: int|Param, // Seconds after which the current data key of a scope is retired in favour of a fresh one; the default of 30 days keeps what one key seals under the collision bound of the random 96-bit IV each payload carries. // Default: 2592000
@@ -499,7 +502,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     http_method_override?: bool|Param, // Set true to enable support for the '_method' request parameter to determine the intended HTTP method on POST requests. // Default: false
  *     allowed_http_method_override?: null|list<string|Param>,
  *     trust_x_sendfile_type_header?: scalar|Param|null, // Set true to enable support for xsendfile in binary file responses. // Default: "%env(bool:default::SYMFONY_TRUST_X_SENDFILE_TYPE_HEADER)%"
- *     ide?: scalar|Param|null, // Deprecated: Setting the "framework.ide.ide" configuration option is deprecated, use the "SYMFONY_IDE" env var instead. // Default: "%env(default::SYMFONY_IDE)%"
+ *     ide?: scalar|Param|null, // Deprecated: Setting the "framework.ide.ide" configuration option is deprecated, use the "SYMFONY_IDE" env var instead. // Default: null
  *     test?: bool|Param,
  *     default_locale?: scalar|Param|null, // Default: "en"
  *     set_locale_from_accept_language?: bool|Param, // Whether to use the Accept-Language HTTP header to set the Request locale (only when the "_locale" request attribute is not passed). // Default: false
@@ -614,14 +617,14 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     },
  *     php_errors?: array{ // PHP errors handling configuration
  *         log?: mixed, // Use the application logger instead of the PHP logger for logging PHP errors. // Default: true
- *         throw?: bool|Param, // Throw PHP errors as \ErrorException instances. // Default: true
+ *         throw?: bool|Param|null, // Throw PHP errors as \ErrorException instances. Enabled by default when debug is enabled. // Default: null
  *     },
  *     exceptions?: array<string, array{ // Default: []
  *         log_level?: scalar|Param|null, // The level of log message. Null to let Symfony decide. // Default: null
  *         status_code?: scalar|Param|null, // The status code of the response. Null or 0 to let Symfony decide. // Default: null
  *         log_channel?: scalar|Param|null, // The channel of log message. Null to let Symfony decide. // Default: null
  *     }>,
- *     disallow_search_engine_index?: bool|Param, // Enabled by default when debug is enabled. // Default: true
+ *     disallow_search_engine_index?: bool|Param|null, // Enabled by default when debug is enabled. // Default: null
  *     secrets?: bool|array{
  *         enabled?: bool|Param, // Default: true
  *         vault_directory?: scalar|Param|null, // Default: "%kernel.project_dir%/config/secrets/%kernel.runtime_environment%"
@@ -1451,25 +1454,55 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         name?: scalar|Param|null, // Display name; the host of the issuer when absent. // Default: null
  *         authentication_classes?: array<string, "single_factor"|"two_factors"|"phishing_resistant"|"phishing_resistant_hardware"|Param>,
  *     },
- *     keys?: array{ // Where the signing keys live: sealed by the KMS named here, stored as files until a table takes over (architecture §3.3).
+ *     keys?: array{ // Where the keys of the tenants live: sealed by the KMS named here, stored as files until a table takes over (architecture §3.3).
  *         kms?: scalar|Param|null, // DSN of the KMS that seals the private keys ("sodium://..." locally, a Vault or cloud scheme in production); the KMS keeps, it never signs.
- *         key_id?: scalar|Param|null, // The key of that KMS the signing keys are sealed under (backend-specific: the id of a sodium key, a Vault transit key name, an ARN); "{tenant}" stands for the slug of the tenant, one master key each.
- *         storage?: scalar|Param|null, // Directory of the sealed signing keys, one file per key and per tenant. // Default: "%kernel.project_dir%/var/keys"
+ *         key_id?: scalar|Param|null, // The key of that KMS the keys of the tenants are sealed under (backend-specific: the id of a sodium key, a Vault transit key name, an ARN); "{tenant}" stands for the slug of the tenant, one master key each.
+ *         storage?: scalar|Param|null, // Directory of the sealed keys, one file per key and per tenant. // Default: "%kernel.project_dir%/var/keys"
  *         jwks_max_age?: int|Param, // How long a relying party may cache the JWK Set, in seconds (RFC 7517 §5, architecture §4.8); the staging window of a rotation derives from it, so that the two cannot drift apart (§3.3). // Default: 300
  *         staging_delay?: int|Param, // How long a new key is published before it signs, in seconds (architecture §3.3, §9); unless set, jwks_max_age plus the 60 s refetch cooldown of oidc_login: the max-age is what a relying party with a warm cache needs to see the new key, the cooldown what one served by a shared HTTP cache needs to refetch it. // Default: null
  *     },
  *     webauthn?: array{ // What the passkey ceremonies read besides the tenant (architecture §3.4).
  *         metadata_storage?: scalar|Param|null, // Directory of the FIDO metadata the ceremonies check an attestation against: the documents "heidi:webauthn:mds-refresh" verified and "heidi:webauthn:mds-import" stored, next to the keys; empty until one of them ran, which the enrolment of the provider does not need. // Default: "%kernel.project_dir%/var/webauthn"
  *     },
+ *     mutual_tls?: array{ // Where a client that presents a certificate reaches the endpoints (RFC 8705 §5). The certificate itself comes from the edge, which is infrastructure and not configuration (docs/mtls-at-the-edge.md); what a deployment says here is the host its listener asks for one on.
+ *         origin?: scalar|Param|null, // Scheme and authority of that host, without a path ("https://mtls.op.example"). The endpoints are announced under it in "mtls_endpoint_aliases", with the paths they are served at. Absent, the document announces no alias and a client authenticating by mutual TLS reaches the ordinary endpoints, which is what a deployment serving one host does. // Default: null
+ *     },
  *     tokens?: array{ // Lifetimes in seconds. The defaults are the choices of architecture §9.
  *         authorization_code_ttl?: int|Param, // RFC 6749 §4.1.2 recommends ten minutes at most; sixty seconds bound the injection window. // Default: 60
  *         access_token_ttl?: int|Param, // Both shapes of access token (architecture §4.6): the self-contained one cannot be revoked, and a short lifetime bounds the exposure; the opaque one gets the same, a revocation is a facility and not a reason to live longer. // Default: 600
  *         id_token_ttl?: int|Param, // Default: 600
+ *         request_uri_ttl?: int|Param, // Seconds a request_uri answered by the pushed authorization request endpoint lives (RFC 9126 §2.2); sixty is the example of the specification, and the browser is sent the moment the client holds the reference. // Default: 60
  *         refresh_token_ttl?: int|Param, // Sliding lifetime of a refresh token, renewed at each rotation. // Default: 2592000
  *         refresh_token_absolute_ttl?: int|Param, // Lifetime of a refresh token family from the authorization that started it; no rotation extends it. // Default: 7776000
  *     },
- *     back_channel_logout?: array{ // How a logout token reaches a client that registered a backchannel_logout_uri (Back-Channel Logout 1.0 §2.5). How many times a send is tried again is the retry policy of the transport the message is routed to, in the application.
+ *     back_channel_logout?: array{ // How a logout token reaches a client that registered a backchannel_logout_uri (Back-Channel Logout 1.0 §2.5), and for how long. These values are what the transport of the notifications does with a send that failed, the application giving that transport the policy of the bundle, and what a signing key is held back for while a logout token it signed may still be on its way (issue #155).
  *         timeout?: float|Param, // Seconds one attempt is given, connection included. A relying party that hangs must not hold a worker; five seconds is long for a request that reads nothing back, and a client that needs longer is a client that is down, which the retries cover. // Default: 5.0
+ *         retries?: int|Param, // How many times a send that did not reach its client comes back. A relying party that is restarting answers for a minute and then works; beyond the schedule below, it is down, and the provider says so rather than trying for ever. // Default: 6
+ *         retry_delay?: int|Param, // Seconds before the first retry. // Default: 2
+ *         retry_multiplier?: int|Param, // What each wait is multiplied by to give the next one. // Default: 3
+ *         retry_max_delay?: int|Param, // Seconds a wait never exceeds, whatever the multiplier makes of it. // Default: 60
+ *     },
+ *     client_authentication?: array{ // How a client proves who it is at the endpoints that authenticate one (RFC 6749 §2.3, OIDC Core §9). Which methods the provider takes is the wiring, not this: a method is a tagged service, and what is tagged is what is announced.
+ *         assertion_max_lifetime?: int|Param, // Seconds ahead of the request the "exp" of a client assertion may be (RFC 7523 §3). An assertion is minted for one request; a long one is a bearer token nobody watches. // Default: 300
+ *         assertion_leeway?: int|Param, // Seconds allowed of the clock of a client, both ways. // Default: 30
+ *         jwks_timeout?: float|Param, // Seconds one read of a jwks_uri is given, connection included. A client that hangs must not hold a worker: an endpoint authenticating it is waiting. // Default: 3.0
+ *         jwks_max_size?: int|Param, // Bytes a jwks_uri may answer before the read stops; a JWK Set of a client holds a handful of public keys. // Default: 65536
+ *         jwks_ttl?: int|Param, // Seconds the keys read back from a jwks_uri are kept in the pool the workers share. // Default: 86400
+ *         jwks_refetch_cooldown?: int|Param, // Seconds between two reads of the same jwks_uri when an assertion names a "kid" the kept set does not hold. A client that rotates a key is followed within one request; a client that signs with a key it never published cannot make the provider call it on every request. // Default: 300
+ *     },
+ *     request_objects?: array{ // How a request the client carried in a JWT is read (RFC 9101 §4, OIDC Core §6). Which algorithm verifies it is the wiring and the registration of the client, not this; an unsigned object is read from a client that registered "none" and from no other.
+ *         max_lifetime?: int|Param, // Seconds a request object may stand, from its "nbf" (RFC 9101 §4). An object is a request made now; a long one is an authorization a client keeps. // Default: 3600
+ *         leeway?: int|Param, // Seconds allowed of the clock of a client, both ways. // Default: 30
+ *         timeout?: float|Param, // Seconds one read of a request_uri is given, connection included. The browser of a user is waiting on it; no redirect is followed and only a URL the client registered is ever read. // Default: 3.0
+ *         max_size?: int|Param, // Bytes a request_uri may answer before the read stops; a request object carries the parameters of one request. // Default: 65536
+ *     },
+ *     dpop?: array{ // How a proof of possession is read (RFC 9449 §4.3). What a proof may be signed with is the wiring, the same algorithms the provider signs with, and what the document announces in "dpop_signing_alg_values_supported"; nothing here weakens a proof, and a client that sends none is not concerned.
+ *         proof_max_age?: int|Param, // Seconds a proof stands, from its "iat" (RFC 9449 §4.3). A proof is a signature over one request being sent; a long window is a window a proof taken off the wire may be sent again in. // Default: 60
+ *         leeway?: int|Param, // Seconds allowed of the clock of a client, both ways. // Default: 30
+ *         nonce?: array{ // Whether this provider asks a proof to carry a nonce of its own (RFC 9449 §8), which is the server's to decide: the "iat" of a proof is what its client says, a nonce is what the provider knows. A client that speaks DPoP handles the refusal that hands it one; one that does not is not concerned either way.
+ *             required?: bool|Param, // Default: false
+ *             ttl?: int|Param, // Seconds a nonce is accepted once issued. // Default: 300
+ *         },
  *     },
  *     clients?: array<string, array{ // Default: []
  *         name?: scalar|Param|null, // Shown on the consent page; the client identifier when absent. // Default: null
@@ -1478,15 +1511,33 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         post_logout_redirect_uris?: list<scalar|Param|null>,
  *         grant_types?: list<"authorization_code"|"refresh_token"|Param>,
  *         allowed_scopes?: list<scalar|Param|null>,
- *         token_endpoint_auth_method?: "client_secret_basic"|"client_secret_post"|"none"|Param, // Default: "client_secret_basic"
+ *         token_endpoint_auth_method?: scalar|Param|null, // How this client authenticates at the endpoints that authenticate a client (OIDC Core §9), among the methods the provider is wired with; left out, it takes the first wired one. A name nothing authenticates with fails at boot. // Default: null
  *         requires_consent?: bool|Param, // Consent is the rule; a first-party application is the named exception. // Default: true
  *         requires_pkce?: bool|Param, // PKCE S256 is the rule; a confidential client that cannot send a code_challenge is the named exception of decision 0008, refused for a public client. A challenge the client sends is verified all the same. // Default: true
+ *         require_pushed_authorization_requests?: bool|Param, // The only way this client starts an authorization request is by pushing it (RFC 9126 §6), which is what FAPI 2.0 asks of one; an ordinary request from it is refused on a page before its redirect URI is even read. Per client, nothing global: the document announces the requirement when every registered client carries it. // Default: false
  *         id_token_signed_response_alg?: scalar|Param|null, // The JWS algorithm the ID tokens and the logout tokens of this client are signed with (OIDC Registration §2), among those the provider is wired with; left out, the provider signs them with its default. A name nothing signs under fails at boot. // Default: null
+ *         id_token_encrypted_response_alg?: scalar|Param|null, // The JWE key management algorithm the ID tokens of this client are encrypted to one of its keys with, once signed (OIDC Core §3.1.3.7), among those the provider is wired with. It comes with id_token_encrypted_response_enc, never alone, and the client publishes a key it can be addressed to; left out, the ID token travels signed and in clear, which is what every client does today. // Default: null
+ *         id_token_encrypted_response_enc?: scalar|Param|null, // The JWE content encryption algorithm the payload of that ID token is encrypted with (OIDC Core §3.1.3.7), among those the provider is wired with. OIDC Registration §2 defaults it to a value this provider is not wired with, so it is named or it is refused at boot. // Default: null
+ *         userinfo_signed_response_alg?: scalar|Param|null, // The JWS algorithm the UserInfo answer of this client is signed with (OIDC Core §5.3.2), among those the provider is wired with; the answer is then served as "application/jwt" and carries an "iss" and an "aud" beside the claims. Left out, the answer is the plain JSON, which is what every client that asks for nothing receives. // Default: null
+ *         userinfo_encrypted_response_alg?: scalar|Param|null, // The JWE key management algorithm the UserInfo answer of this client is encrypted to one of its keys with (OIDC Core §5.3.2), among those the provider is wired with. It comes with userinfo_encrypted_response_enc, never alone. Without userinfo_signed_response_alg, what is encrypted is the plain JSON of the claims, §5.3.2 allowing an answer to be encrypted without being signed. // Default: null
+ *         userinfo_encrypted_response_enc?: scalar|Param|null, // The JWE content encryption algorithm the payload of that UserInfo answer is encrypted with (OIDC Core §5.3.2), among those the provider is wired with. // Default: null
+ *         authorization_signed_response_alg?: scalar|Param|null, // The JWS algorithm the signed authorization responses of this client are signed with (JARM §3), among those the provider is wired with; left out, the provider signs them with its default. It applies to the answers this client asks for with response_mode=jwt, query.jwt or form_post.jwt, a refusal as well as a code. // Default: null
+ *         authorization_encrypted_response_alg?: scalar|Param|null, // The JWE key management algorithm the signed authorization responses of this client are encrypted to one of its keys with, once signed (JARM §3), among those the provider is wired with. It comes with authorization_encrypted_response_enc, never alone. // Default: null
+ *         authorization_encrypted_response_enc?: scalar|Param|null, // The JWE content encryption algorithm the payload of that authorization response is encrypted with (JARM §3), among those the provider is wired with. // Default: null
  *         access_token_format?: "jwt"|"opaque"|Param, // The shape of the access tokens: "jwt" (RFC 9068, verified offline against the JWK Set) or "opaque" (a reference the resource server introspects, RFC 7662, revocable at once). Per client, nothing global. // Default: "jwt"
  *         backchannel_logout_uri?: scalar|Param|null, // Where the provider posts a logout token when a session this client signed in ends (Back-Channel Logout 1.0 §2.2); HTTPS, or plain HTTP on a loopback host. Absent for a client the provider does not tell. // Default: null
  *         backchannel_logout_session_required?: bool|Param, // The client reads the "sid" of the logout token to know which session ended (Back-Channel Logout 1.0 §2.2); it needs a backchannel_logout_uri. The provider sends "sid" either way. // Default: false
  *         frontchannel_logout_uri?: scalar|Param|null, // Loaded in a frame of the logout page when a session this client signed in ends (Front-Channel Logout 1.0 §3); HTTPS, or plain HTTP on a loopback host. Absent for a client the page does not load. It reaches the client only if the browser sends that client its cookies. // Default: null
  *         frontchannel_logout_session_required?: bool|Param, // The client reads "iss" and "sid" on its logout URI to know which session ended (Front-Channel Logout 1.0 §2); it needs a frontchannel_logout_uri. The two parameters are added for this client only, §2 making them conditional. // Default: false
+ *         jwks?: mixed, // The JWK Set of the client, inline (RFC 7591 §2): public keys only, and exclusive with jwks_uri. A client that authenticates with private_key_jwt publishes one of the two. // Default: null
+ *         jwks_uri?: scalar|Param|null, // Where the JWK Set of the client is read back from (RFC 7591 §2); HTTPS, or plain HTTP on a loopback host, no redirect followed. Exclusive with jwks. // Default: null
+ *         request_object_signing_alg?: scalar|Param|null, // The JWS algorithm the request objects of this client are signed with (OIDC Registration §2), among those the provider is wired with; left out, any of them verifies one. The value "none" is the named exception of decision 0006: the objects of that client carry no signature and are read all the same, which no FAPI client registers. A client that names an algorithm publishes its keys in jwks or behind a jwks_uri. // Default: null
+ *         request_uris?: list<scalar|Param|null>,
+ *         tls_client_auth_subject_dn?: scalar|Param|null, // The subject distinguished name of the certificate this client presents (RFC 8705 §2.1.2), in the string form of RFC 4514; it is written back at boot the way the provider writes the name it reads out of a certificate, so a name as "openssl x509 -noout -subject -nameopt RFC2253" prints it is registered as it is. One of the five keys below, and one only, for a client that authenticates with tls_client_auth. // Default: null
+ *         tls_client_auth_san_dns?: scalar|Param|null, // The dNSName entry of the subject alternative name extension this client is recognised by (RFC 8705 §2.1.2), compared without regard to case (RFC 4343 §1). // Default: null
+ *         tls_client_auth_san_uri?: scalar|Param|null, // The uniformResourceIdentifier entry this client is recognised by (RFC 8705 §2.1.2), compared as the text it is. // Default: null
+ *         tls_client_auth_san_ip?: scalar|Param|null, // The iPAddress entry this client is recognised by (RFC 8705 §2.1.2), in dotted decimal or colon-delimited hexadecimal; it is compared as the octets it stands for, not as the text. // Default: null
+ *         tls_client_auth_san_email?: scalar|Param|null, // The rfc822Name entry this client is recognised by (RFC 8705 §2.1.2), compared as it is written (RFC 5321 §2.4). // Default: null
  *     }>,
  * }
  * @psalm-type SymfonycastsTailwindConfig = array{

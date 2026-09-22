@@ -72,9 +72,12 @@ framework:
             # because what it owes is not what our own writes owe: a relying party learns of a logout
             # while the certification suite waits for it, so the message must not queue behind a batch of
             # enrichments, and a relying party that is restarting must be tried again for longer than a
-            # write to our own database would be. Six attempts, two seconds then three times as long each
-            # time, one minute at most: 2, 6, 18, 54, 60, 60, that is a little over three minutes of
-            # patience. Beyond that the client is not restarting, it is down, and the provider says so
+            # write to our own database would be. How long that is belongs to the bundle and not here
+            # (Heidi\Bundle\Messenger\NotificationRetryPolicy, "heidi.back_channel_logout"): the same
+            # schedule bounds how long a logout token stays on its way, which is what holds a signing key
+            # back from retiring, and the two cannot be written twice. By default 2, 6, 18, 54, 60 then
+            # 60 seconds, a little over three minutes of patience. Beyond that the client is not
+            # restarting, it is down, and the provider says so
             # (Heidi\Bundle\Messenger\LogoutTokenGivenUpListener) rather than trying for ever: the session
             # is closed here whatever the client believes, and the client learns it at its next request.
             async_notifications:
@@ -88,10 +91,7 @@ framework:
                         heidi_messages_notifications:
                             binding_keys: [notifications]
                 retry_strategy:
-                    max_retries: 6
-                    delay: 2000
-                    max_delay: 60000
-                    multiplier: 3
+                    service: 'Heidi\Bundle\Messenger\NotificationRetryPolicy'
             failed: 'doctrine://default?queue_name=failed'
 
         # The transport "scheduler_heidi" is the schedule of the bundle, consumed by the worker next to
