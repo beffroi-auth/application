@@ -1510,7 +1510,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         secret?: scalar|Param|null, // At least 32 visible ASCII characters, generated, never chosen; absent for a public client. // Default: null
  *         redirect_uris?: list<scalar|Param|null>,
  *         post_logout_redirect_uris?: list<scalar|Param|null>,
- *         grant_types?: list<"authorization_code"|"refresh_token"|Param>,
+ *         grant_types?: list<scalar|Param|null>,
  *         allowed_scopes?: list<scalar|Param|null>,
  *         token_endpoint_auth_method?: scalar|Param|null, // How this client authenticates at the endpoints that authenticate a client (OIDC Core §9), among the methods the provider is wired with; left out, it takes the first wired one. A name nothing authenticates with fails at boot. // Default: null
  *         requires_consent?: bool|Param, // Consent is the rule; a first-party application is the named exception. // Default: true

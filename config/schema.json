@@ -2921,22 +2921,13 @@
                                 "grant_types": {
                                     "$ref": "#/$defs/types/array_null",
                                     "items": {
-                                        "anyOf": [
-                                            {
-                                                "enum": [
-                                                    "authorization_code",
-                                                    "refresh_token"
-                                                ]
-                                            },
-                                            {
-                                                "$ref": "#/$defs/types/param"
-                                            }
-                                        ]
+                                        "$ref": "#/$defs/types/scalar"
                                     },
                                     "default": [
                                         "authorization_code",
                                         "refresh_token"
-                                    ]
+                                    ],
+                                    "description": "What this client may ask for at the token endpoint (RFC 7591 §2), among the grants the provider is wired with; left out, it takes the browser flow and its renewal. A name nothing serves fails at boot."
                                 },
                                 "allowed_scopes": {
                                     "$ref": "#/$defs/types/array_null",
