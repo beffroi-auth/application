@@ -2699,6 +2699,27 @@
                                 "default": 5,
                                 "description": "Seconds a client waits between two polls of the token endpoint (RFC 8628 §3.2); five is the default of the specification, and a client that polls faster is told to add five."
                             },
+                            "backchannel_authentication_ttl": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "maximum": 3600,
+                                "default": 300,
+                                "description": "Seconds a backchannel authentication request lives when the client asks for nothing (CIBA Core §7.3); five minutes is what somebody needs to be reached and to answer."
+                            },
+                            "backchannel_authentication_max_requested_expiry": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "maximum": 3600,
+                                "default": 1800,
+                                "description": "Seconds the longest lifetime a client may ask for with \"requested_expiry\" (CIBA Core §7.1); a request that asks for more is served this, not refused."
+                            },
+                            "backchannel_authentication_interval": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "maximum": 30,
+                                "default": 5,
+                                "description": "Seconds a client waits between two polls of the token endpoint for a backchannel request (CIBA Core §7.3); five is the default of the specification, and a client that polls faster is told to add five."
+                            },
                             "refresh_token_ttl": {
                                 "$ref": "#/$defs/types/integer",
                                 "minimum": 1,
@@ -2720,6 +2741,9 @@
                             "request_uri_ttl": 60,
                             "device_code_ttl": 600,
                             "device_code_interval": 5,
+                            "backchannel_authentication_ttl": 300,
+                            "backchannel_authentication_max_requested_expiry": 1800,
+                            "backchannel_authentication_interval": 5,
                             "refresh_token_ttl": 2592000,
                             "refresh_token_absolute_ttl": 7776000
                         },
@@ -2831,6 +2855,39 @@
                             "retry_max_delay": 60
                         },
                         "description": "How a logout token reaches a client that registered a backchannel_logout_uri (Back-Channel Logout 1.0 §2.5), and for how long. These values are what the transport of the notifications does with a send that failed, the application giving that transport the policy of the bundle, and what a signing key is held back for while a logout token it signed may still be on its way (issue #155)."
+                    },
+                    "backchannel_authentication": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "login_hint": {
+                                "anyOf": [
+                                    {
+                                        "enum": [
+                                            "sub",
+                                            "username",
+                                            "none"
+                                        ]
+                                    },
+                                    {
+                                        "$ref": "#/$defs/types/param"
+                                    }
+                                ],
+                                "default": "sub",
+                                "description": "What a \"login_hint\" names for this tenant, read one way and never searched for (CIBA Core §7.1): \"sub\" the subject this provider issued to that client, \"username\" the name the user signs in with, \"none\" for a deployment that tags a reader of its own. CIBA Core §15 asks for an identifier that says nothing outside this provider, which \"sub\" is and a username is not."
+                            },
+                            "client_notification_timeout": {
+                                "$ref": "#/$defs/types/number",
+                                "minimum": 0.1,
+                                "default": 3,
+                                "description": "Seconds one call to a client notification endpoint is given, connection included (CIBA Core §10.2). A client that hangs must not hold a worker; how many times the call is tried again is the retry policy of the notifications lane, as it is for a logout token."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "login_hint": "sub",
+                            "client_notification_timeout": 3
+                        },
+                        "description": "The flow where a client asks for a user it names and the user approves on a device they already hold (CIBA Core §7). A client takes part in it by registering a grant and a delivery mode, one client at a time; nothing here turns it on for anybody."
                     },
                     "client_authentication": {
                         "$ref": "#/$defs/types/object_null",
@@ -3133,6 +3190,16 @@
                                     "$ref": "#/$defs/types/scalar",
                                     "default": null,
                                     "description": "The JWS algorithm the request objects of this client are signed with (OIDC Registration §2), among those the provider is wired with; left out, any of them verifies one. The value \"none\" is the named exception of decision 0006: the objects of that client carry no signature and are read all the same, which no FAPI client registers. A client that names an algorithm publishes its keys in jwks or behind a jwks_uri."
+                                },
+                                "backchannel_token_delivery_mode": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "How this client is told that a backchannel authentication request has been answered (CIBA Core §4), among the modes the provider is wired with: \"poll\" for a client that asks the token endpoint again until it is answered, \"ping\" for one this provider calls back first. There is no default: a client that registers none is not a client of that flow, and the endpoint where it starts refuses it. A name nothing serves fails at boot."
+                                },
+                                "backchannel_client_notification_endpoint": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "Where this provider posts the identifier of a backchannel request once it has been answered (CIBA Core §7.1, §10.2); HTTPS, or plain HTTP on a loopback host, no redirect followed. It goes with a delivery mode where the provider calls the client, never alone, and never without one."
                                 },
                                 "resources": {
                                     "$ref": "#/$defs/types/array_null",

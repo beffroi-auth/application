@@ -68,7 +68,9 @@ framework:
                     max_delay: 30000
                     multiplier: 4
             # What the provider carries to a third party it does not own (Heidi\Bundle\Message\Notification:
-            # the logout tokens of a session that ended today, architecture §4.9). A lane of its own,
+            # the logout tokens of a session that ended, the word to a client that the backchannel request
+            # it made has been answered, and what tells a user that one is waiting for them; architecture
+            # §4.9, §5.6). A lane of its own,
             # because what it owes is not what our own writes owe: a relying party learns of a logout
             # while the certification suite waits for it, so the message must not queue behind a batch of
             # enrichments, and a relying party that is restarting must be tried again for longer than a
