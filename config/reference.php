@@ -1473,6 +1473,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         access_token_ttl?: int|Param, // Both shapes of access token (architecture §4.6): the self-contained one cannot be revoked, and a short lifetime bounds the exposure; the opaque one gets the same, a revocation is a facility and not a reason to live longer. // Default: 600
  *         id_token_ttl?: int|Param, // Default: 600
  *         request_uri_ttl?: int|Param, // Seconds a request_uri answered by the pushed authorization request endpoint lives (RFC 9126 §2.2); sixty is the example of the specification, and the browser is sent the moment the client holds the reference. // Default: 60
+ *         device_code_ttl?: int|Param, // Seconds a device code and the user code beside it live (RFC 8628 §3.2); ten minutes is what a user needs to read a code off one screen and type it on another. // Default: 600
+ *         device_code_interval?: int|Param, // Seconds a client waits between two polls of the token endpoint (RFC 8628 §3.2); five is the default of the specification, and a client that polls faster is told to add five. // Default: 5
  *         refresh_token_ttl?: int|Param, // Sliding lifetime of a refresh token, renewed at each rotation. // Default: 2592000
  *         refresh_token_absolute_ttl?: int|Param, // Lifetime of a refresh token family from the authorization that started it; no rotation extends it. // Default: 7776000
  *     },

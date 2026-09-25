@@ -2685,6 +2685,20 @@
                                 "default": 60,
                                 "description": "Seconds a request_uri answered by the pushed authorization request endpoint lives (RFC 9126 §2.2); sixty is the example of the specification, and the browser is sent the moment the client holds the reference."
                             },
+                            "device_code_ttl": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "maximum": 1800,
+                                "default": 600,
+                                "description": "Seconds a device code and the user code beside it live (RFC 8628 §3.2); ten minutes is what a user needs to read a code off one screen and type it on another."
+                            },
+                            "device_code_interval": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "maximum": 30,
+                                "default": 5,
+                                "description": "Seconds a client waits between two polls of the token endpoint (RFC 8628 §3.2); five is the default of the specification, and a client that polls faster is told to add five."
+                            },
                             "refresh_token_ttl": {
                                 "$ref": "#/$defs/types/integer",
                                 "minimum": 1,
@@ -2704,6 +2718,8 @@
                             "access_token_ttl": 600,
                             "id_token_ttl": 600,
                             "request_uri_ttl": 60,
+                            "device_code_ttl": 600,
+                            "device_code_interval": 5,
                             "refresh_token_ttl": 2592000,
                             "refresh_token_absolute_ttl": 7776000
                         },
