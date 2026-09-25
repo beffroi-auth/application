@@ -2725,6 +2725,69 @@
                         },
                         "description": "Lifetimes in seconds. The defaults are the choices of architecture §9."
                     },
+                    "load": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "origin": {
+                                "$ref": "#/$defs/types/object_null",
+                                "properties": {
+                                    "limit": {
+                                        "$ref": "#/$defs/types/integer",
+                                        "minimum": 1,
+                                        "default": 2400,
+                                        "description": "Requests taken from one address in the window."
+                                    },
+                                    "interval": {
+                                        "$ref": "#/$defs/types/integer",
+                                        "minimum": 1,
+                                        "default": 60,
+                                        "description": "Seconds the window covers."
+                                    }
+                                },
+                                "additionalProperties": false,
+                                "default": {
+                                    "limit": 2400,
+                                    "interval": 60
+                                },
+                                "description": "What one client address may send, whatever it asks for and whether or not it has proved anything. It is not scoped to a tenant: what it bounds is the load on the machine, which every tenant of a deployment shares."
+                            },
+                            "client": {
+                                "$ref": "#/$defs/types/object_null",
+                                "properties": {
+                                    "limit": {
+                                        "$ref": "#/$defs/types/integer",
+                                        "minimum": 1,
+                                        "default": 1200,
+                                        "description": "Requests taken from one authenticated client in the window."
+                                    },
+                                    "interval": {
+                                        "$ref": "#/$defs/types/integer",
+                                        "minimum": 1,
+                                        "default": 60,
+                                        "description": "Seconds the window covers."
+                                    }
+                                },
+                                "additionalProperties": false,
+                                "default": {
+                                    "limit": 1200,
+                                    "interval": 60
+                                },
+                                "description": "What one client may ask once its authentication has succeeded, by tenant and by client. This is the one a tenant reads when one of its applications goes into a loop."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "origin": {
+                                "limit": 2400,
+                                "interval": 60
+                            },
+                            "client": {
+                                "limit": 1200,
+                                "interval": 60
+                            }
+                        },
+                        "description": "How many requests the provider takes in a window, by origin and by authenticated client (decision 0014). Both budgets always exist; these are their numbers, which depend on the size of the deployment. A number too low on /token or on /jwks is an outage a deployment inflicts on itself, so they are measured on what its own clients send."
+                    },
                     "back_channel_logout": {
                         "$ref": "#/$defs/types/object_null",
                         "properties": {

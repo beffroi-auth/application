@@ -1478,6 +1478,16 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         refresh_token_ttl?: int|Param, // Sliding lifetime of a refresh token, renewed at each rotation. // Default: 2592000
  *         refresh_token_absolute_ttl?: int|Param, // Lifetime of a refresh token family from the authorization that started it; no rotation extends it. // Default: 7776000
  *     },
+ *     load?: array{ // How many requests the provider takes in a window, by origin and by authenticated client (decision 0014). Both budgets always exist; these are their numbers, which depend on the size of the deployment. A number too low on /token or on /jwks is an outage a deployment inflicts on itself, so they are measured on what its own clients send.
+ *         origin?: array{ // What one client address may send, whatever it asks for and whether or not it has proved anything. It is not scoped to a tenant: what it bounds is the load on the machine, which every tenant of a deployment shares.
+ *             limit?: int|Param, // Requests taken from one address in the window. // Default: 2400
+ *             interval?: int|Param, // Seconds the window covers. // Default: 60
+ *         },
+ *         client?: array{ // What one client may ask once its authentication has succeeded, by tenant and by client. This is the one a tenant reads when one of its applications goes into a loop.
+ *             limit?: int|Param, // Requests taken from one authenticated client in the window. // Default: 1200
+ *             interval?: int|Param, // Seconds the window covers. // Default: 60
+ *         },
+ *     },
  *     back_channel_logout?: array{ // How a logout token reaches a client that registered a backchannel_logout_uri (Back-Channel Logout 1.0 §2.5), and for how long. These values are what the transport of the notifications does with a send that failed, the application giving that transport the policy of the bundle, and what a signing key is held back for while a logout token it signed may still be on its way (issue #155).
  *         timeout?: float|Param, // Seconds one attempt is given, connection included. A relying party that hangs must not hold a worker; five seconds is long for a request that reads nothing back, and a client that needs longer is a client that is down, which the retries cover. // Default: 5.0
  *         retries?: int|Param, // How many times a send that did not reach its client comes back. A relying party that is restarting answers for a minute and then works; beyond the schedule below, it is down, and the provider says so rather than trying for ever. // Default: 6
