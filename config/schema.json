@@ -3065,6 +3065,13 @@
                                     "default": null,
                                     "description": "The JWS algorithm the request objects of this client are signed with (OIDC Registration §2), among those the provider is wired with; left out, any of them verifies one. The value \"none\" is the named exception of decision 0006: the objects of that client carry no signature and are read all the same, which no FAPI client registers. A client that names an algorithm publishes its keys in jwks or behind a jwks_uri."
                                 },
+                                "resources": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "The resources this client may ask an access token for (RFC 8707 §2 \"resource\"), each an absolute URI without a fragment; a resource it did not register is refused with invalid_target. A closed list, no wildcard: a client that registers none asks for none, and its tokens are addressed to itself."
+                                },
                                 "request_uris": {
                                     "$ref": "#/$defs/types/array_null",
                                     "items": {
