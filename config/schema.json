@@ -3016,19 +3016,9 @@
                                     "description": "The JWE content encryption algorithm the payload of that authorization response is encrypted with (JARM §3), among those the provider is wired with."
                                 },
                                 "access_token_format": {
-                                    "anyOf": [
-                                        {
-                                            "enum": [
-                                                "jwt",
-                                                "opaque"
-                                            ]
-                                        },
-                                        {
-                                            "$ref": "#/$defs/types/param"
-                                        }
-                                    ],
-                                    "default": "jwt",
-                                    "description": "The shape of the access tokens: \"jwt\" (RFC 9068, verified offline against the JWK Set) or \"opaque\" (a reference the resource server introspects, RFC 7662, revocable at once). Per client, nothing global."
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The shape the access tokens of this client are written in, among those the provider is wired to write: \"jwt\" (RFC 9068, verified offline against the JWK Set) or \"opaque\" (a reference the resource server introspects, RFC 7662, revocable at once). Left out, it takes the first wired one. A name nothing writes fails at boot. Per client, nothing global."
                                 },
                                 "backchannel_logout_uri": {
                                     "$ref": "#/$defs/types/scalar",
