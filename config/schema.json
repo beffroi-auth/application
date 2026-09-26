@@ -3025,6 +3025,47 @@
                         },
                         "description": "How a proof of possession is read (RFC 9449 §4.3). What a proof may be signed with is the wiring, the same algorithms the provider signs with, and what the document announces in \"dpop_signing_alg_values_supported\"; nothing here weakens a proof, and a client that sends none is not concerned."
                     },
+                    "trusted_issuers": {
+                        "$ref": "#/$defs/types/object_null",
+                        "additionalProperties": {
+                            "$ref": "#/$defs/types/object_null",
+                            "properties": {
+                                "jwks": {
+                                    "$ref": "#/$defs/types/variable",
+                                    "default": null,
+                                    "description": "The JWK Set of the issuer, inline (RFC 7517 §5): public keys only, and the only keys an assertion of this issuer is ever verified against, whatever its header names (RFC 8725 §3.10)."
+                                },
+                                "signing_algorithms": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "The JWS algorithms an assertion of this issuer may be signed with (RFC 7515 §4.1.1), among those the provider is wired with; at least one. A name nothing verifies fails at boot."
+                                },
+                                "clients": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "The clients that may present an assertion of this issuer at the token endpoint, by client identifier; at least one. An issuer trusted for a gateway is not thereby trusted for every client of the tenant."
+                                },
+                                "identity_provider": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The source of the linked identities the subjects of its assertions name (decision 0002): the \"sub\" of an assertion is a user of this tenant only when a linked identity of that source says so, and no user is ever created here."
+                                },
+                                "trusted_scopes": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "What this issuer is trusted for: the scopes of a response are a subset of these, of what the client registered and of what the request asked for. \"openid\" among them buys nothing, the grant refusing it: it authenticates nobody."
+                                }
+                            },
+                            "additionalProperties": false
+                        },
+                        "description": "The issuers whose assertions this tenant accepts as an authorization (RFC 7523 §2.1), keyed by the \"iss\" they sign with. Each one is a closed declaration: nothing about it is inferred, and an issuer nobody declared is unknown."
+                    },
                     "clients": {
                         "$ref": "#/$defs/types/object_null",
                         "additionalProperties": {
@@ -3207,6 +3248,30 @@
                                         "$ref": "#/$defs/types/scalar"
                                     },
                                     "description": "The resources this client may ask an access token for (RFC 8707 §2 \"resource\"), each an absolute URI without a fragment; a resource it did not register is refused with invalid_target. A closed list, no wildcard: a client that registers none asks for none, and its tokens are addressed to itself."
+                                },
+                                "token_exchange": {
+                                    "$ref": "#/$defs/types/object_null",
+                                    "properties": {
+                                        "subject_token_types": {
+                                            "$ref": "#/$defs/types/array_null",
+                                            "items": {
+                                                "$ref": "#/$defs/types/scalar"
+                                            },
+                                            "description": "The types of token this client may present as a subject_token or as an actor_token (RFC 8693 §3), among those the provider is wired to read; at least one. A name nothing reads fails at boot."
+                                        },
+                                        "may_act_for_a_user": {
+                                            "$ref": "#/$defs/types/boolean",
+                                            "default": false,
+                                            "description": "Whether this client may present a token somebody signed in for. False for a service that only ever exchanges tokens of its own (RFC 6749 §4.4): a gateway carrying a user's token is not the same party, and a deployment says which of the two it registered."
+                                        }
+                                    },
+                                    "additionalProperties": false,
+                                    "description": "What this client may do at the token exchange (RFC 8693 §2.1), for a client registered for that grant and for no other. A closed declaration: a client presenting something it did not register for is refused whatever the thing says. Which resources the new token may be addressed to is the resources option above, as it is for every other grant."
+                                },
+                                "may_act": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "Who may act for the subject of a token issued to this client (RFC 8693 §4.4), as a subject: it is written on every token this client receives, and an exchange asked for by anybody else is refused. Absent, the token says nothing and what decides is the registration of whoever asks."
                                 },
                                 "request_uris": {
                                     "$ref": "#/$defs/types/array_null",

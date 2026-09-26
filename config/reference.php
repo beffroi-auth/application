@@ -1524,6 +1524,13 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             ttl?: int|Param, // Seconds a nonce is accepted once issued. // Default: 300
  *         },
  *     },
+ *     trusted_issuers?: array<string, array{ // Default: []
+ *         jwks?: mixed, // The JWK Set of the issuer, inline (RFC 7517 §5): public keys only, and the only keys an assertion of this issuer is ever verified against, whatever its header names (RFC 8725 §3.10). // Default: null
+ *         signing_algorithms?: list<scalar|Param|null>,
+ *         clients?: list<scalar|Param|null>,
+ *         identity_provider?: scalar|Param|null, // The source of the linked identities the subjects of its assertions name (decision 0002): the "sub" of an assertion is a user of this tenant only when a linked identity of that source says so, and no user is ever created here. // Default: null
+ *         trusted_scopes?: list<scalar|Param|null>,
+ *     }>,
  *     clients?: array<string, array{ // Default: []
  *         name?: scalar|Param|null, // Shown on the consent page; the client identifier when absent. // Default: null
  *         secret?: scalar|Param|null, // At least 32 visible ASCII characters, generated, never chosen; absent for a public client. // Default: null
@@ -1557,6 +1564,11 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         backchannel_token_delivery_mode?: scalar|Param|null, // How this client is told that a backchannel authentication request has been answered (CIBA Core §4), among the modes the provider is wired with: "poll" for a client that asks the token endpoint again until it is answered, "ping" for one this provider calls back first. There is no default: a client that registers none is not a client of that flow, and the endpoint where it starts refuses it. A name nothing serves fails at boot. // Default: null
  *         backchannel_client_notification_endpoint?: scalar|Param|null, // Where this provider posts the identifier of a backchannel request once it has been answered (CIBA Core §7.1, §10.2); HTTPS, or plain HTTP on a loopback host, no redirect followed. It goes with a delivery mode where the provider calls the client, never alone, and never without one. // Default: null
  *         resources?: list<scalar|Param|null>,
+ *         token_exchange?: array{ // What this client may do at the token exchange (RFC 8693 §2.1), for a client registered for that grant and for no other. A closed declaration: a client presenting something it did not register for is refused whatever the thing says. Which resources the new token may be addressed to is the resources option above, as it is for every other grant.
+ *             subject_token_types?: list<scalar|Param|null>,
+ *             may_act_for_a_user?: bool|Param, // Whether this client may present a token somebody signed in for. False for a service that only ever exchanges tokens of its own (RFC 6749 §4.4): a gateway carrying a user's token is not the same party, and a deployment says which of the two it registered. // Default: false
+ *         },
+ *         may_act?: scalar|Param|null, // Who may act for the subject of a token issued to this client (RFC 8693 §4.4), as a subject: it is written on every token this client receives, and an exchange asked for by anybody else is refused. Absent, the token says nothing and what decides is the registration of whoever asks. // Default: null
  *         request_uris?: list<scalar|Param|null>,
  *         tls_client_auth_subject_dn?: scalar|Param|null, // The subject distinguished name of the certificate this client presents (RFC 8705 §2.1.2), in the string form of RFC 4514; it is written back at boot the way the provider writes the name it reads out of a certificate, so a name as "openssl x509 -noout -subject -nameopt RFC2253" prints it is registered as it is. One of the five keys below, and one only, for a client that authenticates with tls_client_auth. // Default: null
  *         tls_client_auth_san_dns?: scalar|Param|null, // The dNSName entry of the subject alternative name extension this client is recognised by (RFC 8705 §2.1.2), compared without regard to case (RFC 4343 §1). // Default: null
