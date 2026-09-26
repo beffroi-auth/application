@@ -6,6 +6,21 @@
 	}
 }
 
+# The cipher suites of TLS 1.2 the listener offers, imported by every site block below and by the one of
+# mtls.Caddyfile. FAPI 1.0 Advanced Final §8.5 fixes the list a provider may offer, and the defaults of
+# the image carry two suites that are not on it (the ChaCha20-Poly1305 ones), which is what the TLS checks
+# of the fapi-ciba-id1 plan measure at every endpoint. The four named here are the intersection of that
+# list with what Go implements: it has no DHE suite, so the two TLS_DHE_RSA ones of §8.5 cannot be offered
+# by any listener built on it. TLS 1.3 needs no list, its suites being fixed by RFC 8446 §9.1 and all of
+# them permitted, and TLS 1.2 is already the floor of Caddy, which is what §8.5 asks for.
+#
+# A deployment terminates TLS where it terminates it, and what this file answers for is the listener the
+# image ships with (docs/security-defaults.md): a certification run against this stack then measures the
+# provider and not the defaults of an image.
+(fapi_ciphers) {
+	ciphers TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+}
+
 {$CADDY_EXTRA_CONFIG}
 
 {$SERVER_NAME:localhost} {
@@ -17,6 +32,10 @@
 				replace authorization REDACTED
 			}
 		}
+	}
+
+	tls {
+		import fapi_ciphers
 	}
 
 	root * /app/public

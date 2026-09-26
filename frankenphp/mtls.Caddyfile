@@ -16,12 +16,17 @@
 # The leaf is handed to PHP in a variable and not in a header: a client sets every header of its request
 # and no variable of the process that serves it. Caddy replaces the placeholder per request, and fills
 # the envelope with nothing when the client presented nothing.
+#
+# "fapi_ciphers" is the snippet of the Caddyfile beside this file: both hosts offer the cipher suites
+# FAPI 1.0 Advanced Final §8.5 permits, and this one is the host a FAPI run calls the token endpoint on.
 {$MTLS_SERVER_NAME} {
 	log {
 		{$CADDY_SERVER_LOG_OPTIONS}
 	}
 
 	tls {
+		import fapi_ciphers
+
 		client_auth {
 			mode request
 		}
