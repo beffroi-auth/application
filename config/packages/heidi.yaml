@@ -248,6 +248,59 @@ when@dev:
                 id_token_signed_response_alg: ES256
                 authorization_signed_response_alg: ES256
                 request_object_signing_alg: ES256
+            # The four clients of the FAPI-CIBA runs (issue #227), two per run. A client registers one
+            # backchannel token delivery mode (CIBA Core §4), so the poll run and the ping run cannot
+            # share theirs; the second client of each is the one a module signs a request object with
+            # when it must be the wrong client. None of them registers a redirect URI: there is no
+            # browser of the client anywhere in this flow, and the one page it has is a page of the
+            # provider. They authenticate with "private_key_jwt" and present a certificate all the same,
+            # which is what the profile binds the tokens to and what the suite refuses to configure a
+            # static client of this plan without ("castor provision" issues it on the same key).
+            conformance-ciba-poll:
+                name: 'OpenID conformance suite, FAPI-CIBA (poll)'
+                token_endpoint_auth_method: private_key_jwt
+                jwks: '%env(json:base64:CONFORMANCE_CIBA_POLL_JWKS)%'
+                grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
+                allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
+                backchannel_token_delivery_mode: poll
+                require_signed_request_object: true
+                id_token_signed_response_alg: ES256
+                request_object_signing_alg: ES256
+            conformance-ciba-poll-second:
+                name: 'OpenID conformance suite, FAPI-CIBA, second client (poll)'
+                token_endpoint_auth_method: private_key_jwt
+                jwks: '%env(json:base64:CONFORMANCE_CIBA_POLL_SECOND_JWKS)%'
+                grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
+                allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
+                backchannel_token_delivery_mode: poll
+                require_signed_request_object: true
+                id_token_signed_response_alg: ES256
+                request_object_signing_alg: ES256
+            # The two of the ping run name where this provider posts the identifier of a request once it
+            # has been answered (CIBA Core §10.2): the endpoint the suite serves under the alias of its
+            # configuration, which the worker reaches through the sidecar of compose.yaml.
+            conformance-ciba-ping:
+                name: 'OpenID conformance suite, FAPI-CIBA (ping)'
+                token_endpoint_auth_method: private_key_jwt
+                jwks: '%env(json:base64:CONFORMANCE_CIBA_PING_JWKS)%'
+                grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
+                allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
+                backchannel_token_delivery_mode: ping
+                backchannel_client_notification_endpoint: 'https://localhost:8443/test/a/heidi/ciba-notification-endpoint'
+                require_signed_request_object: true
+                id_token_signed_response_alg: ES256
+                request_object_signing_alg: ES256
+            conformance-ciba-ping-second:
+                name: 'OpenID conformance suite, FAPI-CIBA, second client (ping)'
+                token_endpoint_auth_method: private_key_jwt
+                jwks: '%env(json:base64:CONFORMANCE_CIBA_PING_SECOND_JWKS)%'
+                grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
+                allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
+                backchannel_token_delivery_mode: ping
+                backchannel_client_notification_endpoint: 'https://localhost:8443/test/a/heidi/ciba-notification-endpoint'
+                require_signed_request_object: true
+                id_token_signed_response_alg: ES256
+                request_object_signing_alg: ES256
             oidc-demo:
                 name: 'oidc-demo'
                 secret: '%env(OIDC_DEMO_SECRET)%'
