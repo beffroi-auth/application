@@ -1,7 +1,15 @@
 {# The layout of the pages of the bundle, overridden by the application to give them their look
    (architecture §5.2, §6): the same document and the same blocks as the layout of the bundle, one
    stylesheet built from assets/styles/app.css (Tailwind and DaisyUI), no script. The pages of the
-   bundle come with it untouched: what they render is styled by its structure and its data-* codes. #}
+   bundle come with it untouched: what they render is styled by its structure and its data-* codes.
+
+   Two shapes, because the pages are of two kinds. A page of an interaction asks one thing of whoever is
+   in front of it, a login, a consent, a code typed from an appliance, and nothing else is on it: a box in
+   the middle of the screen is what that is. A page of the account is a page someone reads and comes back
+   to, holding a list, a table, a heading and the way back: it takes the width of a column of text, at the
+   top of the screen, and carries "account" on its main so the stylesheet can say what a panel looks like
+   there. Which one a request is, is its route (architecture §5.4). #}
+{% set account = (app.request.attributes.get('_route') ?? '') starts with 'heidi_interaction_account' %}
 <!DOCTYPE html>
 <html lang="{{ app.request.locale|replace({'_': '-'}) }}">
 <head>
@@ -11,15 +19,14 @@
     <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
     {% block head %}{% endblock %}
 </head>
-<body class="min-h-screen bg-base-200">
+<body class="{{ account ? 'min-h-dvh bg-base-200' : 'min-h-dvh bg-base-200 grid place-items-center p-4' }}">
     {% block body %}
-        <main class="min-h-screen flex items-center justify-center p-4">
-            <div class="card w-full max-w-md bg-base-100 shadow-xl">
-                <div class="card-body">
-                    <h1 class="card-title text-2xl">{% block heading %}{{ block('title') }}{% endblock %}</h1>
-                    {% block content %}{% endblock %}
-                </div>
-            </div>
+        <main
+            {% if account %}data-page="account"{% endif %}
+            class="{{ account ? 'mx-auto flex w-full max-w-3xl flex-col gap-5 px-4 py-10 sm:px-6 sm:py-14' : 'card card-body w-full max-w-md bg-base-100 shadow-xl' }}"
+        >
+            <h1 class="{{ account ? 'text-2xl font-bold tracking-tight sm:text-3xl' : 'card-title text-2xl' }}">{% block heading %}{{ block('title') }}{% endblock %}</h1>
+            {% block content %}{% endblock %}
         </main>
     {% endblock %}
 </body>

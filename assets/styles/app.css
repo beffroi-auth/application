@@ -5,7 +5,14 @@
  * The bundle ships bare structure and the codes of its pages in data-* attributes, never a class. The
  * application styles that structure from here, so that its layout override (templates/bundles/HeidiBundle/
  * layout.html.twig) is the one file it adds and the pages of the bundle stay untouched.
+ *
+ * Two sections, for the two kinds of page the layout lays out. What every page shares comes first: a page
+ * of an interaction is one question in a box, and its paragraphs, its alerts and its form are that box.
+ * Then the pages of the account, which the layout marks with data-page="account": a column of panels that
+ * someone reads, where a heading, a table, a list of what the account holds and the way back each have a
+ * shape of their own. The second section restates what it must, and nothing more.
  */
+
 @import "tailwindcss";
 
 @source "../../templates";
@@ -32,7 +39,8 @@
         @apply alert alert-info alert-soft mt-4;
     }
 
-    main form {
+    /* A form the script of the bundle keeps hidden until it has a browser for it stays hidden. */
+    main form:not([hidden]) {
         @apply mt-6 flex flex-col gap-4;
     }
 
@@ -60,5 +68,195 @@
 
     main li[data-scope] {
         @apply badge badge-outline badge-lg;
+    }
+
+    /*
+     * The pages of the account. The layout is a column with a gap of its own, so what the rules above
+     * space by a margin is spaced by that gap here, and the margin goes.
+     */
+    main[data-page="account"] > :is(p, ul, ol, dl, table, form, figure, nav) {
+        @apply mt-0;
+    }
+
+    /* The way back, above the heading: it is written at the top of the page, the gap of the column apart. */
+    main[data-page="account"] nav {
+        @apply order-first;
+    }
+
+    main[data-page="account"] nav a[data-back] {
+        @apply btn btn-ghost btn-sm w-fit gap-1 pl-2 font-normal text-base-content/70;
+    }
+
+    main[data-page="account"] nav a[data-back]::before {
+        content: "\2190";
+    }
+
+    /* Who is signed in, and since when on the home: the subtitle of the heading, not a paragraph of the page. */
+    main[data-page="account"] > p:first-of-type,
+    main[data-page="account"] > p:has(> time) {
+        @apply -mt-3 text-sm text-base-content/60;
+    }
+
+    main[data-page="account"] > p {
+        @apply max-w-prose;
+    }
+
+    /* What the account holds nothing of: said in the shape of the panel that would have held it. */
+    main[data-page="account"] > p[data-consents="none"],
+    main[data-page="account"] > p[data-passkeys="none"],
+    main[data-page="account"] > p[data-two-factor="none"] {
+        @apply rounded-box border border-dashed border-base-content/20 px-5 py-6 text-center text-base-content/60;
+    }
+
+    /* The pages of the account on its home: one panel each, what it holds under its name. */
+    main[data-page="account"] ul[data-sections] {
+        @apply grid gap-4 sm:grid-cols-2;
+    }
+
+    main[data-page="account"] li[data-section] {
+        @apply flex flex-col gap-1 rounded-box bg-base-100 p-5 shadow-sm transition-shadow;
+    }
+
+    main[data-page="account"] li[data-section]:hover {
+        @apply shadow-md;
+    }
+
+    main[data-page="account"] li[data-section] a {
+        @apply link link-hover text-lg font-semibold;
+    }
+
+    main[data-page="account"] li[data-section] span[data-state] {
+        @apply text-sm text-base-content/60;
+    }
+
+    main[data-page="account"] a[href$="/logout"] {
+        @apply btn btn-outline btn-sm w-fit;
+    }
+
+    /* One line per thing the account holds: the table is the panel, and a revoked line is spent. */
+    main[data-page="account"] table {
+        @apply table rounded-box bg-base-100 shadow-sm;
+    }
+
+    main[data-page="account"] thead th {
+        @apply text-xs font-semibold uppercase tracking-wide text-base-content/50;
+    }
+
+    main[data-page="account"] tbody tr[data-revoked="yes"] {
+        @apply text-base-content/40;
+    }
+
+    /* What the line is about carries the eye; a date and a button are read whole, never wrapped. */
+    main[data-page="account"] tbody td:first-child {
+        @apply font-medium;
+    }
+
+    main[data-page="account"] tbody td:last-child {
+        @apply text-right;
+    }
+
+    main[data-page="account"] tbody time,
+    main[data-page="account"] tbody button {
+        @apply whitespace-nowrap;
+    }
+
+    /* A scope is the width of a column of its own here, not the sentence the consent page opens with. */
+    main[data-page="account"] td ul {
+        @apply mt-0 gap-1;
+    }
+
+    main[data-page="account"] td li[data-scope] {
+        @apply badge-sm font-normal;
+    }
+
+    main[data-page="account"] td form:not([hidden]) {
+        @apply m-0;
+    }
+
+    /* Taking something back is not the action a page offers first. */
+    main[data-page="account"] form button[name="revoke"],
+    main[data-page="account"] form[data-two-factor="revoke"] button[type="submit"] {
+        @apply btn-outline btn-error btn-sm;
+    }
+
+    /* A page long enough to be read in parts says where a part starts. */
+    main[data-page="account"] h2 {
+        @apply mt-2 text-lg font-semibold tracking-tight;
+    }
+
+    /* The second factor: what it is worth now, then its dates and its codes left, two columns. */
+    main[data-page="account"] p[data-two-factor]:not([data-two-factor="none"]) {
+        @apply alert alert-success alert-soft;
+    }
+
+    main[data-page="account"] dl {
+        @apply grid grid-cols-[auto_1fr] gap-y-2 rounded-box bg-base-100 p-5 shadow-sm;
+    }
+
+    main[data-page="account"] dt {
+        @apply pr-8 text-sm text-base-content/60;
+    }
+
+    main[data-page="account"] dd {
+        @apply text-sm font-medium;
+    }
+
+    /* One line per thing, the line above it drawn across both columns. */
+    main[data-page="account"] dt:not(:first-of-type),
+    main[data-page="account"] dd:not(:first-of-type) {
+        @apply border-t border-base-200 pt-2;
+    }
+
+    /* What a client receives rather than what a person wrote: read character by character. */
+    main[data-page="account"] dd[data-detail="subject"] {
+        @apply font-mono text-xs;
+    }
+
+    /* Whether a contact detail has been verified is a state of it, not more of its value. */
+    main[data-page="account"] dd span[data-verified] {
+        @apply badge badge-sm ml-2 align-middle font-normal;
+    }
+
+    main[data-page="account"] dd span[data-verified="yes"] {
+        @apply badge-success badge-soft;
+    }
+
+    main[data-page="account"] dd span[data-verified="no"] {
+        @apply badge-warning badge-soft;
+    }
+
+    /* The QR code of an enrolment is black on white whatever the theme reads: an app has to scan it. */
+    main[data-page="account"] figure[data-two-factor="qr-code"] {
+        @apply w-fit rounded-box bg-white p-4 shadow-sm;
+    }
+
+    main[data-page="account"] figure[data-two-factor="qr-code"] svg {
+        @apply block h-auto max-w-full;
+    }
+
+    main[data-page="account"] code[data-two-factor="key"] {
+        @apply kbd kbd-sm;
+    }
+
+    main[data-page="account"] ul[data-two-factor="backup-codes"] {
+        @apply grid grid-cols-2 gap-2 sm:grid-cols-3;
+    }
+
+    main[data-page="account"] ul[data-two-factor="backup-codes"] code {
+        @apply kbd w-full justify-center;
+    }
+
+    /* A button on a page is the width of its words; a form of an interaction fills the box it is in. */
+    main[data-page="account"] form:not([hidden]) {
+        @apply items-start;
+    }
+
+    /* A form that asks for something is a panel of its own; a form that is one button is that button. */
+    main[data-page="account"] > form:not([hidden]):has(input:not([type="hidden"])) {
+        @apply rounded-box bg-base-100 p-5 shadow-sm;
+    }
+
+    main[data-page="account"] p[data-passkeys-unsupported] {
+        @apply text-sm text-base-content/50;
     }
 }
