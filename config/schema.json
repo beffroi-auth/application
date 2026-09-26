@@ -3249,6 +3249,13 @@
                                     },
                                     "description": "The resources this client may ask an access token for (RFC 8707 §2 \"resource\"), each an absolute URI without a fragment; a resource it did not register is refused with invalid_target. A closed list, no wildcard: a client that registers none asks for none, and its tokens are addressed to itself."
                                 },
+                                "authorization_details_types": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "The types of authorization detail this client may ask for (RFC 9396 §2 \"authorization_details\"), among the ones the provider is wired with; a type it did not register, and a type nothing serves, are both refused with invalid_authorization_details. A closed list, no wildcard: a client that registers none asks for none. A type is a class the deployment tags, which validates its own members and says what a page shows of them: the bundle wires none, no type of detail being universal."
+                                },
                                 "token_exchange": {
                                     "$ref": "#/$defs/types/object_null",
                                     "properties": {
