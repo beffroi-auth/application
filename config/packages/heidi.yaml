@@ -14,7 +14,7 @@ heidi:
         # rotation for its run without recompiling anything (.env documents the values).
         jwks_max_age: '%env(int:HEIDI_JWKS_MAX_AGE)%'
     mutual_tls:
-        # The host whose TLS listener asks for a client certificate (issue #157, docs/mtls-at-the-edge.md),
+        # The host whose TLS listener asks for a client certificate (issue #157, architecture §5.1),
         # announced in "mtls_endpoint_aliases" (RFC 8705 §5). Empty for a deployment that serves one host.
         origin: '%env(HEIDI_MTLS_ORIGIN)%'
     # Reaching a user through the push service of a browser they signed in with (RFC 8030, architecture

@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * What a client certificate looks like once it has crossed the edge (issue #157, docs/mtls-at-the-edge.md):
+ * What a client certificate looks like once it has crossed the edge (issue #157, architecture §6):
  * the one endpoint of the development stack that says whether the certificate a client presented at the
  * TLS handshake reached PHP, and what its thumbprint is. It is the measurement everything mTLS waits on,
  * and it is not an API of the product: the route file that carries it is imported by this application in

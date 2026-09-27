@@ -1,4 +1,4 @@
-# The root of this application (docs/architecture.md §5.2). The bundle never takes the root of the
+# The root of this application (architecture §5.2). The bundle never takes the root of the
 # application that installs it: it serves the pages of the issuer under the path the application imports
 # them at, and what "/" answers is the application's own decision. Here the issuer is the origin alone and
 # its root is the account of whoever is signed in; a browser without a session is sent to the login by the

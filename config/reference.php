@@ -1465,7 +1465,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     webauthn?: array{ // What the passkey ceremonies read besides the tenant (architecture §3.4).
  *         metadata_storage?: scalar|Param|null, // Directory of the FIDO metadata the ceremonies check an attestation against: the documents "heidi:webauthn:mds-refresh" verified and "heidi:webauthn:mds-import" stored, next to the keys; empty until one of them ran, which the enrolment of the provider does not need. // Default: "%kernel.project_dir%/var/webauthn"
  *     },
- *     mutual_tls?: array{ // Where a client that presents a certificate reaches the endpoints (RFC 8705 §5). The certificate itself comes from the edge, which is infrastructure and not configuration (docs/mtls-at-the-edge.md); what a deployment says here is the host its listener asks for one on.
+ *     mutual_tls?: array{ // Where a client that presents a certificate reaches the endpoints (RFC 8705 §5). The certificate itself comes from the edge, which is infrastructure and not configuration (architecture §6); what a deployment says here is the host its listener asks for one on.
  *         origin?: scalar|Param|null, // Scheme and authority of that host, without a path ("https://mtls.op.example"). The endpoints are announced under it in "mtls_endpoint_aliases", with the paths they are served at. Absent, the document announces no alias and a client authenticating by mutual TLS reaches the ordinary endpoints, which is what a deployment serving one host does. // Default: null
  *     },
  *     tokens?: array{ // Lifetimes in seconds. The defaults are the choices of architecture §9.

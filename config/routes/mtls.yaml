@@ -1,5 +1,5 @@
 # The endpoint that says what the client certificate of a request became once it reached PHP
-# (docs/mtls-at-the-edge.md), in development only, as the endpoints of the FIDO conformance tools are:
+# (architecture §6), in development only, as the endpoints of the FIDO conformance tools are:
 # it measures the edge, it is not an API of the product. "castor mtls" drives it on the development stack.
 when@dev:
     app_mtls:
