@@ -1501,7 +1501,7 @@
         },
         {
             "name": "heidi/core",
-            "version": "dev-main",
+            "version": "0.0.x-dev",
             "dist": {
                 "type": "path",
                 "url": "../../src/core",
@@ -1550,7 +1550,7 @@
         },
         {
             "name": "heidi/oidc",
-            "version": "dev-main",
+            "version": "0.0.x-dev",
             "dist": {
                 "type": "path",
                 "url": "../../src/oidc",
@@ -1593,11 +1593,11 @@
         },
         {
             "name": "heidi/symfony-bundle",
-            "version": "dev-main",
+            "version": "0.0.x-dev",
             "dist": {
                 "type": "path",
                 "url": "../../src/symfony",
-                "reference": "8463d1dcbfa1d0fe66eecc9dd2cb523a164a62f4"
+                "reference": "4b2fbae79d886cae34e77d96e55ec4b593c1c9d8"
             },
             "require": {
                 "bacon/bacon-qr-code": "^3.0",
@@ -1609,6 +1609,7 @@
                 "heidi/oidc": "self.version",
                 "php": ">=8.4",
                 "psr/event-dispatcher": "^1.0",
+                "spomky-labs/web-push-lib": "^3.2",
                 "symfony/clock": "8.2.*",
                 "symfony/config": "8.2.*",
                 "symfony/console": "^8.1",
@@ -2640,6 +2641,79 @@
                 }
             ],
             "time": "2026-09-12T19:02:49+00:00"
+        },
+        {
+            "name": "spomky-labs/web-push-lib",
+            "version": "3.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Spomky-Labs/web-push-lib.git",
+                "reference": "ee8cfee262c758cc0d480c0710c868776d327e3b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Spomky-Labs/web-push-lib/zipball/ee8cfee262c758cc0d480c0710c868776d327e3b",
+                "reference": "ee8cfee262c758cc0d480c0710c868776d327e3b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=8.2",
+                "psr/cache": "^1.0|^2.0|^3.0",
+                "psr/clock": "^1.0",
+                "psr/log": "^1.1|^2.0|^3.0",
+                "symfony/http-kernel": "^6.2|^7.0|^8.0"
+            },
+            "suggest": {
+                "ext-mbstring": "Mandatory when using Payload or VAPID extensions",
+                "ext-openssl": "Mandatory when using Payload or VAPID extensions",
+                "lcobucci/jwt": "Mandatory if you want to use VAPID using lcobucci/jwt",
+                "psr/log-implementation": "Recommended to receive logs from the library",
+                "web-token/jwt-library": "Mandatory if you want to use VAPID using web-token/jwt-framework"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "WebPush\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Spomky-Labs",
+                    "homepage": "https://github.com/Spomky-Labs"
+                },
+                {
+                    "name": "All contributors",
+                    "homepage": "https://github.com/Spomky-Labs/web-push-lib/contributors"
+                }
+            ],
+            "description": "Web-Push library for PHP",
+            "homepage": "https://github.com/spomky-labs/web-push",
+            "keywords": [
+                "Push API",
+                "WebPush",
+                "notifications",
+                "push",
+                "web"
+            ],
+            "support": {
+                "source": "https://github.com/Spomky-Labs/web-push-lib/tree/3.2.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Spomky",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/FlorentMorselli",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2026-01-21T13:58:51+00:00"
         },
         {
             "name": "symfony/amqp-messenger",
