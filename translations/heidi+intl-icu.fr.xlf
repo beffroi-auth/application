@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="heidi">
+    <header>
+      <note>Ce que ce déploiement ajoute aux chaînes du bundle : un message par type de détail d'autorisation qu'il câble (RFC 9396 §2), nommé d'après ce type, parce que le type est une classe du déploiement et que la phrase lue avant d'y consentir va avec lui. Format de message ICU ; les paramètres sont ceux que le type a mis dans le rendu de son détail.</note>
+    </header>
+    <body>
+      <trans-unit id="a1f0c3e8d2" resname="authorization_details.invoice_payment">
+        <source>authorization_details.invoice_payment</source>
+        <target>Facture {identifier} : {actions}, pour au plus {amount} {currency}</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

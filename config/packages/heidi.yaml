@@ -54,6 +54,19 @@ when@dev:
         env(CONFORMANCE_ACCESS_TOKEN_FORMAT): jwt
 
     heidi:
+        # The issuer of the development stack whose signature the tenant trusts (RFC 7523 §3, issue #299),
+        # which "castor demo --assertion" signs with. Whoever holds its key can name a user of this tenant,
+        # so everything about it is written here and nothing is asked for: the keys are the ones below and
+        # no key an assertion names is ever read, the one client that may present its assertions is named,
+        # and its subjects are users of this tenant only through linked identities of the source it is
+        # trusted for (decision 0002), which "heidi:user:link" writes and nothing invents.
+        trusted_issuers:
+            'https://issuer.demo.localhost':
+                jwks: '%env(json:base64:DEMO_ISSUER_JWKS)%'
+                signing_algorithms: ['ES256']
+                clients: ['demo-assertion']
+                identity_provider: demo-issuer
+                trusted_scopes: ['invoices.read']
         clients:
             conformance-basic:
                 name: 'OpenID conformance suite (client_secret_basic)'
@@ -424,6 +437,65 @@ when@dev:
                     # It exchanges the token of a service and never one somebody signed in for: a gateway
                     # carrying the token of a user is not the same party (RFC 6749 §4.4)
                     may_act_for_a_user: false
+            # The two clients of "castor demo --ciba" (issue #299), one per delivery mode, because a client
+            # registers one and one only (CIBA Core §4). Both ask for a user they name and wait; what tells
+            # them apart is how they learn the answer is ready. Confidential, as every client of this flow
+            # is: there is no browser in the request, so nothing about it is public.
+            demo-ciba-poll:
+                name: 'A backchannel client that polls'
+                secret: '%env(DEMO_CIBA_POLL_SECRET)%'
+                token_endpoint_auth_method: client_secret_basic
+                grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
+                allowed_scopes: ['openid', 'profile', 'offline_access']
+                backchannel_token_delivery_mode: poll
+            demo-ciba-ping:
+                name: 'A backchannel client the provider calls back'
+                secret: '%env(DEMO_CIBA_PING_SECRET)%'
+                token_endpoint_auth_method: client_secret_basic
+                grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
+                allowed_scopes: ['openid', 'profile', 'offline_access']
+                backchannel_token_delivery_mode: ping
+                # Where the worker posts the identifier of the request once it has been answered (CIBA Core
+                # §10.2). The listener is the client itself (tests/demo/ciba-client.php), on the host, so it
+                # is named as the worker reaches the host: "localhost" is the container from in there, and
+                # "demo.localhost" resolves to its gateway (compose.yaml). Plain HTTP on a loopback name,
+                # for the reason the second instance of oidc-demo uses one.
+                backchannel_client_notification_endpoint: 'http://demo.localhost:8004/ciba/notification'
+            # The client of "castor demo --assertion" (issue #299): it presents an assertion signed by the
+            # issuer the tenant trusts below and is answered with a token for the user that assertion names
+            # (RFC 7523 §2.1). It shares a secret because the assertion is the authorization and not the
+            # client authentication: the two readings of an assertion are separate, and a client that
+            # authenticated with one of its own would make them look like one thing.
+            demo-assertion:
+                name: 'A service presenting an assertion of a trusted issuer'
+                secret: '%env(DEMO_ASSERTION_SECRET)%'
+                token_endpoint_auth_method: client_secret_basic
+                grant_types: ['urn:ietf:params:oauth:grant-type:jwt-bearer']
+                allowed_scopes: ['invoices.read']
+                resources:
+                    - 'https://localhost:8002/api/service'
+                    - 'https://cal.example.com/'
+            # The client of "castor demo --rar" (issue #299): an ordinary browser client that asks for what
+            # it may do, to what and how much, rather than for a kind of thing (RFC 9396 §2). It registers
+            # the one type of detail this deployment wires, App\AuthorizationDetails\InvoicePaymentType, and
+            # a request of it naming another type is refused whatever the type says.
+            demo-rar:
+                name: 'A client asking for authorization details'
+                secret: '%env(DEMO_RAR_SECRET)%'
+                redirect_uris: ['https://localhost:8002/oidc/callback']
+                post_logout_redirect_uris: ['https://localhost:8002/']
+                token_endpoint_auth_method: client_secret_basic
+                allowed_scopes: ['openid', 'profile', 'invoices.read']
+                authorization_details_types: ['invoice_payment']
+            # The client of "castor demo --native" (issue #299): a program on the machine of whoever runs it,
+            # which listens on the port the operating system hands it and cannot register that port in
+            # advance. It is the named exception of RFC 8252 §7.3, and the only one: the IP literal and the
+            # path are compared byte for byte, the client is public, and PKCE stays mandatory for it.
+            demo-native:
+                name: 'A native client on the loopback interface'
+                token_endpoint_auth_method: none
+                redirect_uris: ['http://127.0.0.1/callback']
+                allowed_scopes: ['openid', 'profile']
             # The second instance of oidc-demo, the one "castor demo --logout-others" logs out by
             # back-channel from the first: another client, another port, and a host the worker can
             # reach, which "localhost" is not from inside its container (compose.yaml maps
