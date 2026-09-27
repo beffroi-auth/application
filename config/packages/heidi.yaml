@@ -380,6 +380,50 @@ when@dev:
                 userinfo_encrypted_response_enc: A256GCM
                 frontchannel_logout_uri: 'https://localhost:8002/c/fapi/frontchannel-logout'
                 frontchannel_logout_session_required: true
+            # The clients of this spike that are not browsers (issue #228): a CLI on the device grant
+            # (RFC 8628), a service acting for itself (RFC 6749 §4.4) and a gateway that exchanges the
+            # token of that service to act on its behalf (RFC 8693). The two last ones ask their tokens
+            # for a resource of the demonstration, which is what its resource server compares its own
+            # "aud" against, and for a second resource it does not answer for, so that a token addressed
+            # elsewhere can be refused rather than described.
+            demo-appliance:
+                name: 'The CLI on the device grant'
+                # A program on the machine of whoever runs it keeps no secret (RFC 8252 §8.5), so it is a
+                # public client; the device grant sends no browser anywhere, so it registers no redirect
+                # URI, and it renews without pairing again, so it registers the refresh token grant.
+                token_endpoint_auth_method: none
+                grant_types: ['urn:ietf:params:oauth:grant-type:device_code', 'refresh_token']
+                allowed_scopes: ['openid', 'profile', 'offline_access']
+            demo-service:
+                name: 'A service acting for itself'
+                secret: '%env(DEMO_SERVICE_SECRET)%'
+                token_endpoint_auth_method: client_secret_basic
+                grant_types: ['client_credentials']
+                allowed_scopes: ['invoices.read']
+                resources:
+                    - 'https://localhost:8002/api/service'
+                    - 'https://cal.example.com/'
+                # RFC 8693 §4.4: who may act for the subject of a token of this service, written on every
+                # token it receives, so that a resource server verifying one offline reads the rule the
+                # provider applies. The gateway below and nobody else.
+                may_act: 'demo-gateway'
+            demo-gateway:
+                name: 'A gateway acting for a service'
+                secret: '%env(DEMO_GATEWAY_SECRET)%'
+                token_endpoint_auth_method: client_secret_basic
+                grant_types: ['client_credentials', 'urn:ietf:params:oauth:grant-type:token-exchange']
+                allowed_scopes: ['invoices.read']
+                resources:
+                    - 'https://localhost:8002/api/service'
+                    - 'https://cal.example.com/'
+                # It asks for a token of its own by client_credentials, which is what it presents as the
+                # "actor_token" of the exchange: an "act" names who holds the new token for its subject,
+                # and a client writes nothing into it but a token that names itself (§2.1, §4.1).
+                token_exchange:
+                    subject_token_types: ['urn:ietf:params:oauth:token-type:access_token']
+                    # It exchanges the token of a service and never one somebody signed in for: a gateway
+                    # carrying the token of a user is not the same party (RFC 6749 §4.4)
+                    may_act_for_a_user: false
             # The second instance of oidc-demo, the one "castor demo --logout-others" logs out by
             # back-channel from the first: another client, another port, and a host the worker can
             # reach, which "localhost" is not from inside its container (compose.yaml maps
