@@ -17,15 +17,17 @@
 # and no variable of the process that serves it. Caddy replaces the placeholder per request, and fills
 # the envelope with nothing when the client presented nothing.
 #
-# "fapi_ciphers" is the snippet of the Caddyfile beside this file: both hosts offer the cipher suites
-# FAPI 1.0 Advanced Final §8.5 permits, and this one is the host a FAPI run calls the token endpoint on.
+# "fapi_tls" is the snippet of the Caddyfile beside this file: both hosts offer the cipher suites FAPI 1.0
+# Advanced Final §8.5 permits and the certificate that authenticates them. This one is the host a FAPI run
+# calls the token endpoint on, and the host it reads the resource of, which is where it runs the TLS
+# checks of the profile.
 {$MTLS_SERVER_NAME} {
 	log {
 		{$CADDY_SERVER_LOG_OPTIONS}
 	}
 
 	tls {
-		import fapi_ciphers
+		import fapi_tls
 
 		client_auth {
 			mode request

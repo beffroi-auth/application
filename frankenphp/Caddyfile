@@ -6,19 +6,29 @@
 	}
 }
 
-# The cipher suites of TLS 1.2 the listener offers, imported by every site block below and by the one of
-# mtls.Caddyfile. FAPI 1.0 Advanced Final §8.5 fixes the list a provider may offer, and the defaults of
-# the image carry two suites that are not on it (the ChaCha20-Poly1305 ones), which is what the TLS checks
-# of the fapi-ciba-id1 plan measure at every endpoint. The four named here are the intersection of that
-# list with what Go implements: it has no DHE suite, so the two TLS_DHE_RSA ones of §8.5 cannot be offered
-# by any listener built on it. TLS 1.3 needs no list, its suites being fixed by RFC 8446 §9.1 and all of
-# them permitted, and TLS 1.2 is already the floor of Caddy, which is what §8.5 asks for.
+# The TLS a FAPI 1 plan measures, imported by every site block below and by the one of mtls.Caddyfile.
+# FAPI 1.0 Advanced Final §8.5 permits four cipher suites below TLS 1.3 and every one of them is
+# authenticated by an RSA certificate: the two TLS_DHE_RSA ones, which no listener built on Go can offer
+# since Go implements no DHE suite, and the two TLS_ECDHE_RSA ones named here.
+#
+# The certificate therefore carries an RSA key. On the ECDSA key Caddy issues by default, the only suites
+# that can be negotiated below TLS 1.3 are the TLS_ECDHE_ECDSA ones, which §8.5 does not list: a listener
+# offering the permitted list and serving an ECDSA certificate has no suite left to negotiate, and one
+# offering the ECDSA suites as well negotiates a suite the profile refuses. The DisallowInsecureCipher
+# check of the fapi-ciba-id1 plan opens a TLS 1.2 handshake offering every code point but those four, and
+# fails the run on whichever one the listener accepts.
+#
+# TLS 1.3 needs no list: its suites are fixed by RFC 8446 §9.1 and §8.5 rules on the versions below it
+# only, which is also the one version that check negotiates. TLS 1.2 is already the floor of Caddy, which
+# is what §8.5 asks for.
 #
 # A deployment terminates TLS where it terminates it, and what this file answers for is the listener the
 # image ships with (docs/security-defaults.md): a certification run against this stack then measures the
 # provider and not the defaults of an image.
-(fapi_ciphers) {
-	ciphers TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+(fapi_tls) {
+	key_type rsa2048
+
+	ciphers TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 }
 
 {$CADDY_EXTRA_CONFIG}
@@ -35,7 +45,7 @@
 	}
 
 	tls {
-		import fapi_ciphers
+		import fapi_tls
 	}
 
 	root * /app/public
