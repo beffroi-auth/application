@@ -2889,6 +2889,28 @@
                         },
                         "description": "The flow where a client asks for a user it names and the user approves on a device they already hold (CIBA Core §7). A client takes part in it by registering a grant and a delivery mode, one client at a time; nothing here turns it on for anybody."
                     },
+                    "web_push": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "subject": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "The \"sub\" of the token this provider signs for a push service (RFC 8292 §2.1): a \"mailto:\" or \"https:\" URI at which the operator of this deployment can be reached about what it sends. Naming one is what turns web push on; absent, nothing of it is wired."
+                            },
+                            "timeout": {
+                                "$ref": "#/$defs/types/number",
+                                "minimum": 0.1,
+                                "default": 3,
+                                "description": "Seconds one push to one push service is given, connection included. A push service that hangs must not hold a worker; how many times it is tried again is the retry policy of the notifications lane, as it is for a logout token."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "subject": null,
+                            "timeout": 3
+                        },
+                        "description": "Reaching a user through the push service of a browser they signed in with (RFC 8030, architecture §5.6). Absent, nothing of it is wired: no push leaves this deployment and the page where a browser would subscribe says so."
+                    },
                     "client_authentication": {
                         "$ref": "#/$defs/types/object_null",
                         "properties": {
