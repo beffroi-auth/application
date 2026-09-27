@@ -3164,6 +3164,11 @@
                                     "default": false,
                                     "description": "The tokens of this client are bound to what the request proves it holds, or the request is refused (FAPI 2.0 Security Profile §5.3.1): a token request that proves neither a certificate (RFC 8705 §3) nor a key (RFC 9449 §5) is answered with an error rather than with bearer tokens. Per client, nothing global."
                                 },
+                                "tls_client_certificate_bound_access_tokens": {
+                                    "$ref": "#/$defs/types/boolean",
+                                    "default": false,
+                                    "description": "The tokens of this client are bound to the certificate it presents at the TLS handshake, whichever way it authenticated (RFC 8705 §3.4), which is what FAPI 1.0 Advanced Final §5.2.2 asks of a client authenticating with an assertion on a profile that binds. A token request of this client that proves no certificate is refused rather than answered with tokens bound to nothing, before anything is read of what it came to spend. A client recognised by its certificate gets bound tokens anyway (§3); per client, nothing global."
+                                },
                                 "require_signed_request_object": {
                                     "$ref": "#/$defs/types/boolean",
                                     "default": false,

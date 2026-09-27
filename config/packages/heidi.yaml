@@ -276,11 +276,14 @@ when@dev:
             # browser of the client anywhere in this flow, and the one page it has is a page of the
             # provider. They authenticate with "private_key_jwt" and present a certificate all the same,
             # which is what the profile binds the tokens to and what the suite refuses to configure a
-            # static client of this plan without ("castor provision" issues it on the same key).
+            # static client of this plan without ("castor provision" issues it on the same key); each
+            # one registers that binding, the certificate being what authenticates none of them
+            # (RFC 8705 §3.4, FAPI 1.0 Advanced Final §5.2.2).
             conformance-ciba-poll:
                 name: 'OpenID conformance suite, FAPI-CIBA (poll)'
                 token_endpoint_auth_method: private_key_jwt
                 jwks: '%env(json:base64:CONFORMANCE_CIBA_POLL_JWKS)%'
+                tls_client_certificate_bound_access_tokens: true
                 grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
                 allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
                 backchannel_token_delivery_mode: poll
@@ -291,6 +294,7 @@ when@dev:
                 name: 'OpenID conformance suite, FAPI-CIBA, second client (poll)'
                 token_endpoint_auth_method: private_key_jwt
                 jwks: '%env(json:base64:CONFORMANCE_CIBA_POLL_SECOND_JWKS)%'
+                tls_client_certificate_bound_access_tokens: true
                 grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
                 allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
                 backchannel_token_delivery_mode: poll
@@ -304,6 +308,7 @@ when@dev:
                 name: 'OpenID conformance suite, FAPI-CIBA (ping)'
                 token_endpoint_auth_method: private_key_jwt
                 jwks: '%env(json:base64:CONFORMANCE_CIBA_PING_JWKS)%'
+                tls_client_certificate_bound_access_tokens: true
                 grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
                 allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
                 backchannel_token_delivery_mode: ping
@@ -315,6 +320,7 @@ when@dev:
                 name: 'OpenID conformance suite, FAPI-CIBA, second client (ping)'
                 token_endpoint_auth_method: private_key_jwt
                 jwks: '%env(json:base64:CONFORMANCE_CIBA_PING_SECOND_JWKS)%'
+                tls_client_certificate_bound_access_tokens: true
                 grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
                 allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
                 backchannel_token_delivery_mode: ping
