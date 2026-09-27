@@ -475,14 +475,16 @@ when@dev:
                 resources:
                     - 'https://localhost:8002/api/service'
                     - 'https://cal.example.com/'
-            # The client of "castor demo --rar" (issue #299): an ordinary browser client that asks for what
-            # it may do, to what and how much, rather than for a kind of thing (RFC 9396 §2). It registers
-            # the one type of detail this deployment wires, App\AuthorizationDetails\InvoicePaymentType, and
-            # a request of it naming another type is refused whatever the type says.
+            # The client of "castor demo --rar" and of the rung of the ladder that asks for what it may do,
+            # to what and how much, rather than for a kind of thing (RFC 9396 §2, issues #299 and #307). It
+            # registers the one type of detail this deployment wires,
+            # App\AuthorizationDetails\InvoicePaymentType, and a request of it naming another type is refused
+            # whatever the type says. One client for one thing: the walk and the rung name the same callback,
+            # the walk reading the code off the redirection and the rung letting oidc_login spend it.
             demo-rar:
                 name: 'A client asking for authorization details'
                 secret: '%env(DEMO_RAR_SECRET)%'
-                redirect_uris: ['https://localhost:8002/oidc/callback']
+                redirect_uris: ['https://localhost:8002/c/rar/callback']
                 post_logout_redirect_uris: ['https://localhost:8002/']
                 token_endpoint_auth_method: client_secret_basic
                 allowed_scopes: ['openid', 'profile', 'invoices.read']
