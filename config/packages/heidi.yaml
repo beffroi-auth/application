@@ -17,6 +17,14 @@ heidi:
         # The host whose TLS listener asks for a client certificate (issue #157, docs/mtls-at-the-edge.md),
         # announced in "mtls_endpoint_aliases" (RFC 8705 §5). Empty for a deployment that serves one host.
         origin: '%env(HEIDI_MTLS_ORIGIN)%'
+    # Reaching a user through the push service of a browser they signed in with (RFC 8030, architecture
+    # §5.6). Naming a subject is what wires it, and it is named here and not read from the environment on
+    # purpose: what is wired has to be known when the container is built, as a client is. A deployment
+    # that reaches its users some other way, or not at all, drops this section: the tenant then draws no
+    # application server key, no push leaves it, and the page of the account says so. The subject is a
+    # "mailto:" or "https:" URI at which a push service can reach the operator (RFC 8292 §2.1).
+    web_push:
+        subject: 'mailto:operator@op.localhost'
     webauthn:
         # The FIDO metadata the passkey ceremonies check an attestation against, next to the keys: filled by hand
         # with "heidi:webauthn:mds-refresh" (the blob of the FIDO Alliance, verified under its root) and
