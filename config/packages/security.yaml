@@ -16,7 +16,7 @@ security:
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
         heidi_protocol:
-            pattern: ^/(\.well-known/(openid-configuration|oauth-authorization-server)|jwks|token|userinfo|introspect|revoke|par|device_authorization|backchannel_authentication)$
+            pattern: ^/(\.well-known/(openid-configuration|oauth-authorization-server)|jwks|token|userinfo|introspect|revoke|par|device_authorization|backchannel_authentication|register)$
             security: false
         heidi_interaction:
             lazy: true

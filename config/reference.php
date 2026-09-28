@@ -1591,6 +1591,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         tls_client_auth_san_ip?: scalar|Param|null, // The iPAddress entry this client is recognised by (RFC 8705 §2.1.2), in dotted decimal or colon-delimited hexadecimal; it is compared as the octets it stands for, not as the text. // Default: null
  *         tls_client_auth_san_email?: scalar|Param|null, // The rfc822Name entry this client is recognised by (RFC 8705 §2.1.2), compared as it is written (RFC 5321 §2.4). // Default: null
  *     }>,
+ *     client_registration?: array{ // How a client that nobody declared comes to exist here (RFC 7591, decision 0009). Absent, the tenant registers nobody, which is the default and what a deployment that writes nothing gets.
+ *         mode?: scalar|Param|null, // What authorises a registration, by the name the class that is that mode gives itself; "initial_access_token" is the one this provider is wired with. Left out, the tenant has no registration endpoint at all: it is not a mode of refusing, it is the absence of the endpoint. // Default: null
+ *         exempt_confidential_clients_from_pkce?: bool|Param, // The named exception of decision 0017, for the tenant that writes it and no other: the confidential clients this policy registers are registered without the PKCE requirement, because the Dynamic OP profile of OIDC Core sends no code_challenge and offers no way to. A public client is never exempted whatever this says, "plain" never exists, and a code_challenge a client does send is verified like any other. Write it with the reason a tenant has for it beside it; a tenant with real users has none. // Default: false
+ *     },
  * }
  * @psalm-type SymfonycastsTailwindConfig = array{
  *     input_css?: list<scalar|Param|null>,

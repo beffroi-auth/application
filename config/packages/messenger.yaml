@@ -5,8 +5,10 @@
 # request: the interaction persisted before the redirect to the login, the session created at login, the
 # consent recorded before the code is issued, the code issued before the redirect to the relying party,
 # the code consumed and the refresh token issued or rotated in the token request, the session ended and
-# its refresh tokens revoked at logout. A message that must be handled in the request all the same
-# implements Heidi\Bundle\Message\SyncMessage, never Command, and is listed below with its reason.
+# its refresh tokens revoked at logout, the client written and its initial access token spent before the
+# registration endpoint answers with the identifier it drew (RFC 7591 §3.2.1). A message that must be
+# handled in the request all the same implements Heidi\Bundle\Message\SyncMessage, never Command, and is
+# listed below with its reason.
 # Everything else is a Command, an Event or a Notification and leaves through RabbitMQ. One marker per
 # message and one transport per marker: a message is sent to every transport its class, its parents and
 # its interfaces are routed to, so two markers on one class would send it twice.
