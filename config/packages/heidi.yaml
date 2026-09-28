@@ -77,12 +77,12 @@ when@dev:
                 trusted_scopes: ['invoices.read']
         clients:
             conformance-basic:
-                name: 'OpenID conformance suite (client_secret_basic)'
+                client_name: 'OpenID conformance suite (client_secret_basic)'
                 secret: '%env(CONFORMANCE_BASIC_SECRET)%'
                 redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
                 post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
                 token_endpoint_auth_method: client_secret_basic
-                allowed_scopes: ['openid', 'profile', 'email', 'address', 'phone', 'offline_access']
+                scope: 'openid profile email address phone offline_access'
                 requires_pkce: false
                 access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
                 # The second named exception this client carries (issue #161): the modules of the Basic
@@ -92,21 +92,21 @@ when@dev:
                 # their own clients, which sign what they send.
                 request_object_signing_alg: none
             conformance-basic-second:
-                name: 'OpenID conformance suite, second client (client_secret_basic)'
+                client_name: 'OpenID conformance suite, second client (client_secret_basic)'
                 secret: '%env(CONFORMANCE_BASIC_SECOND_SECRET)%'
                 redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
                 post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
                 token_endpoint_auth_method: client_secret_basic
-                allowed_scopes: ['openid', 'profile', 'email', 'address', 'phone', 'offline_access']
+                scope: 'openid profile email address phone offline_access'
                 requires_pkce: false
                 access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
             conformance-post:
-                name: 'OpenID conformance suite (client_secret_post)'
+                client_name: 'OpenID conformance suite (client_secret_post)'
                 secret: '%env(CONFORMANCE_POST_SECRET)%'
                 redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
                 post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
                 token_endpoint_auth_method: client_secret_post
-                allowed_scopes: ['openid', 'profile', 'email', 'address', 'phone', 'offline_access']
+                scope: 'openid profile email address phone offline_access'
                 requires_pkce: false
                 access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
             # One client per logout channel. The suite certifies one channel at a time: a client that
@@ -114,23 +114,23 @@ when@dev:
             # plan fails on a request it did not expect. The metadata is per client, so the three logout
             # profiles take three clients.
             conformance-front-channel-logout:
-                name: 'OpenID conformance suite (front-channel logout)'
+                client_name: 'OpenID conformance suite (front-channel logout)'
                 secret: '%env(CONFORMANCE_FRONT_CHANNEL_LOGOUT_SECRET)%'
                 redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
                 post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
                 token_endpoint_auth_method: client_secret_basic
-                allowed_scopes: ['openid', 'profile', 'email', 'address', 'phone', 'offline_access']
+                scope: 'openid profile email address phone offline_access'
                 requires_pkce: false
                 access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
                 frontchannel_logout_uri: 'https://localhost:8443/test/a/heidi/frontchannel_logout'
                 frontchannel_logout_session_required: true
             conformance-back-channel-logout:
-                name: 'OpenID conformance suite (back-channel logout)'
+                client_name: 'OpenID conformance suite (back-channel logout)'
                 secret: '%env(CONFORMANCE_BACK_CHANNEL_LOGOUT_SECRET)%'
                 redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
                 post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
                 token_endpoint_auth_method: client_secret_basic
-                allowed_scopes: ['openid', 'profile', 'email', 'address', 'phone', 'offline_access']
+                scope: 'openid profile email address phone offline_access'
                 requires_pkce: false
                 access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
                 backchannel_logout_uri: 'https://localhost:8443/test/a/heidi/backchannel_logout'
@@ -150,19 +150,19 @@ when@dev:
             # issued on the very key the set publishes, so one key serves the handshake and the
             # signature of a request object.
             conformance-fapi-private-key-jwt:
-                name: 'OpenID conformance suite, FAPI 2 (private_key_jwt)'
+                client_name: 'OpenID conformance suite, FAPI 2 (private_key_jwt)'
                 redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
                 post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
                 token_endpoint_auth_method: private_key_jwt
                 jwks: '%env(json:base64:CONFORMANCE_FAPI_PRIVATE_KEY_JWT_JWKS)%'
-                allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
+                scope: 'openid profile email offline_access'
                 require_pushed_authorization_requests: true
                 require_sender_constrained_tokens: true
                 id_token_signed_response_alg: ES256
                 authorization_signed_response_alg: ES256
                 request_object_signing_alg: ES256
             conformance-fapi-private-key-jwt-second:
-                name: 'OpenID conformance suite, FAPI 2, second client (private_key_jwt)'
+                client_name: 'OpenID conformance suite, FAPI 2, second client (private_key_jwt)'
                 # The second client of a FAPI run registers the callback of the suite twice, bare and
                 # with the query the happy flow of the profile pushes back to it
                 # ("dummy1=lorem&dummy2=ipsum"): a redirect URI is compared byte for byte
@@ -173,26 +173,26 @@ when@dev:
                 post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
                 token_endpoint_auth_method: private_key_jwt
                 jwks: '%env(json:base64:CONFORMANCE_FAPI_PRIVATE_KEY_JWT_SECOND_JWKS)%'
-                allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
+                scope: 'openid profile email offline_access'
                 require_pushed_authorization_requests: true
                 require_sender_constrained_tokens: true
                 id_token_signed_response_alg: ES256
                 authorization_signed_response_alg: ES256
                 request_object_signing_alg: ES256
             conformance-fapi-mtls:
-                name: 'OpenID conformance suite, FAPI 2 (self_signed_tls_client_auth)'
+                client_name: 'OpenID conformance suite, FAPI 2 (self_signed_tls_client_auth)'
                 redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
                 post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
                 token_endpoint_auth_method: self_signed_tls_client_auth
                 jwks: '%env(json:base64:CONFORMANCE_FAPI_MTLS_JWKS)%'
-                allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
+                scope: 'openid profile email offline_access'
                 require_pushed_authorization_requests: true
                 require_sender_constrained_tokens: true
                 id_token_signed_response_alg: ES256
                 authorization_signed_response_alg: ES256
                 request_object_signing_alg: ES256
             conformance-fapi-mtls-second:
-                name: 'OpenID conformance suite, FAPI 2, second client (self_signed_tls_client_auth)'
+                client_name: 'OpenID conformance suite, FAPI 2, second client (self_signed_tls_client_auth)'
                 # The second client of a FAPI run registers the callback of the suite twice, bare and
                 # with the query the happy flow of the profile pushes back to it
                 # ("dummy1=lorem&dummy2=ipsum"): a redirect URI is compared byte for byte
@@ -203,7 +203,7 @@ when@dev:
                 post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
                 token_endpoint_auth_method: self_signed_tls_client_auth
                 jwks: '%env(json:base64:CONFORMANCE_FAPI_MTLS_SECOND_JWKS)%'
-                allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
+                scope: 'openid profile email offline_access'
                 require_pushed_authorization_requests: true
                 require_sender_constrained_tokens: true
                 id_token_signed_response_alg: ES256
@@ -214,12 +214,12 @@ when@dev:
             # mode, so the same client cannot also send the unsigned requests the Security Profile plan
             # sends, and each profile gets a pair of its own.
             conformance-fapi-signing-private-key-jwt:
-                name: 'OpenID conformance suite, FAPI 2 Message Signing, (private_key_jwt)'
+                client_name: 'OpenID conformance suite, FAPI 2 Message Signing, (private_key_jwt)'
                 redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
                 post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
                 token_endpoint_auth_method: private_key_jwt
                 jwks: '%env(json:base64:CONFORMANCE_FAPI_SIGNING_PRIVATE_KEY_JWT_JWKS)%'
-                allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
+                scope: 'openid profile email offline_access'
                 require_pushed_authorization_requests: true
                 require_sender_constrained_tokens: true
                 require_signed_request_object: true
@@ -227,14 +227,14 @@ when@dev:
                 authorization_signed_response_alg: ES256
                 request_object_signing_alg: ES256
             conformance-fapi-signing-private-key-jwt-second:
-                name: 'OpenID conformance suite, FAPI 2 Message Signing, second client, (private_key_jwt)'
+                client_name: 'OpenID conformance suite, FAPI 2 Message Signing, second client, (private_key_jwt)'
                 redirect_uris:
                     - 'https://localhost:8443/test/a/heidi/callback'
                     - 'https://localhost:8443/test/a/heidi/callback?dummy1=lorem&dummy2=ipsum'
                 post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
                 token_endpoint_auth_method: private_key_jwt
                 jwks: '%env(json:base64:CONFORMANCE_FAPI_SIGNING_PRIVATE_KEY_JWT_SECOND_JWKS)%'
-                allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
+                scope: 'openid profile email offline_access'
                 require_pushed_authorization_requests: true
                 require_sender_constrained_tokens: true
                 require_signed_request_object: true
@@ -242,12 +242,12 @@ when@dev:
                 authorization_signed_response_alg: ES256
                 request_object_signing_alg: ES256
             conformance-fapi-signing-mtls:
-                name: 'OpenID conformance suite, FAPI 2 Message Signing, (self_signed_tls_client_auth)'
+                client_name: 'OpenID conformance suite, FAPI 2 Message Signing, (self_signed_tls_client_auth)'
                 redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
                 post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
                 token_endpoint_auth_method: self_signed_tls_client_auth
                 jwks: '%env(json:base64:CONFORMANCE_FAPI_SIGNING_MTLS_JWKS)%'
-                allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
+                scope: 'openid profile email offline_access'
                 require_pushed_authorization_requests: true
                 require_sender_constrained_tokens: true
                 require_signed_request_object: true
@@ -255,14 +255,14 @@ when@dev:
                 authorization_signed_response_alg: ES256
                 request_object_signing_alg: ES256
             conformance-fapi-signing-mtls-second:
-                name: 'OpenID conformance suite, FAPI 2 Message Signing, second client, (self_signed_tls_client_auth)'
+                client_name: 'OpenID conformance suite, FAPI 2 Message Signing, second client, (self_signed_tls_client_auth)'
                 redirect_uris:
                     - 'https://localhost:8443/test/a/heidi/callback'
                     - 'https://localhost:8443/test/a/heidi/callback?dummy1=lorem&dummy2=ipsum'
                 post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
                 token_endpoint_auth_method: self_signed_tls_client_auth
                 jwks: '%env(json:base64:CONFORMANCE_FAPI_SIGNING_MTLS_SECOND_JWKS)%'
-                allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
+                scope: 'openid profile email offline_access'
                 require_pushed_authorization_requests: true
                 require_sender_constrained_tokens: true
                 require_signed_request_object: true
@@ -280,23 +280,23 @@ when@dev:
             # one registers that binding, the certificate being what authenticates none of them
             # (RFC 8705 §3.4, FAPI 1.0 Advanced Final §5.2.2).
             conformance-ciba-poll:
-                name: 'OpenID conformance suite, FAPI-CIBA (poll)'
+                client_name: 'OpenID conformance suite, FAPI-CIBA (poll)'
                 token_endpoint_auth_method: private_key_jwt
                 jwks: '%env(json:base64:CONFORMANCE_CIBA_POLL_JWKS)%'
                 tls_client_certificate_bound_access_tokens: true
                 grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
-                allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
+                scope: 'openid profile email offline_access'
                 backchannel_token_delivery_mode: poll
                 require_signed_request_object: true
                 id_token_signed_response_alg: ES256
                 request_object_signing_alg: ES256
             conformance-ciba-poll-second:
-                name: 'OpenID conformance suite, FAPI-CIBA, second client (poll)'
+                client_name: 'OpenID conformance suite, FAPI-CIBA, second client (poll)'
                 token_endpoint_auth_method: private_key_jwt
                 jwks: '%env(json:base64:CONFORMANCE_CIBA_POLL_SECOND_JWKS)%'
                 tls_client_certificate_bound_access_tokens: true
                 grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
-                allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
+                scope: 'openid profile email offline_access'
                 backchannel_token_delivery_mode: poll
                 require_signed_request_object: true
                 id_token_signed_response_alg: ES256
@@ -305,31 +305,31 @@ when@dev:
             # has been answered (CIBA Core §10.2): the endpoint the suite serves under the alias of its
             # configuration, which the worker reaches through the sidecar of compose.yaml.
             conformance-ciba-ping:
-                name: 'OpenID conformance suite, FAPI-CIBA (ping)'
+                client_name: 'OpenID conformance suite, FAPI-CIBA (ping)'
                 token_endpoint_auth_method: private_key_jwt
                 jwks: '%env(json:base64:CONFORMANCE_CIBA_PING_JWKS)%'
                 tls_client_certificate_bound_access_tokens: true
                 grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
-                allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
+                scope: 'openid profile email offline_access'
                 backchannel_token_delivery_mode: ping
                 backchannel_client_notification_endpoint: 'https://localhost:8443/test/a/heidi/ciba-notification-endpoint'
                 require_signed_request_object: true
                 id_token_signed_response_alg: ES256
                 request_object_signing_alg: ES256
             conformance-ciba-ping-second:
-                name: 'OpenID conformance suite, FAPI-CIBA, second client (ping)'
+                client_name: 'OpenID conformance suite, FAPI-CIBA, second client (ping)'
                 token_endpoint_auth_method: private_key_jwt
                 jwks: '%env(json:base64:CONFORMANCE_CIBA_PING_SECOND_JWKS)%'
                 tls_client_certificate_bound_access_tokens: true
                 grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
-                allowed_scopes: ['openid', 'profile', 'email', 'offline_access']
+                scope: 'openid profile email offline_access'
                 backchannel_token_delivery_mode: ping
                 backchannel_client_notification_endpoint: 'https://localhost:8443/test/a/heidi/ciba-notification-endpoint'
                 require_signed_request_object: true
                 id_token_signed_response_alg: ES256
                 request_object_signing_alg: ES256
             oidc-demo:
-                name: 'oidc-demo'
+                client_name: 'oidc-demo'
                 secret: '%env(OIDC_DEMO_SECRET)%'
                 # Two registrations of the same demonstration: the callback of its historical firewall,
                 # which every "castor demo" walk drives, and the one of the first rung of its ladder of
@@ -346,7 +346,7 @@ when@dev:
             # the introspection endpoint, then as the one above to hold an "at+jwt", which a resource
             # server verifies offline and which revoking therefore does not reach (issue #64).
             oidc-demo-opaque:
-                name: 'oidc-demo, opaque access tokens'
+                client_name: 'oidc-demo, opaque access tokens'
                 secret: '%env(OIDC_DEMO_OPAQUE_SECRET)%'
                 redirect_uris:
                     - 'https://localhost:8002/oidc/callback'
@@ -363,7 +363,7 @@ when@dev:
             # as the public half, base64 of the JWK Set in apps/op/.env.local, the private half being
             # handed to the demonstration by "castor demo".
             demo-form-post:
-                name: 'oidc-demo, the response posted back'
+                client_name: 'oidc-demo, the response posted back'
                 secret: '%env(DEMO_FORM_POST_SECRET)%'
                 redirect_uris: ['https://localhost:8002/c/form-post/callback']
                 post_logout_redirect_uris: ['https://localhost:8002/']
@@ -375,7 +375,7 @@ when@dev:
             # "demo.localhost" of compose.yaml, which is what "castor demo --logout-others" plays on a
             # second instance; nothing of this rung can stand in for it.
             demo-key:
-                name: 'oidc-demo, private_key_jwt'
+                client_name: 'oidc-demo, private_key_jwt'
                 redirect_uris: ['https://localhost:8002/c/key/callback']
                 post_logout_redirect_uris: ['https://localhost:8002/']
                 token_endpoint_auth_method: private_key_jwt
@@ -387,7 +387,7 @@ when@dev:
             # answer encrypted to the key this client publishes beside its signing one. ES256 wherever
             # an algorithm is registered, RS256 being refused by the profile.
             demo-fapi:
-                name: 'oidc-demo, FAPI 2'
+                client_name: 'oidc-demo, FAPI 2'
                 redirect_uris: ['https://localhost:8002/c/fapi/callback']
                 post_logout_redirect_uris: ['https://localhost:8002/']
                 token_endpoint_auth_method: private_key_jwt
@@ -414,19 +414,19 @@ when@dev:
             # "aud" against, and for a second resource it does not answer for, so that a token addressed
             # elsewhere can be refused rather than described.
             demo-appliance:
-                name: 'The CLI on the device grant'
+                client_name: 'The CLI on the device grant'
                 # A program on the machine of whoever runs it keeps no secret (RFC 8252 §8.5), so it is a
                 # public client; the device grant sends no browser anywhere, so it registers no redirect
                 # URI, and it renews without pairing again, so it registers the refresh token grant.
                 token_endpoint_auth_method: none
                 grant_types: ['urn:ietf:params:oauth:grant-type:device_code', 'refresh_token']
-                allowed_scopes: ['openid', 'profile', 'offline_access']
+                scope: 'openid profile offline_access'
             demo-service:
-                name: 'A service acting for itself'
+                client_name: 'A service acting for itself'
                 secret: '%env(DEMO_SERVICE_SECRET)%'
                 token_endpoint_auth_method: client_secret_basic
                 grant_types: ['client_credentials']
-                allowed_scopes: ['invoices.read']
+                scope: 'invoices.read'
                 resources:
                     - 'https://localhost:8002/api/service'
                     - 'https://cal.example.com/'
@@ -435,11 +435,11 @@ when@dev:
                 # provider applies. The gateway below and nobody else.
                 may_act: 'demo-gateway'
             demo-gateway:
-                name: 'A gateway acting for a service'
+                client_name: 'A gateway acting for a service'
                 secret: '%env(DEMO_GATEWAY_SECRET)%'
                 token_endpoint_auth_method: client_secret_basic
                 grant_types: ['client_credentials', 'urn:ietf:params:oauth:grant-type:token-exchange']
-                allowed_scopes: ['invoices.read']
+                scope: 'invoices.read'
                 resources:
                     - 'https://localhost:8002/api/service'
                     - 'https://cal.example.com/'
@@ -456,18 +456,18 @@ when@dev:
             # them apart is how they learn the answer is ready. Confidential, as every client of this flow
             # is: there is no browser in the request, so nothing about it is public.
             demo-ciba-poll:
-                name: 'A backchannel client that polls'
+                client_name: 'A backchannel client that polls'
                 secret: '%env(DEMO_CIBA_POLL_SECRET)%'
                 token_endpoint_auth_method: client_secret_basic
                 grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
-                allowed_scopes: ['openid', 'profile', 'offline_access']
+                scope: 'openid profile offline_access'
                 backchannel_token_delivery_mode: poll
             demo-ciba-ping:
-                name: 'A backchannel client the provider calls back'
+                client_name: 'A backchannel client the provider calls back'
                 secret: '%env(DEMO_CIBA_PING_SECRET)%'
                 token_endpoint_auth_method: client_secret_basic
                 grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
-                allowed_scopes: ['openid', 'profile', 'offline_access']
+                scope: 'openid profile offline_access'
                 backchannel_token_delivery_mode: ping
                 # Where the worker posts the identifier of the request once it has been answered (CIBA Core
                 # §10.2). The listener is the client itself (tests/demo/ciba-client.php), on the host, so it
@@ -481,11 +481,11 @@ when@dev:
             # client authentication: the two readings of an assertion are separate, and a client that
             # authenticated with one of its own would make them look like one thing.
             demo-assertion:
-                name: 'A service presenting an assertion of a trusted issuer'
+                client_name: 'A service presenting an assertion of a trusted issuer'
                 secret: '%env(DEMO_ASSERTION_SECRET)%'
                 token_endpoint_auth_method: client_secret_basic
                 grant_types: ['urn:ietf:params:oauth:grant-type:jwt-bearer']
-                allowed_scopes: ['invoices.read']
+                scope: 'invoices.read'
                 resources:
                     - 'https://localhost:8002/api/service'
                     - 'https://cal.example.com/'
@@ -496,22 +496,22 @@ when@dev:
             # whatever the type says. One client for one thing: the walk and the rung name the same callback,
             # the walk reading the code off the redirection and the rung letting oidc_login spend it.
             demo-rar:
-                name: 'A client asking for authorization details'
+                client_name: 'A client asking for authorization details'
                 secret: '%env(DEMO_RAR_SECRET)%'
                 redirect_uris: ['https://localhost:8002/c/rar/callback']
                 post_logout_redirect_uris: ['https://localhost:8002/']
                 token_endpoint_auth_method: client_secret_basic
-                allowed_scopes: ['openid', 'profile', 'invoices.read']
+                scope: 'openid profile invoices.read'
                 authorization_details_types: ['invoice_payment']
             # The client of "castor demo --native" (issue #299): a program on the machine of whoever runs it,
             # which listens on the port the operating system hands it and cannot register that port in
             # advance. It is the named exception of RFC 8252 §7.3, and the only one: the IP literal and the
             # path are compared byte for byte, the client is public, and PKCE stays mandatory for it.
             demo-native:
-                name: 'A native client on the loopback interface'
+                client_name: 'A native client on the loopback interface'
                 token_endpoint_auth_method: none
                 redirect_uris: ['http://127.0.0.1/callback']
-                allowed_scopes: ['openid', 'profile']
+                scope: 'openid profile'
             # The second instance of oidc-demo, the one "castor demo --logout-others" logs out by
             # back-channel from the first: another client, another port, and a host the worker can
             # reach, which "localhost" is not from inside its container (compose.yaml maps
@@ -519,7 +519,7 @@ when@dev:
             # outbound request of the worker has no certificate of the Symfony CLI to trust; it is
             # the first instance that initiates the logout, so that one registers no URI.
             oidc-demo-second:
-                name: 'oidc-demo, second instance'
+                client_name: 'oidc-demo, second instance'
                 secret: '%env(OIDC_DEMO_SECOND_SECRET)%'
                 redirect_uris: ['http://demo.localhost:8003/oidc/callback']
                 post_logout_redirect_uris: ['http://demo.localhost:8003/']

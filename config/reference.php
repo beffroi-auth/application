@@ -1536,12 +1536,18 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         trusted_scopes?: list<scalar|Param|null>,
  *     }>,
  *     clients?: array<string, array{ // Default: []
- *         name?: scalar|Param|null, // Shown on the consent page; the client identifier when absent. // Default: null
+ *         client_name?: scalar|Param|null, // Shown on the consent page (OIDC Registration §2); the client identifier when absent. // Default: null
+ *         client_uri?: scalar|Param|null, // The home page of the client (OIDC Registration §2), linked from the consent page; HTTPS, or plain HTTP on a loopback host. // Default: null
+ *         logo_uri?: scalar|Param|null, // The logo the consent page shows for this client (OIDC Registration §2); HTTPS, or plain HTTP on a loopback host. // Default: null
+ *         policy_uri?: scalar|Param|null, // How this client uses the data it is given (OIDC Registration §2), linked from the consent page; HTTPS, or plain HTTP on a loopback host. // Default: null
+ *         tos_uri?: scalar|Param|null, // The terms of service of this client (OIDC Registration §2), linked from the consent page; HTTPS, or plain HTTP on a loopback host. // Default: null
+ *         contacts?: list<scalar|Param|null>,
  *         secret?: scalar|Param|null, // At least 32 visible ASCII characters, generated, never chosen; absent for a public client. // Default: null
  *         redirect_uris?: list<scalar|Param|null>,
  *         post_logout_redirect_uris?: list<scalar|Param|null>,
  *         grant_types?: list<scalar|Param|null>,
- *         allowed_scopes?: list<scalar|Param|null>,
+ *         response_types?: list<scalar|Param|null>,
+ *         scope?: scalar|Param|null, // The closed list of scopes this client may ask for (RFC 7591 §2), space-delimited as a request writes it (RFC 6749 §3.3); a scope it did not register is refused with invalid_scope. Left out, it takes the three an application that signs a user in comes for. // Default: "openid profile email"
  *         token_endpoint_auth_method?: scalar|Param|null, // How this client authenticates at the endpoints that authenticate a client (OIDC Core §9), among the methods the provider is wired with; left out, it takes the first wired one. A name nothing authenticates with fails at boot. // Default: null
  *         requires_consent?: bool|Param, // Consent is the rule; a first-party application is the named exception. // Default: true
  *         requires_pkce?: bool|Param, // PKCE S256 is the rule; a confidential client that cannot send a code_challenge is the named exception of decision 0008, refused for a public client. A challenge the client sends is verified all the same. // Default: true
@@ -1565,6 +1571,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         frontchannel_logout_session_required?: bool|Param, // The client reads "iss" and "sid" on its logout URI to know which session ended (Front-Channel Logout 1.0 §2); it needs a frontchannel_logout_uri. The two parameters are added for this client only, §2 making them conditional. // Default: false
  *         jwks?: mixed, // The JWK Set of the client, inline (RFC 7591 §2): public keys only, and exclusive with jwks_uri. A client that authenticates with private_key_jwt publishes one of the two. // Default: null
  *         jwks_uri?: scalar|Param|null, // Where the JWK Set of the client is read back from (RFC 7591 §2); HTTPS, or plain HTTP on a loopback host, no redirect followed. Exclusive with jwks. // Default: null
+ *         subject_type?: scalar|Param|null, // The kind of "sub" this client sees for a user (OIDC Core §8), among the kinds this provider assigns one for, which is what subject_types_supported announces. Left out, it takes the first of them. // Default: null
+ *         sector_identifier_uri?: scalar|Param|null, // The document naming every redirection URI of the clients that share a "sub" with this one (OIDC Core §8.1); HTTPS, no redirect followed. // Default: null
+ *         initiate_login_uri?: scalar|Param|null, // Where a third party sends a user to have this provider begin a login at this client (OIDC Core §4, OIDC Registration §2); HTTPS, or plain HTTP on a loopback host. // Default: null
  *         request_object_signing_alg?: scalar|Param|null, // The JWS algorithm the request objects of this client are signed with (OIDC Registration §2), among those the provider is wired with; left out, any of them verifies one. The value "none" is the named exception of decision 0006: the objects of that client carry no signature and are read all the same, which no FAPI client registers. A client that names an algorithm publishes its keys in jwks or behind a jwks_uri. // Default: null
  *         backchannel_token_delivery_mode?: scalar|Param|null, // How this client is told that a backchannel authentication request has been answered (CIBA Core §4), among the modes the provider is wired with: "poll" for a client that asks the token endpoint again until it is answered, "ping" for one this provider calls back first. There is no default: a client that registers none is not a client of that flow, and the endpoint where it starts refuses it. A name nothing serves fails at boot. // Default: null
  *         backchannel_client_notification_endpoint?: scalar|Param|null, // Where this provider posts the identifier of a backchannel request once it has been answered (CIBA Core §7.1, §10.2); HTTPS, or plain HTTP on a loopback host, no redirect followed. It goes with a delivery mode where the provider calls the client, never alone, and never without one. // Default: null

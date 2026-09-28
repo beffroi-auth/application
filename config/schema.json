@@ -3093,10 +3093,37 @@
                         "additionalProperties": {
                             "$ref": "#/$defs/types/object_null",
                             "properties": {
-                                "name": {
+                                "client_name": {
                                     "$ref": "#/$defs/types/scalar",
                                     "default": null,
-                                    "description": "Shown on the consent page; the client identifier when absent."
+                                    "description": "Shown on the consent page (OIDC Registration §2); the client identifier when absent."
+                                },
+                                "client_uri": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The home page of the client (OIDC Registration §2), linked from the consent page; HTTPS, or plain HTTP on a loopback host."
+                                },
+                                "logo_uri": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The logo the consent page shows for this client (OIDC Registration §2); HTTPS, or plain HTTP on a loopback host."
+                                },
+                                "policy_uri": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "How this client uses the data it is given (OIDC Registration §2), linked from the consent page; HTTPS, or plain HTTP on a loopback host."
+                                },
+                                "tos_uri": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The terms of service of this client (OIDC Registration §2), linked from the consent page; HTTPS, or plain HTTP on a loopback host."
+                                },
+                                "contacts": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "Ways to reach the people responsible for this client (OIDC Registration §2), typically email addresses. No page shows them."
                                 },
                                 "secret": {
                                     "$ref": "#/$defs/types/scalar",
@@ -3128,16 +3155,17 @@
                                     ],
                                     "description": "What this client may ask for at the token endpoint (RFC 7591 §2), among the grants the provider is wired with; left out, it takes the browser flow and its renewal. A name nothing serves fails at boot."
                                 },
-                                "allowed_scopes": {
+                                "response_types": {
                                     "$ref": "#/$defs/types/array_null",
                                     "items": {
                                         "$ref": "#/$defs/types/scalar"
                                     },
-                                    "default": [
-                                        "openid",
-                                        "profile",
-                                        "email"
-                                    ]
+                                    "description": "What this client asks the authorization endpoint to answer with (OIDC Registration §2): \"code\" and nothing else, decision 0006 admitting no implicit flow. Left out, it is the one that goes with the grants above, and a pair that contradicts itself fails at boot."
+                                },
+                                "scope": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": "openid profile email",
+                                    "description": "The closed list of scopes this client may ask for (RFC 7591 §2), space-delimited as a request writes it (RFC 6749 §3.3); a scope it did not register is refused with invalid_scope. Left out, it takes the three an application that signs a user in comes for."
                                 },
                                 "token_endpoint_auth_method": {
                                     "$ref": "#/$defs/types/scalar",
@@ -3253,6 +3281,21 @@
                                     "$ref": "#/$defs/types/scalar",
                                     "default": null,
                                     "description": "Where the JWK Set of the client is read back from (RFC 7591 §2); HTTPS, or plain HTTP on a loopback host, no redirect followed. Exclusive with jwks."
+                                },
+                                "subject_type": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The kind of \"sub\" this client sees for a user (OIDC Core §8), among the kinds this provider assigns one for, which is what subject_types_supported announces. Left out, it takes the first of them."
+                                },
+                                "sector_identifier_uri": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The document naming every redirection URI of the clients that share a \"sub\" with this one (OIDC Core §8.1); HTTPS, no redirect followed."
+                                },
+                                "initiate_login_uri": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "Where a third party sends a user to have this provider begin a login at this client (OIDC Core §4, OIDC Registration §2); HTTPS, or plain HTTP on a loopback host."
                                 },
                                 "request_object_signing_alg": {
                                     "$ref": "#/$defs/types/scalar",
