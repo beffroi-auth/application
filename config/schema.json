@@ -2605,7 +2605,7 @@
                             "storage": {
                                 "$ref": "#/$defs/types/scalar",
                                 "default": "%kernel.project_dir%/var/keys",
-                                "description": "Directory of the sealed keys, one file per key and per tenant."
+                                "description": "Directory of the sealed keys, one file per key and per tenant, and of the pairwise salt of each tenant, one file beside them (OIDC Core section 8.1)."
                             },
                             "jwks_max_age": {
                                 "$ref": "#/$defs/types/integer",
@@ -3407,6 +3407,18 @@
                                 "default": 604800,
                                 "description": "Seconds a client that was never used lives at all (decision 0009). Seven days by default, a working week, so that a registration made on a Friday afternoon is still there the next Friday; a client that was never used holds nothing, so the only question is how long whoever registered it may take to make its first request. The mode that registers strangers makes it the shorter of the two."
                             },
+                            "sector_identifier_timeout": {
+                                "$ref": "#/$defs/types/number",
+                                "minimum": 0.1,
+                                "default": 3,
+                                "description": "Seconds one read of a sector_identifier_uri is given, connection included (OIDC Registration section 5). It is read once, when a client registers or replaces itself, and the registration waits for it."
+                            },
+                            "sector_identifier_max_size": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 65536,
+                                "description": "Bytes a sector_identifier_uri may answer before the read stops; the document is the JSON array of the redirection URIs of the clients of one sector."
+                            },
                             "exempt_confidential_clients_from_pkce": {
                                 "$ref": "#/$defs/types/boolean",
                                 "default": false,
@@ -3418,6 +3430,8 @@
                             "mode": null,
                             "keep_a_client_unused_for": 7776000,
                             "keep_a_client_never_used_for": 604800,
+                            "sector_identifier_timeout": 3,
+                            "sector_identifier_max_size": 65536,
                             "exempt_confidential_clients_from_pkce": false
                         },
                         "description": "How a client that nobody declared comes to exist here (RFC 7591, decision 0009). Absent, the tenant registers nobody, which is the default and what a deployment that writes nothing gets."
