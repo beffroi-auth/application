@@ -2812,6 +2812,32 @@
                         },
                         "description": "How many requests the provider takes in a window, by origin and by authenticated client (decision 0014). Both budgets always exist; these are their numbers, which depend on the size of the deployment. A number too low on /token or on /jwks is an outage a deployment inflicts on itself, so they are measured on what its own clients send."
                     },
+                    "interaction": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "login_hint": {
+                                "anyOf": [
+                                    {
+                                        "enum": [
+                                            "sub",
+                                            "username",
+                                            "none"
+                                        ]
+                                    },
+                                    {
+                                        "$ref": "#/$defs/types/param"
+                                    }
+                                ],
+                                "default": "sub",
+                                "description": "What a \"login_hint\" of an authorization request names for this tenant, read one way and never searched for (OIDC Core §3.1.2.1): \"sub\" the subject this provider issued to that client, \"username\" the name the user signs in with, \"none\" for a deployment that tags a reader of its own. The login page offers the name of the user the hint names and nothing at all when it names nobody, the value itself being one the person never typed. These are the names the backchannel flow reads its own hint by."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "login_hint": "sub"
+                        },
+                        "description": "The pages a browser is sent to while an authorization request waits for a login or a consent (architecture §4.3)."
+                    },
                     "back_channel_logout": {
                         "$ref": "#/$defs/types/object_null",
                         "properties": {
@@ -2873,7 +2899,7 @@
                                     }
                                 ],
                                 "default": "sub",
-                                "description": "What a \"login_hint\" names for this tenant, read one way and never searched for (CIBA Core §7.1): \"sub\" the subject this provider issued to that client, \"username\" the name the user signs in with, \"none\" for a deployment that tags a reader of its own. CIBA Core §15 asks for an identifier that says nothing outside this provider, which \"sub\" is and a username is not."
+                                "description": "What a \"login_hint\" of a backchannel authentication request names for this tenant, read one way and never searched for (CIBA Core §7.1): \"sub\" the subject this provider issued to that client, \"username\" the name the user signs in with, \"none\" for a deployment that tags a reader of its own. CIBA Core §15 asks for an identifier that says nothing outside this provider, which \"sub\" is and a username is not. These are the names the login page reads its own hint by."
                             },
                             "client_notification_timeout": {
                                 "$ref": "#/$defs/types/number",
