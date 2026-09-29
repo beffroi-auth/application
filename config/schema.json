@@ -3395,6 +3395,18 @@
                                 "default": null,
                                 "description": "What authorises a registration, by the name the class that is that mode gives itself; \"initial_access_token\" is the one this provider is wired with. Left out, the tenant has no registration endpoint at all: it is not a mode of refusing, it is the absence of the endpoint."
                             },
+                            "keep_a_client_unused_for": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 7776000,
+                                "description": "Seconds a client that was used may go without being used again before it is deleted (decision 0009). Ninety days by default, which is the absolute lifetime of a refresh token family this provider is configured with by default: past it, nothing that client was ever issued can still be presented, so deleting it takes nothing away from anybody."
+                            },
+                            "keep_a_client_never_used_for": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 604800,
+                                "description": "Seconds a client that was never used lives at all (decision 0009). Seven days by default, a working week, so that a registration made on a Friday afternoon is still there the next Friday; a client that was never used holds nothing, so the only question is how long whoever registered it may take to make its first request. The mode that registers strangers makes it the shorter of the two."
+                            },
                             "exempt_confidential_clients_from_pkce": {
                                 "$ref": "#/$defs/types/boolean",
                                 "default": false,
@@ -3404,6 +3416,8 @@
                         "additionalProperties": false,
                         "default": {
                             "mode": null,
+                            "keep_a_client_unused_for": 7776000,
+                            "keep_a_client_never_used_for": 604800,
                             "exempt_confidential_clients_from_pkce": false
                         },
                         "description": "How a client that nobody declared comes to exist here (RFC 7591, decision 0009). Absent, the tenant registers nobody, which is the default and what a deployment that writes nothing gets."

@@ -15,7 +15,8 @@
 # its interfaces are routed to, so two markers on one class would send it twice.
 framework:
     # The recurring messages of the bundle (Heidi\Bundle\Scheduler\HeidiSchedule: the timed steps of the key
-    # lifecycle, architecture §3.3) are routed like every other message, by their class, and not handled
+    # lifecycle, architecture §3.3, and the removal of the registered clients nobody uses any more,
+    # decision 0009) are routed like every other message, by their class, and not handled
     # inside the worker that ticks: the scheduler worker only says when, the command worker does.
     scheduler:
         use_messenger_routing: true
