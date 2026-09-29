@@ -83,8 +83,14 @@ when@dev:
         # hour for a client nobody ever used, which is longer than any module takes to use the client it
         # registered and the period of the step that removes them; a day for one that was used, which
         # leaves the clients of the last run readable to whoever is looking at why a module went red.
+        #
+        # The mode is the one env var of this block because a run of the lab needs another one than the
+        # suite does: the plans register with no credential and want "open", and "castor demo --register"
+        # plays the mode a real ecosystem uses, an initial access token the tenant issued, which it asks
+        # for by writing HEIDI_REGISTRATION_MODE for the length of its run. The default is in apps/op/.env
+        # and is what every run that asks for nothing gets.
         client_registration:
-            mode: open
+            mode: '%env(HEIDI_REGISTRATION_MODE)%'
             exempt_confidential_clients_from_pkce: true
             keep_a_client_unused_for: 86400
             keep_a_client_never_used_for: 3600
