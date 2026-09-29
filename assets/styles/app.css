@@ -71,6 +71,24 @@
     }
 
     /*
+     * Who is asking, on the consent page (OIDC Registration section 2). The logo comes from a host the
+     * client named, so how large it is on the page is the page's decision and never the client's: it is
+     * given a height and keeps its proportions, whatever was served. The pages it links to are read
+     * before the question, not instead of it, so they are small and under the rest.
+     */
+    main img[data-client="logo"] {
+        @apply mx-auto h-16 w-auto max-w-full object-contain;
+    }
+
+    main ul:has(> li > a[data-client]) {
+        @apply gap-4;
+    }
+
+    main a[data-client] {
+        @apply link link-hover text-sm text-base-content/60;
+    }
+
+    /*
      * The pages of the account. The layout is a column with a gap of its own, so what the rules above
      * space by a margin is spaced by that gap here, and the margin goes.
      */
