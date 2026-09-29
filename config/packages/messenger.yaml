@@ -6,7 +6,8 @@
 # consent recorded before the code is issued, the code issued before the redirect to the relying party,
 # the code consumed and the refresh token issued or rotated in the token request, the session ended and
 # its refresh tokens revoked at logout, the client written and its initial access token spent before the
-# registration endpoint answers with the identifier it drew (RFC 7591 §3.2.1). A message that must be
+# registration endpoint answers with the identifier it drew (RFC 7591 §3.2.1), the row of a client read,
+# replaced or removed before that client is answered about itself (RFC 7592 §2). A message that must be
 # handled in the request all the same implements Heidi\Bundle\Message\SyncMessage, never Command, and is
 # listed below with its reason.
 # Everything else is a Command, an Event or a Notification and leaves through RabbitMQ. One marker per
