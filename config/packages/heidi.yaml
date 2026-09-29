@@ -84,6 +84,15 @@ when@dev:
         # registered and the period of the step that removes them; a day for one that was used, which
         # leaves the clients of the last run readable to whoever is looking at why a module went red.
         #
+        # The default set of scopes is RFC 7591 §2 as this tenant writes it: the registration request of
+        # every module of the plan carries no "scope" member at all, and two of them then ask for
+        # "openid offline_access" at the authorization endpoint, which a client registered for "openid"
+        # alone is refused. It is the set the declared clients of this tenant carry, so a client that
+        # registers itself here is registered for what a client somebody wrote in this file is registered
+        # for, and it is held to what the tenant announces like every other registered scope: a scope
+        # written here that the tenant does not hand out tokens for refuses every registration rather than
+        # granting one. A client that names its own scopes keeps them.
+        #
         # The mode is the one env var of this block because a run of the lab needs another one than the
         # suite does: the plans register with no credential and want "open", and "castor demo --register"
         # plays the mode a real ecosystem uses, an initial access token the tenant issued, which it asks
@@ -92,6 +101,7 @@ when@dev:
         client_registration:
             mode: '%env(HEIDI_REGISTRATION_MODE)%'
             exempt_confidential_clients_from_pkce: true
+            default_scope: 'openid profile email address phone offline_access'
             keep_a_client_unused_for: 86400
             keep_a_client_never_used_for: 3600
         # The issuer of the development stack whose signature the tenant trusts (RFC 7523 §3, issue #299),

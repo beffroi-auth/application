@@ -3479,6 +3479,11 @@
                                 "default": 30,
                                 "description": "Seconds allowed of the clock of the authority, both ways, when its statement is judged."
                             },
+                            "default_scope": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "What a client that registers itself and names no scope is registered with (RFC 7591 section 2: \"If omitted, an authorization server MAY register a client with a default set of scopes\"), space-delimited as a request writes one (RFC 6749 section 3.3). Left out, such a client is registered with \"openid\" alone, which is less than this tenant hands out and is a default nobody chose. It is held to what the tenant announces like every registered scope, so a scope written here that the tenant does not offer refuses every registration rather than granting one, and it is read at the boot that declares it. A client that names its own scopes keeps them."
+                            },
                             "exempt_confidential_clients_from_pkce": {
                                 "$ref": "#/$defs/types/boolean",
                                 "default": false,
@@ -3495,6 +3500,7 @@
                             "statement_issuers": [],
                             "statement_max_lifetime": 300,
                             "statement_leeway": 30,
+                            "default_scope": null,
                             "exempt_confidential_clients_from_pkce": false
                         },
                         "description": "How a client that nobody declared comes to exist here (RFC 7591, decision 0009). Absent, the tenant registers nobody, which is the default and what a deployment that writes nothing gets."
