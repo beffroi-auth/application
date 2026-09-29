@@ -62,6 +62,32 @@ when@dev:
         env(CONFORMANCE_ACCESS_TOKEN_FORMAT): jwt
 
     heidi:
+        # RFC 7591 §1.3, decisions 0009 and 0017: the tenant of the development stack registers whoever
+        # asks, with no credential presented at all, because that is the only thing the "dynamic_client"
+        # variant of the conformance suite sends and the Dynamic OP profile cannot be certified without it.
+        # It is written here, under "when@dev", and nowhere else: the same file deployed anywhere else
+        # writes no "client_registration" at all, so that deployment's tenant has no registration endpoint,
+        # in its document as on the wire. There is no key that opens the mode for more than the tenant that
+        # names it, and what would make it acceptable to a tenant with real users, what an anonymous client
+        # may ask for and how the name and the logo of a stranger reach a consent page, is an open question
+        # (docs/10-questions-ouvertes.md). The reason this tenant may carry it is that it has no real user:
+        # it serves the suite and "alice", whom "castor provision" creates.
+        #
+        # The exemption is decision 0017, for the same reason and bounded the same way: the 22 modules of
+        # the plan that run an authorization send no "code_challenge" and the suite offers no way to add
+        # one, so a client it registers would fail in "invalid_request" before any other rule was judged.
+        # It reaches the confidential clients this policy registers and never a public one.
+        #
+        # The two durations are what keeps the table from becoming a record of every run this project has
+        # ever made: the plan registers a client per module, most of them used once and never again. An
+        # hour for a client nobody ever used, which is longer than any module takes to use the client it
+        # registered and the period of the step that removes them; a day for one that was used, which
+        # leaves the clients of the last run readable to whoever is looking at why a module went red.
+        client_registration:
+            mode: open
+            exempt_confidential_clients_from_pkce: true
+            keep_a_client_unused_for: 86400
+            keep_a_client_never_used_for: 3600
         # The issuer of the development stack whose signature the tenant trusts (RFC 7523 §3, issue #299),
         # which "castor demo --assertion" signs with. Whoever holds its key can name a user of this tenant,
         # so everything about it is written here and nothing is asked for: the keys are the ones below and
