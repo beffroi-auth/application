@@ -132,6 +132,15 @@ when@dev:
                 # those plans registers "none" and the OP reads the object instead of refusing it unread
                 # (OIDC Core §6, heidi#142). No FAPI client registers it; the plans of FAPI 2 run with
                 # their own clients, which sign what they send.
+                #
+                # It is also what makes this tenant announce "none" in
+                # "request_object_signing_alg_values_supported", the document saying what a client of the
+                # tenant may register (decision 0012). So "oidcc-request-uri-unsigned" of the Dynamic OP
+                # plan does not skip itself, and it is refused all the same: the client that module
+                # registers says nothing about the member, and one that registered nothing is never read
+                # an unsigned object. What that costs is written once, in the "known" list of
+                # CONFORMANCE_PLANS (issue #385); dropping the line here would buy that module and lose
+                # the one of the Basic and Form Post plans this exception exists for.
                 request_object_signing_alg: none
             conformance-basic-second:
                 client_name: 'OpenID conformance suite, second client (client_secret_basic)'
