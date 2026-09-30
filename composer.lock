@@ -1597,7 +1597,7 @@
             "dist": {
                 "type": "path",
                 "url": "../../src/symfony",
-                "reference": "4b2fbae79d886cae34e77d96e55ec4b593c1c9d8"
+                "reference": "d2f1b3324fc65289f0ff48c5cfb370c9d0ecaaf3"
             },
             "require": {
                 "bacon/bacon-qr-code": "^3.0",
@@ -1615,6 +1615,8 @@
                 "symfony/console": "^8.1",
                 "symfony/dependency-injection": "8.2.*",
                 "symfony/doctrine-bridge": "8.2.*",
+                "symfony/doctrine-dbal-key-management": "8.2.*",
+                "symfony/doctrine-orm-key-management": "8.2.*",
                 "symfony/event-dispatcher": "8.2.*",
                 "symfony/framework-bundle": "8.2.*",
                 "symfony/http-client": "8.2.*",
@@ -3736,6 +3738,89 @@
             "time": "2026-08-30T18:34:13+00:00"
         },
         {
+            "name": "symfony/doctrine-dbal-key-management",
+            "version": "8.2.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/doctrine-dbal-key-management.git",
+                "reference": "5cd517eac7750adde26ad0ef91ad9dbe1a4d45b8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/doctrine-dbal-key-management/zipball/5cd517eac7750adde26ad0ef91ad9dbe1a4d45b8",
+                "reference": "5cd517eac7750adde26ad0ef91ad9dbe1a4d45b8",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "^4.3",
+                "php": ">=8.4.1",
+                "psr/container": "^1.1|^2.0",
+                "symfony/key-management": "^8.2",
+                "symfony/uid": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "symfony/dependency-injection": "^7.4|^8.0"
+            },
+            "default-branch": true,
+            "type": "symfony-key-management-bridge",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\KeyManagement\\Bridge\\DoctrineDbal\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jérôme Tamarelle",
+                    "email": "jerome@tamarelle.net"
+                },
+                {
+                    "name": "Florent Morselli",
+                    "email": "florent.morselli@spomky-labs.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Doctrine DBAL Key Management Bridge",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "dbal",
+                "doctrine",
+                "encryption",
+                "kms"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/doctrine-dbal-key-management/tree/8.2"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-09-29T23:04:27+00:00"
+        },
+        {
             "name": "symfony/doctrine-messenger",
             "version": "8.2.x-dev",
             "source": {
@@ -3810,6 +3895,87 @@
                 }
             ],
             "time": "2026-09-22T19:01:05+00:00"
+        },
+        {
+            "name": "symfony/doctrine-orm-key-management",
+            "version": "8.2.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/doctrine-orm-key-management.git",
+                "reference": "65e64f81c1d2192ed87c4b3893ed627d9235a03a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/doctrine-orm-key-management/zipball/65e64f81c1d2192ed87c4b3893ed627d9235a03a",
+                "reference": "65e64f81c1d2192ed87c4b3893ed627d9235a03a",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/orm": "^3.4",
+                "php": ">=8.4.1",
+                "psr/container": "^1.1|^2.0",
+                "symfony/doctrine-bridge": "^7.4.10|^8.0.10",
+                "symfony/doctrine-dbal-key-management": "^8.2",
+                "symfony/key-management": "^8.2"
+            },
+            "require-dev": {
+                "symfony/cache": "^7.4|^8.0",
+                "symfony/dependency-injection": "^7.4|^8.0"
+            },
+            "default-branch": true,
+            "type": "symfony-key-management-bridge",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\KeyManagement\\Bridge\\DoctrineOrm\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florent Morselli",
+                    "email": "florent.morselli@spomky-labs.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Doctrine ORM Key Management Bridge",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "doctrine",
+                "encryption",
+                "kms",
+                "orm"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/doctrine-orm-key-management/tree/8.2"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-09-22T10:29:43+00:00"
         },
         {
             "name": "symfony/dotenv",
