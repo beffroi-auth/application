@@ -104,6 +104,16 @@ when@dev:
             default_scope: 'openid profile email address phone offline_access'
             keep_a_client_unused_for: 86400
             keep_a_client_never_used_for: 3600
+            # The authority whose software statements this tenant accepts (RFC 7591 §2.3), which
+            # "castor demo --attested" signs with under the mode it asks for for the length of its run. It is
+            # pinned whatever the mode is, because a pin is what this tenant accepts and not what it uses
+            # today: the mode decides whether a statement is read at all, the pin decides whose. Its public
+            # half is all the provider is given, "castor provision" writes it, and no key a statement carries
+            # is ever read (RFC 8725 §3.10).
+            statement_issuers:
+                'https://attestation.demo.localhost':
+                    jwks: '%env(json:base64:DEMO_ATTESTATION_JWKS)%'
+                    signing_algorithms: ['ES256']
         # The issuer of the development stack whose signature the tenant trusts (RFC 7523 §3, issue #299),
         # which "castor demo --assertion" signs with. Whoever holds its key can name a user of this tenant,
         # so everything about it is written here and nothing is asked for: the keys are the ones below and
