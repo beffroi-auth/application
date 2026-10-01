@@ -9,7 +9,7 @@
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^3.3.2",
         "doctrine/doctrine-migrations-bundle": "^4.0.1",
-        "doctrine/orm": "^3.7.1",
+        "doctrine/orm": "^3.7.2",
         "heidi/symfony-bundle": "@dev",
         "symfony/amqp-messenger": "8.2.*",
         "symfony/asset": "8.2.*",

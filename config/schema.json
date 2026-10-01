@@ -2429,6 +2429,11 @@
                                                 }
                                             ]
                                         }
+                                    },
+                                    "serializer": {
+                                        "$ref": "#/$defs/types/scalar",
+                                        "default": null,
+                                        "description": "Service id of the serializer that maps request payloads and query strings to controller arguments with #[MapRequestPayload] and #[MapQueryString], e.g. \"serializer.api\" for the named serializer \"api\"."
                                     }
                                 },
                                 "additionalProperties": false
@@ -2441,9 +2446,25 @@
                         ],
                         "default": {
                             "enabled": false,
-                            "formats": []
+                            "formats": [],
+                            "serializer": null
                         },
                         "description": "Request configuration"
+                    },
+                    "response": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "serializer": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "Service id of the serializer that serializes the values returned by controllers with #[Serialize], e.g. \"serializer.api\" for the named serializer \"api\"."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "serializer": null
+                        },
+                        "description": "Response configuration"
                     },
                     "php_errors": {
                         "$ref": "#/$defs/types/object_null",
@@ -4255,10 +4276,9 @@
                                         "description": "Name of the table holding the wrapped data keys."
                                     },
                                     "max_age": {
-                                        "$ref": "#/$defs/types/integer",
-                                        "minimum": 0,
+                                        "$ref": "#/$defs/types/variable",
                                         "default": 2592000,
-                                        "description": "Seconds after which the current data key of a scope is retired in favour of a fresh one; the default of 30 days keeps what one key seals under the collision bound of the random 96-bit IV each payload carries."
+                                        "description": "Seconds after which the current data key of a scope is retired in favour of a fresh one; the default of 30 days keeps what one key seals under the collision bound of the random 96-bit IV each payload carries. 0 retires the key on every call, null never retires it."
                                     }
                                 },
                                 "required": [
@@ -4322,6 +4342,11 @@
                                     "symfony_serializer": {
                                         "$ref": "#/$defs/types/object_null",
                                         "properties": {
+                                            "service": {
+                                                "$ref": "#/$defs/types/scalar",
+                                                "default": null,
+                                                "description": "Service id of the Symfony serializer behind the messenger.transport.symfony_serializer service, e.g. \"serializer.api\" for the named serializer \"api\"."
+                                            },
                                             "format": {
                                                 "$ref": "#/$defs/types/scalar",
                                                 "default": "json",
@@ -4337,6 +4362,7 @@
                                         },
                                         "additionalProperties": false,
                                         "default": {
+                                            "service": null,
                                             "format": "json",
                                             "context": []
                                         }
@@ -4346,6 +4372,7 @@
                                 "default": {
                                     "default_serializer": "messenger.transport.native_php_serializer",
                                     "symfony_serializer": {
+                                        "service": null,
                                         "format": "json",
                                         "context": []
                                     }
@@ -4625,6 +4652,7 @@
                     "serializer": {
                         "default_serializer": "messenger.transport.native_php_serializer",
                         "symfony_serializer": {
+                            "service": null,
                             "format": "json",
                             "context": []
                         }
@@ -7278,6 +7306,29 @@
                                                                             "$ref": "#/$defs/types/boolean",
                                                                             "default": true,
                                                                             "description": "When enabled (default), only keys explicitly designated for signature (via \"use\":\"sig\" or a \"key_ops\" entry containing \"sign\"/\"verify\") are accepted. When disabled, keys without any usage designation are also accepted; keys explicitly restricted to encryption are still rejected."
+                                                                        },
+                                                                        "check_issuer": {
+                                                                            "anyOf": [
+                                                                                {
+                                                                                    "$ref": "#/$defs/types/object_null",
+                                                                                    "additionalProperties": {
+                                                                                        "$ref": "#/$defs/types/string_null"
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "$ref": "#/$defs/types/array_null",
+                                                                                    "items": {
+                                                                                        "$ref": "#/$defs/types/string_null"
+                                                                                    }
+                                                                                },
+                                                                                {
+                                                                                    "type": [
+                                                                                        "boolean"
+                                                                                    ]
+                                                                                }
+                                                                            ],
+                                                                            "default": null,
+                                                                            "description": "Whether the discovery document of each \"base_uri\" must announce that URL as its issuer, a trailing slash aside, so that its keys only verify the tokens of that issuer. A map from \"base_uri\" to issuer turns the check on and expects the given issuer from the listed ones instead."
                                                                         }
                                                                     },
                                                                     "required": [

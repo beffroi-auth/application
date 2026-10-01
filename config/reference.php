@@ -131,7 +131,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     _instanceof?: array<class-string, InstanceofType>,
  *     ...<string, DefinitionType|AliasType|PrototypeType|StackType|ArgumentsType|null>
  * }
- * @psalm-type ExtensionType = array<string, mixed>
+ * @psalm-type ExtensionType = array<mixed>|scalar|\UnitEnum|Param|null
  * @psalm-type RouterConfig = bool|array{
  *     enabled?: bool|Param, // Default: false
  *     resource?: scalar|Param|null, // Default: null
@@ -256,6 +256,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     serializer?: array{
  *         default_serializer?: scalar|Param|null, // Service id to use as the default serializer for the transports. // Default: "messenger.transport.native_php_serializer"
  *         symfony_serializer?: array{
+ *             service?: scalar|Param|null, // Service id of the Symfony serializer behind the messenger.transport.symfony_serializer service, e.g. "serializer.api" for the named serializer "api". // Default: null
  *             format?: scalar|Param|null, // Serialization format for the messenger.transport.symfony_serializer service (which is not the serializer used by default). // Default: "json"
  *             context?: array<string, mixed>,
  *         },
@@ -495,7 +496,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         client?: scalar|Param|null, // Name of the client wrapping the data keys this store creates (must match an entry of "clients"); defaults to the default client. // Default: null
  *         key_id?: scalar|Param|null, // Master key wrapping the data keys this store creates (backend-specific: alias, ARN, key URL, ...).
  *         table?: scalar|Param|null, // Name of the table holding the wrapped data keys. // Default: "key_management_data_keys"
- *         max_age?: int|Param, // Seconds after which the current data key of a scope is retired in favour of a fresh one; the default of 30 days keeps what one key seals under the collision bound of the random 96-bit IV each payload carries. // Default: 2592000
+ *         max_age?: mixed, // Seconds after which the current data key of a scope is retired in favour of a fresh one; the default of 30 days keeps what one key seals under the collision bound of the random 96-bit IV each payload carries. 0 retires the key on every call, null never retires it. // Default: 2592000
  *     },
  * }
  * @psalm-type FrameworkConfig = array{
@@ -615,6 +616,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     request?: bool|array{ // Request configuration
  *         enabled?: bool|Param, // Default: false
  *         formats?: array<string, Param|string|list<scalar|Param|null>>,
+ *         serializer?: scalar|Param|null, // Service id of the serializer that maps request payloads and query strings to controller arguments with #[MapRequestPayload] and #[MapQueryString], e.g. "serializer.api" for the named serializer "api". // Default: null
+ *     },
+ *     response?: array{ // Response configuration
+ *         serializer?: scalar|Param|null, // Service id of the serializer that serializes the values returned by controllers with #[Serialize], e.g. "serializer.api" for the named serializer "api". // Default: null
  *     },
  *     php_errors?: array{ // PHP errors handling configuration
  *         log?: mixed, // Use the application logger instead of the PHP logger for logging PHP errors. // Default: true
@@ -1305,6 +1310,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *                             id?: scalar|Param|null, // Cache service id to use to cache the OIDC discovery configuration.
  *                         },
  *                         enforce_key_usage_verification?: bool|Param, // When enabled (default), only keys explicitly designated for signature (via "use":"sig" or a "key_ops" entry containing "sign"/"verify") are accepted. When disabled, keys without any usage designation are also accepted; keys explicitly restricted to encryption are still rejected. // Default: true
+ *                         check_issuer?: bool|null|array<string, string|Param>,
  *                     },
  *                     claim?: scalar|Param|null, // Claim which contains the user identifier (e.g.: sub, email..). // Default: "sub"
  *                     audience?: Param|string|list<scalar|Param|null>,
