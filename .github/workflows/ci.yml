@@ -3,7 +3,8 @@ name: CI
 # What this repository can check of itself, which needs the packages beside it: composer.json resolves
 # beffroi/* by path repositories to ../../src/*, so a run here is the layout of a working copy, the
 # monorepo at the root and this repository at apps/op. The monorepo is private, so the checkout carries a
-# read credential for it (BEFFROI_MONOREPO_TOKEN). Without that secret nothing here can be installed, so
+# read credential for it (BEFFROI_READ_TOKEN, a secret of the organisation it shares with the
+# conformance run of the monorepo, which reads this repository the other way round). Without that secret nothing here can be installed, so
 # the run says that in a warning and does nothing rather than failing every pull request of a repository
 # that cannot yet check itself; issue #4 stays open until the secret exists. The judge that needs no
 # credential at all is "castor config-reference" from a working copy.
@@ -28,7 +29,7 @@ jobs:
     name: "The application boots, and what its kernel writes is what is committed"
     runs-on: ubuntu-latest
     env:
-      MONOREPO_TOKEN: ${{ secrets.BEFFROI_MONOREPO_TOKEN }}
+      MONOREPO_TOKEN: ${{ secrets.BEFFROI_READ_TOKEN }}
     steps:
       # A secret cannot be read in the condition of a workflow, so it is read here and every step below
       # asks this one whether there is anything to do.
@@ -36,7 +37,7 @@ jobs:
         id: credential
         run: |
           if [ -z "${MONOREPO_TOKEN}" ]; then
-            echo "::warning title=This run checked nothing::BEFFROI_MONOREPO_TOKEN is not set, so the packages cannot be installed beside the application: see issue #4."
+            echo "::warning title=This run checked nothing::BEFFROI_READ_TOKEN is not set, so the packages cannot be installed beside the application: see issue #4."
             echo 'present=false' >> "$GITHUB_OUTPUT"
           else
             echo 'present=true' >> "$GITHUB_OUTPUT"
@@ -45,7 +46,7 @@ jobs:
         if: steps.credential.outputs.present == 'true'
         with:
           repository: beffroi-php/beffroi
-          token: ${{ secrets.BEFFROI_MONOREPO_TOKEN }}
+          token: ${{ secrets.BEFFROI_READ_TOKEN }}
           persist-credentials: false
       - uses: actions/checkout@v7
         if: steps.credential.outputs.present == 'true'
