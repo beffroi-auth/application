@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d8ccebcce9a58c65b0d02e2161676b8b",
+    "content-hash": "e527d6d1788511b60f18307d27fef4dc",
     "packages": [
         {
             "name": "async-aws/core",
@@ -194,6 +194,176 @@
                 "source": "https://github.com/Bacon/BaconQrCode/tree/v3.1.1"
             },
             "time": "2026-04-05T21:06:35+00:00"
+        },
+        {
+            "name": "beffroi/core",
+            "version": "0.0.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "../../src/core",
+                "reference": "7268ae416b09a5fb0b60e1fc660314007a0a5dab"
+            },
+            "require": {
+                "paragonie/constant_time_encoding": "^3.1",
+                "php": ">=8.4",
+                "psr/clock": "^1.0",
+                "psr/event-dispatcher": "^1.0",
+                "psr/log": "^3.0",
+                "spomky-labs/aes-key-wrap": "^7.0",
+                "spomky-labs/otphp": "^11.5",
+                "symfony/key-management": "8.2.*",
+                "symfony/uid": "8.2.*",
+                "web-auth/webauthn-lib": "^5.3",
+                "web-token/jwt-library": "^4.2"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "name": "beffroi/framework"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Beffroi\\Core\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "All contributors"
+                }
+            ],
+            "description": "Identity core of the IdP: tenants, users, credentials, linked identities, groups, authentication sessions, keys. Pure PHP.",
+            "keywords": [
+                "identity",
+                "identity-provider"
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "beffroi/oidc",
+            "version": "0.0.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "../../src/oidc",
+                "reference": "dad1ee857a56e06546119aae2ea9f5c80adbe414"
+            },
+            "require": {
+                "beffroi/core": "self.version",
+                "php": ">=8.4",
+                "spomky-labs/pki-framework": "^1.2.1",
+                "web-token/jwt-library": "^4.2"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "name": "beffroi/framework"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Beffroi\\Oidc\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "All contributors"
+                }
+            ],
+            "description": "OAuth 2.0 and OpenID Connect module of the IdP: clients, authorization requests, grants, tokens, discovery, JWKS, UserInfo, logout. Pure PHP.",
+            "keywords": [
+                "authorization-server",
+                "oauth2",
+                "openid-connect"
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "beffroi/symfony-bundle",
+            "version": "0.0.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "../../src/symfony",
+                "reference": "2fb871e328bea76bf9fff20becd29d1fc926fbfa"
+            },
+            "require": {
+                "bacon/bacon-qr-code": "^3.0",
+                "beffroi/core": "self.version",
+                "beffroi/oidc": "self.version",
+                "doctrine/dbal": "^4.4",
+                "doctrine/doctrine-bundle": "^3.3",
+                "doctrine/migrations": "^3.9",
+                "doctrine/orm": "^3.7",
+                "php": ">=8.4",
+                "psr/event-dispatcher": "^1.0",
+                "spomky-labs/web-push-lib": "^3.2",
+                "symfony/clock": "8.2.*",
+                "symfony/config": "8.2.*",
+                "symfony/console": "^8.1",
+                "symfony/dependency-injection": "8.2.*",
+                "symfony/doctrine-bridge": "8.2.*",
+                "symfony/doctrine-dbal-key-management": "8.2.*",
+                "symfony/doctrine-orm-key-management": "8.2.*",
+                "symfony/event-dispatcher": "8.2.*",
+                "symfony/framework-bundle": "8.2.*",
+                "symfony/http-client": "8.2.*",
+                "symfony/http-foundation": "8.2.*",
+                "symfony/http-kernel": "8.2.*",
+                "symfony/key-management": "8.2.*",
+                "symfony/messenger": "8.2.*",
+                "symfony/password-hasher": "^8.1",
+                "symfony/rate-limiter": "8.2.*",
+                "symfony/routing": "8.2.*",
+                "symfony/scheduler": "8.2.*",
+                "symfony/security-bundle": "8.2.*",
+                "symfony/security-core": "8.2.*",
+                "symfony/security-csrf": "8.2.*",
+                "symfony/security-http": "8.2.*",
+                "symfony/translation": "8.2.*",
+                "symfony/twig-bridge": "8.2.*",
+                "symfony/twig-bundle": "8.2.*",
+                "symfony/uid": "8.2.*",
+                "twig/twig": "^3.21"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "thanks": {
+                    "name": "beffroi/framework"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Beffroi\\Bundle\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "All contributors"
+                }
+            ],
+            "description": "Symfony integration of the IdP: configuration, controllers, security, persistence, login and consent pages.",
+            "keywords": [
+                "identity-provider",
+                "oauth2",
+                "openid-connect",
+                "symfony",
+                "symfony-bundle"
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "brick/math",
@@ -1498,176 +1668,6 @@
                 "source": "https://github.com/doctrine/sql-formatter/tree/1.5.4"
             },
             "time": "2026-02-08T16:21:46+00:00"
-        },
-        {
-            "name": "heidi/core",
-            "version": "0.0.x-dev",
-            "dist": {
-                "type": "path",
-                "url": "../../src/core",
-                "reference": "8ae32e7b31032f428533fa18862eddb0e0a4dee3"
-            },
-            "require": {
-                "paragonie/constant_time_encoding": "^3.1",
-                "php": ">=8.4",
-                "psr/clock": "^1.0",
-                "psr/event-dispatcher": "^1.0",
-                "psr/log": "^3.0",
-                "spomky-labs/aes-key-wrap": "^7.0",
-                "spomky-labs/otphp": "^11.5",
-                "symfony/key-management": "8.2.*",
-                "symfony/uid": "8.2.*",
-                "web-auth/webauthn-lib": "^5.3",
-                "web-token/jwt-library": "^4.2"
-            },
-            "type": "library",
-            "extra": {
-                "thanks": {
-                    "name": "heidi/framework"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Heidi\\Core\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "All contributors"
-                }
-            ],
-            "description": "Identity core of the IdP: tenants, users, credentials, linked identities, groups, authentication sessions, keys. Pure PHP.",
-            "keywords": [
-                "identity",
-                "identity-provider"
-            ],
-            "transport-options": {
-                "relative": true
-            }
-        },
-        {
-            "name": "heidi/oidc",
-            "version": "0.0.x-dev",
-            "dist": {
-                "type": "path",
-                "url": "../../src/oidc",
-                "reference": "ae3fdbc2be4589da262c7aa381f8fd1999c3ad21"
-            },
-            "require": {
-                "heidi/core": "self.version",
-                "php": ">=8.4",
-                "spomky-labs/pki-framework": "^1.2.1",
-                "web-token/jwt-library": "^4.2"
-            },
-            "type": "library",
-            "extra": {
-                "thanks": {
-                    "name": "heidi/framework"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Heidi\\Oidc\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "All contributors"
-                }
-            ],
-            "description": "OAuth 2.0 and OpenID Connect module of the IdP: clients, authorization requests, grants, tokens, discovery, JWKS, UserInfo, logout. Pure PHP.",
-            "keywords": [
-                "authorization-server",
-                "oauth2",
-                "openid-connect"
-            ],
-            "transport-options": {
-                "relative": true
-            }
-        },
-        {
-            "name": "heidi/symfony-bundle",
-            "version": "0.0.x-dev",
-            "dist": {
-                "type": "path",
-                "url": "../../src/symfony",
-                "reference": "d2f1b3324fc65289f0ff48c5cfb370c9d0ecaaf3"
-            },
-            "require": {
-                "bacon/bacon-qr-code": "^3.0",
-                "doctrine/dbal": "^4.4",
-                "doctrine/doctrine-bundle": "^3.3",
-                "doctrine/migrations": "^3.9",
-                "doctrine/orm": "^3.7",
-                "heidi/core": "self.version",
-                "heidi/oidc": "self.version",
-                "php": ">=8.4",
-                "psr/event-dispatcher": "^1.0",
-                "spomky-labs/web-push-lib": "^3.2",
-                "symfony/clock": "8.2.*",
-                "symfony/config": "8.2.*",
-                "symfony/console": "^8.1",
-                "symfony/dependency-injection": "8.2.*",
-                "symfony/doctrine-bridge": "8.2.*",
-                "symfony/doctrine-dbal-key-management": "8.2.*",
-                "symfony/doctrine-orm-key-management": "8.2.*",
-                "symfony/event-dispatcher": "8.2.*",
-                "symfony/framework-bundle": "8.2.*",
-                "symfony/http-client": "8.2.*",
-                "symfony/http-foundation": "8.2.*",
-                "symfony/http-kernel": "8.2.*",
-                "symfony/key-management": "8.2.*",
-                "symfony/messenger": "8.2.*",
-                "symfony/password-hasher": "^8.1",
-                "symfony/rate-limiter": "8.2.*",
-                "symfony/routing": "8.2.*",
-                "symfony/scheduler": "8.2.*",
-                "symfony/security-bundle": "8.2.*",
-                "symfony/security-core": "8.2.*",
-                "symfony/security-csrf": "8.2.*",
-                "symfony/security-http": "8.2.*",
-                "symfony/translation": "8.2.*",
-                "symfony/twig-bridge": "8.2.*",
-                "symfony/twig-bundle": "8.2.*",
-                "symfony/uid": "8.2.*",
-                "twig/twig": "^3.21"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "thanks": {
-                    "name": "heidi/framework"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Heidi\\Bundle\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "All contributors"
-                }
-            ],
-            "description": "Symfony integration of the IdP: configuration, controllers, security, persistence, login and consent pages.",
-            "keywords": [
-                "identity-provider",
-                "oauth2",
-                "openid-connect",
-                "symfony",
-                "symfony-bundle"
-            ],
-            "transport-options": {
-                "relative": true
-            }
         },
         {
             "name": "monolog/monolog",
@@ -9098,7 +9098,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "heidi/symfony-bundle": 20
+        "beffroi/symfony-bundle": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

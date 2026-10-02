@@ -4,11 +4,11 @@
 # its root is the account of whoever is signed in; a browser without a session is sent to the login by the
 # page itself, and comes back to it.
 #
-# The name carries the interaction plane, which is the convention HEIDI_PLANE reads (Plane::ofRoute): a
+# The name carries the interaction plane, which is the convention BEFFROI_PLANE reads (Plane::ofRoute): a
 # process that serves the protocol alone answers 404 here, as it does on every page meant for a browser.
-heidi_interaction_home:
+beffroi_interaction_home:
     path: /
     controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
     defaults:
-        route: heidi_interaction_account
+        route: beffroi_interaction_account
         permanent: false

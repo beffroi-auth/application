@@ -12,7 +12,7 @@
 
    The theme is on the document and not in a script (issue #447): light and dark are what the stylesheet
    declares, and a document that names neither leaves the answer to the browser. #}
-{% set account = (app.request.attributes.get('_route') ?? '') starts with 'heidi_interaction_account' %}
+{% set account = (app.request.attributes.get('_route') ?? '') starts with 'beffroi_interaction_account' %}
 {% set chosen_theme = theme() %}
 <!DOCTYPE html>
 <html lang="{{ app.request.locale|replace({'_': '-'}) }}"{% if chosen_theme.attribute() is not null %} data-theme="{{ chosen_theme.attribute() }}"{% endif %}>

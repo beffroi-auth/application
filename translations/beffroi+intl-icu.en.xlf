@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" target-language="en" datatype="plaintext" original="heidi">
+  <file source-language="en" target-language="en" datatype="plaintext" original="beffroi">
     <header>
       <note>What this deployment adds to the strings of the bundle: one message per type of authorization detail it wires (RFC 9396 §2), named after that type, because the type is a class of the deployment and the sentence a user reads before agreeing to one belongs with it. ICU message format; the parameters are the ones the type put in the rendering of its detail.</note>
     </header>

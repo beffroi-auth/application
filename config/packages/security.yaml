@@ -7,36 +7,36 @@
 # a cookie or starts a session, a bearer token is checked by the endpoint itself.
 security:
     providers:
-        heidi:
-            id: Heidi\Bundle\Security\IdentityUserProvider
+        beffroi:
+            id: Beffroi\Bundle\Security\IdentityUserProvider
 
     firewalls:
         dev:
             # Ensure dev tools and static assets are always allowed
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
-        heidi_protocol:
+        beffroi_protocol:
             pattern: ^/(\.well-known/(openid-configuration|oauth-authorization-server)|jwks|token|userinfo|introspect|revoke|par|device_authorization|backchannel_authentication|register(/.+)?)$
             security: false
-        heidi_interaction:
+        beffroi_interaction:
             lazy: true
-            provider: heidi
-            user_checker: Heidi\Bundle\Security\UserChecker
+            provider: beffroi
+            user_checker: Beffroi\Bundle\Security\UserChecker
             form_login:
-                login_path: heidi_interaction_login
-                check_path: heidi_interaction_login
+                login_path: beffroi_interaction_login
+                check_path: beffroi_interaction_login
                 username_parameter: _username
                 password_parameter: _password
                 enable_csrf: true
                 csrf_token_id: authenticate
-                success_handler: Heidi\Bundle\Security\InteractionLoginHandler
-                failure_handler: Heidi\Bundle\Security\InteractionLoginHandler
+                success_handler: Beffroi\Bundle\Security\InteractionLoginHandler
+                failure_handler: Beffroi\Bundle\Security\InteractionLoginHandler
             # The passkey login and the second step of a password login on the same firewall: the
             # assertion posted by the login page, the code posted by the code page, one
             # LoginSuccessListener for the three (architecture §5.4).
             custom_authenticators:
-                - Heidi\Bundle\Security\PasskeyLoginAuthenticator
-                - Heidi\Bundle\Security\TotpLoginAuthenticator
+                - Beffroi\Bundle\Security\PasskeyLoginAuthenticator
+                - Beffroi\Bundle\Security\TotpLoginAuthenticator
 
     # The pages decide for themselves whether a session is needed (the login page shows its form, the
     # consent page sends a browser without a session back to the login): no rule here.

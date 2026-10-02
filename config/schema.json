@@ -2560,7 +2560,7 @@
                 },
                 "additionalProperties": false
             },
-            "heidi": {
+            "beffroi": {
                 "$ref": "#/$defs/types/object_null",
                 "properties": {
                     "tenant": {
@@ -2654,7 +2654,7 @@
                             "metadata_storage": {
                                 "$ref": "#/$defs/types/scalar",
                                 "default": "%kernel.project_dir%/var/webauthn",
-                                "description": "Directory of the FIDO metadata the ceremonies check an attestation against: the documents \"heidi:webauthn:mds-refresh\" verified and \"heidi:webauthn:mds-import\" stored, next to the keys; empty until one of them ran, which the enrolment of the provider does not need."
+                                "description": "Directory of the FIDO metadata the ceremonies check an attestation against: the documents \"beffroi:webauthn:mds-refresh\" verified and \"beffroi:webauthn:mds-import\" stored, next to the keys; empty until one of them ran, which the enrolment of the provider does not need."
                             }
                         },
                         "additionalProperties": false,
@@ -8945,8 +8945,8 @@
         "framework": {
             "$ref": "#/$defs/nodes/framework"
         },
-        "heidi": {
-            "$ref": "#/$defs/nodes/heidi"
+        "beffroi": {
+            "$ref": "#/$defs/nodes/beffroi"
         },
         "http_client": {
             "$ref": "#/$defs/nodes/http_client"
@@ -9023,8 +9023,8 @@
                 "framework": {
                     "$ref": "#/$defs/nodes/framework"
                 },
-                "heidi": {
-                    "$ref": "#/$defs/nodes/heidi"
+                "beffroi": {
+                    "$ref": "#/$defs/nodes/beffroi"
                 },
                 "http_client": {
                     "$ref": "#/$defs/nodes/http_client"
@@ -9104,8 +9104,8 @@
                 "framework": {
                     "$ref": "#/$defs/nodes/framework"
                 },
-                "heidi": {
-                    "$ref": "#/$defs/nodes/heidi"
+                "beffroi": {
+                    "$ref": "#/$defs/nodes/beffroi"
                 },
                 "http_client": {
                     "$ref": "#/$defs/nodes/http_client"
@@ -9187,8 +9187,8 @@
                 "framework": {
                     "$ref": "#/$defs/nodes/framework"
                 },
-                "heidi": {
-                    "$ref": "#/$defs/nodes/heidi"
+                "beffroi": {
+                    "$ref": "#/$defs/nodes/beffroi"
                 },
                 "http_client": {
                     "$ref": "#/$defs/nodes/http_client"

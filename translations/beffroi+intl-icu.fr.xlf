@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" target-language="fr" datatype="plaintext" original="heidi">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="beffroi">
     <header>
       <note>Ce que ce déploiement ajoute aux chaînes du bundle : un message par type de détail d'autorisation qu'il câble (RFC 9396 §2), nommé d'après ce type, parce que le type est une classe du déploiement et que la phrase lue avant d'y consentir va avec lui. Format de message ICU ; les paramètres sont ceux que le type a mis dans le rendu de son détail.</note>
     </header>

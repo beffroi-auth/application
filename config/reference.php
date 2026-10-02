@@ -1456,7 +1456,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         html_to_text_converter?: scalar|Param|null, // A service implementing the "Symfony\Component\Mime\HtmlToTextConverter\HtmlToTextConverterInterface". // Default: null
  *     },
  * }
- * @psalm-type HeidiConfig = array{
+ * @psalm-type BeffroiConfig = array{
  *     tenant?: array{ // The one tenant of this deployment: the key is already a tenant, a table comes later.
  *         issuer?: scalar|Param|null, // Issuer identifier (OIDC Discovery §3): an absolute HTTPS URL, no query, no fragment, no trailing slash; plain HTTP on a loopback host only.
  *         slug?: scalar|Param|null, // Stable name of the tenant, from which its identifier is derived; renaming it is creating another tenant. // Default: "default"
@@ -1471,7 +1471,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         staging_delay?: int|Param, // How long a new key is published before it signs, in seconds (architecture §3.3, §9); unless set, jwks_max_age plus the 60 s refetch cooldown of oidc_login: the max-age is what a relying party with a warm cache needs to see the new key, the cooldown what one served by a shared HTTP cache needs to refetch it. // Default: null
  *     },
  *     webauthn?: array{ // What the passkey ceremonies read besides the tenant (architecture §3.4).
- *         metadata_storage?: scalar|Param|null, // Directory of the FIDO metadata the ceremonies check an attestation against: the documents "heidi:webauthn:mds-refresh" verified and "heidi:webauthn:mds-import" stored, next to the keys; empty until one of them ran, which the enrolment of the provider does not need. // Default: "%kernel.project_dir%/var/webauthn"
+ *         metadata_storage?: scalar|Param|null, // Directory of the FIDO metadata the ceremonies check an attestation against: the documents "beffroi:webauthn:mds-refresh" verified and "beffroi:webauthn:mds-import" stored, next to the keys; empty until one of them ran, which the enrolment of the provider does not need. // Default: "%kernel.project_dir%/var/webauthn"
  *     },
  *     mutual_tls?: array{ // Where a client that presents a certificate reaches the endpoints (RFC 8705 §5). The certificate itself comes from the edge, which is infrastructure and not configuration (architecture §6); what a deployment says here is the host its listener asks for one on.
  *         origin?: scalar|Param|null, // Scheme and authority of that host, without a path ("https://mtls.op.example"). The endpoints are announced under it in "mtls_endpoint_aliases", with the paths they are served at. Absent, the document announces no alias and a client authenticating by mutual TLS reaches the ordinary endpoints, which is what a deployment serving one host does. // Default: null
@@ -1669,7 +1669,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     monolog?: MonologConfig,
  *     security?: SecurityConfig,
  *     twig?: TwigConfig,
- *     heidi?: HeidiConfig,
+ *     beffroi?: BeffroiConfig,
  *     symfonycasts_tailwind?: SymfonycastsTailwindConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
@@ -1697,7 +1697,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         monolog?: MonologConfig,
  *         security?: SecurityConfig,
  *         twig?: TwigConfig,
- *         heidi?: HeidiConfig,
+ *         beffroi?: BeffroiConfig,
  *         symfonycasts_tailwind?: SymfonycastsTailwindConfig,
  *         debug?: DebugConfig,
  *         web_profiler?: WebProfilerConfig,
@@ -1728,7 +1728,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         monolog?: MonologConfig,
  *         security?: SecurityConfig,
  *         twig?: TwigConfig,
- *         heidi?: HeidiConfig,
+ *         beffroi?: BeffroiConfig,
  *         symfonycasts_tailwind?: SymfonycastsTailwindConfig,
  *     },
  *     "when@test"?: array{
@@ -1757,7 +1757,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         monolog?: MonologConfig,
  *         security?: SecurityConfig,
  *         twig?: TwigConfig,
- *         heidi?: HeidiConfig,
+ *         beffroi?: BeffroiConfig,
  *         symfonycasts_tailwind?: SymfonycastsTailwindConfig,
  *         web_profiler?: WebProfilerConfig,
  *     },

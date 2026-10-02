@@ -3,7 +3,7 @@
  * standalone binary (symfonycasts/tailwind-bundle) and served by the asset mapper as styles/app.css.
  *
  * The bundle ships bare structure and the codes of its pages in data-* attributes, never a class. The
- * application styles that structure from here, so that its layout override (templates/bundles/HeidiBundle/
+ * application styles that structure from here, so that its layout override (templates/bundles/BeffroiBundle/
  * layout.html.twig) is the one file it adds and the pages of the bundle stay untouched.
  *
  * Two sections, for the two kinds of page the layout lays out. What every page shares comes first: a page

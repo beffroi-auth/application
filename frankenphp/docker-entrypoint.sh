@@ -35,7 +35,7 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 			echo "The database is now ready and reachable"
 		fi
 
-		# The migrations of the bundle (heidi_* tables) come with its migrations path, not from ./migrations.
+		# The migrations of the bundle (beffroi_* tables) come with its migrations path, not from ./migrations.
 		# The HTTP server migrates; a worker (compose.yaml) starts once it is healthy and finds the schema.
 		if [ "$1" = 'frankenphp' ]; then
 			php bin/console doctrine:migrations:migrate --no-interaction --all-or-nothing
