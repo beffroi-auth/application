@@ -1,22 +1,22 @@
 # The configuration of the bundle (docs/11-architecture.md §5.1). Everything that varies by deployment is an
 # environment variable; the local KMS key and the secrets of the clients below are written into .env.local by
 # "castor provision" (development only, nothing secret is committed), production sets its own.
-heidi:
+beffroi:
     tenant:
-        issuer: '%env(HEIDI_ISSUER)%'
+        issuer: '%env(BEFFROI_ISSUER)%'
     keys:
         # The KMS client of config/packages/key_management.yaml the private keys are sealed with; the DSN
         # of that client, and whether it is one provider or several, are declared there.
         kms: op
-        key_id: '%env(HEIDI_KMS_KEY_ID)%'
+        key_id: '%env(BEFFROI_KMS_KEY_ID)%'
         storage: '%kernel.project_dir%/var/keys'
         # Read at runtime with the two lifetimes below, so that "castor demo --rotate" can shorten the windows of a
         # rotation for its run without recompiling anything (.env documents the values).
-        jwks_max_age: '%env(int:HEIDI_JWKS_MAX_AGE)%'
+        jwks_max_age: '%env(int:BEFFROI_JWKS_MAX_AGE)%'
     mutual_tls:
         # The host whose TLS listener asks for a client certificate (issue #157, architecture §5.1),
         # announced in "mtls_endpoint_aliases" (RFC 8705 §5). Empty for a deployment that serves one host.
-        origin: '%env(HEIDI_MTLS_ORIGIN)%'
+        origin: '%env(BEFFROI_MTLS_ORIGIN)%'
     # Reaching a user through the push service of a browser they signed in with (RFC 8030, architecture
     # §5.6). Naming a subject is what wires it, and it is named here and not read from the environment on
     # purpose: what is wired has to be known when the container is built, as a client is. A deployment
@@ -27,14 +27,14 @@ heidi:
         subject: 'mailto:operator@op.localhost'
     webauthn:
         # The FIDO metadata the passkey ceremonies check an attestation against, next to the keys: filled by hand
-        # with "heidi:webauthn:mds-refresh" (the blob of the FIDO Alliance, verified under its root) and
-        # "heidi:webauthn:mds-import" (a statement of a manufacturer or of the FIDO conformance tools); empty
+        # with "beffroi:webauthn:mds-refresh" (the blob of the FIDO Alliance, verified under its root) and
+        # "beffroi:webauthn:mds-import" (a statement of a manufacturer or of the FIDO conformance tools); empty
         # until then, which the enrolment of the provider does not need (it asks for no attestation).
         metadata_storage: '%kernel.project_dir%/var/webauthn'
     tokens:
         authorization_code_ttl: 60
-        access_token_ttl: '%env(int:HEIDI_ACCESS_TOKEN_TTL)%'
-        id_token_ttl: '%env(int:HEIDI_ID_TOKEN_TTL)%'
+        access_token_ttl: '%env(int:BEFFROI_ACCESS_TOKEN_TTL)%'
+        id_token_ttl: '%env(int:BEFFROI_ID_TOKEN_TTL)%'
         refresh_token_ttl: 2592000
         refresh_token_absolute_ttl: 7776000
     clients: []
@@ -61,7 +61,7 @@ when@dev:
     parameters:
         env(CONFORMANCE_ACCESS_TOKEN_FORMAT): jwt
 
-    heidi:
+    beffroi:
         # RFC 7591 §1.3, decisions 0009 and 0017: the tenant of the development stack registers whoever
         # asks, with no credential presented at all, because that is the only thing the "dynamic_client"
         # variant of the conformance suite sends and the Dynamic OP profile cannot be certified without it.
@@ -96,10 +96,10 @@ when@dev:
         # The mode is the one env var of this block because a run of the lab needs another one than the
         # suite does: the plans register with no credential and want "open", and "castor demo --register"
         # plays the mode a real ecosystem uses, an initial access token the tenant issued, which it asks
-        # for by writing HEIDI_REGISTRATION_MODE for the length of its run. The default is in apps/op/.env
+        # for by writing BEFFROI_REGISTRATION_MODE for the length of its run. The default is in apps/op/.env
         # and is what every run that asks for nothing gets.
         client_registration:
-            mode: '%env(HEIDI_REGISTRATION_MODE)%'
+            mode: '%env(BEFFROI_REGISTRATION_MODE)%'
             exempt_confidential_clients_from_pkce: true
             default_scope: 'openid profile email address phone offline_access'
             keep_a_client_unused_for: 86400
@@ -119,7 +119,7 @@ when@dev:
         # so everything about it is written here and nothing is asked for: the keys are the ones below and
         # no key an assertion names is ever read, the one client that may present its assertions is named,
         # and its subjects are users of this tenant only through linked identities of the source it is
-        # trusted for (decision 0002), which "heidi:user:link" writes and nothing invents.
+        # trusted for (decision 0002), which "beffroi:user:link" writes and nothing invents.
         trusted_issuers:
             'https://issuer.demo.localhost':
                 jwks: '%env(json:base64:DEMO_ISSUER_JWKS)%'
@@ -131,8 +131,8 @@ when@dev:
             conformance-basic:
                 client_name: 'OpenID conformance suite (client_secret_basic)'
                 secret: '%env(CONFORMANCE_BASIC_SECRET)%'
-                redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
-                post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
+                redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+                post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
                 token_endpoint_auth_method: client_secret_basic
                 scope: 'openid profile email address phone offline_access'
                 requires_pkce: false
@@ -140,7 +140,7 @@ when@dev:
                 # The second named exception this client carries (issue #161): the modules of the Basic
                 # and Form Post profiles that send a request object send it unsigned, so the client of
                 # those plans registers "none" and the OP reads the object instead of refusing it unread
-                # (OIDC Core §6, heidi#142). No FAPI client registers it; the plans of FAPI 2 run with
+                # (OIDC Core §6, beffroi#142). No FAPI client registers it; the plans of FAPI 2 run with
                 # their own clients, which sign what they send.
                 #
                 # It is also what makes this tenant announce "none" in
@@ -155,8 +155,8 @@ when@dev:
             conformance-basic-second:
                 client_name: 'OpenID conformance suite, second client (client_secret_basic)'
                 secret: '%env(CONFORMANCE_BASIC_SECOND_SECRET)%'
-                redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
-                post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
+                redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+                post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
                 token_endpoint_auth_method: client_secret_basic
                 scope: 'openid profile email address phone offline_access'
                 requires_pkce: false
@@ -164,8 +164,8 @@ when@dev:
             conformance-post:
                 client_name: 'OpenID conformance suite (client_secret_post)'
                 secret: '%env(CONFORMANCE_POST_SECRET)%'
-                redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
-                post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
+                redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+                post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
                 token_endpoint_auth_method: client_secret_post
                 scope: 'openid profile email address phone offline_access'
                 requires_pkce: false
@@ -177,24 +177,24 @@ when@dev:
             conformance-front-channel-logout:
                 client_name: 'OpenID conformance suite (front-channel logout)'
                 secret: '%env(CONFORMANCE_FRONT_CHANNEL_LOGOUT_SECRET)%'
-                redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
-                post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
+                redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+                post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
                 token_endpoint_auth_method: client_secret_basic
                 scope: 'openid profile email address phone offline_access'
                 requires_pkce: false
                 access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
-                frontchannel_logout_uri: 'https://localhost:8443/test/a/heidi/frontchannel_logout'
+                frontchannel_logout_uri: 'https://localhost:8443/test/a/beffroi/frontchannel_logout'
                 frontchannel_logout_session_required: true
             conformance-back-channel-logout:
                 client_name: 'OpenID conformance suite (back-channel logout)'
                 secret: '%env(CONFORMANCE_BACK_CHANNEL_LOGOUT_SECRET)%'
-                redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
-                post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
+                redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+                post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
                 token_endpoint_auth_method: client_secret_basic
                 scope: 'openid profile email address phone offline_access'
                 requires_pkce: false
                 access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
-                backchannel_logout_uri: 'https://localhost:8443/test/a/heidi/backchannel_logout'
+                backchannel_logout_uri: 'https://localhost:8443/test/a/beffroi/backchannel_logout'
                 backchannel_logout_session_required: true
             # The four clients of the FAPI 2 plans (issue #166, tests/conformance/README.md): two per
             # run, because a handful of modules need a second client to present an authorization code
@@ -212,8 +212,8 @@ when@dev:
             # signature of a request object.
             conformance-fapi-private-key-jwt:
                 client_name: 'OpenID conformance suite, FAPI 2 (private_key_jwt)'
-                redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
-                post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
+                redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+                post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
                 token_endpoint_auth_method: private_key_jwt
                 jwks: '%env(json:base64:CONFORMANCE_FAPI_PRIVATE_KEY_JWT_JWKS)%'
                 scope: 'openid profile email offline_access'
@@ -229,9 +229,9 @@ when@dev:
                 # ("dummy1=lorem&dummy2=ipsum"): a redirect URI is compared byte for byte
                 # (decision 0006), so a query the client will send is a registration of its own.
                 redirect_uris:
-                    - 'https://localhost:8443/test/a/heidi/callback'
-                    - 'https://localhost:8443/test/a/heidi/callback?dummy1=lorem&dummy2=ipsum'
-                post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
+                    - 'https://localhost:8443/test/a/beffroi/callback'
+                    - 'https://localhost:8443/test/a/beffroi/callback?dummy1=lorem&dummy2=ipsum'
+                post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
                 token_endpoint_auth_method: private_key_jwt
                 jwks: '%env(json:base64:CONFORMANCE_FAPI_PRIVATE_KEY_JWT_SECOND_JWKS)%'
                 scope: 'openid profile email offline_access'
@@ -242,8 +242,8 @@ when@dev:
                 request_object_signing_alg: ES256
             conformance-fapi-mtls:
                 client_name: 'OpenID conformance suite, FAPI 2 (self_signed_tls_client_auth)'
-                redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
-                post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
+                redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+                post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
                 token_endpoint_auth_method: self_signed_tls_client_auth
                 jwks: '%env(json:base64:CONFORMANCE_FAPI_MTLS_JWKS)%'
                 scope: 'openid profile email offline_access'
@@ -259,9 +259,9 @@ when@dev:
                 # ("dummy1=lorem&dummy2=ipsum"): a redirect URI is compared byte for byte
                 # (decision 0006), so a query the client will send is a registration of its own.
                 redirect_uris:
-                    - 'https://localhost:8443/test/a/heidi/callback'
-                    - 'https://localhost:8443/test/a/heidi/callback?dummy1=lorem&dummy2=ipsum'
-                post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
+                    - 'https://localhost:8443/test/a/beffroi/callback'
+                    - 'https://localhost:8443/test/a/beffroi/callback?dummy1=lorem&dummy2=ipsum'
+                post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
                 token_endpoint_auth_method: self_signed_tls_client_auth
                 jwks: '%env(json:base64:CONFORMANCE_FAPI_MTLS_SECOND_JWKS)%'
                 scope: 'openid profile email offline_access'
@@ -276,8 +276,8 @@ when@dev:
             # sends, and each profile gets a pair of its own.
             conformance-fapi-signing-private-key-jwt:
                 client_name: 'OpenID conformance suite, FAPI 2 Message Signing, (private_key_jwt)'
-                redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
-                post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
+                redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+                post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
                 token_endpoint_auth_method: private_key_jwt
                 jwks: '%env(json:base64:CONFORMANCE_FAPI_SIGNING_PRIVATE_KEY_JWT_JWKS)%'
                 scope: 'openid profile email offline_access'
@@ -290,9 +290,9 @@ when@dev:
             conformance-fapi-signing-private-key-jwt-second:
                 client_name: 'OpenID conformance suite, FAPI 2 Message Signing, second client, (private_key_jwt)'
                 redirect_uris:
-                    - 'https://localhost:8443/test/a/heidi/callback'
-                    - 'https://localhost:8443/test/a/heidi/callback?dummy1=lorem&dummy2=ipsum'
-                post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
+                    - 'https://localhost:8443/test/a/beffroi/callback'
+                    - 'https://localhost:8443/test/a/beffroi/callback?dummy1=lorem&dummy2=ipsum'
+                post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
                 token_endpoint_auth_method: private_key_jwt
                 jwks: '%env(json:base64:CONFORMANCE_FAPI_SIGNING_PRIVATE_KEY_JWT_SECOND_JWKS)%'
                 scope: 'openid profile email offline_access'
@@ -304,8 +304,8 @@ when@dev:
                 request_object_signing_alg: ES256
             conformance-fapi-signing-mtls:
                 client_name: 'OpenID conformance suite, FAPI 2 Message Signing, (self_signed_tls_client_auth)'
-                redirect_uris: ['https://localhost:8443/test/a/heidi/callback']
-                post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
+                redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+                post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
                 token_endpoint_auth_method: self_signed_tls_client_auth
                 jwks: '%env(json:base64:CONFORMANCE_FAPI_SIGNING_MTLS_JWKS)%'
                 scope: 'openid profile email offline_access'
@@ -318,9 +318,9 @@ when@dev:
             conformance-fapi-signing-mtls-second:
                 client_name: 'OpenID conformance suite, FAPI 2 Message Signing, second client, (self_signed_tls_client_auth)'
                 redirect_uris:
-                    - 'https://localhost:8443/test/a/heidi/callback'
-                    - 'https://localhost:8443/test/a/heidi/callback?dummy1=lorem&dummy2=ipsum'
-                post_logout_redirect_uris: ['https://localhost:8443/test/a/heidi/post_logout_redirect']
+                    - 'https://localhost:8443/test/a/beffroi/callback'
+                    - 'https://localhost:8443/test/a/beffroi/callback?dummy1=lorem&dummy2=ipsum'
+                post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
                 token_endpoint_auth_method: self_signed_tls_client_auth
                 jwks: '%env(json:base64:CONFORMANCE_FAPI_SIGNING_MTLS_SECOND_JWKS)%'
                 scope: 'openid profile email offline_access'
@@ -373,7 +373,7 @@ when@dev:
                 grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
                 scope: 'openid profile email offline_access'
                 backchannel_token_delivery_mode: ping
-                backchannel_client_notification_endpoint: 'https://localhost:8443/test/a/heidi/ciba-notification-endpoint'
+                backchannel_client_notification_endpoint: 'https://localhost:8443/test/a/beffroi/ciba-notification-endpoint'
                 require_signed_request_object: true
                 id_token_signed_response_alg: ES256
                 request_object_signing_alg: ES256
@@ -385,7 +385,7 @@ when@dev:
                 grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
                 scope: 'openid profile email offline_access'
                 backchannel_token_delivery_mode: ping
-                backchannel_client_notification_endpoint: 'https://localhost:8443/test/a/heidi/ciba-notification-endpoint'
+                backchannel_client_notification_endpoint: 'https://localhost:8443/test/a/beffroi/ciba-notification-endpoint'
                 require_signed_request_object: true
                 id_token_signed_response_alg: ES256
                 request_object_signing_alg: ES256

@@ -3,6 +3,6 @@
 # and the clients of the suite are: not an API of the product. "castor conformance" points the FAPI-CIBA
 # runs at "https://op.localhost/ciba/conformance/approval".
 when@dev:
-    heidi_ciba_conformance:
-        resource: '@HeidiBundle/config/routes/ciba-conformance.php'
+    beffroi_ciba_conformance:
+        resource: '@BeffroiBundle/config/routes/ciba-conformance.php'
         prefix: /ciba/conformance

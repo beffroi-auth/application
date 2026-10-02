@@ -6,9 +6,9 @@ namespace App\AuthorizationDetails;
 
 use function array_is_list;
 use function array_values;
-use Heidi\Oidc\Domain\AuthorizationDetails\AuthorizationDetail;
-use Heidi\Oidc\Domain\AuthorizationDetails\AuthorizationDetailTypeInterface;
-use Heidi\Oidc\Exception\InvalidArgumentException;
+use Beffroi\Oidc\Domain\AuthorizationDetails\AuthorizationDetail;
+use Beffroi\Oidc\Domain\AuthorizationDetails\AuthorizationDetailTypeInterface;
+use Beffroi\Oidc\Exception\InvalidArgumentException;
 use function implode;
 use function in_array;
 use function is_array;
@@ -33,7 +33,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
  * the same thing produce the same detail whatever order they were written in, which is what lets a consent
  * given for one cover the other (AuthorizationDetail::equals()).
  */
-#[AutoconfigureTag('heidi.oidc.authorization_detail_type')]
+#[AutoconfigureTag('beffroi.oidc.authorization_detail_type')]
 final readonly class InvoicePaymentType implements AuthorizationDetailTypeInterface
 {
     public const string TYPE = 'invoice_payment';

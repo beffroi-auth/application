@@ -12,14 +12,14 @@ framework:
 # carries a logout token to it ("castor demo --logout-others"). curl resolves every name ending in
 # ".localhost" to the loopback address of whoever asks, ignoring /etc/hosts, so from inside a
 # container that is the container: the address docker wrote there for the gateway of the host is
-# given to curl explicitly. HEIDI_DEMO_HOST_IP is read from /etc/hosts by the command of the worker
+# given to curl explicitly. BEFFROI_DEMO_HOST_IP is read from /etc/hosts by the command of the worker
 # (compose.yaml) and is the loopback address everywhere else, which changes nothing.
 when@dev:
     framework:
         http_client:
             default_options:
                 resolve:
-                    demo.localhost: '%env(HEIDI_DEMO_HOST_IP)%'
+                    demo.localhost: '%env(BEFFROI_DEMO_HOST_IP)%'
 
 when@test:
     framework:

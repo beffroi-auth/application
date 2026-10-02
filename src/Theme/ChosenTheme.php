@@ -17,7 +17,7 @@ use function time;
  */
 final readonly class ChosenTheme
 {
-    public const string COOKIE = 'heidi_theme';
+    public const string COOKIE = 'beffroi_theme';
 
     /**
      * A year: a visitor who said once is not asked again, and a browser that never comes back drops it.

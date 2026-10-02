@@ -10,7 +10,7 @@
         "doctrine/doctrine-bundle": "^3.3.2",
         "doctrine/doctrine-migrations-bundle": "^4.0.1",
         "doctrine/orm": "^3.7.3",
-        "heidi/symfony-bundle": "@dev",
+        "beffroi/symfony-bundle": "@dev",
         "symfony/amqp-messenger": "8.2.*",
         "symfony/asset": "8.2.*",
         "symfony/asset-mapper": "8.2.*",
@@ -86,18 +86,18 @@
             "require": "8.2.*"
         }
     },
-    "name": "heidi/op",
-    "description": "Heidi: the standalone identity provider application (Symfony skeleton plus the bundle).",
+    "name": "beffroi/op",
+    "description": "Beffroi: the standalone identity provider application (Symfony skeleton plus the bundle).",
     "repositories": [{
-        "name": "heidi-bundle",
+        "name": "beffroi-bundle",
         "type": "path",
         "url": "../../src/symfony"
     },{
-        "name": "heidi-oidc",
+        "name": "beffroi-oidc",
         "type": "path",
         "url": "../../src/oidc"
     },{
-        "name": "heidi-core",
+        "name": "beffroi-core",
         "type": "path",
         "url": "../../src/core"
     }],

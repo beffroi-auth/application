@@ -8,13 +8,13 @@
 # its refresh tokens revoked at logout, the client written and its initial access token spent before the
 # registration endpoint answers with the identifier it drew (RFC 7591 §3.2.1), the row of a client read,
 # replaced or removed before that client is answered about itself (RFC 7592 §2). A message that must be
-# handled in the request all the same implements Heidi\Bundle\Message\SyncMessage, never Command, and is
+# handled in the request all the same implements Beffroi\Bundle\Message\SyncMessage, never Command, and is
 # listed below with its reason.
 # Everything else is a Command, an Event or a Notification and leaves through RabbitMQ. One marker per
 # message and one transport per marker: a message is sent to every transport its class, its parents and
 # its interfaces are routed to, so two markers on one class would send it twice.
 framework:
-    # The recurring messages of the bundle (Heidi\Bundle\Scheduler\HeidiSchedule: the timed steps of the key
+    # The recurring messages of the bundle (Beffroi\Bundle\Scheduler\BeffroiSchedule: the timed steps of the key
     # lifecycle, architecture §3.3, and the removal of the registered clients nobody uses any more,
     # decision 0009) are routed like every other message, by their class, and not handled
     # inside the worker that ticks: the scheduler worker only says when, the command worker does.
@@ -30,11 +30,11 @@ framework:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
-                        name: heidi_messages
+                        name: beffroi_messages
                         type: direct
                         default_publish_routing_key: high
                     queues:
-                        heidi_messages_high:
+                        beffroi_messages_high:
                             binding_keys: [high]
                 retry_strategy:
                     max_retries: 4
@@ -45,11 +45,11 @@ framework:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
-                        name: heidi_messages
+                        name: beffroi_messages
                         type: direct
                         default_publish_routing_key: medium
                     queues:
-                        heidi_messages_medium:
+                        beffroi_messages_medium:
                             binding_keys: [medium]
                 retry_strategy:
                     max_retries: 4
@@ -60,18 +60,18 @@ framework:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
-                        name: heidi_messages
+                        name: beffroi_messages
                         type: direct
                         default_publish_routing_key: low
                     queues:
-                        heidi_messages_low:
+                        beffroi_messages_low:
                             binding_keys: [low]
                 retry_strategy:
                     max_retries: 4
                     delay: 1000
                     max_delay: 30000
                     multiplier: 4
-            # What the provider carries to a third party it does not own (Heidi\Bundle\Message\Notification:
+            # What the provider carries to a third party it does not own (Beffroi\Bundle\Message\Notification:
             # the logout tokens of a session that ended, the word to a client that the backchannel request
             # it made has been answered, and what tells a user that one is waiting for them; architecture
             # §4.9, §5.6). A lane of its own,
@@ -79,40 +79,40 @@ framework:
             # while the certification suite waits for it, so the message must not queue behind a batch of
             # enrichments, and a relying party that is restarting must be tried again for longer than a
             # write to our own database would be. How long that is belongs to the bundle and not here
-            # (Heidi\Bundle\Messenger\NotificationRetryPolicy, "heidi.back_channel_logout"): the same
+            # (Beffroi\Bundle\Messenger\NotificationRetryPolicy, "beffroi.back_channel_logout"): the same
             # schedule bounds how long a logout token stays on its way, which is what holds a signing key
             # back from retiring, and the two cannot be written twice. By default 2, 6, 18, 54, 60 then
             # 60 seconds, a little over three minutes of patience. Beyond that the client is not
             # restarting, it is down, and the provider says so
-            # (Heidi\Bundle\Messenger\LogoutTokenGivenUpListener) rather than trying for ever: the session
+            # (Beffroi\Bundle\Messenger\LogoutTokenGivenUpListener) rather than trying for ever: the session
             # is closed here whatever the client believes, and the client learns it at its next request.
             async_notifications:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 options:
                     exchange:
-                        name: heidi_messages
+                        name: beffroi_messages
                         type: direct
                         default_publish_routing_key: notifications
                     queues:
-                        heidi_messages_notifications:
+                        beffroi_messages_notifications:
                             binding_keys: [notifications]
                 retry_strategy:
-                    service: 'Heidi\Bundle\Messenger\NotificationRetryPolicy'
+                    service: 'Beffroi\Bundle\Messenger\NotificationRetryPolicy'
             failed: 'doctrine://default?queue_name=failed'
 
-        # The transport "scheduler_heidi" is the schedule of the bundle, consumed by the worker next to
+        # The transport "scheduler_beffroi" is the schedule of the bundle, consumed by the worker next to
         # the four below (compose.yaml, "worker"); one worker at a time consumes it.
         routing:
-            Heidi\Bundle\Message\Command: async_priority_medium
-            Heidi\Bundle\Message\Event: async_priority_low
+            Beffroi\Bundle\Message\Command: async_priority_medium
+            Beffroi\Bundle\Message\Event: async_priority_low
             # The events of the core and of the module, replayed on event.bus by the bundle
-            # (Heidi\Bundle\Messenger\EventBusDispatcher): audit, enrichment and reactions are asynchronous.
-            Heidi\Core\Domain\Event\DomainEventInterface: async_priority_low
+            # (Beffroi\Bundle\Messenger\EventBusDispatcher): audit, enrichment and reactions are asynchronous.
+            Beffroi\Core\Domain\Event\DomainEventInterface: async_priority_low
             # What is carried to a third party, on the lane and the patience described above.
-            Heidi\Bundle\Message\Notification: async_notifications
-            Heidi\Bundle\Message\Query: sync
+            Beffroi\Bundle\Message\Notification: async_notifications
+            Beffroi\Bundle\Message\Query: sync
             # Synchronous exceptions: the marker below, then one line per class with the protocol reason.
-            Heidi\Bundle\Message\SyncMessage: sync
+            Beffroi\Bundle\Message\SyncMessage: sync
 
         buses:
             query.bus: ~
@@ -142,12 +142,12 @@ when@test:
                 sync: 'sync://'
                 failed: 'sync://'
             routing:
-                Heidi\Bundle\Message\Command: sync
-                Heidi\Bundle\Message\Notification: sync
-                Heidi\Bundle\Message\Event: sync
-                Heidi\Core\Domain\Event\DomainEventInterface: sync
-                Heidi\Bundle\Message\Query: sync
-                Heidi\Bundle\Message\SyncMessage: sync
+                Beffroi\Bundle\Message\Command: sync
+                Beffroi\Bundle\Message\Notification: sync
+                Beffroi\Bundle\Message\Event: sync
+                Beffroi\Core\Domain\Event\DomainEventInterface: sync
+                Beffroi\Bundle\Message\Query: sync
+                Beffroi\Bundle\Message\SyncMessage: sync
             buses:
                 command.bus:
                     middleware:
