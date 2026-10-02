@@ -3,8 +3,10 @@ name: CI
 # What this repository can check of itself, which needs the packages beside it: composer.json resolves
 # beffroi/* by path repositories to ../../src/*, so a run here is the layout of a working copy, the
 # monorepo at the root and this repository at apps/op. The monorepo is private, so the checkout carries a
-# read credential for it (BEFFROI_MONOREPO_TOKEN); without that secret no run of this repository can
-# install anything, and the judge of a working copy is "castor config-reference", which needs none.
+# read credential for it (BEFFROI_MONOREPO_TOKEN). Without that secret nothing here can be installed, so
+# the run says that in a warning and does nothing rather than failing every pull request of a repository
+# that cannot yet check itself; issue #4 stays open until the secret exists. The judge that needs no
+# credential at all is "castor config-reference" from a working copy.
 #
 # The packages are taken from their maintenance branch, the one this application follows: a change of a
 # configuration tree lands there first and is caught here on the next run, which is the half of the
@@ -25,30 +27,48 @@ jobs:
   application:
     name: "The application boots, and what its kernel writes is what is committed"
     runs-on: ubuntu-latest
+    env:
+      MONOREPO_TOKEN: ${{ secrets.BEFFROI_MONOREPO_TOKEN }}
     steps:
+      # A secret cannot be read in the condition of a workflow, so it is read here and every step below
+      # asks this one whether there is anything to do.
+      - name: "The credential this run is given"
+        id: credential
+        run: |
+          if [ -z "${MONOREPO_TOKEN}" ]; then
+            echo "::warning title=This run checked nothing::BEFFROI_MONOREPO_TOKEN is not set, so the packages cannot be installed beside the application: see issue #4."
+            echo 'present=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'present=true' >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/checkout@v7
+        if: steps.credential.outputs.present == 'true'
         with:
           repository: beffroi-php/beffroi
           token: ${{ secrets.BEFFROI_MONOREPO_TOKEN }}
           persist-credentials: false
       - uses: actions/checkout@v7
+        if: steps.credential.outputs.present == 'true'
         with:
           path: apps/op
           persist-credentials: false
       # PHP on the host: what runs here is the application's own kernel, and no tool of the QA image of the
       # monorepo is used.
       - uses: shivammathur/setup-php@v2
+        if: steps.credential.outputs.present == 'true'
         with:
           php-version: '8.5'
           coverage: none
       # Pinned by its own lock, the way a developer runs it. Without its scripts: what is compiled here is
       # the container, and the assets the auto-scripts install are no part of it.
       - uses: ramsey/composer-install@v4
+        if: steps.credential.outputs.present == 'true'
         with:
           working-directory: apps/op
           dependency-versions: locked
           composer-options: --optimize-autoloader --no-scripts
       - name: "Install Castor"
+        if: steps.credential.outputs.present == 'true'
         run: |
           curl -fsSL -o "${RUNNER_TEMP}/castor" https://github.com/jolicode/castor/releases/download/v1.7.0/castor.linux-amd64
           chmod +x "${RUNNER_TEMP}/castor"
@@ -57,10 +77,12 @@ jobs:
       # of the bundles it installs, and both are committed: the task boots the application and fails when
       # either file comes back different, naming it and printing the diff.
       - name: "The reference and the schema against the configuration trees"
+        if: steps.credential.outputs.present == 'true'
         run: castor config-reference
       # The container is compiled by the step above, so these three read what it holds: a template of the
       # bundle this application overrides, a configuration file of its own, a catalogue it adds to.
       - name: "Templates, configuration and catalogues"
+        if: steps.credential.outputs.present == 'true'
         working-directory: apps/op
         run: |
           php bin/console lint:twig templates
