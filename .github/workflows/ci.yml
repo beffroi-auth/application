@@ -1,0 +1,68 @@
+name: CI
+
+# What this repository can check of itself, which needs the packages beside it: composer.json resolves
+# beffroi/* by path repositories to ../../src/*, so a run here is the layout of a working copy, the
+# monorepo at the root and this repository at apps/op. The monorepo is private, so the checkout carries a
+# read credential for it (BEFFROI_MONOREPO_TOKEN); without that secret no run of this repository can
+# install anything, and the judge of a working copy is "castor config-reference", which needs none.
+#
+# The packages are taken from their maintenance branch, the one this application follows: a change of a
+# configuration tree lands there first and is caught here on the next run, which is the half of the
+# agreement the monorepo cannot keep since the application left it (beffroi-php/beffroi#458).
+
+on:
+  push:
+    branches:
+      - '*.*.x'
+  pull_request: ~
+  workflow_dispatch: ~
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  application:
+    name: "The application boots, and what its kernel writes is what is committed"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: beffroi-php/beffroi
+          token: ${{ secrets.BEFFROI_MONOREPO_TOKEN }}
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          path: apps/op
+          persist-credentials: false
+      # PHP on the host: what runs here is the application's own kernel, and no tool of the QA image of the
+      # monorepo is used.
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          coverage: none
+      # Pinned by its own lock, the way a developer runs it. Without its scripts: what is compiled here is
+      # the container, and the assets the auto-scripts install are no part of it.
+      - uses: ramsey/composer-install@v4
+        with:
+          working-directory: apps/op
+          dependency-versions: locked
+          composer-options: --optimize-autoloader --no-scripts
+      - name: "Install Castor"
+        run: |
+          curl -fsSL -o "${RUNNER_TEMP}/castor" https://github.com/jolicode/castor/releases/download/v1.7.0/castor.linux-amd64
+          chmod +x "${RUNNER_TEMP}/castor"
+          echo "${RUNNER_TEMP}" >> "$GITHUB_PATH"
+      # config/reference.php and config/schema.json are written by the kernel from the configuration trees
+      # of the bundles it installs, and both are committed: the task boots the application and fails when
+      # either file comes back different, naming it and printing the diff.
+      - name: "The reference and the schema against the configuration trees"
+        run: castor config-reference
+      # The container is compiled by the step above, so these three read what it holds: a template of the
+      # bundle this application overrides, a configuration file of its own, a catalogue it adds to.
+      - name: "Templates, configuration and catalogues"
+        working-directory: apps/op
+        run: |
+          php bin/console lint:twig templates
+          php bin/console lint:yaml config
+          php bin/console lint:xliff translations
