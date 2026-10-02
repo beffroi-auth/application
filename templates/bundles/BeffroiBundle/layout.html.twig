@@ -24,6 +24,18 @@
     {% block head %}{% endblock %}
 </head>
 <body class="{{ account ? 'min-h-dvh bg-base-200' : 'min-h-dvh bg-base-200 grid place-items-center p-4' }}">
+    {# The two controls of a page: the language, which the bundle ships as structure and words and this
+       stylesheet dresses, and the theme, which is this application's alone (issues #448 and #447). Where
+       they sit follows the shape of the page, which is why they are rendered once and placed twice. #}
+    {% set controls %}
+        {% include '@Beffroi/_locale_switcher.html.twig' %}
+        {% include '_theme_switcher.html.twig' %}
+    {% endset %}
+    {% if account %}
+        {# A page of the account is a column someone reads: the controls head that column, aligned with it
+           and scrolling with it, rather than floating over its heading. #}
+        <div class="mx-auto flex w-full max-w-3xl justify-end gap-2 px-4 pt-6 sm:px-6">{{ controls }}</div>
+    {% endif %}
     {% block body %}
         <main
             {% if account %}data-page="account"{% endif %}
@@ -33,11 +45,10 @@
             {% block content %}{% endblock %}
         </main>
     {% endblock %}
-    {# The two controls of a page: the language, which the bundle ships as structure and words and this
-       stylesheet dresses, and the theme, which is this application's alone (issues #448 and #447). #}
-    <div class="fixed right-4 bottom-4 z-10 flex items-center gap-2">
-        {% include '@Beffroi/_locale_switcher.html.twig' %}
-        {% include '_theme_switcher.html.twig' %}
-    </div>
+    {% if not account %}
+        {# A page of an interaction is one box in the middle of an empty screen, so the two controls take a
+           corner of it: the top one, the bottom of the screen being the web debug toolbar in development. #}
+        <div class="fixed top-4 right-4 z-10 flex items-center gap-2">{{ controls }}</div>
+    {% endif %}
 </body>
 </html>
