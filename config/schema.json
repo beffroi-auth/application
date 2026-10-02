@@ -553,6 +553,979 @@
                     }
                 }
             },
+            "beffroi": {
+                "$ref": "#/$defs/types/object_null",
+                "properties": {
+                    "tenant": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "issuer": {
+                                "$ref": "#/$defs/types/scalar",
+                                "description": "Issuer identifier (OIDC Discovery §3): an absolute HTTPS URL, no query, no fragment, no trailing slash; plain HTTP on a loopback host only."
+                            },
+                            "slug": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": "default",
+                                "description": "Stable name of the tenant, from which its identifier is derived; renaming it is creating another tenant."
+                            },
+                            "name": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "Display name; the host of the issuer when absent."
+                            },
+                            "authentication_classes": {
+                                "$ref": "#/$defs/types/object_null",
+                                "additionalProperties": {
+                                    "anyOf": [
+                                        {
+                                            "enum": [
+                                                "single_factor",
+                                                "two_factors",
+                                                "phishing_resistant",
+                                                "phishing_resistant_hardware"
+                                            ]
+                                        },
+                                        {
+                                            "$ref": "#/$defs/types/param"
+                                        }
+                                    ]
+                                },
+                                "default": {
+                                    "phrh": "phishing_resistant_hardware",
+                                    "phr": "phishing_resistant",
+                                    "2": "two_factors",
+                                    "1": "single_factor"
+                                },
+                                "description": "The \"acr\" vocabulary of the tenant (decision 0010): class names, in the order a session is answered in, each on a predicate of the provider; the default policy (\"phrh\", \"phr\", \"2\", \"1\") when absent."
+                            }
+                        },
+                        "required": [
+                            "issuer"
+                        ],
+                        "additionalProperties": false,
+                        "description": "The one tenant of this deployment: the key is already a tenant, a table comes later."
+                    },
+                    "keys": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "kms": {
+                                "$ref": "#/$defs/types/scalar",
+                                "description": "Name of the KMS client that seals the private keys, an entry of \"key_management.clients\" of the framework configuration (a DSN there, or the members of a composite client); the KMS keeps, it never signs."
+                            },
+                            "key_id": {
+                                "$ref": "#/$defs/types/scalar",
+                                "description": "The key of that KMS the keys of the tenants are sealed under (backend-specific: the id of a sodium key, a Vault transit key name, an ARN); \"{tenant}\" stands for the slug of the tenant, one master key each."
+                            },
+                            "storage": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": "%kernel.project_dir%/var/keys",
+                                "description": "Directory of the sealed keys, one file per key and per tenant, and of the pairwise salt of each tenant, one file beside them (OIDC Core section 8.1)."
+                            },
+                            "jwks_max_age": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 0,
+                                "default": 300,
+                                "description": "How long a relying party may cache the JWK Set, in seconds (RFC 7517 §5, architecture §4.8); the staging window of a rotation derives from it, so that the two cannot drift apart (§3.3)."
+                            },
+                            "staging_delay": {
+                                "$ref": "#/$defs/types/integer_null",
+                                "minimum": 0,
+                                "default": null,
+                                "description": "How long a new key is published before it signs, in seconds (architecture §3.3, §9); unless set, jwks_max_age plus the 60 s refetch cooldown of oidc_login: the max-age is what a relying party with a warm cache needs to see the new key, the cooldown what one served by a shared HTTP cache needs to refetch it."
+                            }
+                        },
+                        "required": [
+                            "kms",
+                            "key_id"
+                        ],
+                        "additionalProperties": false,
+                        "description": "Where the keys of the tenants live: sealed by the KMS named here, stored as files until a table takes over (architecture §3.3)."
+                    },
+                    "webauthn": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "metadata_storage": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": "%kernel.project_dir%/var/webauthn",
+                                "description": "Directory of the FIDO metadata the ceremonies check an attestation against: the documents \"beffroi:webauthn:mds-refresh\" verified and \"beffroi:webauthn:mds-import\" stored, next to the keys; empty until one of them ran, which the enrolment of the provider does not need."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "metadata_storage": "%kernel.project_dir%/var/webauthn"
+                        },
+                        "description": "What the passkey ceremonies read besides the tenant (architecture §3.4)."
+                    },
+                    "mutual_tls": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "origin": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "Scheme and authority of that host, without a path (\"https://mtls.op.example\"). The endpoints are announced under it in \"mtls_endpoint_aliases\", with the paths they are served at. Absent, the document announces no alias and a client authenticating by mutual TLS reaches the ordinary endpoints, which is what a deployment serving one host does."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "origin": null
+                        },
+                        "description": "Where a client that presents a certificate reaches the endpoints (RFC 8705 §5). The certificate itself comes from the edge, which is infrastructure and not configuration (architecture §6); what a deployment says here is the host its listener asks for one on."
+                    },
+                    "tokens": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "authorization_code_ttl": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "maximum": 600,
+                                "default": 60,
+                                "description": "RFC 6749 §4.1.2 recommends ten minutes at most; sixty seconds bound the injection window."
+                            },
+                            "access_token_ttl": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 600,
+                                "description": "Both shapes of access token (architecture §4.6): the self-contained one cannot be revoked, and a short lifetime bounds the exposure; the opaque one gets the same, a revocation is a facility and not a reason to live longer."
+                            },
+                            "id_token_ttl": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 600
+                            },
+                            "request_uri_ttl": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "maximum": 600,
+                                "default": 60,
+                                "description": "Seconds a request_uri answered by the pushed authorization request endpoint lives (RFC 9126 §2.2); sixty is the example of the specification, and the browser is sent the moment the client holds the reference."
+                            },
+                            "device_code_ttl": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "maximum": 1800,
+                                "default": 600,
+                                "description": "Seconds a device code and the user code beside it live (RFC 8628 §3.2); ten minutes is what a user needs to read a code off one screen and type it on another."
+                            },
+                            "device_code_interval": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "maximum": 30,
+                                "default": 5,
+                                "description": "Seconds a client waits between two polls of the token endpoint (RFC 8628 §3.2); five is the default of the specification, and a client that polls faster is told to add five."
+                            },
+                            "backchannel_authentication_ttl": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "maximum": 3600,
+                                "default": 300,
+                                "description": "Seconds a backchannel authentication request lives when the client asks for nothing (CIBA Core §7.3); five minutes is what somebody needs to be reached and to answer."
+                            },
+                            "backchannel_authentication_max_requested_expiry": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "maximum": 3600,
+                                "default": 1800,
+                                "description": "Seconds the longest lifetime a client may ask for with \"requested_expiry\" (CIBA Core §7.1); a request that asks for more is served this, not refused."
+                            },
+                            "backchannel_authentication_interval": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "maximum": 30,
+                                "default": 5,
+                                "description": "Seconds a client waits between two polls of the token endpoint for a backchannel request (CIBA Core §7.3); five is the default of the specification, and a client that polls faster is told to add five."
+                            },
+                            "refresh_token_ttl": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 2592000,
+                                "description": "Sliding lifetime of a refresh token, renewed at each rotation."
+                            },
+                            "refresh_token_absolute_ttl": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 7776000,
+                                "description": "Lifetime of a refresh token family from the authorization that started it; no rotation extends it."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "authorization_code_ttl": 60,
+                            "access_token_ttl": 600,
+                            "id_token_ttl": 600,
+                            "request_uri_ttl": 60,
+                            "device_code_ttl": 600,
+                            "device_code_interval": 5,
+                            "backchannel_authentication_ttl": 300,
+                            "backchannel_authentication_max_requested_expiry": 1800,
+                            "backchannel_authentication_interval": 5,
+                            "refresh_token_ttl": 2592000,
+                            "refresh_token_absolute_ttl": 7776000
+                        },
+                        "description": "Lifetimes in seconds. The defaults are the choices of architecture §9."
+                    },
+                    "load": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "origin": {
+                                "$ref": "#/$defs/types/object_null",
+                                "properties": {
+                                    "limit": {
+                                        "$ref": "#/$defs/types/integer",
+                                        "minimum": 1,
+                                        "default": 2400,
+                                        "description": "Requests taken from one address in the window."
+                                    },
+                                    "interval": {
+                                        "$ref": "#/$defs/types/integer",
+                                        "minimum": 1,
+                                        "default": 60,
+                                        "description": "Seconds the window covers."
+                                    }
+                                },
+                                "additionalProperties": false,
+                                "default": {
+                                    "limit": 2400,
+                                    "interval": 60
+                                },
+                                "description": "What one client address may send, whatever it asks for and whether or not it has proved anything. It is not scoped to a tenant: what it bounds is the load on the machine, which every tenant of a deployment shares."
+                            },
+                            "client": {
+                                "$ref": "#/$defs/types/object_null",
+                                "properties": {
+                                    "limit": {
+                                        "$ref": "#/$defs/types/integer",
+                                        "minimum": 1,
+                                        "default": 1200,
+                                        "description": "Requests taken from one authenticated client in the window."
+                                    },
+                                    "interval": {
+                                        "$ref": "#/$defs/types/integer",
+                                        "minimum": 1,
+                                        "default": 60,
+                                        "description": "Seconds the window covers."
+                                    }
+                                },
+                                "additionalProperties": false,
+                                "default": {
+                                    "limit": 1200,
+                                    "interval": 60
+                                },
+                                "description": "What one client may ask once its authentication has succeeded, by tenant and by client. This is the one a tenant reads when one of its applications goes into a loop."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "origin": {
+                                "limit": 2400,
+                                "interval": 60
+                            },
+                            "client": {
+                                "limit": 1200,
+                                "interval": 60
+                            }
+                        },
+                        "description": "How many requests the provider takes in a window, by origin and by authenticated client (decision 0014). Both budgets always exist; these are their numbers, which depend on the size of the deployment. A number too low on /token or on /jwks is an outage a deployment inflicts on itself, so they are measured on what its own clients send."
+                    },
+                    "interaction": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "login_hint": {
+                                "anyOf": [
+                                    {
+                                        "enum": [
+                                            "sub",
+                                            "username",
+                                            "none"
+                                        ]
+                                    },
+                                    {
+                                        "$ref": "#/$defs/types/param"
+                                    }
+                                ],
+                                "default": "sub",
+                                "description": "What a \"login_hint\" of an authorization request names for this tenant, read one way and never searched for (OIDC Core §3.1.2.1): \"sub\" the subject this provider issued to that client, \"username\" the name the user signs in with, \"none\" for a deployment that tags a reader of its own. The login page offers the name of the user the hint names and nothing at all when it names nobody, the value itself being one the person never typed. These are the names the backchannel flow reads its own hint by."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "login_hint": "sub"
+                        },
+                        "description": "The pages a browser is sent to while an authorization request waits for a login or a consent (architecture §4.3)."
+                    },
+                    "back_channel_logout": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "timeout": {
+                                "$ref": "#/$defs/types/number",
+                                "minimum": 0.1,
+                                "default": 5,
+                                "description": "Seconds one attempt is given, connection included. A relying party that hangs must not hold a worker; five seconds is long for a request that reads nothing back, and a client that needs longer is a client that is down, which the retries cover."
+                            },
+                            "retries": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 0,
+                                "default": 6,
+                                "description": "How many times a send that did not reach its client comes back. A relying party that is restarting answers for a minute and then works; beyond the schedule below, it is down, and the provider says so rather than trying for ever."
+                            },
+                            "retry_delay": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 2,
+                                "description": "Seconds before the first retry."
+                            },
+                            "retry_multiplier": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 3,
+                                "description": "What each wait is multiplied by to give the next one."
+                            },
+                            "retry_max_delay": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 60,
+                                "description": "Seconds a wait never exceeds, whatever the multiplier makes of it."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "timeout": 5,
+                            "retries": 6,
+                            "retry_delay": 2,
+                            "retry_multiplier": 3,
+                            "retry_max_delay": 60
+                        },
+                        "description": "How a logout token reaches a client that registered a backchannel_logout_uri (Back-Channel Logout 1.0 §2.5), and for how long. These values are what the transport of the notifications does with a send that failed, the application giving that transport the policy of the bundle, and what a signing key is held back for while a logout token it signed may still be on its way (issue #155)."
+                    },
+                    "backchannel_authentication": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "login_hint": {
+                                "anyOf": [
+                                    {
+                                        "enum": [
+                                            "sub",
+                                            "username",
+                                            "none"
+                                        ]
+                                    },
+                                    {
+                                        "$ref": "#/$defs/types/param"
+                                    }
+                                ],
+                                "default": "sub",
+                                "description": "What a \"login_hint\" of a backchannel authentication request names for this tenant, read one way and never searched for (CIBA Core §7.1): \"sub\" the subject this provider issued to that client, \"username\" the name the user signs in with, \"none\" for a deployment that tags a reader of its own. CIBA Core §15 asks for an identifier that says nothing outside this provider, which \"sub\" is and a username is not. These are the names the login page reads its own hint by."
+                            },
+                            "client_notification_timeout": {
+                                "$ref": "#/$defs/types/number",
+                                "minimum": 0.1,
+                                "default": 3,
+                                "description": "Seconds one call to a client notification endpoint is given, connection included (CIBA Core §10.2). A client that hangs must not hold a worker; how many times the call is tried again is the retry policy of the notifications lane, as it is for a logout token."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "login_hint": "sub",
+                            "client_notification_timeout": 3
+                        },
+                        "description": "The flow where a client asks for a user it names and the user approves on a device they already hold (CIBA Core §7). A client takes part in it by registering a grant and a delivery mode, one client at a time; nothing here turns it on for anybody."
+                    },
+                    "web_push": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "subject": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "The \"sub\" of the token this provider signs for a push service (RFC 8292 §2.1): a \"mailto:\" or \"https:\" URI at which the operator of this deployment can be reached about what it sends. Naming one is what turns web push on; absent, nothing of it is wired."
+                            },
+                            "timeout": {
+                                "$ref": "#/$defs/types/number",
+                                "minimum": 0.1,
+                                "default": 3,
+                                "description": "Seconds one push to one push service is given, connection included. A push service that hangs must not hold a worker; how many times it is tried again is the retry policy of the notifications lane, as it is for a logout token."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "subject": null,
+                            "timeout": 3
+                        },
+                        "description": "Reaching a user through the push service of a browser they signed in with (RFC 8030, architecture §5.6). Absent, nothing of it is wired: no push leaves this deployment and the page where a browser would subscribe says so."
+                    },
+                    "client_authentication": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "assertion_max_lifetime": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 300,
+                                "description": "Seconds ahead of the request the \"exp\" of a client assertion may be (RFC 7523 §3). An assertion is minted for one request; a long one is a bearer token nobody watches."
+                            },
+                            "assertion_leeway": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 0,
+                                "default": 30,
+                                "description": "Seconds allowed of the clock of a client, both ways."
+                            },
+                            "jwks_timeout": {
+                                "$ref": "#/$defs/types/number",
+                                "minimum": 0.1,
+                                "default": 3,
+                                "description": "Seconds one read of a jwks_uri is given, connection included. A client that hangs must not hold a worker: an endpoint authenticating it is waiting."
+                            },
+                            "jwks_max_size": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 65536,
+                                "description": "Bytes a jwks_uri may answer before the read stops; a JWK Set of a client holds a handful of public keys."
+                            },
+                            "jwks_ttl": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 86400,
+                                "description": "Seconds the keys read back from a jwks_uri are kept in the pool the workers share."
+                            },
+                            "jwks_refetch_cooldown": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 0,
+                                "default": 300,
+                                "description": "Seconds between two reads of the same jwks_uri when an assertion names a \"kid\" the kept set does not hold. A client that rotates a key is followed within one request; a client that signs with a key it never published cannot make the provider call it on every request."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "assertion_max_lifetime": 300,
+                            "assertion_leeway": 30,
+                            "jwks_timeout": 3,
+                            "jwks_max_size": 65536,
+                            "jwks_ttl": 86400,
+                            "jwks_refetch_cooldown": 300
+                        },
+                        "description": "How a client proves who it is at the endpoints that authenticate one (RFC 6749 §2.3, OIDC Core §9). Which methods the provider takes is the wiring, not this: a method is a tagged service, and what is tagged is what is announced."
+                    },
+                    "request_objects": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "max_lifetime": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 3600,
+                                "description": "Seconds a request object may stand, from its \"nbf\" (RFC 9101 §4). An object is a request made now; a long one is an authorization a client keeps."
+                            },
+                            "leeway": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 0,
+                                "default": 30,
+                                "description": "Seconds allowed of the clock of a client, both ways."
+                            },
+                            "timeout": {
+                                "$ref": "#/$defs/types/number",
+                                "minimum": 0.1,
+                                "default": 3,
+                                "description": "Seconds one read of a request_uri is given, connection included. The browser of a user is waiting on it; no redirect is followed and only a URL the client registered is ever read."
+                            },
+                            "max_size": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 65536,
+                                "description": "Bytes a request_uri may answer before the read stops; a request object carries the parameters of one request."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "max_lifetime": 3600,
+                            "leeway": 30,
+                            "timeout": 3,
+                            "max_size": 65536
+                        },
+                        "description": "How a request the client carried in a JWT is read (RFC 9101 §4, OIDC Core §6). Which algorithm verifies it is the wiring and the registration of the client, not this; an unsigned object is read from a client that registered \"none\" and from no other."
+                    },
+                    "dpop": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "proof_max_age": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 60,
+                                "description": "Seconds a proof stands, from its \"iat\" (RFC 9449 §4.3). A proof is a signature over one request being sent; a long window is a window a proof taken off the wire may be sent again in."
+                            },
+                            "leeway": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 0,
+                                "default": 30,
+                                "description": "Seconds allowed of the clock of a client, both ways."
+                            },
+                            "nonce": {
+                                "$ref": "#/$defs/types/object_null",
+                                "properties": {
+                                    "required": {
+                                        "$ref": "#/$defs/types/boolean",
+                                        "default": false
+                                    },
+                                    "ttl": {
+                                        "$ref": "#/$defs/types/integer",
+                                        "minimum": 1,
+                                        "default": 300,
+                                        "description": "Seconds a nonce is accepted once issued."
+                                    }
+                                },
+                                "additionalProperties": false,
+                                "default": {
+                                    "required": false,
+                                    "ttl": 300
+                                },
+                                "description": "Whether this provider asks a proof to carry a nonce of its own (RFC 9449 §8), which is the server's to decide: the \"iat\" of a proof is what its client says, a nonce is what the provider knows. A client that speaks DPoP handles the refusal that hands it one; one that does not is not concerned either way."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "proof_max_age": 60,
+                            "leeway": 30,
+                            "nonce": {
+                                "required": false,
+                                "ttl": 300
+                            }
+                        },
+                        "description": "How a proof of possession is read (RFC 9449 §4.3). What a proof may be signed with is the wiring, the same algorithms the provider signs with, and what the document announces in \"dpop_signing_alg_values_supported\"; nothing here weakens a proof, and a client that sends none is not concerned."
+                    },
+                    "trusted_issuers": {
+                        "$ref": "#/$defs/types/object_null",
+                        "additionalProperties": {
+                            "$ref": "#/$defs/types/object_null",
+                            "properties": {
+                                "jwks": {
+                                    "$ref": "#/$defs/types/variable",
+                                    "default": null,
+                                    "description": "The JWK Set of the issuer, inline (RFC 7517 §5): public keys only, and the only keys an assertion of this issuer is ever verified against, whatever its header names (RFC 8725 §3.10)."
+                                },
+                                "signing_algorithms": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "The JWS algorithms an assertion of this issuer may be signed with (RFC 7515 §4.1.1), among those the provider is wired with; at least one. A name nothing verifies fails at boot."
+                                },
+                                "clients": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "The clients that may present an assertion of this issuer at the token endpoint, by client identifier; at least one. An issuer trusted for a gateway is not thereby trusted for every client of the tenant."
+                                },
+                                "identity_provider": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The source of the linked identities the subjects of its assertions name (decision 0002): the \"sub\" of an assertion is a user of this tenant only when a linked identity of that source says so, and no user is ever created here."
+                                },
+                                "trusted_scopes": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "What this issuer is trusted for: the scopes of a response are a subset of these, of what the client registered and of what the request asked for. \"openid\" among them buys nothing, the grant refusing it: it authenticates nobody."
+                                }
+                            },
+                            "additionalProperties": false
+                        },
+                        "description": "The issuers whose assertions this tenant accepts as an authorization (RFC 7523 §2.1), keyed by the \"iss\" they sign with. Each one is a closed declaration: nothing about it is inferred, and an issuer nobody declared is unknown."
+                    },
+                    "clients": {
+                        "$ref": "#/$defs/types/object_null",
+                        "additionalProperties": {
+                            "$ref": "#/$defs/types/object_null",
+                            "properties": {
+                                "client_name": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "Shown on the consent page (OIDC Registration §2); the client identifier when absent."
+                                },
+                                "client_uri": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The home page of the client (OIDC Registration §2), linked from the consent page; HTTPS, or plain HTTP on a loopback host."
+                                },
+                                "logo_uri": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The logo the consent page shows for this client (OIDC Registration §2); HTTPS, or plain HTTP on a loopback host."
+                                },
+                                "policy_uri": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "How this client uses the data it is given (OIDC Registration §2), linked from the consent page; HTTPS, or plain HTTP on a loopback host."
+                                },
+                                "tos_uri": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The terms of service of this client (OIDC Registration §2), linked from the consent page; HTTPS, or plain HTTP on a loopback host."
+                                },
+                                "contacts": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "Ways to reach the people responsible for this client (OIDC Registration §2), typically email addresses. No page shows them."
+                                },
+                                "secret": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "At least 32 visible ASCII characters, generated, never chosen; absent for a public client."
+                                },
+                                "redirect_uris": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "Compared byte for byte with the redirect_uri of a request (RFC 6749 §3.1.2.3); HTTPS, or plain HTTP on a loopback host."
+                                },
+                                "post_logout_redirect_uris": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "Compared byte for byte with the post_logout_redirect_uri of a logout request (RP-Initiated Logout §3)."
+                                },
+                                "grant_types": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "default": [
+                                        "authorization_code",
+                                        "refresh_token"
+                                    ],
+                                    "description": "What this client may ask for at the token endpoint (RFC 7591 §2), among the grants the provider is wired with; left out, it takes the browser flow and its renewal. A name nothing serves fails at boot."
+                                },
+                                "response_types": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "What this client asks the authorization endpoint to answer with (OIDC Registration §2): \"code\" and nothing else, decision 0006 admitting no implicit flow. Left out, it is the one that goes with the grants above, and a pair that contradicts itself fails at boot."
+                                },
+                                "scope": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": "openid profile email",
+                                    "description": "The closed list of scopes this client may ask for (RFC 7591 §2), space-delimited as a request writes it (RFC 6749 §3.3); a scope it did not register is refused with invalid_scope. Left out, it takes the three an application that signs a user in comes for."
+                                },
+                                "token_endpoint_auth_method": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "How this client authenticates at the endpoints that authenticate a client (OIDC Core §9), among the methods the provider is wired with; left out, it takes the first wired one. A name nothing authenticates with fails at boot."
+                                },
+                                "requires_consent": {
+                                    "$ref": "#/$defs/types/boolean",
+                                    "default": true,
+                                    "description": "Consent is the rule; a first-party application is the named exception."
+                                },
+                                "requires_pkce": {
+                                    "$ref": "#/$defs/types/boolean",
+                                    "default": true,
+                                    "description": "PKCE S256 is the rule; a confidential client that cannot send a code_challenge is the named exception of decision 0008, refused for a public client. A challenge the client sends is verified all the same."
+                                },
+                                "require_pushed_authorization_requests": {
+                                    "$ref": "#/$defs/types/boolean",
+                                    "default": false,
+                                    "description": "The only way this client starts an authorization request is by pushing it (RFC 9126 §6), which is what FAPI 2.0 asks of one; an ordinary request from it is refused on a page before its redirect URI is even read. Per client, nothing global: the document announces the requirement when every registered client carries it."
+                                },
+                                "require_sender_constrained_tokens": {
+                                    "$ref": "#/$defs/types/boolean",
+                                    "default": false,
+                                    "description": "The tokens of this client are bound to what the request proves it holds, or the request is refused (FAPI 2.0 Security Profile §5.3.1): a token request that proves neither a certificate (RFC 8705 §3) nor a key (RFC 9449 §5) is answered with an error rather than with bearer tokens. Per client, nothing global."
+                                },
+                                "tls_client_certificate_bound_access_tokens": {
+                                    "$ref": "#/$defs/types/boolean",
+                                    "default": false,
+                                    "description": "The tokens of this client are bound to the certificate it presents at the TLS handshake, whichever way it authenticated (RFC 8705 §3.4), which is what FAPI 1.0 Advanced Final §5.2.2 asks of a client authenticating with an assertion on a profile that binds. A token request of this client that proves no certificate is refused rather than answered with tokens bound to nothing, before anything is read of what it came to spend. A client recognised by its certificate gets bound tokens anyway (§3); per client, nothing global."
+                                },
+                                "require_signed_request_object": {
+                                    "$ref": "#/$defs/types/boolean",
+                                    "default": false,
+                                    "description": "A request of this client is only read from a request object it signed (OIDC Registration, require_signed_request_object; FAPI 2.0 Message Signing §5.3.1; FAPI-CIBA §5.2.2), whether the object arrives in the query, behind a request_uri, inside the record it pushed or in the body of a backchannel authentication request. An unsigned authorization request is refused on a page before its redirect URI is read, exactly as a request that was not pushed is; an unsigned backchannel one is refused invalid_request."
+                                },
+                                "id_token_signed_response_alg": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The JWS algorithm the ID tokens and the logout tokens of this client are signed with (OIDC Registration §2), among those the provider is wired with; left out, the provider signs them with its default. A name nothing signs under fails at boot."
+                                },
+                                "id_token_encrypted_response_alg": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The JWE key management algorithm the ID tokens of this client are encrypted to one of its keys with, once signed (OIDC Core §3.1.3.7), among those the provider is wired with. It comes with id_token_encrypted_response_enc, never alone, and the client publishes a key it can be addressed to; left out, the ID token travels signed and in clear, which is what every client does today."
+                                },
+                                "id_token_encrypted_response_enc": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The JWE content encryption algorithm the payload of that ID token is encrypted with (OIDC Core §3.1.3.7), among those the provider is wired with. OIDC Registration §2 defaults it to a value this provider is not wired with, so it is named or it is refused at boot."
+                                },
+                                "userinfo_signed_response_alg": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The JWS algorithm the UserInfo answer of this client is signed with (OIDC Core §5.3.2), among those the provider is wired with; the answer is then served as \"application/jwt\" and carries an \"iss\" and an \"aud\" beside the claims. Left out, the answer is the plain JSON, which is what every client that asks for nothing receives."
+                                },
+                                "userinfo_encrypted_response_alg": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The JWE key management algorithm the UserInfo answer of this client is encrypted to one of its keys with (OIDC Core §5.3.2), among those the provider is wired with. It comes with userinfo_encrypted_response_enc, never alone. Without userinfo_signed_response_alg, what is encrypted is the plain JSON of the claims, §5.3.2 allowing an answer to be encrypted without being signed."
+                                },
+                                "userinfo_encrypted_response_enc": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The JWE content encryption algorithm the payload of that UserInfo answer is encrypted with (OIDC Core §5.3.2), among those the provider is wired with."
+                                },
+                                "authorization_signed_response_alg": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The JWS algorithm the signed authorization responses of this client are signed with (JARM §3), among those the provider is wired with; left out, the provider signs them with its default. It applies to the answers this client asks for with response_mode=jwt, query.jwt or form_post.jwt, a refusal as well as a code."
+                                },
+                                "authorization_encrypted_response_alg": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The JWE key management algorithm the signed authorization responses of this client are encrypted to one of its keys with, once signed (JARM §3), among those the provider is wired with. It comes with authorization_encrypted_response_enc, never alone."
+                                },
+                                "authorization_encrypted_response_enc": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The JWE content encryption algorithm the payload of that authorization response is encrypted with (JARM §3), among those the provider is wired with."
+                                },
+                                "access_token_format": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The shape the access tokens of this client are written in, among those the provider is wired to write: \"jwt\" (RFC 9068, verified offline against the JWK Set) or \"opaque\" (a reference the resource server introspects, RFC 7662, revocable at once). Left out, it takes the first wired one. A name nothing writes fails at boot. Per client, nothing global."
+                                },
+                                "backchannel_logout_uri": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "Where the provider posts a logout token when a session this client signed in ends (Back-Channel Logout 1.0 §2.2); HTTPS, or plain HTTP on a loopback host. Absent for a client the provider does not tell."
+                                },
+                                "backchannel_logout_session_required": {
+                                    "$ref": "#/$defs/types/boolean",
+                                    "default": false,
+                                    "description": "The client reads the \"sid\" of the logout token to know which session ended (Back-Channel Logout 1.0 §2.2); it needs a backchannel_logout_uri. The provider sends \"sid\" either way."
+                                },
+                                "frontchannel_logout_uri": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "Loaded in a frame of the logout page when a session this client signed in ends (Front-Channel Logout 1.0 §3); HTTPS, or plain HTTP on a loopback host. Absent for a client the page does not load. It reaches the client only if the browser sends that client its cookies."
+                                },
+                                "frontchannel_logout_session_required": {
+                                    "$ref": "#/$defs/types/boolean",
+                                    "default": false,
+                                    "description": "The client reads \"iss\" and \"sid\" on its logout URI to know which session ended (Front-Channel Logout 1.0 §2); it needs a frontchannel_logout_uri. The two parameters are added for this client only, §2 making them conditional."
+                                },
+                                "jwks": {
+                                    "$ref": "#/$defs/types/variable",
+                                    "default": null,
+                                    "description": "The JWK Set of the client, inline (RFC 7591 §2): public keys only, and exclusive with jwks_uri. A client that authenticates with private_key_jwt publishes one of the two."
+                                },
+                                "jwks_uri": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "Where the JWK Set of the client is read back from (RFC 7591 §2); HTTPS, or plain HTTP on a loopback host, no redirect followed. Exclusive with jwks."
+                                },
+                                "subject_type": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The kind of \"sub\" this client sees for a user (OIDC Core §8), under the name the resolver of that kind gives itself, among the kinds this provider assigns one for, which is what subject_types_supported announces. Left out, the client registers none and sees the kind the provider assigns by default."
+                                },
+                                "sector_identifier_uri": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The document naming every redirection URI of the clients that share a \"sub\" with this one (OIDC Core §8.1); HTTPS, no redirect followed."
+                                },
+                                "initiate_login_uri": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "Where a third party sends a user to have this provider begin a login at this client (OIDC Core §4, OIDC Registration §2); HTTPS, on a loopback host as anywhere else: §2 gives this member none of the tolerance the other URIs of a client keep."
+                                },
+                                "request_object_signing_alg": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The JWS algorithm the request objects of this client are signed with (OIDC Registration §2), among those the provider is wired with; left out, any of them verifies one. The value \"none\" is the named exception of decision 0006: the objects of that client carry no signature and are read all the same, which no FAPI client registers. A client that names an algorithm publishes its keys in jwks or behind a jwks_uri."
+                                },
+                                "backchannel_token_delivery_mode": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "How this client is told that a backchannel authentication request has been answered (CIBA Core §4), among the modes the provider is wired with: \"poll\" for a client that asks the token endpoint again until it is answered, \"ping\" for one this provider calls back first. There is no default: a client that registers none is not a client of that flow, and the endpoint where it starts refuses it. A name nothing serves fails at boot."
+                                },
+                                "backchannel_client_notification_endpoint": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "Where this provider posts the identifier of a backchannel request once it has been answered (CIBA Core §7.1, §10.2); HTTPS, or plain HTTP on a loopback host, no redirect followed. It goes with a delivery mode where the provider calls the client, never alone, and never without one."
+                                },
+                                "resources": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "The resources this client may ask an access token for (RFC 8707 §2 \"resource\"), each an absolute URI without a fragment; a resource it did not register is refused with invalid_target. A closed list, no wildcard: a client that registers none asks for none, and its tokens are addressed to itself."
+                                },
+                                "authorization_details_types": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "The types of authorization detail this client may ask for (RFC 9396 §2 \"authorization_details\"), among the ones the provider is wired with; a type it did not register, and a type nothing serves, are both refused with invalid_authorization_details. A closed list, no wildcard: a client that registers none asks for none. A type is a class the deployment tags, which validates its own members and says what a page shows of them: the bundle wires none, no type of detail being universal."
+                                },
+                                "token_exchange": {
+                                    "$ref": "#/$defs/types/object_null",
+                                    "properties": {
+                                        "subject_token_types": {
+                                            "$ref": "#/$defs/types/array_null",
+                                            "items": {
+                                                "$ref": "#/$defs/types/scalar"
+                                            },
+                                            "description": "The types of token this client may present as a subject_token or as an actor_token (RFC 8693 §3), among those the provider is wired to read; at least one. A name nothing reads fails at boot."
+                                        },
+                                        "may_act_for_a_user": {
+                                            "$ref": "#/$defs/types/boolean",
+                                            "default": false,
+                                            "description": "Whether this client may present a token somebody signed in for. False for a service that only ever exchanges tokens of its own (RFC 6749 §4.4): a gateway carrying a user's token is not the same party, and a deployment says which of the two it registered."
+                                        }
+                                    },
+                                    "additionalProperties": false,
+                                    "description": "What this client may do at the token exchange (RFC 8693 §2.1), for a client registered for that grant and for no other. A closed declaration: a client presenting something it did not register for is refused whatever the thing says. Which resources the new token may be addressed to is the resources option above, as it is for every other grant."
+                                },
+                                "may_act": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "Who may act for the subject of a token issued to this client (RFC 8693 §4.4), as a subject: it is written on every token this client receives, and an exchange asked for by anybody else is refused. Absent, the token says nothing and what decides is the registration of whoever asks."
+                                },
+                                "request_uris": {
+                                    "$ref": "#/$defs/types/array_null",
+                                    "items": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "description": "The URLs a request object of this client is read back from (OIDC Registration §2), compared byte for byte with the request_uri of a request; one that is not registered is refused before any request leaves the process, which is what require_request_uri_registration announces."
+                                },
+                                "tls_client_auth_subject_dn": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The subject distinguished name of the certificate this client presents (RFC 8705 §2.1.2), in the string form of RFC 4514; it is written back at boot the way the provider writes the name it reads out of a certificate, so a name as \"openssl x509 -noout -subject -nameopt RFC2253\" prints it is registered as it is. One of the five keys below, and one only, for a client that authenticates with tls_client_auth."
+                                },
+                                "tls_client_auth_san_dns": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The dNSName entry of the subject alternative name extension this client is recognised by (RFC 8705 §2.1.2), compared without regard to case (RFC 4343 §1)."
+                                },
+                                "tls_client_auth_san_uri": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The uniformResourceIdentifier entry this client is recognised by (RFC 8705 §2.1.2), compared as the text it is."
+                                },
+                                "tls_client_auth_san_ip": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The iPAddress entry this client is recognised by (RFC 8705 §2.1.2), in dotted decimal or colon-delimited hexadecimal; it is compared as the octets it stands for, not as the text."
+                                },
+                                "tls_client_auth_san_email": {
+                                    "$ref": "#/$defs/types/scalar",
+                                    "default": null,
+                                    "description": "The rfc822Name entry this client is recognised by (RFC 8705 §2.1.2), compared as it is written (RFC 5321 §2.4)."
+                                }
+                            },
+                            "additionalProperties": false
+                        },
+                        "description": "The clients of the tenant, keyed by client identifier. A secret is hashed when the client is loaded and never kept in clear, unless the method it registered has to compute a MAC with it (client_secret_jwt)."
+                    },
+                    "client_registration": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "mode": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "What authorises a registration, by the name the class that is that mode gives itself. This provider is wired with \"initial_access_token\", a credential the tenant issues, names, limits in number and duration and revokes (RFC 7591 section 1.2), with \"open\", which registers whoever asks with no credential at all (RFC 7591 section 1.3) and is written by a tenant that has no real user, and with \"software_statement\", a statement signed by an authority this tenant pins under \"statement_issuers\" below (RFC 7591 section 2.3), which is the mode that crosses the boundary of an organisation since the provider issues nothing. Left out, the tenant has no registration endpoint at all: it is not a mode of refusing, it is the absence of the endpoint. It is named per tenant and nothing here opens a mode for more than the tenant that names it."
+                            },
+                            "keep_a_client_unused_for": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 7776000,
+                                "description": "Seconds a client that was used may go without being used again before it is deleted (decision 0009). Ninety days by default, which is the absolute lifetime of a refresh token family this provider is configured with by default: past it, nothing that client was ever issued can still be presented, so deleting it takes nothing away from anybody."
+                            },
+                            "keep_a_client_never_used_for": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 604800,
+                                "description": "Seconds a client that was never used lives at all (decision 0009). Seven days by default, a working week, so that a registration made on a Friday afternoon is still there the next Friday; a client that was never used holds nothing, so the only question is how long whoever registered it may take to make its first request. The mode that registers strangers makes it the shorter of the two."
+                            },
+                            "sector_identifier_timeout": {
+                                "$ref": "#/$defs/types/number",
+                                "minimum": 0.1,
+                                "default": 3,
+                                "description": "Seconds one read of a sector_identifier_uri is given, connection included (OIDC Registration section 5). It is read once, when a client registers or replaces itself, and the registration waits for it."
+                            },
+                            "sector_identifier_max_size": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 65536,
+                                "description": "Bytes a sector_identifier_uri may answer before the read stops; the document is the JSON array of the redirection URIs of the clients of one sector."
+                            },
+                            "statement_issuers": {
+                                "$ref": "#/$defs/types/object_null",
+                                "additionalProperties": {
+                                    "$ref": "#/$defs/types/object_null",
+                                    "properties": {
+                                        "jwks": {
+                                            "$ref": "#/$defs/types/variable",
+                                            "default": null,
+                                            "description": "The JWK Set of the authority, inline (RFC 7517 section 5): public keys only, and the only keys a statement of this authority is ever verified against, whatever its header names (RFC 8725 section 3.10)."
+                                        },
+                                        "signing_algorithms": {
+                                            "$ref": "#/$defs/types/array_null",
+                                            "items": {
+                                                "$ref": "#/$defs/types/scalar"
+                                            },
+                                            "description": "The JWS algorithms a statement of this authority may be signed with (RFC 7515 section 4.1.1), among those the provider is wired with; at least one. A name nothing verifies fails at boot."
+                                        }
+                                    },
+                                    "additionalProperties": false
+                                },
+                                "description": "The authorities whose software statements this tenant accepts (RFC 7591 section 2.3), keyed by the \"iss\" they sign with. They are what the \"software_statement\" mode reads, and a tenant that pins none has that mode closed rather than open to whoever signs. Each one is a closed declaration: nothing about it is inferred, and no key a statement carries is ever read."
+                            },
+                            "statement_max_lifetime": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 300,
+                                "description": "Seconds ahead of the request the \"exp\" of a software statement may be (RFC 7591 section 2.3). A statement is signed for one registration, so it is not a credential for a year; RFC 7591 requires no \"exp\" at all, and this provider requires one as it does of every signed thing it takes back (decision 0006)."
+                            },
+                            "statement_leeway": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 0,
+                                "default": 30,
+                                "description": "Seconds allowed of the clock of the authority, both ways, when its statement is judged."
+                            },
+                            "default_scope": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "What a client that registers itself and names no scope is registered with (RFC 7591 section 2: \"If omitted, an authorization server MAY register a client with a default set of scopes\"), space-delimited as a request writes one (RFC 6749 section 3.3). Left out, such a client is registered with \"openid\" alone, which is less than this tenant hands out and is a default nobody chose. It is held to what the tenant announces like every registered scope, so a scope written here that the tenant does not offer refuses every registration rather than granting one, and it is read at the boot that declares it. A client that names its own scopes keeps them."
+                            },
+                            "exempt_confidential_clients_from_pkce": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": false,
+                                "description": "The named exception of decision 0017, for the tenant that writes it and no other: the confidential clients this policy registers are registered without the PKCE requirement, because the Dynamic OP profile of OIDC Core sends no code_challenge and offers no way to. A public client is never exempted whatever this says, \"plain\" never exists, and a code_challenge a client does send is verified like any other. Write it with the reason a tenant has for it beside it; a tenant with real users has none."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "mode": null,
+                            "keep_a_client_unused_for": 7776000,
+                            "keep_a_client_never_used_for": 604800,
+                            "sector_identifier_timeout": 3,
+                            "sector_identifier_max_size": 65536,
+                            "statement_issuers": [],
+                            "statement_max_lifetime": 300,
+                            "statement_leeway": 30,
+                            "default_scope": null,
+                            "exempt_confidential_clients_from_pkce": false
+                        },
+                        "description": "How a client that nobody declared comes to exist here (RFC 7591, decision 0009). Absent, the tenant registers nobody, which is the default and what a deployment that writes nothing gets."
+                    }
+                },
+                "required": [
+                    "tenant",
+                    "keys"
+                ],
+                "additionalProperties": false
+            },
             "cache": {
                 "$ref": "#/$defs/types/object_null",
                 "properties": {
@@ -2558,979 +3531,6 @@
                         }
                     }
                 },
-                "additionalProperties": false
-            },
-            "beffroi": {
-                "$ref": "#/$defs/types/object_null",
-                "properties": {
-                    "tenant": {
-                        "$ref": "#/$defs/types/object_null",
-                        "properties": {
-                            "issuer": {
-                                "$ref": "#/$defs/types/scalar",
-                                "description": "Issuer identifier (OIDC Discovery §3): an absolute HTTPS URL, no query, no fragment, no trailing slash; plain HTTP on a loopback host only."
-                            },
-                            "slug": {
-                                "$ref": "#/$defs/types/scalar",
-                                "default": "default",
-                                "description": "Stable name of the tenant, from which its identifier is derived; renaming it is creating another tenant."
-                            },
-                            "name": {
-                                "$ref": "#/$defs/types/scalar",
-                                "default": null,
-                                "description": "Display name; the host of the issuer when absent."
-                            },
-                            "authentication_classes": {
-                                "$ref": "#/$defs/types/object_null",
-                                "additionalProperties": {
-                                    "anyOf": [
-                                        {
-                                            "enum": [
-                                                "single_factor",
-                                                "two_factors",
-                                                "phishing_resistant",
-                                                "phishing_resistant_hardware"
-                                            ]
-                                        },
-                                        {
-                                            "$ref": "#/$defs/types/param"
-                                        }
-                                    ]
-                                },
-                                "default": {
-                                    "phrh": "phishing_resistant_hardware",
-                                    "phr": "phishing_resistant",
-                                    "2": "two_factors",
-                                    "1": "single_factor"
-                                },
-                                "description": "The \"acr\" vocabulary of the tenant (decision 0010): class names, in the order a session is answered in, each on a predicate of the provider; the default policy (\"phrh\", \"phr\", \"2\", \"1\") when absent."
-                            }
-                        },
-                        "required": [
-                            "issuer"
-                        ],
-                        "additionalProperties": false,
-                        "description": "The one tenant of this deployment: the key is already a tenant, a table comes later."
-                    },
-                    "keys": {
-                        "$ref": "#/$defs/types/object_null",
-                        "properties": {
-                            "kms": {
-                                "$ref": "#/$defs/types/scalar",
-                                "description": "Name of the KMS client that seals the private keys, an entry of \"key_management.clients\" of the framework configuration (a DSN there, or the members of a composite client); the KMS keeps, it never signs."
-                            },
-                            "key_id": {
-                                "$ref": "#/$defs/types/scalar",
-                                "description": "The key of that KMS the keys of the tenants are sealed under (backend-specific: the id of a sodium key, a Vault transit key name, an ARN); \"{tenant}\" stands for the slug of the tenant, one master key each."
-                            },
-                            "storage": {
-                                "$ref": "#/$defs/types/scalar",
-                                "default": "%kernel.project_dir%/var/keys",
-                                "description": "Directory of the sealed keys, one file per key and per tenant, and of the pairwise salt of each tenant, one file beside them (OIDC Core section 8.1)."
-                            },
-                            "jwks_max_age": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 0,
-                                "default": 300,
-                                "description": "How long a relying party may cache the JWK Set, in seconds (RFC 7517 §5, architecture §4.8); the staging window of a rotation derives from it, so that the two cannot drift apart (§3.3)."
-                            },
-                            "staging_delay": {
-                                "$ref": "#/$defs/types/integer_null",
-                                "minimum": 0,
-                                "default": null,
-                                "description": "How long a new key is published before it signs, in seconds (architecture §3.3, §9); unless set, jwks_max_age plus the 60 s refetch cooldown of oidc_login: the max-age is what a relying party with a warm cache needs to see the new key, the cooldown what one served by a shared HTTP cache needs to refetch it."
-                            }
-                        },
-                        "required": [
-                            "kms",
-                            "key_id"
-                        ],
-                        "additionalProperties": false,
-                        "description": "Where the keys of the tenants live: sealed by the KMS named here, stored as files until a table takes over (architecture §3.3)."
-                    },
-                    "webauthn": {
-                        "$ref": "#/$defs/types/object_null",
-                        "properties": {
-                            "metadata_storage": {
-                                "$ref": "#/$defs/types/scalar",
-                                "default": "%kernel.project_dir%/var/webauthn",
-                                "description": "Directory of the FIDO metadata the ceremonies check an attestation against: the documents \"beffroi:webauthn:mds-refresh\" verified and \"beffroi:webauthn:mds-import\" stored, next to the keys; empty until one of them ran, which the enrolment of the provider does not need."
-                            }
-                        },
-                        "additionalProperties": false,
-                        "default": {
-                            "metadata_storage": "%kernel.project_dir%/var/webauthn"
-                        },
-                        "description": "What the passkey ceremonies read besides the tenant (architecture §3.4)."
-                    },
-                    "mutual_tls": {
-                        "$ref": "#/$defs/types/object_null",
-                        "properties": {
-                            "origin": {
-                                "$ref": "#/$defs/types/scalar",
-                                "default": null,
-                                "description": "Scheme and authority of that host, without a path (\"https://mtls.op.example\"). The endpoints are announced under it in \"mtls_endpoint_aliases\", with the paths they are served at. Absent, the document announces no alias and a client authenticating by mutual TLS reaches the ordinary endpoints, which is what a deployment serving one host does."
-                            }
-                        },
-                        "additionalProperties": false,
-                        "default": {
-                            "origin": null
-                        },
-                        "description": "Where a client that presents a certificate reaches the endpoints (RFC 8705 §5). The certificate itself comes from the edge, which is infrastructure and not configuration (architecture §6); what a deployment says here is the host its listener asks for one on."
-                    },
-                    "tokens": {
-                        "$ref": "#/$defs/types/object_null",
-                        "properties": {
-                            "authorization_code_ttl": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "maximum": 600,
-                                "default": 60,
-                                "description": "RFC 6749 §4.1.2 recommends ten minutes at most; sixty seconds bound the injection window."
-                            },
-                            "access_token_ttl": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "default": 600,
-                                "description": "Both shapes of access token (architecture §4.6): the self-contained one cannot be revoked, and a short lifetime bounds the exposure; the opaque one gets the same, a revocation is a facility and not a reason to live longer."
-                            },
-                            "id_token_ttl": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "default": 600
-                            },
-                            "request_uri_ttl": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "maximum": 600,
-                                "default": 60,
-                                "description": "Seconds a request_uri answered by the pushed authorization request endpoint lives (RFC 9126 §2.2); sixty is the example of the specification, and the browser is sent the moment the client holds the reference."
-                            },
-                            "device_code_ttl": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "maximum": 1800,
-                                "default": 600,
-                                "description": "Seconds a device code and the user code beside it live (RFC 8628 §3.2); ten minutes is what a user needs to read a code off one screen and type it on another."
-                            },
-                            "device_code_interval": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "maximum": 30,
-                                "default": 5,
-                                "description": "Seconds a client waits between two polls of the token endpoint (RFC 8628 §3.2); five is the default of the specification, and a client that polls faster is told to add five."
-                            },
-                            "backchannel_authentication_ttl": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "maximum": 3600,
-                                "default": 300,
-                                "description": "Seconds a backchannel authentication request lives when the client asks for nothing (CIBA Core §7.3); five minutes is what somebody needs to be reached and to answer."
-                            },
-                            "backchannel_authentication_max_requested_expiry": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "maximum": 3600,
-                                "default": 1800,
-                                "description": "Seconds the longest lifetime a client may ask for with \"requested_expiry\" (CIBA Core §7.1); a request that asks for more is served this, not refused."
-                            },
-                            "backchannel_authentication_interval": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "maximum": 30,
-                                "default": 5,
-                                "description": "Seconds a client waits between two polls of the token endpoint for a backchannel request (CIBA Core §7.3); five is the default of the specification, and a client that polls faster is told to add five."
-                            },
-                            "refresh_token_ttl": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "default": 2592000,
-                                "description": "Sliding lifetime of a refresh token, renewed at each rotation."
-                            },
-                            "refresh_token_absolute_ttl": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "default": 7776000,
-                                "description": "Lifetime of a refresh token family from the authorization that started it; no rotation extends it."
-                            }
-                        },
-                        "additionalProperties": false,
-                        "default": {
-                            "authorization_code_ttl": 60,
-                            "access_token_ttl": 600,
-                            "id_token_ttl": 600,
-                            "request_uri_ttl": 60,
-                            "device_code_ttl": 600,
-                            "device_code_interval": 5,
-                            "backchannel_authentication_ttl": 300,
-                            "backchannel_authentication_max_requested_expiry": 1800,
-                            "backchannel_authentication_interval": 5,
-                            "refresh_token_ttl": 2592000,
-                            "refresh_token_absolute_ttl": 7776000
-                        },
-                        "description": "Lifetimes in seconds. The defaults are the choices of architecture §9."
-                    },
-                    "load": {
-                        "$ref": "#/$defs/types/object_null",
-                        "properties": {
-                            "origin": {
-                                "$ref": "#/$defs/types/object_null",
-                                "properties": {
-                                    "limit": {
-                                        "$ref": "#/$defs/types/integer",
-                                        "minimum": 1,
-                                        "default": 2400,
-                                        "description": "Requests taken from one address in the window."
-                                    },
-                                    "interval": {
-                                        "$ref": "#/$defs/types/integer",
-                                        "minimum": 1,
-                                        "default": 60,
-                                        "description": "Seconds the window covers."
-                                    }
-                                },
-                                "additionalProperties": false,
-                                "default": {
-                                    "limit": 2400,
-                                    "interval": 60
-                                },
-                                "description": "What one client address may send, whatever it asks for and whether or not it has proved anything. It is not scoped to a tenant: what it bounds is the load on the machine, which every tenant of a deployment shares."
-                            },
-                            "client": {
-                                "$ref": "#/$defs/types/object_null",
-                                "properties": {
-                                    "limit": {
-                                        "$ref": "#/$defs/types/integer",
-                                        "minimum": 1,
-                                        "default": 1200,
-                                        "description": "Requests taken from one authenticated client in the window."
-                                    },
-                                    "interval": {
-                                        "$ref": "#/$defs/types/integer",
-                                        "minimum": 1,
-                                        "default": 60,
-                                        "description": "Seconds the window covers."
-                                    }
-                                },
-                                "additionalProperties": false,
-                                "default": {
-                                    "limit": 1200,
-                                    "interval": 60
-                                },
-                                "description": "What one client may ask once its authentication has succeeded, by tenant and by client. This is the one a tenant reads when one of its applications goes into a loop."
-                            }
-                        },
-                        "additionalProperties": false,
-                        "default": {
-                            "origin": {
-                                "limit": 2400,
-                                "interval": 60
-                            },
-                            "client": {
-                                "limit": 1200,
-                                "interval": 60
-                            }
-                        },
-                        "description": "How many requests the provider takes in a window, by origin and by authenticated client (decision 0014). Both budgets always exist; these are their numbers, which depend on the size of the deployment. A number too low on /token or on /jwks is an outage a deployment inflicts on itself, so they are measured on what its own clients send."
-                    },
-                    "interaction": {
-                        "$ref": "#/$defs/types/object_null",
-                        "properties": {
-                            "login_hint": {
-                                "anyOf": [
-                                    {
-                                        "enum": [
-                                            "sub",
-                                            "username",
-                                            "none"
-                                        ]
-                                    },
-                                    {
-                                        "$ref": "#/$defs/types/param"
-                                    }
-                                ],
-                                "default": "sub",
-                                "description": "What a \"login_hint\" of an authorization request names for this tenant, read one way and never searched for (OIDC Core §3.1.2.1): \"sub\" the subject this provider issued to that client, \"username\" the name the user signs in with, \"none\" for a deployment that tags a reader of its own. The login page offers the name of the user the hint names and nothing at all when it names nobody, the value itself being one the person never typed. These are the names the backchannel flow reads its own hint by."
-                            }
-                        },
-                        "additionalProperties": false,
-                        "default": {
-                            "login_hint": "sub"
-                        },
-                        "description": "The pages a browser is sent to while an authorization request waits for a login or a consent (architecture §4.3)."
-                    },
-                    "back_channel_logout": {
-                        "$ref": "#/$defs/types/object_null",
-                        "properties": {
-                            "timeout": {
-                                "$ref": "#/$defs/types/number",
-                                "minimum": 0.1,
-                                "default": 5,
-                                "description": "Seconds one attempt is given, connection included. A relying party that hangs must not hold a worker; five seconds is long for a request that reads nothing back, and a client that needs longer is a client that is down, which the retries cover."
-                            },
-                            "retries": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 0,
-                                "default": 6,
-                                "description": "How many times a send that did not reach its client comes back. A relying party that is restarting answers for a minute and then works; beyond the schedule below, it is down, and the provider says so rather than trying for ever."
-                            },
-                            "retry_delay": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "default": 2,
-                                "description": "Seconds before the first retry."
-                            },
-                            "retry_multiplier": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "default": 3,
-                                "description": "What each wait is multiplied by to give the next one."
-                            },
-                            "retry_max_delay": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "default": 60,
-                                "description": "Seconds a wait never exceeds, whatever the multiplier makes of it."
-                            }
-                        },
-                        "additionalProperties": false,
-                        "default": {
-                            "timeout": 5,
-                            "retries": 6,
-                            "retry_delay": 2,
-                            "retry_multiplier": 3,
-                            "retry_max_delay": 60
-                        },
-                        "description": "How a logout token reaches a client that registered a backchannel_logout_uri (Back-Channel Logout 1.0 §2.5), and for how long. These values are what the transport of the notifications does with a send that failed, the application giving that transport the policy of the bundle, and what a signing key is held back for while a logout token it signed may still be on its way (issue #155)."
-                    },
-                    "backchannel_authentication": {
-                        "$ref": "#/$defs/types/object_null",
-                        "properties": {
-                            "login_hint": {
-                                "anyOf": [
-                                    {
-                                        "enum": [
-                                            "sub",
-                                            "username",
-                                            "none"
-                                        ]
-                                    },
-                                    {
-                                        "$ref": "#/$defs/types/param"
-                                    }
-                                ],
-                                "default": "sub",
-                                "description": "What a \"login_hint\" of a backchannel authentication request names for this tenant, read one way and never searched for (CIBA Core §7.1): \"sub\" the subject this provider issued to that client, \"username\" the name the user signs in with, \"none\" for a deployment that tags a reader of its own. CIBA Core §15 asks for an identifier that says nothing outside this provider, which \"sub\" is and a username is not. These are the names the login page reads its own hint by."
-                            },
-                            "client_notification_timeout": {
-                                "$ref": "#/$defs/types/number",
-                                "minimum": 0.1,
-                                "default": 3,
-                                "description": "Seconds one call to a client notification endpoint is given, connection included (CIBA Core §10.2). A client that hangs must not hold a worker; how many times the call is tried again is the retry policy of the notifications lane, as it is for a logout token."
-                            }
-                        },
-                        "additionalProperties": false,
-                        "default": {
-                            "login_hint": "sub",
-                            "client_notification_timeout": 3
-                        },
-                        "description": "The flow where a client asks for a user it names and the user approves on a device they already hold (CIBA Core §7). A client takes part in it by registering a grant and a delivery mode, one client at a time; nothing here turns it on for anybody."
-                    },
-                    "web_push": {
-                        "$ref": "#/$defs/types/object_null",
-                        "properties": {
-                            "subject": {
-                                "$ref": "#/$defs/types/scalar",
-                                "default": null,
-                                "description": "The \"sub\" of the token this provider signs for a push service (RFC 8292 §2.1): a \"mailto:\" or \"https:\" URI at which the operator of this deployment can be reached about what it sends. Naming one is what turns web push on; absent, nothing of it is wired."
-                            },
-                            "timeout": {
-                                "$ref": "#/$defs/types/number",
-                                "minimum": 0.1,
-                                "default": 3,
-                                "description": "Seconds one push to one push service is given, connection included. A push service that hangs must not hold a worker; how many times it is tried again is the retry policy of the notifications lane, as it is for a logout token."
-                            }
-                        },
-                        "additionalProperties": false,
-                        "default": {
-                            "subject": null,
-                            "timeout": 3
-                        },
-                        "description": "Reaching a user through the push service of a browser they signed in with (RFC 8030, architecture §5.6). Absent, nothing of it is wired: no push leaves this deployment and the page where a browser would subscribe says so."
-                    },
-                    "client_authentication": {
-                        "$ref": "#/$defs/types/object_null",
-                        "properties": {
-                            "assertion_max_lifetime": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "default": 300,
-                                "description": "Seconds ahead of the request the \"exp\" of a client assertion may be (RFC 7523 §3). An assertion is minted for one request; a long one is a bearer token nobody watches."
-                            },
-                            "assertion_leeway": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 0,
-                                "default": 30,
-                                "description": "Seconds allowed of the clock of a client, both ways."
-                            },
-                            "jwks_timeout": {
-                                "$ref": "#/$defs/types/number",
-                                "minimum": 0.1,
-                                "default": 3,
-                                "description": "Seconds one read of a jwks_uri is given, connection included. A client that hangs must not hold a worker: an endpoint authenticating it is waiting."
-                            },
-                            "jwks_max_size": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "default": 65536,
-                                "description": "Bytes a jwks_uri may answer before the read stops; a JWK Set of a client holds a handful of public keys."
-                            },
-                            "jwks_ttl": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "default": 86400,
-                                "description": "Seconds the keys read back from a jwks_uri are kept in the pool the workers share."
-                            },
-                            "jwks_refetch_cooldown": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 0,
-                                "default": 300,
-                                "description": "Seconds between two reads of the same jwks_uri when an assertion names a \"kid\" the kept set does not hold. A client that rotates a key is followed within one request; a client that signs with a key it never published cannot make the provider call it on every request."
-                            }
-                        },
-                        "additionalProperties": false,
-                        "default": {
-                            "assertion_max_lifetime": 300,
-                            "assertion_leeway": 30,
-                            "jwks_timeout": 3,
-                            "jwks_max_size": 65536,
-                            "jwks_ttl": 86400,
-                            "jwks_refetch_cooldown": 300
-                        },
-                        "description": "How a client proves who it is at the endpoints that authenticate one (RFC 6749 §2.3, OIDC Core §9). Which methods the provider takes is the wiring, not this: a method is a tagged service, and what is tagged is what is announced."
-                    },
-                    "request_objects": {
-                        "$ref": "#/$defs/types/object_null",
-                        "properties": {
-                            "max_lifetime": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "default": 3600,
-                                "description": "Seconds a request object may stand, from its \"nbf\" (RFC 9101 §4). An object is a request made now; a long one is an authorization a client keeps."
-                            },
-                            "leeway": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 0,
-                                "default": 30,
-                                "description": "Seconds allowed of the clock of a client, both ways."
-                            },
-                            "timeout": {
-                                "$ref": "#/$defs/types/number",
-                                "minimum": 0.1,
-                                "default": 3,
-                                "description": "Seconds one read of a request_uri is given, connection included. The browser of a user is waiting on it; no redirect is followed and only a URL the client registered is ever read."
-                            },
-                            "max_size": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "default": 65536,
-                                "description": "Bytes a request_uri may answer before the read stops; a request object carries the parameters of one request."
-                            }
-                        },
-                        "additionalProperties": false,
-                        "default": {
-                            "max_lifetime": 3600,
-                            "leeway": 30,
-                            "timeout": 3,
-                            "max_size": 65536
-                        },
-                        "description": "How a request the client carried in a JWT is read (RFC 9101 §4, OIDC Core §6). Which algorithm verifies it is the wiring and the registration of the client, not this; an unsigned object is read from a client that registered \"none\" and from no other."
-                    },
-                    "dpop": {
-                        "$ref": "#/$defs/types/object_null",
-                        "properties": {
-                            "proof_max_age": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "default": 60,
-                                "description": "Seconds a proof stands, from its \"iat\" (RFC 9449 §4.3). A proof is a signature over one request being sent; a long window is a window a proof taken off the wire may be sent again in."
-                            },
-                            "leeway": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 0,
-                                "default": 30,
-                                "description": "Seconds allowed of the clock of a client, both ways."
-                            },
-                            "nonce": {
-                                "$ref": "#/$defs/types/object_null",
-                                "properties": {
-                                    "required": {
-                                        "$ref": "#/$defs/types/boolean",
-                                        "default": false
-                                    },
-                                    "ttl": {
-                                        "$ref": "#/$defs/types/integer",
-                                        "minimum": 1,
-                                        "default": 300,
-                                        "description": "Seconds a nonce is accepted once issued."
-                                    }
-                                },
-                                "additionalProperties": false,
-                                "default": {
-                                    "required": false,
-                                    "ttl": 300
-                                },
-                                "description": "Whether this provider asks a proof to carry a nonce of its own (RFC 9449 §8), which is the server's to decide: the \"iat\" of a proof is what its client says, a nonce is what the provider knows. A client that speaks DPoP handles the refusal that hands it one; one that does not is not concerned either way."
-                            }
-                        },
-                        "additionalProperties": false,
-                        "default": {
-                            "proof_max_age": 60,
-                            "leeway": 30,
-                            "nonce": {
-                                "required": false,
-                                "ttl": 300
-                            }
-                        },
-                        "description": "How a proof of possession is read (RFC 9449 §4.3). What a proof may be signed with is the wiring, the same algorithms the provider signs with, and what the document announces in \"dpop_signing_alg_values_supported\"; nothing here weakens a proof, and a client that sends none is not concerned."
-                    },
-                    "trusted_issuers": {
-                        "$ref": "#/$defs/types/object_null",
-                        "additionalProperties": {
-                            "$ref": "#/$defs/types/object_null",
-                            "properties": {
-                                "jwks": {
-                                    "$ref": "#/$defs/types/variable",
-                                    "default": null,
-                                    "description": "The JWK Set of the issuer, inline (RFC 7517 §5): public keys only, and the only keys an assertion of this issuer is ever verified against, whatever its header names (RFC 8725 §3.10)."
-                                },
-                                "signing_algorithms": {
-                                    "$ref": "#/$defs/types/array_null",
-                                    "items": {
-                                        "$ref": "#/$defs/types/scalar"
-                                    },
-                                    "description": "The JWS algorithms an assertion of this issuer may be signed with (RFC 7515 §4.1.1), among those the provider is wired with; at least one. A name nothing verifies fails at boot."
-                                },
-                                "clients": {
-                                    "$ref": "#/$defs/types/array_null",
-                                    "items": {
-                                        "$ref": "#/$defs/types/scalar"
-                                    },
-                                    "description": "The clients that may present an assertion of this issuer at the token endpoint, by client identifier; at least one. An issuer trusted for a gateway is not thereby trusted for every client of the tenant."
-                                },
-                                "identity_provider": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The source of the linked identities the subjects of its assertions name (decision 0002): the \"sub\" of an assertion is a user of this tenant only when a linked identity of that source says so, and no user is ever created here."
-                                },
-                                "trusted_scopes": {
-                                    "$ref": "#/$defs/types/array_null",
-                                    "items": {
-                                        "$ref": "#/$defs/types/scalar"
-                                    },
-                                    "description": "What this issuer is trusted for: the scopes of a response are a subset of these, of what the client registered and of what the request asked for. \"openid\" among them buys nothing, the grant refusing it: it authenticates nobody."
-                                }
-                            },
-                            "additionalProperties": false
-                        },
-                        "description": "The issuers whose assertions this tenant accepts as an authorization (RFC 7523 §2.1), keyed by the \"iss\" they sign with. Each one is a closed declaration: nothing about it is inferred, and an issuer nobody declared is unknown."
-                    },
-                    "clients": {
-                        "$ref": "#/$defs/types/object_null",
-                        "additionalProperties": {
-                            "$ref": "#/$defs/types/object_null",
-                            "properties": {
-                                "client_name": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "Shown on the consent page (OIDC Registration §2); the client identifier when absent."
-                                },
-                                "client_uri": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The home page of the client (OIDC Registration §2), linked from the consent page; HTTPS, or plain HTTP on a loopback host."
-                                },
-                                "logo_uri": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The logo the consent page shows for this client (OIDC Registration §2); HTTPS, or plain HTTP on a loopback host."
-                                },
-                                "policy_uri": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "How this client uses the data it is given (OIDC Registration §2), linked from the consent page; HTTPS, or plain HTTP on a loopback host."
-                                },
-                                "tos_uri": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The terms of service of this client (OIDC Registration §2), linked from the consent page; HTTPS, or plain HTTP on a loopback host."
-                                },
-                                "contacts": {
-                                    "$ref": "#/$defs/types/array_null",
-                                    "items": {
-                                        "$ref": "#/$defs/types/scalar"
-                                    },
-                                    "description": "Ways to reach the people responsible for this client (OIDC Registration §2), typically email addresses. No page shows them."
-                                },
-                                "secret": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "At least 32 visible ASCII characters, generated, never chosen; absent for a public client."
-                                },
-                                "redirect_uris": {
-                                    "$ref": "#/$defs/types/array_null",
-                                    "items": {
-                                        "$ref": "#/$defs/types/scalar"
-                                    },
-                                    "description": "Compared byte for byte with the redirect_uri of a request (RFC 6749 §3.1.2.3); HTTPS, or plain HTTP on a loopback host."
-                                },
-                                "post_logout_redirect_uris": {
-                                    "$ref": "#/$defs/types/array_null",
-                                    "items": {
-                                        "$ref": "#/$defs/types/scalar"
-                                    },
-                                    "description": "Compared byte for byte with the post_logout_redirect_uri of a logout request (RP-Initiated Logout §3)."
-                                },
-                                "grant_types": {
-                                    "$ref": "#/$defs/types/array_null",
-                                    "items": {
-                                        "$ref": "#/$defs/types/scalar"
-                                    },
-                                    "default": [
-                                        "authorization_code",
-                                        "refresh_token"
-                                    ],
-                                    "description": "What this client may ask for at the token endpoint (RFC 7591 §2), among the grants the provider is wired with; left out, it takes the browser flow and its renewal. A name nothing serves fails at boot."
-                                },
-                                "response_types": {
-                                    "$ref": "#/$defs/types/array_null",
-                                    "items": {
-                                        "$ref": "#/$defs/types/scalar"
-                                    },
-                                    "description": "What this client asks the authorization endpoint to answer with (OIDC Registration §2): \"code\" and nothing else, decision 0006 admitting no implicit flow. Left out, it is the one that goes with the grants above, and a pair that contradicts itself fails at boot."
-                                },
-                                "scope": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": "openid profile email",
-                                    "description": "The closed list of scopes this client may ask for (RFC 7591 §2), space-delimited as a request writes it (RFC 6749 §3.3); a scope it did not register is refused with invalid_scope. Left out, it takes the three an application that signs a user in comes for."
-                                },
-                                "token_endpoint_auth_method": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "How this client authenticates at the endpoints that authenticate a client (OIDC Core §9), among the methods the provider is wired with; left out, it takes the first wired one. A name nothing authenticates with fails at boot."
-                                },
-                                "requires_consent": {
-                                    "$ref": "#/$defs/types/boolean",
-                                    "default": true,
-                                    "description": "Consent is the rule; a first-party application is the named exception."
-                                },
-                                "requires_pkce": {
-                                    "$ref": "#/$defs/types/boolean",
-                                    "default": true,
-                                    "description": "PKCE S256 is the rule; a confidential client that cannot send a code_challenge is the named exception of decision 0008, refused for a public client. A challenge the client sends is verified all the same."
-                                },
-                                "require_pushed_authorization_requests": {
-                                    "$ref": "#/$defs/types/boolean",
-                                    "default": false,
-                                    "description": "The only way this client starts an authorization request is by pushing it (RFC 9126 §6), which is what FAPI 2.0 asks of one; an ordinary request from it is refused on a page before its redirect URI is even read. Per client, nothing global: the document announces the requirement when every registered client carries it."
-                                },
-                                "require_sender_constrained_tokens": {
-                                    "$ref": "#/$defs/types/boolean",
-                                    "default": false,
-                                    "description": "The tokens of this client are bound to what the request proves it holds, or the request is refused (FAPI 2.0 Security Profile §5.3.1): a token request that proves neither a certificate (RFC 8705 §3) nor a key (RFC 9449 §5) is answered with an error rather than with bearer tokens. Per client, nothing global."
-                                },
-                                "tls_client_certificate_bound_access_tokens": {
-                                    "$ref": "#/$defs/types/boolean",
-                                    "default": false,
-                                    "description": "The tokens of this client are bound to the certificate it presents at the TLS handshake, whichever way it authenticated (RFC 8705 §3.4), which is what FAPI 1.0 Advanced Final §5.2.2 asks of a client authenticating with an assertion on a profile that binds. A token request of this client that proves no certificate is refused rather than answered with tokens bound to nothing, before anything is read of what it came to spend. A client recognised by its certificate gets bound tokens anyway (§3); per client, nothing global."
-                                },
-                                "require_signed_request_object": {
-                                    "$ref": "#/$defs/types/boolean",
-                                    "default": false,
-                                    "description": "A request of this client is only read from a request object it signed (OIDC Registration, require_signed_request_object; FAPI 2.0 Message Signing §5.3.1; FAPI-CIBA §5.2.2), whether the object arrives in the query, behind a request_uri, inside the record it pushed or in the body of a backchannel authentication request. An unsigned authorization request is refused on a page before its redirect URI is read, exactly as a request that was not pushed is; an unsigned backchannel one is refused invalid_request."
-                                },
-                                "id_token_signed_response_alg": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The JWS algorithm the ID tokens and the logout tokens of this client are signed with (OIDC Registration §2), among those the provider is wired with; left out, the provider signs them with its default. A name nothing signs under fails at boot."
-                                },
-                                "id_token_encrypted_response_alg": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The JWE key management algorithm the ID tokens of this client are encrypted to one of its keys with, once signed (OIDC Core §3.1.3.7), among those the provider is wired with. It comes with id_token_encrypted_response_enc, never alone, and the client publishes a key it can be addressed to; left out, the ID token travels signed and in clear, which is what every client does today."
-                                },
-                                "id_token_encrypted_response_enc": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The JWE content encryption algorithm the payload of that ID token is encrypted with (OIDC Core §3.1.3.7), among those the provider is wired with. OIDC Registration §2 defaults it to a value this provider is not wired with, so it is named or it is refused at boot."
-                                },
-                                "userinfo_signed_response_alg": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The JWS algorithm the UserInfo answer of this client is signed with (OIDC Core §5.3.2), among those the provider is wired with; the answer is then served as \"application/jwt\" and carries an \"iss\" and an \"aud\" beside the claims. Left out, the answer is the plain JSON, which is what every client that asks for nothing receives."
-                                },
-                                "userinfo_encrypted_response_alg": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The JWE key management algorithm the UserInfo answer of this client is encrypted to one of its keys with (OIDC Core §5.3.2), among those the provider is wired with. It comes with userinfo_encrypted_response_enc, never alone. Without userinfo_signed_response_alg, what is encrypted is the plain JSON of the claims, §5.3.2 allowing an answer to be encrypted without being signed."
-                                },
-                                "userinfo_encrypted_response_enc": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The JWE content encryption algorithm the payload of that UserInfo answer is encrypted with (OIDC Core §5.3.2), among those the provider is wired with."
-                                },
-                                "authorization_signed_response_alg": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The JWS algorithm the signed authorization responses of this client are signed with (JARM §3), among those the provider is wired with; left out, the provider signs them with its default. It applies to the answers this client asks for with response_mode=jwt, query.jwt or form_post.jwt, a refusal as well as a code."
-                                },
-                                "authorization_encrypted_response_alg": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The JWE key management algorithm the signed authorization responses of this client are encrypted to one of its keys with, once signed (JARM §3), among those the provider is wired with. It comes with authorization_encrypted_response_enc, never alone."
-                                },
-                                "authorization_encrypted_response_enc": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The JWE content encryption algorithm the payload of that authorization response is encrypted with (JARM §3), among those the provider is wired with."
-                                },
-                                "access_token_format": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The shape the access tokens of this client are written in, among those the provider is wired to write: \"jwt\" (RFC 9068, verified offline against the JWK Set) or \"opaque\" (a reference the resource server introspects, RFC 7662, revocable at once). Left out, it takes the first wired one. A name nothing writes fails at boot. Per client, nothing global."
-                                },
-                                "backchannel_logout_uri": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "Where the provider posts a logout token when a session this client signed in ends (Back-Channel Logout 1.0 §2.2); HTTPS, or plain HTTP on a loopback host. Absent for a client the provider does not tell."
-                                },
-                                "backchannel_logout_session_required": {
-                                    "$ref": "#/$defs/types/boolean",
-                                    "default": false,
-                                    "description": "The client reads the \"sid\" of the logout token to know which session ended (Back-Channel Logout 1.0 §2.2); it needs a backchannel_logout_uri. The provider sends \"sid\" either way."
-                                },
-                                "frontchannel_logout_uri": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "Loaded in a frame of the logout page when a session this client signed in ends (Front-Channel Logout 1.0 §3); HTTPS, or plain HTTP on a loopback host. Absent for a client the page does not load. It reaches the client only if the browser sends that client its cookies."
-                                },
-                                "frontchannel_logout_session_required": {
-                                    "$ref": "#/$defs/types/boolean",
-                                    "default": false,
-                                    "description": "The client reads \"iss\" and \"sid\" on its logout URI to know which session ended (Front-Channel Logout 1.0 §2); it needs a frontchannel_logout_uri. The two parameters are added for this client only, §2 making them conditional."
-                                },
-                                "jwks": {
-                                    "$ref": "#/$defs/types/variable",
-                                    "default": null,
-                                    "description": "The JWK Set of the client, inline (RFC 7591 §2): public keys only, and exclusive with jwks_uri. A client that authenticates with private_key_jwt publishes one of the two."
-                                },
-                                "jwks_uri": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "Where the JWK Set of the client is read back from (RFC 7591 §2); HTTPS, or plain HTTP on a loopback host, no redirect followed. Exclusive with jwks."
-                                },
-                                "subject_type": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The kind of \"sub\" this client sees for a user (OIDC Core §8), under the name the resolver of that kind gives itself, among the kinds this provider assigns one for, which is what subject_types_supported announces. Left out, the client registers none and sees the kind the provider assigns by default."
-                                },
-                                "sector_identifier_uri": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The document naming every redirection URI of the clients that share a \"sub\" with this one (OIDC Core §8.1); HTTPS, no redirect followed."
-                                },
-                                "initiate_login_uri": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "Where a third party sends a user to have this provider begin a login at this client (OIDC Core §4, OIDC Registration §2); HTTPS, on a loopback host as anywhere else: §2 gives this member none of the tolerance the other URIs of a client keep."
-                                },
-                                "request_object_signing_alg": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The JWS algorithm the request objects of this client are signed with (OIDC Registration §2), among those the provider is wired with; left out, any of them verifies one. The value \"none\" is the named exception of decision 0006: the objects of that client carry no signature and are read all the same, which no FAPI client registers. A client that names an algorithm publishes its keys in jwks or behind a jwks_uri."
-                                },
-                                "backchannel_token_delivery_mode": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "How this client is told that a backchannel authentication request has been answered (CIBA Core §4), among the modes the provider is wired with: \"poll\" for a client that asks the token endpoint again until it is answered, \"ping\" for one this provider calls back first. There is no default: a client that registers none is not a client of that flow, and the endpoint where it starts refuses it. A name nothing serves fails at boot."
-                                },
-                                "backchannel_client_notification_endpoint": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "Where this provider posts the identifier of a backchannel request once it has been answered (CIBA Core §7.1, §10.2); HTTPS, or plain HTTP on a loopback host, no redirect followed. It goes with a delivery mode where the provider calls the client, never alone, and never without one."
-                                },
-                                "resources": {
-                                    "$ref": "#/$defs/types/array_null",
-                                    "items": {
-                                        "$ref": "#/$defs/types/scalar"
-                                    },
-                                    "description": "The resources this client may ask an access token for (RFC 8707 §2 \"resource\"), each an absolute URI without a fragment; a resource it did not register is refused with invalid_target. A closed list, no wildcard: a client that registers none asks for none, and its tokens are addressed to itself."
-                                },
-                                "authorization_details_types": {
-                                    "$ref": "#/$defs/types/array_null",
-                                    "items": {
-                                        "$ref": "#/$defs/types/scalar"
-                                    },
-                                    "description": "The types of authorization detail this client may ask for (RFC 9396 §2 \"authorization_details\"), among the ones the provider is wired with; a type it did not register, and a type nothing serves, are both refused with invalid_authorization_details. A closed list, no wildcard: a client that registers none asks for none. A type is a class the deployment tags, which validates its own members and says what a page shows of them: the bundle wires none, no type of detail being universal."
-                                },
-                                "token_exchange": {
-                                    "$ref": "#/$defs/types/object_null",
-                                    "properties": {
-                                        "subject_token_types": {
-                                            "$ref": "#/$defs/types/array_null",
-                                            "items": {
-                                                "$ref": "#/$defs/types/scalar"
-                                            },
-                                            "description": "The types of token this client may present as a subject_token or as an actor_token (RFC 8693 §3), among those the provider is wired to read; at least one. A name nothing reads fails at boot."
-                                        },
-                                        "may_act_for_a_user": {
-                                            "$ref": "#/$defs/types/boolean",
-                                            "default": false,
-                                            "description": "Whether this client may present a token somebody signed in for. False for a service that only ever exchanges tokens of its own (RFC 6749 §4.4): a gateway carrying a user's token is not the same party, and a deployment says which of the two it registered."
-                                        }
-                                    },
-                                    "additionalProperties": false,
-                                    "description": "What this client may do at the token exchange (RFC 8693 §2.1), for a client registered for that grant and for no other. A closed declaration: a client presenting something it did not register for is refused whatever the thing says. Which resources the new token may be addressed to is the resources option above, as it is for every other grant."
-                                },
-                                "may_act": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "Who may act for the subject of a token issued to this client (RFC 8693 §4.4), as a subject: it is written on every token this client receives, and an exchange asked for by anybody else is refused. Absent, the token says nothing and what decides is the registration of whoever asks."
-                                },
-                                "request_uris": {
-                                    "$ref": "#/$defs/types/array_null",
-                                    "items": {
-                                        "$ref": "#/$defs/types/scalar"
-                                    },
-                                    "description": "The URLs a request object of this client is read back from (OIDC Registration §2), compared byte for byte with the request_uri of a request; one that is not registered is refused before any request leaves the process, which is what require_request_uri_registration announces."
-                                },
-                                "tls_client_auth_subject_dn": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The subject distinguished name of the certificate this client presents (RFC 8705 §2.1.2), in the string form of RFC 4514; it is written back at boot the way the provider writes the name it reads out of a certificate, so a name as \"openssl x509 -noout -subject -nameopt RFC2253\" prints it is registered as it is. One of the five keys below, and one only, for a client that authenticates with tls_client_auth."
-                                },
-                                "tls_client_auth_san_dns": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The dNSName entry of the subject alternative name extension this client is recognised by (RFC 8705 §2.1.2), compared without regard to case (RFC 4343 §1)."
-                                },
-                                "tls_client_auth_san_uri": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The uniformResourceIdentifier entry this client is recognised by (RFC 8705 §2.1.2), compared as the text it is."
-                                },
-                                "tls_client_auth_san_ip": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The iPAddress entry this client is recognised by (RFC 8705 §2.1.2), in dotted decimal or colon-delimited hexadecimal; it is compared as the octets it stands for, not as the text."
-                                },
-                                "tls_client_auth_san_email": {
-                                    "$ref": "#/$defs/types/scalar",
-                                    "default": null,
-                                    "description": "The rfc822Name entry this client is recognised by (RFC 8705 §2.1.2), compared as it is written (RFC 5321 §2.4)."
-                                }
-                            },
-                            "additionalProperties": false
-                        },
-                        "description": "The clients of the tenant, keyed by client identifier. A secret is hashed when the client is loaded and never kept in clear, unless the method it registered has to compute a MAC with it (client_secret_jwt)."
-                    },
-                    "client_registration": {
-                        "$ref": "#/$defs/types/object_null",
-                        "properties": {
-                            "mode": {
-                                "$ref": "#/$defs/types/scalar",
-                                "default": null,
-                                "description": "What authorises a registration, by the name the class that is that mode gives itself. This provider is wired with \"initial_access_token\", a credential the tenant issues, names, limits in number and duration and revokes (RFC 7591 section 1.2), with \"open\", which registers whoever asks with no credential at all (RFC 7591 section 1.3) and is written by a tenant that has no real user, and with \"software_statement\", a statement signed by an authority this tenant pins under \"statement_issuers\" below (RFC 7591 section 2.3), which is the mode that crosses the boundary of an organisation since the provider issues nothing. Left out, the tenant has no registration endpoint at all: it is not a mode of refusing, it is the absence of the endpoint. It is named per tenant and nothing here opens a mode for more than the tenant that names it."
-                            },
-                            "keep_a_client_unused_for": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "default": 7776000,
-                                "description": "Seconds a client that was used may go without being used again before it is deleted (decision 0009). Ninety days by default, which is the absolute lifetime of a refresh token family this provider is configured with by default: past it, nothing that client was ever issued can still be presented, so deleting it takes nothing away from anybody."
-                            },
-                            "keep_a_client_never_used_for": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "default": 604800,
-                                "description": "Seconds a client that was never used lives at all (decision 0009). Seven days by default, a working week, so that a registration made on a Friday afternoon is still there the next Friday; a client that was never used holds nothing, so the only question is how long whoever registered it may take to make its first request. The mode that registers strangers makes it the shorter of the two."
-                            },
-                            "sector_identifier_timeout": {
-                                "$ref": "#/$defs/types/number",
-                                "minimum": 0.1,
-                                "default": 3,
-                                "description": "Seconds one read of a sector_identifier_uri is given, connection included (OIDC Registration section 5). It is read once, when a client registers or replaces itself, and the registration waits for it."
-                            },
-                            "sector_identifier_max_size": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "default": 65536,
-                                "description": "Bytes a sector_identifier_uri may answer before the read stops; the document is the JSON array of the redirection URIs of the clients of one sector."
-                            },
-                            "statement_issuers": {
-                                "$ref": "#/$defs/types/object_null",
-                                "additionalProperties": {
-                                    "$ref": "#/$defs/types/object_null",
-                                    "properties": {
-                                        "jwks": {
-                                            "$ref": "#/$defs/types/variable",
-                                            "default": null,
-                                            "description": "The JWK Set of the authority, inline (RFC 7517 section 5): public keys only, and the only keys a statement of this authority is ever verified against, whatever its header names (RFC 8725 section 3.10)."
-                                        },
-                                        "signing_algorithms": {
-                                            "$ref": "#/$defs/types/array_null",
-                                            "items": {
-                                                "$ref": "#/$defs/types/scalar"
-                                            },
-                                            "description": "The JWS algorithms a statement of this authority may be signed with (RFC 7515 section 4.1.1), among those the provider is wired with; at least one. A name nothing verifies fails at boot."
-                                        }
-                                    },
-                                    "additionalProperties": false
-                                },
-                                "description": "The authorities whose software statements this tenant accepts (RFC 7591 section 2.3), keyed by the \"iss\" they sign with. They are what the \"software_statement\" mode reads, and a tenant that pins none has that mode closed rather than open to whoever signs. Each one is a closed declaration: nothing about it is inferred, and no key a statement carries is ever read."
-                            },
-                            "statement_max_lifetime": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 1,
-                                "default": 300,
-                                "description": "Seconds ahead of the request the \"exp\" of a software statement may be (RFC 7591 section 2.3). A statement is signed for one registration, so it is not a credential for a year; RFC 7591 requires no \"exp\" at all, and this provider requires one as it does of every signed thing it takes back (decision 0006)."
-                            },
-                            "statement_leeway": {
-                                "$ref": "#/$defs/types/integer",
-                                "minimum": 0,
-                                "default": 30,
-                                "description": "Seconds allowed of the clock of the authority, both ways, when its statement is judged."
-                            },
-                            "default_scope": {
-                                "$ref": "#/$defs/types/scalar",
-                                "default": null,
-                                "description": "What a client that registers itself and names no scope is registered with (RFC 7591 section 2: \"If omitted, an authorization server MAY register a client with a default set of scopes\"), space-delimited as a request writes one (RFC 6749 section 3.3). Left out, such a client is registered with \"openid\" alone, which is less than this tenant hands out and is a default nobody chose. It is held to what the tenant announces like every registered scope, so a scope written here that the tenant does not offer refuses every registration rather than granting one, and it is read at the boot that declares it. A client that names its own scopes keeps them."
-                            },
-                            "exempt_confidential_clients_from_pkce": {
-                                "$ref": "#/$defs/types/boolean",
-                                "default": false,
-                                "description": "The named exception of decision 0017, for the tenant that writes it and no other: the confidential clients this policy registers are registered without the PKCE requirement, because the Dynamic OP profile of OIDC Core sends no code_challenge and offers no way to. A public client is never exempted whatever this says, \"plain\" never exists, and a code_challenge a client does send is verified like any other. Write it with the reason a tenant has for it beside it; a tenant with real users has none."
-                            }
-                        },
-                        "additionalProperties": false,
-                        "default": {
-                            "mode": null,
-                            "keep_a_client_unused_for": 7776000,
-                            "keep_a_client_never_used_for": 604800,
-                            "sector_identifier_timeout": 3,
-                            "sector_identifier_max_size": 65536,
-                            "statement_issuers": [],
-                            "statement_max_lifetime": 300,
-                            "statement_leeway": 30,
-                            "default_scope": null,
-                            "exempt_confidential_clients_from_pkce": false
-                        },
-                        "description": "How a client that nobody declared comes to exist here (RFC 7591, decision 0009). Absent, the tenant registers nobody, which is the default and what a deployment that writes nothing gets."
-                    }
-                },
-                "required": [
-                    "tenant",
-                    "keys"
-                ],
                 "additionalProperties": false
             },
             "http_client": {
@@ -8933,6 +8933,9 @@
         "asset_mapper": {
             "$ref": "#/$defs/nodes/asset_mapper"
         },
+        "beffroi": {
+            "$ref": "#/$defs/nodes/beffroi"
+        },
         "cache": {
             "$ref": "#/$defs/nodes/cache"
         },
@@ -8944,9 +8947,6 @@
         },
         "framework": {
             "$ref": "#/$defs/nodes/framework"
-        },
-        "beffroi": {
-            "$ref": "#/$defs/nodes/beffroi"
         },
         "http_client": {
             "$ref": "#/$defs/nodes/http_client"
@@ -9008,6 +9008,9 @@
                 "asset_mapper": {
                     "$ref": "#/$defs/nodes/asset_mapper"
                 },
+                "beffroi": {
+                    "$ref": "#/$defs/nodes/beffroi"
+                },
                 "cache": {
                     "$ref": "#/$defs/nodes/cache"
                 },
@@ -9022,9 +9025,6 @@
                 },
                 "framework": {
                     "$ref": "#/$defs/nodes/framework"
-                },
-                "beffroi": {
-                    "$ref": "#/$defs/nodes/beffroi"
                 },
                 "http_client": {
                     "$ref": "#/$defs/nodes/http_client"
@@ -9092,6 +9092,9 @@
                 "asset_mapper": {
                     "$ref": "#/$defs/nodes/asset_mapper"
                 },
+                "beffroi": {
+                    "$ref": "#/$defs/nodes/beffroi"
+                },
                 "cache": {
                     "$ref": "#/$defs/nodes/cache"
                 },
@@ -9103,9 +9106,6 @@
                 },
                 "framework": {
                     "$ref": "#/$defs/nodes/framework"
-                },
-                "beffroi": {
-                    "$ref": "#/$defs/nodes/beffroi"
                 },
                 "http_client": {
                     "$ref": "#/$defs/nodes/http_client"
@@ -9175,6 +9175,9 @@
                 "asset_mapper": {
                     "$ref": "#/$defs/nodes/asset_mapper"
                 },
+                "beffroi": {
+                    "$ref": "#/$defs/nodes/beffroi"
+                },
                 "cache": {
                     "$ref": "#/$defs/nodes/cache"
                 },
@@ -9186,9 +9189,6 @@
                 },
                 "framework": {
                     "$ref": "#/$defs/nodes/framework"
-                },
-                "beffroi": {
-                    "$ref": "#/$defs/nodes/beffroi"
                 },
                 "http_client": {
                     "$ref": "#/$defs/nodes/http_client"
