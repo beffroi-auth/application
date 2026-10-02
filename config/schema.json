@@ -4393,6 +4393,11 @@
                                                     "default": null,
                                                     "description": "Service id of a custom serializer to use."
                                                 },
+                                                "sign": {
+                                                    "$ref": "#/$defs/types/boolean",
+                                                    "default": false,
+                                                    "description": "Whether to sign every message sent to this transport with its trust level, and to refuse any message received from it that is unsigned, or signed as unverified when this is not a failure transport. When false, only the messages whose handlers ask for it are signed."
+                                                },
                                                 "claim_check": {
                                                     "$ref": "#/$defs/types/object_null",
                                                     "properties": {
@@ -4534,6 +4539,11 @@
                                 "default": true,
                                 "description": "Whether redeliveries should be rejected and retried through a new message instead of being handled directly. This mostly makes sense for AMQP, which redelivers messages that were neither acknowledged nor rejected. Disabling it avoids losing a message when the retry or the failure transport is unreachable, at the risk of a redelivery loop that blocks the queue."
                             },
+                            "identity_stamps": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": false,
+                                "description": "Adds a message id and a causation id to dispatched messages, and a correlation id at the start of each flow."
+                            },
                             "default_bus": {
                                 "$ref": "#/$defs/types/scalar",
                                 "default": null
@@ -4661,6 +4671,7 @@
                     "failure_transport": null,
                     "stop_worker_on_signals": [],
                     "reject_redelivered_messages": true,
+                    "identity_stamps": false,
                     "default_bus": null,
                     "buses": {
                         "messenger.bus.default": {
