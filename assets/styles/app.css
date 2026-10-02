@@ -22,6 +22,20 @@
 }
 
 @layer components {
+    /* The control of the language (issue #448): the bundle ships a form and data-locale codes, never a
+       class, so what it looks like is said here and its markup stays the bundle's. */
+    form[data-locale="choice"] {
+        @apply join shadow-sm;
+    }
+
+    form[data-locale="choice"] button[data-locale] {
+        @apply btn join-item btn-sm;
+    }
+
+    form[data-locale="choice"] button[aria-current="true"] {
+        @apply btn-active;
+    }
+
     main p {
         @apply text-base-content;
     }

@@ -33,6 +33,11 @@
             {% block content %}{% endblock %}
         </main>
     {% endblock %}
-    {% include '_theme_switcher.html.twig' %}
+    {# The two controls of a page: the language, which the bundle ships as structure and words and this
+       stylesheet dresses, and the theme, which is this application's alone (issues #448 and #447). #}
+    <div class="fixed right-4 bottom-4 z-10 flex items-center gap-2">
+        {% include '@Beffroi/_locale_switcher.html.twig' %}
+        {% include '_theme_switcher.html.twig' %}
+    </div>
 </body>
 </html>
