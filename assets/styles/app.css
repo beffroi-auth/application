@@ -223,6 +223,61 @@
         @apply btn-outline btn-error btn-sm;
     }
 
+    /*
+     * What a person may change of themselves, edited in place (issue beffroi-php/op#17): the value they
+     * read is the field they type into, so a line looks like the list above it until it is touched. No
+     * script does this. The button is always in the document, for a browser that styles nothing and for
+     * whoever moves by keyboard; what the stylesheet does is keep it out of the way until the line has
+     * the focus or the pointer.
+     */
+    main[data-page="account"] ul[data-changeable] {
+        @apply mt-0 flex flex-col gap-0 rounded-box bg-base-100 p-2 shadow-sm;
+    }
+
+    main[data-page="account"] li[data-claim] {
+        @apply w-full;
+    }
+
+    main[data-page="account"] form[data-editable] {
+        @apply m-0 grid grid-cols-[12rem_1fr_auto] items-center gap-3 rounded-box px-3 py-2;
+    }
+
+    main[data-page="account"] form[data-editable]:hover,
+    main[data-page="account"] form[data-editable]:focus-within {
+        @apply bg-base-200;
+    }
+
+    main[data-page="account"] form[data-editable] label {
+        @apply p-0 text-sm text-base-content/60;
+    }
+
+    /* The field reads as the value: no border and no box, until it is the one being written in. */
+    main[data-page="account"] form[data-editable] :is(input, select) {
+        @apply input input-ghost w-full border-transparent bg-transparent px-2 font-medium;
+    }
+
+    main[data-page="account"] form[data-editable] :is(input, select):focus {
+        @apply border-base-300 bg-base-100;
+    }
+
+    main[data-page="account"] form[data-editable] button[data-save] {
+        @apply btn btn-primary btn-sm invisible;
+    }
+
+    main[data-page="account"] form[data-editable]:hover button[data-save],
+    main[data-page="account"] form[data-editable]:focus-within button[data-save] {
+        @apply visible;
+    }
+
+    /* What was refused is said under the line that was refused, which is what a form is for. */
+    main[data-page="account"] form[data-editable] ul li {
+        @apply col-start-2 text-sm text-error;
+    }
+
+    main[data-page="account"] form[data-editable] p {
+        @apply col-start-2 text-xs text-base-content/50;
+    }
+
     /* A page long enough to be read in parts says where a part starts. */
     main[data-page="account"] h2 {
         @apply mt-2 text-lg font-semibold tracking-tight;

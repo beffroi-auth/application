@@ -2873,7 +2873,7 @@
                                 "properties": {
                                     "enabled": {
                                         "$ref": "#/$defs/types/boolean",
-                                        "default": false
+                                        "default": true
                                     },
                                     "csrf_protection": {
                                         "anyOf": [
@@ -2929,7 +2929,7 @@
                             }
                         ],
                         "default": {
-                            "enabled": false,
+                            "enabled": true,
                             "csrf_protection": {
                                 "enabled": null,
                                 "token_id": null,
