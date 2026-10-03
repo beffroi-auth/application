@@ -11,12 +11,13 @@ name: CI
 #
 # The packages are taken from their maintenance branch, the one this application follows: a change of a
 # configuration tree lands there first and is caught here on the next run, which is the half of the
-# agreement the monorepo cannot keep since the application left it (beffroi-php/beffroi#458).
+# agreement the monorepo cannot keep since the application left it (beffroi-php/beffroi#458). This
+# repository itself has one branch, main: an application is deployed, not maintained in versions.
 
 on:
   push:
     branches:
-      - '*.*.x'
+      - main
   pull_request: ~
   workflow_dispatch: ~
 
