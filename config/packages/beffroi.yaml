@@ -14,6 +14,27 @@ beffroi:
             logo_uri: '%env(BEFFROI_ISSUER)%/tenant-logo.svg'
             primary_color: '#1f6feb'
             primary_content_color: '#ffffff'
+        # What the people of this tenant may change of themselves (issue beffroi-php/beffroi#452). All of
+        # them, because this is the tenant that creates its people by hand, which is the case the rule
+        # exists for; a tenant whose directory owns the data declares none of this and its people read
+        # their record without changing it. The address and the email address are not claims a person
+        # says here: one is five fields and a form of its own, the other cannot change without a proof of
+        # the new one.
+        self_served_claims:
+            - 'name'
+            - 'given_name'
+            - 'family_name'
+            - 'middle_name'
+            - 'nickname'
+            - 'preferred_username'
+            - 'birthdate'
+            - 'gender'
+            - 'locale'
+            - 'zoneinfo'
+            - 'profile_url'
+            - 'picture_url'
+            - 'website_url'
+            - 'phone_number'
     keys:
         # The KMS client of config/packages/key_management.yaml the private keys are sealed with; the DSN
         # of that client, and whether it is one provider or several, are declared there.
