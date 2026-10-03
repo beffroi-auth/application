@@ -2672,7 +2672,8 @@
                 "$ref": "#/$defs/types/object_null",
                 "properties": {
                     "secret": {
-                        "$ref": "#/$defs/types/scalar"
+                        "$ref": "#/$defs/types/scalar",
+                        "description": "A secret that must not change. The options that sign data default to it and take a list of secrets to rotate theirs."
                     },
                     "http_method_override": {
                         "$ref": "#/$defs/types/boolean",
@@ -3057,6 +3058,22 @@
                     "uri_signer": {
                         "$ref": "#/$defs/types/object_null",
                         "properties": {
+                            "secret": {
+                                "anyOf": [
+                                    {
+                                        "$ref": "#/$defs/types/array_null",
+                                        "items": {
+                                            "$ref": "#/$defs/types/scalar"
+                                        }
+                                    },
+                                    {
+                                        "type": [
+                                            "string"
+                                        ]
+                                    }
+                                ],
+                                "description": "Secret used to sign URIs, defaults to the \"kernel.secret\" parameter. List several to rotate it: the first one signs, all of them verify."
+                            },
                             "expiration": {
                                 "$ref": "#/$defs/types/integer_null",
                                 "default": null,
@@ -3065,6 +3082,7 @@
                         },
                         "additionalProperties": false,
                         "default": {
+                            "secret": [],
                             "expiration": null
                         },
                         "description": "URI signer configuration"
@@ -4339,6 +4357,22 @@
                                         "default": "messenger.transport.native_php_serializer",
                                         "description": "Service id to use as the default serializer for the transports."
                                     },
+                                    "signing_secret": {
+                                        "anyOf": [
+                                            {
+                                                "$ref": "#/$defs/types/array_null",
+                                                "items": {
+                                                    "$ref": "#/$defs/types/scalar"
+                                                }
+                                            },
+                                            {
+                                                "type": [
+                                                    "string"
+                                                ]
+                                            }
+                                        ],
+                                        "description": "Secret used to sign messages, defaults to the \"kernel.secret\" parameter. List several to rotate it: the first one signs, all of them verify."
+                                    },
                                     "symfony_serializer": {
                                         "$ref": "#/$defs/types/object_null",
                                         "properties": {
@@ -4371,6 +4405,7 @@
                                 "additionalProperties": false,
                                 "default": {
                                     "default_serializer": "messenger.transport.native_php_serializer",
+                                    "signing_secret": [],
                                     "symfony_serializer": {
                                         "service": null,
                                         "format": "json",
@@ -4661,6 +4696,7 @@
                     "routing": [],
                     "serializer": {
                         "default_serializer": "messenger.transport.native_php_serializer",
+                        "signing_secret": [],
                         "symfony_serializer": {
                             "service": null,
                             "format": "json",
@@ -6440,8 +6476,24 @@
                                             "description": "The user provider to load users from."
                                         },
                                         "secret": {
-                                            "$ref": "#/$defs/types/scalar",
-                                            "default": "%kernel.secret%"
+                                            "anyOf": [
+                                                {
+                                                    "$ref": "#/$defs/types/array_null",
+                                                    "items": {
+                                                        "$ref": "#/$defs/types/scalar"
+                                                    },
+                                                    "minItems": 1
+                                                },
+                                                {
+                                                    "type": [
+                                                        "string"
+                                                    ]
+                                                }
+                                            ],
+                                            "default": [
+                                                "%kernel.secret%"
+                                            ],
+                                            "description": "Secret used to sign the links. List several to rotate it: the first one signs, all of them verify."
                                         },
                                         "always_use_default_target_path": {
                                             "$ref": "#/$defs/types/boolean",
@@ -7815,8 +7867,24 @@
                                     "$ref": "#/$defs/types/object_null",
                                     "properties": {
                                         "secret": {
-                                            "$ref": "#/$defs/types/scalar",
-                                            "default": "%kernel.secret%"
+                                            "anyOf": [
+                                                {
+                                                    "$ref": "#/$defs/types/array_null",
+                                                    "items": {
+                                                        "$ref": "#/$defs/types/scalar"
+                                                    },
+                                                    "minItems": 1
+                                                },
+                                                {
+                                                    "type": [
+                                                        "string"
+                                                    ]
+                                                }
+                                            ],
+                                            "default": [
+                                                "%kernel.secret%"
+                                            ],
+                                            "description": "Secret used to sign the cookies. List several to rotate it: the first one signs, all of them verify."
                                         },
                                         "service": {
                                             "$ref": "#/$defs/types/scalar"
