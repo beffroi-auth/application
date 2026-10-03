@@ -255,6 +255,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     routing?: array<string, Param|string|list<scalar|Param|null>>,
  *     serializer?: array{
  *         default_serializer?: scalar|Param|null, // Service id to use as the default serializer for the transports. // Default: "messenger.transport.native_php_serializer"
+ *         signing_secret?: Param|string|list<scalar|Param|null>,
  *         symfony_serializer?: array{
  *             service?: scalar|Param|null, // Service id of the Symfony serializer behind the messenger.transport.symfony_serializer service, e.g. "serializer.api" for the named serializer "api". // Default: null
  *             format?: scalar|Param|null, // Serialization format for the messenger.transport.symfony_serializer service (which is not the serializer used by default). // Default: "json"
@@ -502,7 +503,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     },
  * }
  * @psalm-type FrameworkConfig = array{
- *     secret?: scalar|Param|null,
+ *     secret?: scalar|Param|null, // A secret that must not change. The options that sign data default to it and take a list of secrets to rotate theirs.
  *     http_method_override?: bool|Param, // Set true to enable support for the '_method' request parameter to determine the intended HTTP method on POST requests. // Default: false
  *     allowed_http_method_override?: null|list<string|Param>,
  *     trust_x_sendfile_type_header?: scalar|Param|null, // Set true to enable support for xsendfile in binary file responses. // Default: "%env(bool:default::SYMFONY_TRUST_X_SENDFILE_TYPE_HEADER)%"
@@ -559,6 +560,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         path?: scalar|Param|null, // Default: "/_fragment"
  *     },
  *     uri_signer?: array{ // URI signer configuration
+ *         secret?: Param|string|list<scalar|Param|null>,
  *         expiration?: int|Param, // Default expiration of signed URIs, in seconds. // Default: null
  *     },
  *     profiler?: bool|array{ // Profiler configuration
@@ -1138,7 +1140,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             success_handler?: scalar|Param|null, // A service id that implements Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface.
  *             failure_handler?: scalar|Param|null, // A service id that implements Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface.
  *             provider?: scalar|Param|null, // The user provider to load users from.
- *             secret?: scalar|Param|null, // Default: "%kernel.secret%"
+ *             secret?: Param|string|list<scalar|Param|null>,
  *             always_use_default_target_path?: bool|Param, // Default: false
  *             default_target_path?: scalar|Param|null, // Default: "/"
  *             login_path?: scalar|Param|null, // Default: "/login"
@@ -1384,7 +1386,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             ldap_users_only?: bool|Param, // Only bind users of class "Symfony\Component\Ldap\Security\LdapUser" against the LDAP server, and leave any other user to the regular password checker. // Default: false
  *         },
  *         remember_me?: array{
- *             secret?: scalar|Param|null, // Default: "%kernel.secret%"
+ *             secret?: Param|string|list<scalar|Param|null>,
  *             service?: scalar|Param|null,
  *             user_providers?: Param|string|list<scalar|Param|null>,
  *             catch_exceptions?: bool|Param, // Default: true
