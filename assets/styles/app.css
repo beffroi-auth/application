@@ -276,6 +276,25 @@
         @apply badge badge-sm badge-primary badge-soft mr-2 align-middle font-normal;
     }
 
+    /*
+     * The page of one application (issue beffroi-php/beffroi#451) opens on what that application holds
+     * and not on who is signed in, so its first paragraph is a state of the panel and not the subtitle
+     * the rules above give one. The date of the last renewal keeps that subtitle shape: it is read under
+     * the count and not beside it.
+     */
+    main[data-page="account"] > p[data-application="renewable"] {
+        @apply alert alert-info alert-soft mt-0 text-base;
+    }
+
+    main[data-page="account"] > p[data-application="pending"][data-pending="0"] {
+        @apply rounded-box mt-0 border border-dashed border-base-content/20 px-5 py-6 text-center text-sm text-base-content/60;
+    }
+
+    /* What a client wrote for the person it is waiting on (CIBA Core §7.1), beside the scopes it asked. */
+    main[data-page="account"] span[data-binding-message] {
+        @apply badge badge-sm badge-soft ml-2 font-normal;
+    }
+
     /* The QR code of an enrolment is black on white whatever the theme reads: an app has to scan it. */
     main[data-page="account"] figure[data-two-factor="qr-code"] {
         @apply w-fit rounded-box bg-white p-4 shadow-sm;
