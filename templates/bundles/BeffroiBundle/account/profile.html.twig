@@ -65,4 +65,34 @@
             {% endfor %}
         </ul>
     {% endif %}
+
+    {# What this person has changed of their own record (beffroi-php/beffroi#482): the question they ask
+       first when they read that they changed something is what it said before. The last few; the whole of
+       it is in the archive they ask for. A claim that said nothing on either side says so rather than
+       showing a hole. #}
+    <h2>{{ 'profile.what_you_changed'|trans }}</h2>
+    {% if changes is empty %}
+        <p data-changes="none">{{ 'profile.changed_nothing'|trans }}</p>
+    {% else %}
+        <table data-changes="{{ changes|length }}">
+            <thead>
+                <tr>
+                    <th>{{ 'profile.changed_what'|trans }}</th>
+                    <th>{{ 'profile.changed_from'|trans }}</th>
+                    <th>{{ 'profile.changed_to'|trans }}</th>
+                    <th>{{ 'profile.changed_when'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for change in changes %}
+                    <tr data-change="{{ change.claim }}">
+                        <td>{{ ('profile.' ~ change.claim)|trans }}</td>
+                        <td>{{ change.was ?? 'profile.nothing'|trans }}</td>
+                        <td>{{ change.became ?? 'profile.nothing'|trans }}</td>
+                        <td><time datetime="{{ change.changedAt|date('c') }}">{{ change.changedAt|beffroi_moment(user) }}</time></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 {% endblock %}

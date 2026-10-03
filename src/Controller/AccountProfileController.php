@@ -9,12 +9,14 @@ use function array_map;
 use function is_string;
 use Beffroi\Bundle\Http\AccountAccess;
 use Beffroi\Bundle\Http\InteractionPages;
+use Beffroi\Bundle\Http\ProfilePage;
 use Beffroi\Bundle\Http\RequestContextFactory;
 use Beffroi\Bundle\Http\Account\RecordedInformation;
 use Beffroi\Bundle\Identity\WiredClaims;
 use Beffroi\Core\Application\Identity\SelfDescription;
 use Beffroi\Core\Domain\Identity\Claim\ClaimInterface;
 use Beffroi\Core\Exception\InvalidArgumentException;
+use Beffroi\Core\Port\ChangesOfAPersonInterface;
 use Beffroi\Core\Domain\Identity\User;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -44,6 +46,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * It renders no script. The value a person reads is the field they type into, which is a stylesheet and
  * not a behaviour (assets/styles/app.css).
+ *
+ * It also gives what they have changed of their record to read (issue beffroi-php/beffroi#482), as many as
+ * the page of the bundle shows, because the question a person asks first when they read that they changed
+ * something is what it said before. How many that is belongs to the page of the bundle and is not a number
+ * chosen again here.
  */
 #[AsController]
 final readonly class AccountProfileController
@@ -52,6 +59,7 @@ final readonly class AccountProfileController
         private AccountAccess $account,
         private WiredClaims $claims,
         private SelfDescription $description,
+        private ChangesOfAPersonInterface $changes,
         private RequestContextFactory $contexts,
         private FormFactoryInterface $forms,
         private UrlGeneratorInterface $router,
@@ -100,6 +108,9 @@ final readonly class AccountProfileController
             'forms' => array_map(static fn (FormInterface $form): FormView => $form->createView(), $forms),
             // what a set of several hundred is suggested from, which no type of the component carries
             'fields' => $fields,
+            // what they changed of their own record, the last few (beffroi-php/beffroi#482), read after the
+            // submission was handled so that what was just said is in it
+            'changes' => $this->changes->lastOf($user, ProfilePage::CHANGES_SHOWN),
         ], $status);
     }
 
