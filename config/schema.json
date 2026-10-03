@@ -853,6 +853,22 @@
                         },
                         "description": "How many requests the provider takes in a window, by origin and by authenticated client (decision 0014). Both budgets always exist; these are their numbers, which depend on the size of the deployment. A number too low on /token or on /jwks is an outage a deployment inflicts on itself, so they are measured on what its own clients send."
                     },
+                    "journal": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "retention": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 180,
+                                "description": "Days an act is kept before the timed step forgets it; six months by default, the duration the deliberation 2021-122 of the CNIL holds for a log of connections. A deployment under another obligation says its own."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "retention": 180
+                        },
+                        "description": "The acts of the provider, written down and forgotten again (issue #454): who did what, when and from where. Nothing turns it on; what is configured is how long an act is kept."
+                    },
                     "interaction": {
                         "$ref": "#/$defs/types/object_null",
                         "properties": {

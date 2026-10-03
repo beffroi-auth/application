@@ -1506,6 +1506,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             interval?: int|Param, // Seconds the window covers. // Default: 60
  *         },
  *     },
+ *     journal?: array{ // The acts of the provider, written down and forgotten again (issue #454): who did what, when and from where. Nothing turns it on; what is configured is how long an act is kept.
+ *         retention?: int|Param, // Days an act is kept before the timed step forgets it; six months by default, the duration the deliberation 2021-122 of the CNIL holds for a log of connections. A deployment under another obligation says its own. // Default: 180
+ *     },
  *     interaction?: array{ // The pages a browser is sent to while an authorization request waits for a login or a consent (architecture §4.3).
  *         login_hint?: "sub"|"username"|"none"|Param, // What a "login_hint" of an authorization request names for this tenant, read one way and never searched for (OIDC Core §3.1.2.1): "sub" the subject this provider issued to that client, "username" the name the user signs in with, "none" for a deployment that tags a reader of its own. The login page offers the name of the user the hint names and nothing at all when it names nobody, the value itself being one the person never typed. These are the names the backchannel flow reads its own hint by. // Default: "sub"
  *     },
