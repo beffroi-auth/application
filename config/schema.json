@@ -573,6 +573,33 @@
                                 "default": null,
                                 "description": "Display name; the host of the issuer when absent."
                             },
+                            "look": {
+                                "$ref": "#/$defs/types/object_null",
+                                "properties": {
+                                    "logo_uri": {
+                                        "$ref": "#/$defs/types/scalar",
+                                        "default": null,
+                                        "description": "Where the logo of the tenant is served from: an absolute HTTPS URL, no fragment, no credentials; plain HTTP on a loopback host only. The browser of the visitor loads it, never the provider, and the pages name its origin in their Content-Security-Policy."
+                                    },
+                                    "primary_color": {
+                                        "$ref": "#/$defs/types/scalar",
+                                        "default": null,
+                                        "description": "The colour the buttons and the links of the pages are drawn in: three or six hexadecimal digits behind a hash, as \"#1b4b8f\". It needs \"primary_content_color\", a colour being unusable without the colour of what is written on it."
+                                    },
+                                    "primary_content_color": {
+                                        "$ref": "#/$defs/types/scalar",
+                                        "default": null,
+                                        "description": "The colour of what is written on \"primary_color\", the two being declared together or not at all."
+                                    }
+                                },
+                                "additionalProperties": false,
+                                "default": {
+                                    "logo_uri": null,
+                                    "primary_color": null,
+                                    "primary_content_color": null
+                                },
+                                "description": "What this tenant shows of itself on every page of its provider besides its name (issue #449). A deployment that declares none of it is served the pages it has always been served."
+                            },
                             "authentication_classes": {
                                 "$ref": "#/$defs/types/object_null",
                                 "additionalProperties": {

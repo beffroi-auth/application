@@ -1463,6 +1463,11 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         issuer?: scalar|Param|null, // Issuer identifier (OIDC Discovery §3): an absolute HTTPS URL, no query, no fragment, no trailing slash; plain HTTP on a loopback host only.
  *         slug?: scalar|Param|null, // Stable name of the tenant, from which its identifier is derived; renaming it is creating another tenant. // Default: "default"
  *         name?: scalar|Param|null, // Display name; the host of the issuer when absent. // Default: null
+ *         look?: array{ // What this tenant shows of itself on every page of its provider besides its name (issue #449). A deployment that declares none of it is served the pages it has always been served.
+ *             logo_uri?: scalar|Param|null, // Where the logo of the tenant is served from: an absolute HTTPS URL, no fragment, no credentials; plain HTTP on a loopback host only. The browser of the visitor loads it, never the provider, and the pages name its origin in their Content-Security-Policy. // Default: null
+ *             primary_color?: scalar|Param|null, // The colour the buttons and the links of the pages are drawn in: three or six hexadecimal digits behind a hash, as "#1b4b8f". It needs "primary_content_color", a colour being unusable without the colour of what is written on it. // Default: null
+ *             primary_content_color?: scalar|Param|null, // The colour of what is written on "primary_color", the two being declared together or not at all. // Default: null
+ *         },
  *         authentication_classes?: array<string, "single_factor"|"two_factors"|"phishing_resistant"|"phishing_resistant_hardware"|Param>,
  *     },
  *     keys?: array{ // Where the keys of the tenants live: sealed by the KMS named here, stored as files until a table takes over (architecture §3.3).
