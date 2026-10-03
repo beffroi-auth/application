@@ -257,6 +257,25 @@
         @apply badge-warning badge-soft;
     }
 
+    /* What a session proved is a state of it, not more of its value, and the session of the browser
+       reading the page is the one whose end signs that reader out (issue beffroi-php/beffroi#450). */
+    main[data-page="account"] td span[data-acr],
+    main[data-page="account"] td span[data-amr] {
+        @apply badge badge-sm badge-soft mr-1 font-normal;
+    }
+
+    main[data-page="account"] td span[data-amr] {
+        @apply font-mono;
+    }
+
+    main[data-page="account"] td span[data-user-agent] {
+        @apply block text-xs opacity-60;
+    }
+
+    main[data-page="account"] td span[data-session-current] {
+        @apply badge badge-sm badge-primary badge-soft mr-2 align-middle font-normal;
+    }
+
     /* The QR code of an enrolment is black on white whatever the theme reads: an app has to scan it. */
     main[data-page="account"] figure[data-two-factor="qr-code"] {
         @apply w-fit rounded-box bg-white p-4 shadow-sm;
