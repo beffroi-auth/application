@@ -41,10 +41,22 @@
         <p>{{ 'profile.change_explanation'|trans }}</p>
         <ul data-changeable="{{ forms|length }}">
             {% for claim, form in forms %}
+                {% set field = fields[claim] %}
                 <li data-claim="{{ claim }}">
                     {{ form_start(form, {attr: {'data-editable': claim}}) }}
                         {{ form_label(form.value) }}
                         {{ form_widget(form.value) }}
+                        {# A set of several hundred is typed into with the whole set suggested
+                           (beffroi-php/beffroi#479). No type of the component renders a datalist and
+                           these pages run no script, so the page renders it beside the field and the
+                           field names it. #}
+                        {% if field.isPicked %}
+                            <datalist id="claim-{{ claim }}-values" data-values="{{ field.choices|length }}">
+                                {% for value, label in field.choices %}
+                                    <option value="{{ value }}">{{ label }}</option>
+                                {% endfor %}
+                            </datalist>
+                        {% endif %}
                         <button type="submit" data-save>{{ 'profile.save'|trans }}</button>
                         {{ form_errors(form.value) }}
                         {{ form_help(form.value) }}
