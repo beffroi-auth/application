@@ -36,6 +36,18 @@
         @apply btn-active;
     }
 
+    /* The logo of the tenant (issue beffroi-php/beffroi#449): served by a host the tenant named, so how
+       large it is on the page is the page's decision and never the tenant's, exactly as a client's logo on
+       the consent page. Above the box of an interaction it is centred; in the column of a page of the
+       account it heads the column beside the controls. */
+    header[data-tenant="brand"] img[data-tenant="logo"] {
+        @apply h-10 w-auto max-w-full object-contain;
+    }
+
+    body:not(:has(main[data-page="account"])) header[data-tenant="brand"] {
+        @apply mb-4 flex justify-center;
+    }
+
     main p {
         @apply text-base-content;
     }

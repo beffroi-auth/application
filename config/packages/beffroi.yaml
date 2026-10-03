@@ -4,6 +4,16 @@
 beffroi:
     tenant:
         issuer: '%env(BEFFROI_ISSUER)%'
+        # What this tenant shows of itself on every page (issue beffroi-php/beffroi#449). The logo is the
+        # placeholder mark of public/tenant-logo.svg, served from the origin of the application itself,
+        # which is why the policy of every page allows it without naming an origin; a deployment points
+        # this at the mark it owns, anywhere over HTTPS. The two colours go together: the accent the
+        # buttons and the links are drawn in, and the colour of what is written on them, which is what
+        # keeps them readable under both themes.
+        look:
+            logo_uri: '%env(BEFFROI_ISSUER)%/tenant-logo.svg'
+            primary_color: '#1f6feb'
+            primary_content_color: '#ffffff'
     keys:
         # The KMS client of config/packages/key_management.yaml the private keys are sealed with; the DSN
         # of that client, and whether it is one provider or several, are declared there.

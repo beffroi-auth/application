@@ -14,8 +14,20 @@
    declares, and a document that names neither leaves the answer to the browser. #}
 {% set account = (app.request.attributes.get('_route') ?? '') starts with 'beffroi_interaction_account' %}
 {% set chosen_theme = theme() %}
+{# The colours the tenant declared (issue beffroi-php/beffroi#449), written on the document as the two
+   custom properties DaisyUI draws a primary surface from: the accent of the buttons and the links, and
+   the colour of what is written on them. They are on the document and not in the stylesheet because the
+   stylesheet is built once for the deployment and these come from a row. The value is three or six
+   hexadecimal digits, which is all the model lets a tenant say, so there is nothing else it could put in
+   this attribute; a tenant that declared no colour leaves the attribute off and the themes answer. #}
+{% set tenant = beffroi_tenant() %}
+{% set colored = tenant is not null and tenant.primaryColor is not null %}
 <!DOCTYPE html>
-<html lang="{{ app.request.locale|replace({'_': '-'}) }}"{% if chosen_theme.attribute() is not null %} data-theme="{{ chosen_theme.attribute() }}"{% endif %}>
+<html
+    lang="{{ app.request.locale|replace({'_': '-'}) }}"
+    {%- if chosen_theme.attribute() is not null %} data-theme="{{ chosen_theme.attribute() }}"{% endif %}
+    {%- if colored %} style="--color-primary: {{ tenant.primaryColor }}; --color-primary-content: {{ tenant.primaryContentColor }}"{% endif %}
+>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,12 +43,22 @@
         {% include '@Beffroi/_locale_switcher.html.twig' %}
         {% include '_theme_switcher.html.twig' %}
     {% endset %}
+    {# The logo of the tenant, which the bundle ships as a header with its name as alternative text (issue
+       beffroi-php/beffroi#449): it heads the column of a page of the account, beside the controls, and
+       sits above the box of a page of an interaction, where whoever is in front of the screen reads who
+       they came for before reading the question. A tenant that declared no logo renders nothing, and the
+       page is the one it was. Rendered once and placed twice, as the controls are. #}
+    {% set brand %}{% include '@Beffroi/_brand.html.twig' %}{% endset %}
     {% if account %}
         {# A page of the account is a column someone reads: the controls head that column, aligned with it
            and scrolling with it, rather than floating over its heading. #}
-        <div class="mx-auto flex w-full max-w-3xl justify-end gap-2 px-4 pt-6 sm:px-6">{{ controls }}</div>
+        <div class="mx-auto flex w-full max-w-3xl items-center justify-between gap-2 px-4 pt-6 sm:px-6">
+            {{ brand }}
+            <div class="ml-auto flex items-center gap-2">{{ controls }}</div>
+        </div>
     {% endif %}
     {% block body %}
+        {% if not account %}{{ brand }}{% endif %}
         <main
             {% if account %}data-page="account"{% endif %}
             class="{{ account ? 'mx-auto flex w-full max-w-3xl flex-col gap-5 px-4 py-10 sm:px-6 sm:py-14' : 'card card-body w-full max-w-md bg-base-100 shadow-xl' }}"
