@@ -1,0 +1,56 @@
+{# What this provider holds of the signed-in person, and what they may correct of it, edited in place
+   (issue beffroi-php/op#17). It overrides the page of the bundle by its name, which is what §5.2 provides
+   for, and the controller of this application answers its two routes: the bundle serves the same thing as
+   bare HTML with a form token, and this is what it looks like written with symfony/form.
+
+   Edited in place, and with no script: the value a person reads is the field they type into, and the
+   button that saves it appears when the line is touched. That is a stylesheet (assets/styles/app.css) and
+   not a behaviour, so a browser that runs nothing still shows a field and a button that work. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'profile.title'|trans }}{% endblock %}
+
+{% block content %}
+    {{ include('@Beffroi/account/back.html.twig') }}
+    <p>{{ 'profile.signed_in_as'|trans({username: user.username}) }}</p>
+    <p>{{ 'profile.explanation'|trans }}</p>
+
+    <h2>{{ 'profile.account'|trans }}</h2>
+    <dl data-information="account">
+        {% for detail in identity %}
+            {{ include('@Beffroi/account/detail.html.twig', {detail: detail}) }}
+        {% endfor %}
+    </dl>
+
+    <h2>{{ 'profile.about_you'|trans }}</h2>
+    {% if claims is empty %}
+        <p data-claims="none">{{ 'profile.none'|trans }}</p>
+    {% else %}
+        <dl data-information="claims" data-claims="{{ claims|length }}">
+            {% for detail in claims %}
+                {{ include('@Beffroi/account/detail.html.twig', {detail: detail}) }}
+            {% endfor %}
+        </dl>
+    {% endif %}
+
+    <h2>{{ 'profile.what_you_may_change'|trans }}</h2>
+    {% if forms is empty %}
+        <p data-changeable="none">{{ 'profile.change_nothing'|trans }}</p>
+    {% else %}
+        <p>{{ 'profile.change_explanation'|trans }}</p>
+        <ul data-changeable="{{ forms|length }}">
+            {% for claim, form in forms %}
+                <li data-claim="{{ claim }}">
+                    {{ form_start(form, {attr: {'data-editable': claim}}) }}
+                        {{ form_label(form.value) }}
+                        {{ form_widget(form.value) }}
+                        <button type="submit" data-save>{{ 'profile.save'|trans }}</button>
+                        {{ form_errors(form.value) }}
+                        {{ form_help(form.value) }}
+                    {{ form_end(form) }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
