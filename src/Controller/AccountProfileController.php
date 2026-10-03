@@ -72,12 +72,18 @@ final readonly class AccountProfileController
         }
         $user = $session->user;
         $forms = [];
+        $fields = [];
         $status = Response::HTTP_OK;
         foreach ($this->claims->openedBy($user->tenant) as $open) {
+            $held = $open->of($user);
+            // the field a page offers for what is already held, which is the claim's unless the input
+            // cannot carry that value (beffroi-php/beffroi#479)
+            $fields[$open->name()] = $field = $open->field()->forHolding($held);
             $forms[$open->name()] = $this->forms->create(ClaimType::class, [
-                'value' => $open->of($user),
+                'value' => $held,
             ], [
                 'claim' => $open,
+                'field' => $field,
                 'action' => $this->router->generate('beffroi_interaction_account_profile_describe', ['claim' => $open->name()]),
             ]);
         }
@@ -92,6 +98,8 @@ final readonly class AccountProfileController
             'claims' => RecordedInformation::claimsOf($user),
             // the views are built after the submission was handled, so what was refused is on the field
             'forms' => array_map(static fn (FormInterface $form): FormView => $form->createView(), $forms),
+            // what a set of several hundred is suggested from, which no type of the component carries
+            'fields' => $fields,
         ], $status);
     }
 
