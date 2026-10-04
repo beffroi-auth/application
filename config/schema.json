@@ -876,6 +876,22 @@
                         },
                         "description": "The acts of the provider, written down and forgotten again (issue #454): who did what, when and from where. Nothing turns it on; what is configured is how long an act is kept."
                     },
+                    "history": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "retention": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 180,
+                                "description": "Days a change is kept before the timed step forgets it; the duration the journal keeps an act, a change and the act that announced it being two halves of one answer."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "retention": 180
+                        },
+                        "description": "What a claim of a person used to say, and what they made it say (issue #482). Nothing turns it on; what is configured is how long a change is kept."
+                    },
                     "interaction": {
                         "$ref": "#/$defs/types/object_null",
                         "properties": {
