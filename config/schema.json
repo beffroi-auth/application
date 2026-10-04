@@ -666,6 +666,12 @@
                                 "minimum": 0,
                                 "default": null,
                                 "description": "How long a new key is published before it signs, in seconds (architecture §3.3, §9); unless set, jwks_max_age plus the 60 s refetch cooldown of oidc_login: the max-age is what a relying party with a warm cache needs to see the new key, the cooldown what one served by a shared HTTP cache needs to refetch it."
+                            },
+                            "age": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 7776000,
+                                "description": "How long a key works before the planning stages a successor for it, in seconds, counted from its activation (architecture §3.3): ninety days by default, which is inside the one to three years NIST SP 800-57 Part 1 Rev. 5 §5.3.6 gives a private signature key and short enough that the rotation path is walked four times a year rather than first walked during an incident. It has to be longer than the window a retiring key holds the JWK Set open for, which is the longest lifetime of what a key of that use is bound to, or every rotation would leave a key behind; the rotation refuses an age that is not."
                             }
                         },
                         "required": [
