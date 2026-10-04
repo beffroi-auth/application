@@ -1,157 +1,69 @@
-# Rule of the project (docs/11-architecture.md §5.6): no write is synchronous unless the protocol
-# requires it, and every synchronous exception is listed here with its reason.
+# What this application owes of Messenger, and nothing more: its transports. The three buses, their
+# middleware and where each marker is sent are the contract of the provider and the bundle prepends them
+# (Beffroi\Bundle\Messenger\MessengerContract, architecture §5.6, issue beffroi-php/beffroi#456): a
+# deployment that wired them itself and got "dispatch_after_current_bus" or "doctrine_transaction" wrong
+# would break the asynchronous half of the provider, quietly.
 #
-# The writes the protocol requires before answering are use cases the controllers call directly, in the
-# request: the interaction persisted before the redirect to the login, the session created at login, the
-# consent recorded before the code is issued, the code issued before the redirect to the relying party,
-# the code consumed and the refresh token issued or rotated in the token request, the session ended and
-# its refresh tokens revoked at logout, the client written and its initial access token spent before the
-# registration endpoint answers with the identifier it drew (RFC 7591 §3.2.1), the row of a client read,
-# replaced or removed before that client is answered about itself (RFC 7592 §2). A message that must be
-# handled in the request all the same implements Beffroi\Bundle\Message\SyncMessage, never Command, and is
-# listed below with its reason.
-# Everything else is a Command, an Event or a Notification and leaves through RabbitMQ. One marker per
-# message and one transport per marker: a message is sent to every transport its class, its parents and
-# its interfaces are routed to, so two markers on one class would send it twice.
-framework:
-    # The recurring messages of the bundle (Beffroi\Bundle\Scheduler\BeffroiSchedule: the timed steps of the key
-    # lifecycle, architecture §3.3, and the removal of the registered clients nobody uses any more,
-    # decision 0009) are routed like every other message, by their class, and not handled
-    # inside the worker that ticks: the scheduler worker only says when, the command worker does.
-    scheduler:
-        use_messenger_routing: true
-    messenger:
-        default_bus: command.bus
-        failure_transport: failed
-
-        transports:
-            sync: 'sync://'
-            async_priority_high:
-                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-                options:
-                    exchange:
-                        name: beffroi_messages
-                        type: direct
-                        default_publish_routing_key: high
-                    queues:
-                        beffroi_messages_high:
-                            binding_keys: [high]
-                retry_strategy:
-                    max_retries: 4
-                    delay: 1000
-                    max_delay: 30000
-                    multiplier: 4
-            async_priority_medium:
-                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-                options:
-                    exchange:
-                        name: beffroi_messages
-                        type: direct
-                        default_publish_routing_key: medium
-                    queues:
-                        beffroi_messages_medium:
-                            binding_keys: [medium]
-                retry_strategy:
-                    max_retries: 4
-                    delay: 1000
-                    max_delay: 30000
-                    multiplier: 4
-            async_priority_low:
-                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-                options:
-                    exchange:
-                        name: beffroi_messages
-                        type: direct
-                        default_publish_routing_key: low
-                    queues:
-                        beffroi_messages_low:
-                            binding_keys: [low]
-                retry_strategy:
-                    max_retries: 4
-                    delay: 1000
-                    max_delay: 30000
-                    multiplier: 4
-            # What the provider carries to a third party it does not own (Beffroi\Bundle\Message\Notification:
-            # the logout tokens of a session that ended, the word to a client that the backchannel request
-            # it made has been answered, and what tells a user that one is waiting for them; architecture
-            # §4.9, §5.6). A lane of its own,
-            # because what it owes is not what our own writes owe: a relying party learns of a logout
-            # while the certification suite waits for it, so the message must not queue behind a batch of
-            # enrichments, and a relying party that is restarting must be tried again for longer than a
-            # write to our own database would be. How long that is belongs to the bundle and not here
-            # (Beffroi\Bundle\Messenger\NotificationRetryPolicy, "beffroi.back_channel_logout"): the same
-            # schedule bounds how long a logout token stays on its way, which is what holds a signing key
-            # back from retiring, and the two cannot be written twice. By default 2, 6, 18, 54, 60 then
-            # 60 seconds, a little over three minutes of patience. Beyond that the client is not
-            # restarting, it is down, and the provider says so
-            # (Beffroi\Bundle\Messenger\LogoutTokenGivenUpListener) rather than trying for ever: the session
-            # is closed here whatever the client believes, and the client learns it at its next request.
-            async_notifications:
-                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-                options:
-                    exchange:
-                        name: beffroi_messages
-                        type: direct
-                        default_publish_routing_key: notifications
-                    queues:
-                        beffroi_messages_notifications:
-                            binding_keys: [notifications]
-                retry_strategy:
-                    service: 'Beffroi\Bundle\Messenger\NotificationRetryPolicy'
-            failed: 'doctrine://default?queue_name=failed'
-
-        # The transport "scheduler_beffroi" is the schedule of the bundle, consumed by the worker next to
-        # the four below (compose.yaml, "worker"); one worker at a time consumes it.
-        routing:
-            Beffroi\Bundle\Message\Command: async_priority_medium
-            Beffroi\Bundle\Message\Event: async_priority_low
-            # The events of the core and of the module, replayed on event.bus by the bundle
-            # (Beffroi\Bundle\Messenger\EventBusDispatcher): audit, enrichment and reactions are asynchronous.
-            Beffroi\Core\Domain\Event\DomainEventInterface: async_priority_low
-            # What is carried to a third party, on the lane and the patience described above.
-            Beffroi\Bundle\Message\Notification: async_notifications
-            Beffroi\Bundle\Message\Query: sync
-            # Synchronous exceptions: the marker below, then one line per class with the protocol reason.
-            Beffroi\Bundle\Message\SyncMessage: sync
-
-        buses:
-            query.bus: ~
-            command.bus:
-                middleware:
-                    # Restated because overriding "middleware" replaces the defaults: events dispatched
-                    # from a handler must leave after the transaction has committed.
-                    - dispatch_after_current_bus
-                    - router_context
-                    - validation
-                    - doctrine_ping_connection
-                    - doctrine_close_connection
-                    - doctrine_transaction
-            event.bus:
-                middleware:
-                    - dispatch_after_current_bus
-                default_middleware: allow_no_handlers
+# The block lives under "messenger" and not under "framework.messenger": the component has its own
+# extension since Symfony 8.2 split FrameworkBundle per component, and a block nested under "framework" is
+# not overridden by an application through a bundle's prepend.
+#
+# What is said here is the broker. The bundle sends every lane to the database unless the environment names
+# something else, so an installation needs no broker to work; this one has RabbitMQ, so each lane says the
+# exchange and the queue it binds, which is the part of a transport only a deployment knows.
+messenger:
+    transports:
+        async_priority_high:
+            dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+            options:
+                exchange:
+                    name: beffroi_messages
+                    type: direct
+                    default_publish_routing_key: high
+                queues:
+                    beffroi_messages_high:
+                        binding_keys: [high]
+        async_priority_medium:
+            dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+            options:
+                exchange:
+                    name: beffroi_messages
+                    type: direct
+                    default_publish_routing_key: medium
+                queues:
+                    beffroi_messages_medium:
+                        binding_keys: [medium]
+        async_priority_low:
+            dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+            options:
+                exchange:
+                    name: beffroi_messages
+                    type: direct
+                    default_publish_routing_key: low
+                queues:
+                    beffroi_messages_low:
+                        binding_keys: [low]
+        # What the provider carries to a third party it does not own: a lane of its own, because what it
+        # owes is not what our own writes owe. A relying party learns of a logout while the certification
+        # suite waits for it, so the message must not queue behind a batch of enrichments. How long it is
+        # tried again is the bundle's (NotificationRetryPolicy), the same schedule bounding how long a
+        # logout token stays on its way and so how long a signing key is held back from retiring.
+        async_notifications:
+            dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+            options:
+                exchange:
+                    name: beffroi_messages
+                    type: direct
+                    default_publish_routing_key: notifications
+                queues:
+                    beffroi_messages_notifications:
+                        binding_keys: [notifications]
 
 when@test:
-    framework:
-        messenger:
-            transports:
-                async_priority_high: 'sync://'
-                async_priority_medium: 'sync://'
-                async_priority_low: 'sync://'
-                async_notifications: 'sync://'
-                sync: 'sync://'
-                failed: 'sync://'
-            routing:
-                Beffroi\Bundle\Message\Command: sync
-                Beffroi\Bundle\Message\Notification: sync
-                Beffroi\Bundle\Message\Event: sync
-                Beffroi\Core\Domain\Event\DomainEventInterface: sync
-                Beffroi\Bundle\Message\Query: sync
-                Beffroi\Bundle\Message\SyncMessage: sync
-            buses:
-                command.bus:
-                    middleware:
-                        - dispatch_after_current_bus
-                        - router_context
-                        - validation
-                        - doctrine_transaction
+    messenger:
+        transports:
+            async_priority_high: 'sync://'
+            async_priority_medium: 'sync://'
+            async_priority_low: 'sync://'
+            async_notifications: 'sync://'
+            failed: 'sync://'
