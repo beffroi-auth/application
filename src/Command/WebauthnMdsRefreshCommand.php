@@ -16,6 +16,7 @@ use function is_string;
 use function parse_url;
 use const PHP_URL_HOST;
 use function sprintf;
+use function str_contains;
 use function str_starts_with;
 use function substr;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -41,6 +42,8 @@ final readonly class WebauthnMdsRefreshCommand
     public const string FIDO_METADATA_SERVICE = 'https://mds.fidoalliance.org/';
 
     public const string FIDO_ROOT_CERTIFICATE = __DIR__ . '/../../config/beffroi/webauthn/globalsign-root-r46.pem';
+
+    private const string PEM_BLOCK = '-----BEGIN ';
 
     public function __construct(
         private HttpClientInterface $http,
@@ -96,6 +99,10 @@ final readonly class WebauthnMdsRefreshCommand
         return $refused === 0 ? Command::SUCCESS : Command::FAILURE;
     }
 
+    /**
+     * A file or an address gives the root as PEM or as DER, and convertDERToPEM() reads whatever it is given as DER, a PEM
+     * included.
+     */
     private function rootCertificate(string $root): string
     {
         if (str_starts_with($root, 'https://')) {
@@ -110,7 +117,7 @@ final readonly class WebauthnMdsRefreshCommand
             }
         }
 
-        return CertificateToolbox::convertDERToPEM($certificate);
+        return str_contains($certificate, self::PEM_BLOCK) ? $certificate : CertificateToolbox::convertDERToPEM($certificate);
     }
 
     /**
