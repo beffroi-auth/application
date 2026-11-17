@@ -8,9 +8,6 @@ use function array_keys;
 use function count;
 use function implode;
 use Beffroi\Core\Exception\InvalidArgumentException;
-use Symfony\Component\KeyManagement\Bridge\DoctrineDbal\EncryptedTypes;
-use Symfony\Component\KeyManagement\EnvelopeDecrypterInterface;
-use Symfony\Component\KeyManagement\EnvelopeEncrypterInterface;
 use function in_array;
 use function sprintf;
 use function str_starts_with;
@@ -81,11 +78,6 @@ final readonly class EncryptedColumnTypes
         }
 
         return $declarations;
-    }
-
-    public static function service(EnvelopeEncrypterInterface&EnvelopeDecrypterInterface $envelopes): EncryptedTypes
-    {
-        return new EncryptedTypes($envelopes, self::declarations());
     }
 
     /**

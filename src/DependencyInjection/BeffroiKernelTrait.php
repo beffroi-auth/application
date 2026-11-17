@@ -17,9 +17,7 @@ use Beffroi\Core\Port\PasswordAlgorithmsInterface;
 use Beffroi\Oidc\Port\AuthorizationDetailsReaderInterface;
 use Beffroi\Oidc\Port\CodeChallengeMethodsInterface;
 use Beffroi\Oidc\Port\ConfirmationReaderInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\KeyManagement\Bridge\DoctrineDbal\EncryptedTypes;
 
 trait BeffroiKernelTrait
 {
@@ -65,27 +63,6 @@ trait BeffroiKernelTrait
             if ($passkeyAttestations instanceof PasskeyAttestations && is_a($class, NeedsPasskeyAttestationsInterface::class, true)) {
                 $class::resolveWith($passkeyAttestations);
             }
-        }
-        $this->registerEncryptedTypes();
-    }
-
-    /**
-     * A connection is asked for first: DoctrineBundle puts the types the encrypted ones decorate in the registry only
-     * when a connection is created (ConnectionFactory::initializeTypes), and asking for one opens nothing.
-     */
-    private function registerEncryptedTypes(): void
-    {
-        $container = $this->container;
-        if ($container === null || ! $container->has('beffroi.encrypted_types')) {
-            return;
-        }
-        $doctrine = $container->has('doctrine') ? $container->get('doctrine') : null;
-        if ($doctrine instanceof ManagerRegistry) {
-            $doctrine->getConnection();
-        }
-        $types = $container->get('beffroi.encrypted_types');
-        if ($types instanceof EncryptedTypes) {
-            $types->register();
         }
     }
 }

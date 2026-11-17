@@ -6,6 +6,7 @@ namespace App\Configuration;
 
 use DateInterval;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Types\Type;
 use App\Doctrine\PersonalData\BlindIndexListener;
 use App\Doctrine\PersonalData\DataKeysOfTheTenant;
 use App\Doctrine\PersonalData\EncryptedColumnTypes;
@@ -27,7 +28,7 @@ use Beffroi\Core\Domain\Key\RotationSchedule;
 use Symfony\Component\KeyManagement\Bridge\DoctrineDbal\DataKeyStore;
 use Psr\Container\ContainerInterface;
 use SensitiveParameter;
-use Symfony\Component\KeyManagement\Bridge\DoctrineDbal\EncryptedTypes;
+use Symfony\Component\KeyManagement\Bridge\DoctrineDbal\EncryptedType;
 use Symfony\Component\KeyManagement\Bridge\DoctrineOrm\SchemaListener\DataKeyStoreSchemaListener;
 use Symfony\Component\KeyManagement\Debug\TraceableDataKeyStore;
 use Symfony\Component\KeyManagement\Debug\TraceableEnvelopeEncrypter;
@@ -185,21 +186,25 @@ final readonly class KeysSection extends ConfigurationSection
             $stores,
             service('beffroi.kms.envelopes'),
         ]);
-        // Lazy, so that registering the types at boot builds no KMS client; public, because a private service with one
-        // consumer is inlined and an inlined service is not a proxy.
+        // Lazy, so that building a sealing type, as writing the schema does, builds no KMS client.
         $services
             ->set('beffroi.personal_data.encrypter', TenantScopedEncrypter::class)
-            ->public()
             ->lazy()
             ->args([
                 service('beffroi.kms.stored_envelopes'),
                 service(TenantProvider::class),
             ]);
-        $services
-            ->set('beffroi.encrypted_types', EncryptedTypes::class)
-            ->public()
-            ->factory(EncryptedColumnTypes::service(...))
-            ->args([service('beffroi.personal_data.encrypter')]);
+        foreach (EncryptedColumnTypes::declarations() as $name => ['type' => $type, 'key' => $family]) {
+            // A sealed value authenticates the name of the type it decorates, and would authenticate its class without it.
+            $services->set('beffroi.encrypted_type.' . $name, EncryptedType::class)->args([
+                inline_service(Type::class)->factory([service('doctrine.dbal.default_connection.type_provider'), 'get'])->args([$type]),
+                service('beffroi.personal_data.encrypter'),
+                $family,
+                $type,
+            ])->tag('doctrine.dbal.type', [
+                'type_name' => $name,
+            ]);
+        }
         $services
             ->set('beffroi.data_keys.reader', DataKeyStore::class)
             ->factory([service('beffroi.data_keys'), 'reader'])
