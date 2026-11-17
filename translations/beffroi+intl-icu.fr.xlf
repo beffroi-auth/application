@@ -1221,6 +1221,14 @@
         <source>act.group_membership.removed</source>
         <target>Retrait d'un groupe</target>
       </trans-unit>
+      <trans-unit id="act.consent.granted" resname="act.consent.granted">
+        <source>act.consent.granted</source>
+        <target>Application autorisée</target>
+      </trans-unit>
+      <trans-unit id="act.consent.revoked" resname="act.consent.revoked">
+        <source>act.consent.revoked</source>
+        <target>Autorisation d'une application retirée</target>
+      </trans-unit>
       <trans-unit id="act.archive.asked" resname="act.archive.asked">
         <source>act.archive.asked</source>
         <target>Dossier de vos données demandé</target>
@@ -1244,6 +1252,10 @@
       <trans-unit id="act.administration.membership_read" resname="act.administration.membership_read">
         <source>act.administration.membership_read</source>
         <target>Votre appartenance à un groupe a été consultée</target>
+      </trans-unit>
+      <trans-unit id="act.administration.consents_read" resname="act.administration.consents_read">
+        <source>act.administration.consents_read</source>
+        <target>Les applications que vous avez autorisées ont été consultées</target>
       </trans-unit>
       <trans-unit id="act.administration.journal_read" resname="act.administration.journal_read">
         <source>act.administration.journal_read</source>
