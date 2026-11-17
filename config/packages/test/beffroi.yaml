@@ -15,3 +15,7 @@ beffroi:
             logo_uri: 'https://cdn.consent.test/logo.png'
             redirect_uris: ['https://consent.test/callback']
             token_endpoint_auth_method: none
+    # The keys of the suite, apart from the ones a development stack serving this checkout keeps in var/keys: a key the
+    # suite draws is sealed under its own KMS, which that stack could not open.
+    keys:
+        storage: '%kernel.cache_dir%/keys'

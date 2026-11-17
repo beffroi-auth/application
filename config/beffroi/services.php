@@ -27,6 +27,7 @@ use Beffroi\Oidc\Application\Administration\AdministeredSessionEnd;
 use Beffroi\Oidc\Application\Administration\AdministeredSessions;
 use Beffroi\Oidc\Application\Administration\AdministratorOfARequest;
 use Beffroi\Oidc\Application\Administration\PersonsOfTheTenant;
+use App\Doctor\ClientsSignedWithHeldKeys;
 use App\Doctor\NotificationsLanePatience;
 use Beffroi\Oidc\Application\Secret\SecretDrawer;
 use Beffroi\Oidc\Application\Secret\UserCodeDrawer;
@@ -315,6 +316,7 @@ use Beffroi\Core\Application\Identity\PersonCreation;
 use Beffroi\Core\Application\Identity\UserProvisioner;
 use Beffroi\Core\Application\Key\ActiveKeptSigningKeys;
 use Beffroi\Core\Application\Key\ActiveSigningKeys;
+use Beffroi\Core\Application\Key\HeldSigningAlgorithms;
 use Beffroi\Core\Application\Key\ApplicationServerKeysInService;
 use Beffroi\Core\Application\Key\KeptDecryptionKeysInService;
 use Beffroi\Core\Application\Key\KeyRetirement;
@@ -722,6 +724,7 @@ use Beffroi\Oidc\Application\Client\Registration\SoftwareStatementVerifier;
 use Beffroi\Oidc\Application\Client\Registration\RegistrationAuthorizations;
 use Beffroi\Oidc\Application\Client\Registration\RegistrationHeldToItsSector;
 use Beffroi\Oidc\Application\Client\Registration\RegistrationHeldToTheTenant;
+use Beffroi\Oidc\Application\Client\Registration\RegistrationSignedWithHeldKeys;
 use Beffroi\Oidc\Application\Scope\OfferedScopes;
 use Beffroi\Oidc\Bridge\Configuration\ConfigurationClientRegistrationPolicy;
 use Beffroi\Oidc\Bridge\Configuration\ConfigurationDeclaredScopes;
@@ -1009,6 +1012,7 @@ return static function (ContainerConfigurator $container): void {
     ]);
     $services->set(LaneBacklogs::class)->args([service('messenger.receiver_locator')]);
     $services->set(InstanceStatistics::class);
+    $services->set(ClientsSignedWithHeldKeys::class)->arg('$sources', tagged_iterator('beffroi.oidc.client_source'))->tag('beffroi.doctor_check');
     $services
         ->set(NotificationsLanePatience::class)
         ->args([
@@ -1214,6 +1218,7 @@ return static function (ContainerConfigurator $container): void {
     $services->alias(KeptDecryptionKeyProviderInterface::class, SealedKeyProvider::class);
     $services->alias(MessageKeyProviderInterface::class, SealedKeyProvider::class);
     $services->set(ActiveSigningKeys::class);
+    $services->set(HeldSigningAlgorithms::class);
     $services->set(PublishedDecryptionKeys::class);
     $services->set(ActiveKeptSigningKeys::class)->arg('$algorithms', service('beffroi.saml.signing_algorithms'));
     $services->set(KeptDecryptionKeysInService::class);
@@ -1508,6 +1513,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(SoftwareStatementAuthorization::class)->tag('beffroi.oidc.registration_mode');
     $services->set(RegistrationAuthorizations::class)->args([tagged_iterator('beffroi.oidc.registration_mode')]);
     $services->set(RegistrationHeldToTheTenant::class);
+    $services->set(RegistrationSignedWithHeldKeys::class);
     $services->set(SectorIdentifierDocumentFetcher::class);
     $services->alias(SectorIdentifierDocumentFetcherInterface::class, SectorIdentifierDocumentFetcher::class);
     $services->set(RegistrationHeldToItsSector::class);
