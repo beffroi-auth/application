@@ -17,6 +17,9 @@
       The index is what the page of a record and the archive read: the changes of one person, the newest
       first, by an identifier that is a UUIDv7 and so sorts chronologically. The second is what the timed
       step reads, which walks by the date of the change and not by identifier.
+
+      The author is the administrator of the tenant who made the change, by the subject of their account as
+      the journal names them, and nothing when the person made it (decision 0038).
     -->
     <entity name="Beffroi\Core\Domain\Identity\ClaimChange" table="beffroi_claim_change">
         <indexes>
@@ -36,5 +39,6 @@
         <field name="became" type="beffroi_encrypted_claim_change_string" column="became" length="255" nullable="true"/>
         <field name="changedAt" type="datetime_immutable" column="changed_at"/>
         <field name="context" type="beffroi_encrypted_claim_change_request_context" column="context"/>
+        <field name="author" type="beffroi_subject" column="author" length="255" nullable="true"/>
     </entity>
 </doctrine-mapping>

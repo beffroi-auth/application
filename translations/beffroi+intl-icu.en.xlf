@@ -389,6 +389,30 @@
         <source>profile.address</source>
         <target>Postal address</target>
       </trans-unit>
+      <trans-unit id="profile.address.formatted" resname="profile.address.formatted">
+        <source>profile.address.formatted</source>
+        <target>Full postal address</target>
+      </trans-unit>
+      <trans-unit id="profile.address.street_address" resname="profile.address.street_address">
+        <source>profile.address.street_address</source>
+        <target>Street address</target>
+      </trans-unit>
+      <trans-unit id="profile.address.locality" resname="profile.address.locality">
+        <source>profile.address.locality</source>
+        <target>City</target>
+      </trans-unit>
+      <trans-unit id="profile.address.region" resname="profile.address.region">
+        <source>profile.address.region</source>
+        <target>Region</target>
+      </trans-unit>
+      <trans-unit id="profile.address.postal_code" resname="profile.address.postal_code">
+        <source>profile.address.postal_code</source>
+        <target>Postal code</target>
+      </trans-unit>
+      <trans-unit id="profile.address.country" resname="profile.address.country">
+        <source>profile.address.country</source>
+        <target>Country</target>
+      </trans-unit>
       <trans-unit id="465d5b10ab" resname="passkeys.title">
         <source>passkeys.title</source>
         <target>Your passkeys</target>
@@ -1177,6 +1201,10 @@
         <source>act.person.described_themselves</source>
         <target>Your information changed</target>
       </trans-unit>
+      <trans-unit id="act.person.described" resname="act.person.described">
+        <source>act.person.described</source>
+        <target>Your information was changed</target>
+      </trans-unit>
       <trans-unit id="act.archive.asked" resname="act.archive.asked">
         <source>act.archive.asked</source>
         <target>File of your data asked for</target>
@@ -1375,7 +1403,7 @@
       </trans-unit>
       <trans-unit id="profile.changed_nothing" resname="profile.changed_nothing">
         <source>profile.changed_nothing</source>
-        <target>You have not changed anything of your record yet.</target>
+        <target>Nothing of your record has changed yet.</target>
       </trans-unit>
       <trans-unit id="profile.changed_what" resname="profile.changed_what">
         <source>profile.changed_what</source>
@@ -1392,6 +1420,10 @@
       <trans-unit id="profile.changed_when" resname="profile.changed_when">
         <source>profile.changed_when</source>
         <target>When</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_by" resname="profile.changed_by">
+        <source>profile.changed_by</source>
+        <target>By</target>
       </trans-unit>
       <trans-unit id="pager.pages" resname="pager.pages">
         <source>pager.pages</source>
@@ -1423,15 +1455,19 @@
       </trans-unit>
       <trans-unit id="changes.title" resname="changes.title">
         <source>changes.title</source>
-        <target>What you have changed</target>
+        <target>What changed in your record</target>
       </trans-unit>
       <trans-unit id="changes.explanation" resname="changes.explanation">
         <source>changes.explanation</source>
-        <target>Every change you have made to your own record, the most recent first. What a client of this provider reads is the record as it is now.</target>
+        <target>Every change made to your record, by you or by an administrator of your organisation, the most recent first. What a client of this provider reads is the record as it is now.</target>
       </trans-unit>
       <trans-unit id="changes.none_in_period" resname="changes.none_in_period">
         <source>changes.none_in_period</source>
-        <target>You changed nothing over those days.</target>
+        <target>Nothing changed over those days.</target>
+      </trans-unit>
+      <trans-unit id="changes.by_you" resname="changes.by_you">
+        <source>changes.by_you</source>
+        <target>You</target>
       </trans-unit>
       <trans-unit id="filter.period" resname="filter.period">
         <source>filter.period</source>

@@ -23,6 +23,7 @@ use Beffroi\Oidc\Application\Administration\AdministeredEnrolmentTicket;
 use Beffroi\Oidc\Application\Administration\AdministeredPasswordTicket;
 use Beffroi\Oidc\Application\Administration\AdministeredTotpTicket;
 use Beffroi\Oidc\Application\Administration\AdministeredPersonCreation;
+use Beffroi\Oidc\Application\Administration\AdministeredDescription;
 use Beffroi\Oidc\Application\Administration\AdministeredSessionEnd;
 use Beffroi\Oidc\Application\Administration\AdministeredSessions;
 use Beffroi\Oidc\Application\Administration\AdministratorOfARequest;
@@ -236,6 +237,12 @@ use App\Identity\WiredClaims;
 use Beffroi\Core\Port\ClaimsInterface;
 use Beffroi\Core\Application\Identity\LanguageRecording;
 use Beffroi\Core\Application\Identity\SelfDescription;
+use Beffroi\Core\Application\Identity\PersonDescription;
+use Beffroi\Core\Application\Identity\Member\AddressMember;
+use Beffroi\Core\Application\Identity\Member\EmailMember;
+use Beffroi\Core\Application\Identity\Member\EmailVerifiedMember;
+use Beffroi\Core\Application\Identity\Member\PhoneNumberVerifiedMember;
+use Beffroi\Core\Application\Identity\Member\UsernameMember;
 use Beffroi\Core\Domain\Identity\Claim\Name;
 use Beffroi\Core\Domain\Identity\Claim\GivenName;
 use Beffroi\Core\Domain\Identity\Claim\FamilyName;
@@ -953,6 +960,14 @@ return static function (ContainerConfigurator $container): void {
     $services->set(WiredClaims::class)->args([tagged_iterator('beffroi.claim')]);
     $services->alias(ClaimsInterface::class, WiredClaims::class);
     $services->set(SelfDescription::class);
+    // An administrator says the members of a person beside their claims in the order they are wired: an address before
+    // whether it was verified.
+    $services->set(UsernameMember::class)->tag('beffroi.person_member');
+    $services->set(EmailMember::class)->tag('beffroi.person_member');
+    $services->set(EmailVerifiedMember::class)->tag('beffroi.person_member');
+    $services->set(PhoneNumberVerifiedMember::class)->tag('beffroi.person_member');
+    $services->set(AddressMember::class)->tag('beffroi.person_member');
+    $services->set(PersonDescription::class)->arg('$members', tagged_iterator('beffroi.person_member'));
     $services->set(DoctrineClaimHistory::class);
     $services->alias(ClaimHistoryInterface::class, DoctrineClaimHistory::class);
     $services->alias(ChangesOfAPersonInterface::class, DoctrineClaimHistory::class);
@@ -1636,6 +1651,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(AdministeredSessionEnd::class);
     $services->set(AdministeredCredentialRevocation::class);
     $services->set(AdministeredPersonCreation::class);
+    $services->set(AdministeredDescription::class);
     $services->set(AdministeredEnrolmentTicket::class);
     $services->set(AdministeredPasswordTicket::class);
     $services->set(AdministeredTotpTicket::class);

@@ -1,0 +1,10 @@
+{# A value of the history of a record: the two verifications of OIDC Core §5.1 said in words, every other
+   value as it was written. #}
+{% trans_default_domain 'beffroi' %}
+{%- if value is null -%}
+    {{ 'profile.nothing'|trans }}
+{%- elseif claim ends with '_verified' -%}
+    {{ (value == 'true' ? 'profile.verified' : 'profile.unverified')|trans }}
+{%- else -%}
+    {{ value }}
+{%- endif -%}

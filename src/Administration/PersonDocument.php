@@ -16,7 +16,7 @@ use function array_map;
 /**
  * A person as the administration API writes them: the account and the source that created it, the standard claims it
  * holds (OIDC Core §5.1), the groups with the source of each membership, and the credentials with their kind, name,
- * authenticator and dates.
+ * authenticator and dates. The account and its claims are what a patch of the person changes.
  */
 final readonly class PersonDocument
 {
@@ -34,14 +34,7 @@ final readonly class PersonDocument
     public function of(User $user, array $memberships, array $credentials): array
     {
         return [
-            'id' => $user->id->toRfc4122(),
-            'subject' => $user->subject->value,
-            'username' => $user->username,
-            'enabled' => $user->isEnabled(),
-            'disabled_at' => AdministrationAnswer::moment($user->disabledAt),
-            'source' => $user->source->provider ?? 'local',
-            'created_at' => AdministrationAnswer::moment($user->createdAt),
-            'claims' => (object) self::claims($user),
+            ...self::account($user),
             'groups' => array_map(static fn (GroupMembership $membership): array => [
                 'name' => $membership->group->name,
                 'source' => $membership->source->value,
@@ -61,6 +54,23 @@ final readonly class PersonDocument
     }
 
     /**
+     * @return array<string, mixed>
+     */
+    public static function account(User $user): array
+    {
+        return [
+            'id' => $user->id->toRfc4122(),
+            'subject' => $user->subject->value,
+            'username' => $user->username,
+            'enabled' => $user->isEnabled(),
+            'disabled_at' => AdministrationAnswer::moment($user->disabledAt),
+            'source' => $user->source->provider ?? 'local',
+            'created_at' => AdministrationAnswer::moment($user->createdAt),
+            'claims' => (object) self::claims($user),
+        ];
+    }
+
+    /**
      * The standard claims of OIDC Core §5.1 the account holds, by their names there, and none it does not.
      *
      * @return array<string, mixed>
@@ -71,9 +81,7 @@ final readonly class PersonDocument
 
         return array_filter(
             [
-                'name' => $user->profile->name,
-                'given_name' => $user->profile->givenName,
-                'family_name' => $user->profile->familyName,
+                ...$user->profile->claims(),
                 'email' => $user->email === null ? null : (string) $user->email,
                 'email_verified' => $user->email === null ? null : $user->emailVerified,
                 'phone_number' => $user->phoneNumber,
@@ -82,6 +90,7 @@ final readonly class PersonDocument
                     ? null
                     : array_filter(
                         [
+                            'formatted' => $address->formatted,
                             'street_address' => $address->streetAddress,
                             'postal_code' => $address->postalCode,
                             'locality' => $address->locality,
