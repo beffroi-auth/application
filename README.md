@@ -6,9 +6,9 @@ deployed in; nothing installs it inside another application.
 
 It is the `apps/beffroi` directory of the monorepo, [beffroi-auth/beffroi](https://github.com/beffroi-auth/beffroi),
 beside the packages it installs: the identity core, the OAuth 2.0 and OpenID Connect module and the SAML
-2.0 module. `beffroi-auth/application` is a mirror of that directory, read only, pushed by git split. The design and the
-decisions are in [beffroi-auth/design](https://github.com/beffroi-auth/design), and the reference relying
-party in [beffroi-auth/oidc-demo](https://github.com/beffroi-auth/oidc-demo).
+2.0 module. `beffroi-auth/application` is a mirror of that directory, read only, pushed by git split. Its
+documentation is at [doc.beffroi.tech](https://doc.beffroi.tech), and the reference relying party is
+[beffroi-auth/oidc-demo](https://github.com/beffroi-auth/oidc-demo).
 
 ## What is here, and what is not
 
