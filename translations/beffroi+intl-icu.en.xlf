@@ -1213,6 +1213,14 @@
         <source>act.person.enabled</source>
         <target>Account enabled again</target>
       </trans-unit>
+      <trans-unit id="act.group_membership.added" resname="act.group_membership.added">
+        <source>act.group_membership.added</source>
+        <target>Made a member of a group</target>
+      </trans-unit>
+      <trans-unit id="act.group_membership.removed" resname="act.group_membership.removed">
+        <source>act.group_membership.removed</source>
+        <target>Taken out of a group</target>
+      </trans-unit>
       <trans-unit id="act.archive.asked" resname="act.archive.asked">
         <source>act.archive.asked</source>
         <target>File of your data asked for</target>
@@ -1232,6 +1240,10 @@
       <trans-unit id="act.administration.sessions_read" resname="act.administration.sessions_read">
         <source>act.administration.sessions_read</source>
         <target>Your open sessions were consulted</target>
+      </trans-unit>
+      <trans-unit id="act.administration.membership_read" resname="act.administration.membership_read">
+        <source>act.administration.membership_read</source>
+        <target>Your membership of a group was consulted</target>
       </trans-unit>
       <trans-unit id="act.administration.journal_read" resname="act.administration.journal_read">
         <source>act.administration.journal_read</source>

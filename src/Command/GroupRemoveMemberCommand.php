@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Http\RequestContextFactory;
 use Beffroi\Core\Application\Group\LocalMemberships;
 use Beffroi\Core\Exception\GroupMembershipException;
 use function sprintf;
@@ -18,16 +19,19 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * directory, the next assertion or the next push writing it again.
  */
 #[AsCommand(
-    name: 'beffroi:group:remove-member',
+    name: self::NAME,
     description: 'Take a user out of a group of the tenant, a membership the tenant holds itself.',
 )]
 final readonly class GroupRemoveMemberCommand
 {
+    public const string NAME = 'beffroi:group:remove-member';
+
     public function __construct(
         private ConfiguredTenant $tenant,
         private NamedUser $namedUsers,
         private NamedGroup $namedGroups,
         private LocalMemberships $memberships,
+        private RequestContextFactory $contexts,
     ) {
     }
 
@@ -52,7 +56,7 @@ final readonly class GroupRemoveMemberCommand
         }
 
         try {
-            $this->memberships->remove($named, $user);
+            $this->memberships->remove($named, $user, $this->contexts->fromConsole(self::NAME));
         } catch (GroupMembershipException $exception) {
             $io->error($exception->getMessage());
 

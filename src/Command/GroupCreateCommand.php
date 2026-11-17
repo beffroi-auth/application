@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Http\RequestContextFactory;
 use Beffroi\Core\Exception\GroupAlreadyExistsException;
 use Beffroi\Core\Application\Group\GroupProvisioner;
 use Beffroi\Core\Exception\InvalidArgumentException;
@@ -14,14 +15,17 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
-    name: 'beffroi:group:create',
+    name: self::NAME,
     description: 'Create a group of the tenant, which the declaration of an upstream provider may map the groups it asserts to.',
 )]
 final readonly class GroupCreateCommand
 {
+    public const string NAME = 'beffroi:group:create';
+
     public function __construct(
         private ConfiguredTenant $tenant,
         private GroupProvisioner $provisioner,
+        private RequestContextFactory $contexts,
     ) {
     }
 
@@ -36,7 +40,7 @@ final readonly class GroupCreateCommand
         }
 
         try {
-            $group = $this->provisioner->create($tenant, $name);
+            $group = $this->provisioner->create($tenant, $name, $this->contexts->fromConsole(self::NAME));
         } catch (InvalidArgumentException $exception) {
             $io->error($exception->getMessage());
 

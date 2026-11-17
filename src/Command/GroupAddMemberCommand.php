@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Http\RequestContextFactory;
 use Beffroi\Core\Application\Group\LocalMemberships;
 use Beffroi\Core\Exception\GroupMembershipException;
 use function sprintf;
@@ -18,16 +19,19 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * directory fills by SCIM takes its members from that directory alone.
  */
 #[AsCommand(
-    name: 'beffroi:group:add-member',
+    name: self::NAME,
     description: 'Make a user a member of a group of the tenant, a membership the tenant holds itself.',
 )]
 final readonly class GroupAddMemberCommand
 {
+    public const string NAME = 'beffroi:group:add-member';
+
     public function __construct(
         private ConfiguredTenant $tenant,
         private NamedUser $namedUsers,
         private NamedGroup $namedGroups,
         private LocalMemberships $memberships,
+        private RequestContextFactory $contexts,
     ) {
     }
 
@@ -52,7 +56,7 @@ final readonly class GroupAddMemberCommand
         }
 
         try {
-            $this->memberships->add($named, $user);
+            $this->memberships->add($named, $user, $this->contexts->fromConsole(self::NAME));
         } catch (GroupMembershipException $exception) {
             $io->error($exception->getMessage());
 

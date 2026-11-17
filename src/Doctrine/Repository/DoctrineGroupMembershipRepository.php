@@ -7,17 +7,22 @@ namespace App\Doctrine\Repository;
 use Beffroi\Core\Application\Group\MembershipAlreadyHeldException;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use App\Doctrine\EntityManagers;
+use Beffroi\Core\Domain\Group\Group;
 use Beffroi\Core\Domain\Group\GroupMembership;
 use Beffroi\Core\Domain\Identity\User;
 use Beffroi\Core\Port\GroupMembershipRepositoryInterface;
 use Beffroi\Core\Port\GroupsOfAPersonInterface;
+use Beffroi\Core\Port\MembersOfAGroupInterface;
 use SortDirection;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 
 /**
  * @extends DoctrineRepository<GroupMembership>
  */
-final readonly class DoctrineGroupMembershipRepository extends DoctrineRepository implements GroupMembershipRepositoryInterface, GroupsOfAPersonInterface
+final readonly class DoctrineGroupMembershipRepository extends DoctrineRepository implements
+    GroupMembershipRepositoryInterface,
+    GroupsOfAPersonInterface,
+    MembersOfAGroupInterface
 {
     public function __construct(EntityManagers $managers)
     {
@@ -36,6 +41,25 @@ final readonly class DoctrineGroupMembershipRepository extends DoctrineRepositor
             ->getResult();
 
         return $memberships;
+    }
+
+    public function membersOf(Group $group): array
+    {
+        /** @var list<GroupMembership> $members */
+        $members = $this->queryBuilder('m')
+            ->where('m.group = :group')
+            ->orderBy('m.addedAt', SortDirection::Ascending)
+            ->addOrderBy('m.id', SortDirection::Ascending)
+            ->setParameter('group', $group->id, UuidType::NAME)
+            ->getQuery()
+            ->getResult();
+
+        return $members;
+    }
+
+    public function countMembersOf(Group $group): int
+    {
+        return $this->repository()->count(['group' => $group]);
     }
 
     /**

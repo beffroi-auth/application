@@ -9,12 +9,16 @@ use Beffroi\Core\Domain\Group\Group;
 use Beffroi\Core\Domain\Tenant\Tenant;
 use Beffroi\Core\Exception\GroupAlreadyExistsException;
 use Beffroi\Core\Port\GroupRepositoryInterface;
+use Beffroi\Core\Port\GroupsOfATenantInterface;
+use SortDirection;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 /**
  * @extends DoctrineRepository<Group>
  */
-final readonly class DoctrineGroupRepository extends DoctrineRepository implements GroupRepositoryInterface
+final readonly class DoctrineGroupRepository extends DoctrineRepository implements GroupRepositoryInterface, GroupsOfATenantInterface
 {
     public function __construct(EntityManagers $managers)
     {
@@ -26,6 +30,27 @@ final readonly class DoctrineGroupRepository extends DoctrineRepository implemen
         return $this->repository()->findOneBy([
             'tenant' => $tenant,
             'name' => $name,
+        ]);
+    }
+
+    public function of(Tenant $tenant): array
+    {
+        /** @var list<Group> $groups */
+        $groups = $this->queryBuilder('g')
+            ->where('g.tenant = :tenant')
+            ->orderBy('g.name', SortDirection::Ascending)
+            ->setParameter('tenant', $tenant->id, UuidType::NAME)
+            ->getQuery()
+            ->getResult();
+
+        return $groups;
+    }
+
+    public function find(Tenant $tenant, Uuid $id): ?Group
+    {
+        return $this->repository()->findOneBy([
+            'tenant' => $tenant,
+            'id' => $id,
         ]);
     }
 
