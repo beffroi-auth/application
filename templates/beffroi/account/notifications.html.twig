@@ -1,0 +1,87 @@
+{# The browsers of the signed-in user this provider may push to (Push API §3.4, architecture §5.2, §5.6), in
+   the language of the browser: the list with what the user called each one and its dates, the name
+   corrected in the line where it is read, a button that takes one out, and, beside the title, what
+   associates the browser showing the page.
+
+   The form that subscribes is hidden until the script of the provider finds a browser that can hold a
+   subscription and a tenant that hands out a key, and hidden again when that browser is already one of
+   the rows: what the script recognises it by is the digest of its endpoint, which every row carries
+   (PushSubscription::digestOf), and the row it matches says it is this browser.
+
+   "application_server_key" is the public half of that key (RFC 8292 §3.2), and null when this deployment
+   reaches nobody this way; "error" is a code of PushSubscriptionController or of
+   PushSubscriptionNameController. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'notifications.title'|trans }}{% endblock %}
+
+{% block head %}
+    <script src="{{ path('beffroi_interaction_push_script') }}" defer></script>
+{% endblock %}
+
+{# Associating this browser is what this page offers, and it is one click: the name that tells one browser
+   from another is corrected in its own line afterwards, so nothing is asked before the browser is asked
+   for a subscription. #}
+{% block action %}
+    <form method="post" action="{{ path('beffroi_interaction_account_notifications_subscribe') }}" data-push="subscribe" data-application-server-key="{{ application_server_key ?? '' }}" data-worker-url="{{ path('beffroi_interaction_push_worker') }}" hidden>
+        <input type="hidden" name="_token" value="{{ csrf_token('beffroi_push_subscribe') }}">
+        <input type="hidden" name="endpoint" value="">
+        <input type="hidden" name="p256dh" value="">
+        <input type="hidden" name="auth" value="">
+        <input type="hidden" name="label" value="{{ 'notifications.new_default'|trans }}">
+        <button type="button" data-push-button>{{ 'notifications.subscribe'|trans }}</button>
+    </form>
+{% endblock %}
+
+{% block content %}
+    {{ include('@Beffroi/account/back.html.twig') }}
+    <p>{{ 'notifications.what_is_sent'|trans }}</p>
+    {% if error is not null %}
+        <p data-error="{{ error }}">{{ ('notifications.error.' ~ error)|trans }}</p>
+    {% endif %}
+    {{ include('@Beffroi/account/period.html.twig', {period: period}) }}
+    <table data-subscriptions="{{ subscriptions|length }}">
+        <thead>
+            <tr>
+                <th>{{ 'notifications.label'|trans }}</th>
+                <th>{{ 'notifications.created_at'|trans }}</th>
+                <th>{{ 'notifications.last_pushed_at'|trans }}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subscription in subscriptions %}
+                <tr data-subscription="{{ subscription.id }}" data-endpoint="{{ subscription.endpointHash }}">
+                    <td>
+                        {# The name is the holder's and theirs to correct, in the line where they read it.
+                           The row of the browser showing the page says so, which only that browser knows:
+                           the word is here and the script of the provider uncovers it. #}
+                        <form method="post" action="{{ path('beffroi_interaction_account_notifications_name', {id: subscription.id}) }}" data-subscription="rename">
+                            <input type="hidden" name="_token" value="{{ csrf_token('beffroi_push_name') }}">
+                            <label for="subscription-{{ subscription.id }}-label">{{ 'notifications.label'|trans }}</label>
+                            <input type="text" id="subscription-{{ subscription.id }}-label" name="label" value="{{ subscription.label }}" placeholder="{{ 'notifications.unnamed'|trans }}" maxlength="255" required>
+                            <button type="submit" data-save>{{ 'notifications.rename'|trans }}</button>
+                        </form>
+                        <span data-subscription-current hidden>{{ 'notifications.this_browser'|trans }}</span>
+                    </td>
+                    <td><time datetime="{{ subscription.createdAt|date('c') }}">{{ subscription.createdAt|beffroi_moment(user) }}</time></td>
+                    <td>{% if subscription.lastPushedAt is not null %}<time datetime="{{ subscription.lastPushedAt|date('c') }}">{{ subscription.lastPushedAt|beffroi_moment(user) }}</time>{% else %}{{ 'notifications.never_pushed'|trans }}{% endif %}</td>
+                    <td>
+                        <form method="post" action="{{ path('beffroi_interaction_account_notifications_revoke', {id: subscription.id}) }}" data-subscription="revoke">
+                            <input type="hidden" name="_token" value="{{ csrf_token('beffroi_push_revoke') }}">
+                            <button type="submit" name="revoke" value="{{ subscription.id }}">{{ 'notifications.revoke'|trans }}</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                {# A table that holds nothing keeps its head and says so in one row of its own, which is
+                   how every table of this plane says it. #}
+                <tr data-empty><td colspan="4">{{ (period is null ? 'notifications.none' : 'notifications.none_in_period')|trans }}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ include('@Beffroi/account/pager.html.twig', {listing: subscriptions}) }}
+    <p data-push-error hidden>{{ 'notifications.error.browser'|trans }}</p>
+    <p data-push-unsupported {% if application_server_key is not null %}hidden{% endif %}>{{ application_server_key is null ? 'notifications.not_served'|trans : 'notifications.unsupported'|trans }}</p>
+{% endblock %}

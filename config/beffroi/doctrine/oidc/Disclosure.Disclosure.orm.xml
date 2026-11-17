@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!--
+      What a client was given of a person, at one act of the protocol (issue #590). It is not the journal,
+      which is four facts and two names and no column a caller fills: the journal keeps saying that the act
+      happened, and this says what left with it.
+
+      The person is named as the journal names them, by the subject their account carries and not by a row
+      of that account: the two tables answer one question together, are read by the same name and the same
+      moment, and the duration that forgets them is one duration (§5.6).
+
+      `scopes`, `claims` and `authorization_details` are sealed under the data key of the tenant, in a
+      family of their own (decisions 0011 and 0018), where a consent holds the same values in the clear:
+      a consent is a permission, one row per client, and this is one row per act, so a dump of this table
+      is what an application obtained of somebody day by day. That the obtaining happened is in the
+      journal, in the clear, as the act of it.
+
+      Two indexes, for the two questions asked of this table: what was given to one person, by an
+      identifier that sorts chronologically, and what is old enough to forget, which walks by the moment of
+      the act.
+    -->
+    <entity name="Beffroi\Oidc\Domain\Disclosure\Disclosure" table="beffroi_disclosure">
+        <indexes>
+            <index name="beffroi_disclosure_person" columns="tenant_id,subject,id"/>
+            <index name="beffroi_disclosure_kept_until" columns="tenant_id,handed_over_at"/>
+        </indexes>
+        <id name="id" type="uuid" column="id"/>
+        <many-to-one field="tenant" target-entity="Beffroi\Core\Domain\Tenant\Tenant">
+            <join-column name="tenant_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+        <field name="subject" type="beffroi_subject" column="subject" length="255"/>
+        <field name="clientId" type="string" column="client_id" length="255"/>
+        <field name="act" type="string" column="act" length="64"/>
+        <field name="handedOverAt" type="datetime_immutable" column="handed_over_at"/>
+        <!-- The length is the one the domain checks and not the width of the column, a sealed column being unbounded binary. -->
+        <field name="scopes" type="beffroi_encrypted_disclosure_scopes" column="scopes"/>
+        <field name="claims" type="beffroi_encrypted_disclosure_claims_request" column="claims" nullable="true"/>
+        <field name="details" type="beffroi_encrypted_disclosure_authorization_details" column="authorization_details" nullable="true"/>
+        <field name="tokenShape" type="string" column="token_shape" length="64"/>
+    </entity>
+</doctrine-mapping>

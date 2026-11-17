@@ -1,0 +1,13 @@
+# The root of this application (architecture §5.2). The pages of the provider never take the root: they are
+# served under the path the application imports them at, and what "/" answers is the application's own
+# decision. Here the issuer is the origin alone and
+# its root is the account of whoever is signed in; a browser without a session is sent to the login by the
+# page itself, and comes back to it.
+#
+# The name carries the interaction plane, which is the convention BEFFROI_PLANE reads (Plane::ofRoute): a
+# process that serves the protocol alone answers 404 here, as it does on every page meant for a browser.
+beffroi_interaction_home:
+    path: /
+    redirect_to_route: beffroi_interaction_account
+    defaults:
+        permanent: false

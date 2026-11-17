@@ -1,0 +1,17 @@
+# The one client the suite of this application walks a browser flow with (issue beffroi-auth/beffroi#584).
+# Read in the test environment alone, as "config/services_test.yaml" is (MicroKernelTrait loads
+# "config/packages/{env}/"), and deployed nowhere: a deployment declares the clients it serves and this
+# one declares none, while a consent page cannot be read without a client that asks for consent.
+#
+# Its logo is served by a host of its own, and that is the whole point of it. The page shows an image of a
+# stranger, so the "img-src" of the policy this application writes is completed with that host, and its
+# submission ends at the client, so the "form-action" is completed with the origin of the redirect URI
+# (App\Http\ImageSource, FormTarget). Consent is required of it, which is the default and what
+# makes the page appear at all; no token is ever asked for it, which is why it holds no secret.
+beffroi:
+    clients:
+        consent-app:
+            client_name: 'Application that asks for consent'
+            logo_uri: 'https://cdn.consent.test/logo.png'
+            redirect_uris: ['https://consent.test/callback']
+            token_endpoint_auth_method: none

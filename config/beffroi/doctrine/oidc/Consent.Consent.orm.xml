@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!-- What a user agreed to let a client obtain (architecture §4.3); a superseded consent stays, revoked, so that the history stays readable. -->
+    <entity name="Beffroi\Oidc\Domain\Consent\Consent" table="beffroi_consent">
+        <indexes>
+            <index name="beffroi_consent_user_client" columns="user_id,client_id"/>
+        </indexes>
+        <id name="id" type="uuid" column="id"/>
+        <many-to-one field="tenant" target-entity="Beffroi\Core\Domain\Tenant\Tenant">
+            <join-column name="tenant_id" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
+        <many-to-one field="user" target-entity="Beffroi\Core\Domain\Identity\User">
+            <join-column name="user_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+        <field name="clientId" type="string" column="client_id" length="255"/>
+        <field name="scopes" type="beffroi_scopes" column="scopes"/>
+        <field name="authorizationDetails" type="beffroi_authorization_details" column="authorization_details" nullable="true"/>
+        <!-- The claims agreed to by name beyond what the scopes stand for (OIDC Core §5.5): an empty array when none was, which a consent recorded before the column existed says too. -->
+        <field name="claims" type="beffroi_claim_names" column="claims">
+            <options>
+                <option name="default">[]</option>
+            </options>
+        </field>
+        <field name="grantedAt" type="datetime_immutable" column="granted_at"/>
+        <field name="revokedAt" type="datetime_immutable" column="revoked_at" nullable="true"/>
+        <entity-listeners>
+            <entity-listener class="App\Doctrine\Listener\ClientResolver">
+                <lifecycle-callback type="postLoad" method="postLoad"/>
+            </entity-listener>
+        </entity-listeners>
+    </entity>
+</doctrine-mapping>

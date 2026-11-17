@@ -1,0 +1,68 @@
+{# The login page, in the locale the interaction recorded. It serves the interaction that is waiting for a
+   login and, with no client to name, the page of the provider that asked for one and is not an
+   authorization request (the page where a user approves what an appliance asked, RFC 8628 §3.3). The form is the one the form
+   login of the firewall reads (architecture §5.4); a refused login shows one message, whatever the reason.
+   What it offers is the kinds of login the firewall wires that the floor of the tenant admits (issue #327,
+   "offered"): a tenant that signs its users in by passkey shows no password field and no username, a
+   discoverable credential naming its own user, and the page says so for a browser that holds none.
+   Below it, the passkey: hidden until the script of the provider finds a browser that can hold one, then
+   a button, and the autofill of the username field when the browser offers it (conditional UI); the
+   signed assertion is posted as a form to the passkey authenticator of the same firewall. On a step-up
+   (decision 0010) the page names the classes the client accepts and says which of the credentials the
+   user holds would satisfy one, by kind (login.step_up.<kind>: a passkey, the password, a TOTP after the
+   password), nothing of a kind they do not hold; both forms stay offered. A step-up asked for by a page
+   of the provider names no client, that page serving no request of a browser (CIBA Core §7.1).
+   When the tenant federates an e-mail domain, the page comes after the step of the address
+   (login_address.html.twig, beffroi/saml S-61), and offers to go back to it ("after_the_address"), after the
+   forms of the login so that the first button of the page is still the one of the password. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'login.title'|trans }}{% endblock %}
+
+{% block head %}
+    <script src="{{ path('beffroi_interaction_passkey_script') }}" defer></script>
+{% endblock %}
+
+{% block content %}
+    <p>{{ client is null ? 'login.prompt_alone'|trans : 'login.prompt'|trans_with_client(client.registration.presentation.name) }}</p>
+    {% if step_up is not null %}
+        <p data-requirement="{{ requirement.value }}" data-acr="{{ step_up.classes|join(' ') }}">{{ client is null ? 'login.step_up_alone'|trans : 'login.step_up'|trans_with_client(client.registration.presentation.name) }}</p>
+        {% for kind in step_up.kinds %}
+            <p data-step-up="{{ kind }}">{{ ('login.step_up.' ~ kind)|trans }}</p>
+        {% endfor %}
+    {% elseif requirement is not null and requirement.value != 'no_session' %}
+        <p data-requirement="{{ requirement.value }}">{{ 'login.reauthentication'|trans }}</p>
+    {% endif %}
+    {% if failed %}
+        <p data-error="authentication_failed">{{ 'login.failed'|trans }}</p>
+    {% endif %}
+    {% if 'password' in offered %}
+        <form method="post" action="{{ path('beffroi_interaction_login', interaction is null ? {} : {interaction: interaction.id}) }}">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('beffroi_login') }}">
+            <label for="username">{{ 'login.username'|trans }}</label>
+            <input type="text" id="username" name="_username" value="{{ username ?? '' }}" autocomplete="username webauthn" required autofocus>
+            <label for="password">{{ 'login.password'|trans }}</label>
+            <input type="password" id="password" name="_password" autocomplete="current-password" required>
+            <button type="submit">{{ 'login.submit'|trans }}</button>
+        </form>
+    {% endif %}
+    {% if 'passkey' in offered %}
+        {% if 'password' not in offered %}
+            <p data-only="passkey">{{ 'login.passkey_only'|trans }}</p>
+        {% endif %}
+        <form method="post" action="{{ path('beffroi_interaction_passkey_login', interaction is null ? {} : {interaction: interaction.id}) }}" data-passkey="login" data-options-url="{{ path('beffroi_interaction_passkey_login_options', interaction is null ? {} : {interaction: interaction.id}) }}" hidden>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('beffroi_login') }}">
+            <input type="hidden" name="_passkey" value="">
+            <button type="button" data-passkey-button>{{ 'login.passkey'|trans }}</button>
+            <p data-passkey-error hidden>{{ 'login.passkey_failed'|trans }}</p>
+        </form>
+    {% endif %}
+    {% if after_the_address ?? false %}
+        <form method="post" action="{{ path('beffroi_interaction_login_address', interaction is null ? {} : {interaction: interaction.id}) }}" data-step="another-address">
+            <input type="hidden" name="_token" value="{{ csrf_token('beffroi_login_address') }}">
+            <input type="hidden" name="_address" value="">
+            <button type="submit">{{ 'login.other_address'|trans }}</button>
+        </form>
+    {% endif %}
+{% endblock %}

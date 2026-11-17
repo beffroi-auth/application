@@ -1,0 +1,32 @@
+# The listener of the administration API of a tenant (decision 0038), imported by CADDY_EXTRA_CONFIG when a deployment
+# serves it ("import administration.Caddyfile", as mtls.Caddyfile is imported), on the host ADMINISTRATION_SERVER_NAME
+# names, which is the identifier BEFFROI_TENANT_ADMINISTRATION_RESOURCE gives the API. A host of its own, never the
+# host of the pages, and a worker of its own: its kernel is told by BEFFROI_PLANE that it serves the API, so it loads
+# the routes of the API and no other (App\Kernel), and the processes of the host of SERVER_NAME never load them.
+#
+# Its certificate is the one Caddy serves for its name: the certificate of the stack when it covers that name, or one
+# Caddy issues otherwise. A deployment that does not import this file has no administration API at all.
+#
+# CADDY_ADMINISTRATION_EXTRA_DIRECTIVES are the directives a deployment adds to this site, as
+# CADDY_SERVER_EXTRA_DIRECTIVES are those of the site of SERVER_NAME: behind a proxy, the one that hands PHP the address
+# of the client. Each site has its own, since a directive of one may not fit the other, such as a "tls" line on a site
+# a proxy reaches in plain HTTP.
+{$ADMINISTRATION_SERVER_NAME} {
+	log {
+		{$CADDY_SERVER_LOG_OPTIONS}
+	}
+
+	root * /app/public
+	encode zstd br gzip
+
+	{$CADDY_ADMINISTRATION_EXTRA_DIRECTIVES}
+
+	php_server {
+		worker {
+			file ./public/index.php
+			name administration
+			env BEFFROI_PLANE administration
+			{$FRANKENPHP_WORKER_CONFIG}
+		}
+	}
+}

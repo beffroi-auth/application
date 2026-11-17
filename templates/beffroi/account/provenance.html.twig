@@ -1,0 +1,18 @@
+{# Where a request came from, as a page of the account writes it (architecture §3.5, §5.2): the place the
+   enrichment found, the address it came from, and the browser its user agent names.
+
+   One file for the two tables that show it, because what a person reads of a session and of a sign-in is
+   the same thing. The place is unknown rather than absent: a deployment that downloaded no database of
+   addresses, and an address no database can place, are the same answer to whoever reads the line, and a
+   line that said nothing would read as a line nobody filled in. The browser is what the reading of the
+   user agent recognises (Domain\Session\Device), and the whole of what the browser sent stays in the
+   document, where somebody looking for exactly that can read it.
+
+   "provenance" is a RequestContext: the caller passes the one its row carries. #}
+{% trans_default_domain 'beffroi' %}
+{% set place = provenance.location|beffroi_place %}
+<span data-place="{{ place is not null ? 'known' : 'unknown' }}">{{ place ?? 'provenance.unknown_place'|trans }}</span>
+{{ provenance.ipAddress ?? 'provenance.unknown_address'|trans }}
+{% if provenance.userAgent is not null %}
+    <span data-user-agent title="{{ provenance.userAgent }}">{{ provenance|beffroi_device }}</span>
+{% endif %}

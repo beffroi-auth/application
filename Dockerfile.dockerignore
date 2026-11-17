@@ -1,0 +1,94 @@
+# The ignore file of apps/beffroi/Dockerfile. The context of that build is the root of the monorepo (compose.yaml),
+# so the paths below are read from that root, and BuildKit reads this file, named after the Dockerfile and
+# beside it, in place of a .dockerignore at that root.
+
+# Nothing but what the Dockerfile copies: the packages, where the path repositories of the application
+# resolve, and the application.
+*
+!src/
+!apps/beffroi/
+
+# What a working copy holds beside the repository, the paths the .gitignore of the application names: the
+# environment "castor provision" writes, with the DSN of the KMS (the key itself under the sodium backend, a
+# token under Vault), the secrets of the clients and the password of the development user, and its compiled
+# form; the key that decrypts the secrets of production; what Composer, the asset mapper and the suite of the
+# application install, build or leave behind. The image compiles its environment from the files the
+# repository holds, and installs and builds the rest itself.
+apps/beffroi/.env.local
+apps/beffroi/.env.local.php
+apps/beffroi/.env.*.local
+apps/beffroi/config/secrets/prod/prod.decrypt.private.php
+apps/beffroi/public/bundles/
+apps/beffroi/var/
+apps/beffroi/vendor/
+apps/beffroi/public/assets/
+apps/beffroi/assets/vendor/
+apps/beffroi/phpunit.xml
+apps/beffroi/.phpunit.cache/
+
+# What the image does not serve: the suite of the application and its environment, and what a repository,
+# an editor or a system leaves in a tree.
+apps/beffroi/.env.test
+apps/beffroi/tests/
+apps/beffroi/phpunit.dist.xml
+apps/beffroi/config/services_test.yaml
+apps/beffroi/config/packages/test/
+apps/beffroi/.editorconfig
+**/*.log
+**/*.md
+**/*.php~
+**/*.dist.php
+**/*.dist
+**/*.cache
+**/._*
+**/*.dockerignore
+**/.DS_Store
+**/.git/
+**/.gitattributes
+**/.gitignore
+**/.gitmodules
+**/compose.*.yaml
+**/compose.*.yml
+**/compose.yaml
+**/compose.yml
+**/docker-compose.*.yaml
+**/docker-compose.*.yml
+**/docker-compose.yaml
+**/docker-compose.yml
+**/Dockerfile
+**/Thumbs.db
+
+# What only the development stack and the lab read, and no deployment serves (issue #922, decision 0030): the
+# image carries what a deployment serves. Symfony reads the configuration of an environment in that environment
+# alone (config/packages/<env>/, config/routes/<env>/, config/services_<env>.yaml, .env.<env>), and a file whose
+# every section is "when@dev" or "when@test" configures nothing for production, so both stay out of the image
+# with what they name in the application. TheImageCarriesWhatADeploymentServesTest holds this list to them.
+#
+# The configuration of development, the debug bundle and the profiler production does not install among it, and
+# what a debug kernel writes for an editor to complete the configuration with.
+apps/beffroi/.env.dev
+apps/beffroi/public/development-tenant-logo.svg
+apps/beffroi/config/packages/dev/
+apps/beffroi/config/packages/debug.yaml
+apps/beffroi/config/packages/web_profiler.yaml
+apps/beffroi/config/routes/framework.yaml
+apps/beffroi/config/routes/web_profiler.yaml
+apps/beffroi/config/reference.php
+apps/beffroi/config/schema.json
+# The demonstration of the flows, read in development and by the suite of the application: its pages, their
+# templates and their configuration.
+apps/beffroi/src/Demonstration/
+apps/beffroi/templates/demonstration/
+apps/beffroi/config/packages/demonstration.yaml
+apps/beffroi/config/routes/demonstration.yaml
+# The lab: what its tasks ask of the application in development (the endpoint "castor mtls" reads, the type of
+# authorization detail "castor demo --rar" asks for, and its sentence), the endpoints the conformance tools drive,
+# and the metadata of the Entra interoperability that "castor saml-entra" registers.
+apps/beffroi/src/Lab/
+apps/beffroi/config/packages/lab.yaml
+apps/beffroi/config/routes/mtls.yaml
+apps/beffroi/config/routes/fido_conformance.yaml
+apps/beffroi/config/routes/ciba_conformance.yaml
+apps/beffroi/config/beffroi/routes/fido-conformance.php
+apps/beffroi/config/beffroi/routes/ciba-conformance.php
+apps/beffroi/config/saml/

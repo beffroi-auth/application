@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!--
+      A client this provider registered itself (RFC 7591 §3.2.1): one row per client, the metadata as it
+      was registered in one column and the secret in another. The identifier is unique under its tenant,
+      which is what makes the draw that assigns it answerable by the database as well as by the sources.
+
+      Five of its columns are sealed under the data key of their tenant, in the `client` family (decisions
+      0011 and 0018): the metadata, which carries the `contacts` of RFC 7591 §2, the electronic addresses
+      of the people responsible for the client; what the registration policy assigned, what a software
+      statement signed and what an initial access token gave, which travel the same way; and the secret.
+      The key that opens a client's row is therefore not the key that opens a user's, and destroying one
+      reaches one.
+
+      **The secret is the one column of this schema that is neither a personal datum nor safe in the
+      clear.** It holds a digest for a method that receives a secret, which would need nothing, or the
+      secret itself for `client_secret_jwt`, which signs with it and cannot hash it (OIDC Core §9). A
+      credential that cannot be hashed is sealed instead, so a dump of the database yields no usable client
+      credential either; that is a line of the page for a CISO and not a silence.
+
+      No index on any of the five: a client is found by `client_id`, unique under its tenant and in the
+      clear, and nothing looks a client up by a member of its metadata. `client_name` is read off the
+      hydrated row and never queried.
+    -->
+    <entity name="Beffroi\Oidc\Domain\Client\ClientRecord" table="beffroi_client">
+        <unique-constraints>
+            <unique-constraint name="beffroi_client_identifier" columns="tenant_id,client_id"/>
+        </unique-constraints>
+        <indexes>
+            <index name="beffroi_client_last_used" columns="tenant_id,last_used_at"/>
+        </indexes>
+        <id name="id" type="uuid" column="id"/>
+        <many-to-one field="tenant" target-entity="Beffroi\Core\Domain\Tenant\Tenant">
+            <join-column name="tenant_id" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
+        <field name="clientId" type="string" column="client_id" length="255"/>
+        <field name="metadata" type="beffroi_encrypted_client_json" column="metadata"/>
+        <!--
+          What the registration policy of the tenant wrote on this registration (decision 0017), beside
+          what the client sent and never among it: the two would otherwise be one column a client could
+          write half of.
+
+          **It carries no default now that it seals**, where it carried `{}` for a client registered before
+          the column existed. A default describes the stored value, and the stored value is a ciphertext:
+          `BYTEA DEFAULT '{}'` would put two bytes in the column that no key opens, where `jsonb` only
+          took a query away. There is nothing to default for either, no deployment existing and the
+          migration recreating the column empty.
+        -->
+        <field name="assigned" type="beffroi_encrypted_client_json" column="assigned_metadata"/>
+        <!--
+          What a software statement signed of this client (RFC 7591 §2.3), kept beside what the client sent
+          as what the policy wrote is, and for the same reason: a replacement is read from what the client
+          sends (RFC 7592 §2.2), and what an authority signed is read in front of it again from here, where
+          no replacement writes.
+
+          Null for a client no statement attested: a sealed column holds a ciphertext or nothing, and a null
+          says that without the data key of the tenant, which sealing anything would need.
+        -->
+        <field name="attested" type="beffroi_encrypted_client_json" column="attested_metadata" nullable="true"/>
+        <!--
+          What the initial access token that authorised the registration gave this client (decision 0043), kept
+          apart for the reason what a statement signed is: a replacement is read from what the client sends,
+          and the policy writes its own members again, so what the token gave is read again from here.
+
+          Null for a client no token gave anything, for the same reason as the column above.
+        -->
+        <field name="granted" type="beffroi_encrypted_client_json" column="granted_metadata" nullable="true"/>
+        <!-- The credential of this one client for its own configuration endpoint (RFC 7592 §2.3), kept as the digest of the value and never as the value. Its default, in the database, is the digest of nothing: a client registered before the column existed was handed no such token, and no value hashes to it. -->
+        <field name="registrationAccessTokenDigest" type="string" column="registration_access_token" length="64">
+            <options>
+                <option name="fixed">true</option>
+                <option name="default">0000000000000000000000000000000000000000000000000000000000000000</option>
+            </options>
+        </field>
+        <field name="secret" type="beffroi_encrypted_client_client_secret" column="secret" nullable="true"/>
+        <field name="issuedAt" type="datetime_immutable" column="client_id_issued_at"/>
+        <!-- When somebody last used this client (decision 0009): null for one that never was, which is not kept for as long. Indexed with the tenant, because the step that drops what nobody uses asks exactly that. -->
+        <field name="lastUsedAt" type="datetime_immutable" column="last_used_at" nullable="true"/>
+        <field name="secretExpiresAt" type="datetime_immutable" column="client_secret_expires_at" nullable="true"/>
+        <!-- Whether a token the tenant issued for its administration registered this client, which is then given the administration API of the tenant when the row is read (decision 0038). Its default, in the database, is what a client registered before the column existed was: a client of no administration. -->
+        <field name="administration" type="boolean" column="administration">
+            <options>
+                <option name="default">false</option>
+            </options>
+        </field>
+    </entity>
+</doctrine-mapping>

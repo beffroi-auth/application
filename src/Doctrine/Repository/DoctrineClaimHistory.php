@@ -1,0 +1,118 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Doctrine\Repository;
+
+use App\Doctrine\EntityManagers;
+use App\Doctrine\PageOfRows;
+use App\Doctrine\SelectionWithinAPeriod;
+use Beffroi\Core\Domain\Identity\ClaimChange;
+use Beffroi\Core\Domain\Identity\User;
+use Beffroi\Core\Domain\Tenant\Tenant;
+use Beffroi\Core\Domain\Listing\Listing;
+use Beffroi\Core\Domain\Listing\Pagination;
+use Beffroi\Core\Domain\Listing\Period;
+use Beffroi\Core\Port\CanPageChangesOfAPersonInterface;
+use Beffroi\Core\Port\ChangesOfAPersonInterface;
+use Beffroi\Core\Port\ClaimHistoryInterface;
+use function count;
+use DateTimeImmutable;
+use SortDirection;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Uid\Uuid;
+
+/**
+ * @extends DoctrineRepository<ClaimChange>
+ */
+final readonly class DoctrineClaimHistory extends DoctrineRepository implements
+    CanPageChangesOfAPersonInterface,
+    ChangesOfAPersonInterface,
+    ClaimHistoryInterface
+{
+    public const int FORGOTTEN_AT_ONCE = 1000;
+
+    public function __construct(
+        EntityManagers $managers,
+        private PageOfRows $rows,
+    ) {
+        parent::__construct($managers, ClaimChange::class);
+    }
+
+    public function record(ClaimChange $change): void
+    {
+        $this->store($change);
+    }
+
+    public function forgetBefore(Tenant $tenant, DateTimeImmutable $moment): int
+    {
+        /** @var list<ClaimChange> $past */
+        $past = $this->queryBuilder('c')
+            ->where('c.tenant = :tenant')
+            ->andWhere('c.changedAt < :moment')
+            ->orderBy('c.changedAt', SortDirection::Ascending)
+            ->setMaxResults(self::FORGOTTEN_AT_ONCE)
+            ->setParameter('tenant', $tenant->id, UuidType::NAME)
+            ->setParameter('moment', $moment)
+            ->getQuery()
+            ->getResult();
+        if ($past === []) {
+            return 0;
+        }
+        $manager = $this->manager();
+        foreach ($past as $change) {
+            $manager->remove($change);
+        }
+        $manager->flush();
+
+        return count($past);
+    }
+
+    /**
+     * @return Listing<ClaimChange>
+     */
+    public function pageOfChanges(User $user, Pagination $pagination, ?Period $period = null): Listing
+    {
+        $changes = $this->queryBuilder('c')->where('c.user = :user')->setParameter('user', $user->id, UuidType::NAME);
+
+        return $this->rows->of(ClaimChange::class, SelectionWithinAPeriod::narrow($changes, 'c.changedAt', $period), 'c.id', $pagination);
+    }
+
+    public function lastOf(User $user, int $howMany): array
+    {
+        if ($howMany < 1) {
+            return [];
+        }
+
+        /** @var list<ClaimChange> $last */
+        $last = $this->queryBuilder('c')
+            ->where('c.user = :user')
+            ->orderBy('c.id', SortDirection::Descending)
+            ->setMaxResults($howMany)
+            ->setParameter('user', $user->id, UuidType::NAME)
+            ->getQuery()
+            ->getResult();
+
+        return $last;
+    }
+
+    public function everyChangeOf(User $user, int $howMany, ?Uuid $after = null): array
+    {
+        if ($howMany < 1) {
+            return [];
+        }
+        $query = $this->queryBuilder('c')
+            ->where('c.user = :user')
+            ->orderBy('c.id', SortDirection::Ascending)
+            ->setMaxResults($howMany)
+            ->setParameter('user', $user->id, UuidType::NAME);
+        if ($after !== null) {
+            $query->andWhere('c.id > :after')->setParameter('after', $after, UuidType::NAME);
+        }
+
+        /** @var list<ClaimChange> $page */
+        $page = $query->getQuery()->getResult();
+
+        return $page;
+    }
+}

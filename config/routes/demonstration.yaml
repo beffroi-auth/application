@@ -1,0 +1,15 @@
+# The pages of the demonstration (issue #462): the flows this provider serves, drawn, with the payload
+# of every hop as it really was. In development and in the suite of this application, never in a
+# deployment, as the endpoints the conformance tools drive: they hold what a lab exchanged with itself,
+# tokens and all, and they are not pages of the product.
+#
+# The directory is imported whole, as the provider imports the endpoints of a conformance tool: these are
+# the pages of one thing and they are routed together or not at all. The names carry no plane, as a
+# route of the application outside the two planes never does (Plane::ofRoute): they belong to none and are refused by none.
+when@dev: &demonstration
+    app_demonstration:
+        resource: ../../src/Demonstration/Controller/
+        type: attribute
+        prefix: /demonstration
+
+when@test: *demonstration

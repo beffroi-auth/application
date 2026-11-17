@@ -1,0 +1,39 @@
+{# What the signed-in user has changed of their own record (architecture §5.2, issue #482), in the language
+   of the browser: one line per change, the claim it is about, what it said before, what it says now and
+   when it was made. A page of its own, under the page of the information, because it is the one thing of
+   that record that grows without end: it is read in pages and over the stretch of time asked for. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'changes.title'|trans }}{% endblock %}
+
+{% block content %}
+    {{ include('@Beffroi/account/back.html.twig') }}
+    <p>{{ 'changes.explanation'|trans }}</p>
+    {{ include('@Beffroi/account/period.html.twig', {period: period}) }}
+    <table data-changes="{{ changes|length }}">
+        <thead>
+            <tr>
+                <th>{{ 'profile.changed_what'|trans }}</th>
+                <th>{{ 'profile.changed_from'|trans }}</th>
+                <th>{{ 'profile.changed_to'|trans }}</th>
+                <th>{{ 'profile.changed_when'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for change in changes %}
+                <tr data-change="{{ change.claim }}">
+                    <td>{{ ('profile.' ~ change.claim)|trans }}</td>
+                    <td>{{ change.was ?? 'profile.nothing'|trans }}</td>
+                    <td>{{ change.became ?? 'profile.nothing'|trans }}</td>
+                    <td><time datetime="{{ change.changedAt|date('c') }}">{{ change.changedAt|beffroi_moment(user) }}</time></td>
+                </tr>
+            {% else %}
+                {# A table that holds nothing keeps its head and says so in one row of its own, which is
+                   how every table of this plane says it. #}
+                <tr data-empty><td colspan="4">{{ (period is null ? 'profile.changed_nothing' : 'changes.none_in_period')|trans }}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ include('@Beffroi/account/pager.html.twig', {listing: changes}) }}
+{% endblock %}

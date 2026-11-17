@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!-- An authorization request parked while the user logs in and consents (architecture §4.3). The client is a registration the module reads from its repository, not a row: the table keeps its identifier and ClientResolver puts the object back at load. -->
+    <entity name="Beffroi\Oidc\Domain\Interaction\Interaction" table="beffroi_interaction">
+        <indexes>
+            <!-- What the sweep of the dead rows reads (issue #177): an interaction that can no longer be resumed is worth nothing, completed or abandoned. -->
+            <index name="beffroi_interaction_expiry" columns="expires_at"/>
+        </indexes>
+        <id name="id" type="string" column="id" length="43">
+            <options>
+                <option name="fixed">true</option>
+            </options>
+        </id>
+        <many-to-one field="tenant" target-entity="Beffroi\Core\Domain\Tenant\Tenant">
+            <join-column name="tenant_id" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
+        <field name="clientId" type="string" column="client_id" length="255"/>
+        <embedded name="request" class="Beffroi\Oidc\Domain\Authorization\AuthorizationRequest" use-column-prefix="false"/>
+        <field name="locale" type="string" column="locale" length="35" nullable="true"/>
+        <field name="createdAt" type="datetime_immutable" column="created_at"/>
+        <field name="expiresAt" type="datetime_immutable" column="expires_at"/>
+        <many-to-one field="session" target-entity="Beffroi\Core\Domain\Session\AuthenticationSession">
+            <join-column name="session_id" referenced-column-name="id" nullable="true" on-delete="SET NULL"/>
+        </many-to-one>
+        <many-to-one field="consent" target-entity="Beffroi\Oidc\Domain\Consent\Consent">
+            <join-column name="consent_id" referenced-column-name="id" nullable="true" on-delete="SET NULL"/>
+        </many-to-one>
+        <field name="completedAt" type="datetime_immutable" column="completed_at" nullable="true"/>
+        <!-- The pushed authorization request this interaction was started from (RFC 9126 §4), null when the request was not pushed: the reference is spent when the interaction grants, not when it is read. -->
+        <field name="requestUriHash" type="string" column="request_uri_hash" length="64" nullable="true">
+            <options>
+                <option name="fixed">true</option>
+            </options>
+        </field>
+        <entity-listeners>
+            <entity-listener class="App\Doctrine\Listener\ClientResolver">
+                <lifecycle-callback type="postLoad" method="postLoad"/>
+            </entity-listener>
+        </entity-listeners>
+    </entity>
+</doctrine-mapping>

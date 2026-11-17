@@ -1,0 +1,12 @@
+{# The answer is given (CIBA Core §10.1): the client learns it at its next request, and there is nothing
+   left to do in this browser. A refusal says so, because a user who refused must not be left wondering
+   whether it worked. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ (approved ? 'approvals.answered.approved.title' : 'approvals.answered.denied.title')|trans }}{% endblock %}
+
+{% block content %}
+    {{ include('@Beffroi/account/back.html.twig') }}
+    <p data-answer="{{ approved ? 'approved' : 'denied' }}">{{ (approved ? 'approvals.answered.approved' : 'approvals.answered.denied')|trans_with_client(client.registration.presentation.name) }}</p>
+{% endblock %}

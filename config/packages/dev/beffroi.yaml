@@ -1,0 +1,661 @@
+# The configuration of the provider in development, which config/packages/beffroi.yaml leaves to this file
+# (issue #922): Symfony reads config/packages/dev/ in that environment alone, and the image leaves the
+# directory out, so that no deployment of it carries a client, a policy or a judge of the development stack
+# (decision 0030). Its lists replace the JSON documents the environment carries for them everywhere else: a
+# list a placeholder stands for is replaced whole by the one a later configuration writes, and this file is
+# read after that one.
+#
+# The clients of the development stack: the three the OpenID conformance suite needs for the Basic OP
+# plan (tests/conformance/README.md: "client" and "client2" in client_secret_basic, the second one being
+# the wrong client of some modules, and the "client_secret_post" one of the single module that authenticates
+# that way, because a client authenticates with the one method it registered, RFC 6749 §2.3.1), and the
+# reference client of the core, oidc-demo on Symfony's oidc_login, which authenticates with
+# client_secret_basic and calls back on /oidc/callback. That method is the one the demonstration is
+# also a resource server with (issue #64): RFC 7662 §2.2 describes a token to the client it was issued
+# to and to nobody else, so the caller of the introspection endpoint is that client, and the "oauth2"
+# token handler of Symfony sends its credentials as HTTP Basic. A client authenticates with the one
+# method it registered (RFC 6749 §2.3.1), so the three clients of the demonstration register that one;
+# client_secret_post stays covered by the conformance client of the same name.
+#
+# The three clients of the Basic OP plan carry the named exception of decision 0008: the Basic OP profile sends
+# no code_challenge, so PKCE is not required of them (it is verified when they send one); the clients of the
+# front-channel and back-channel logout plans carry it as well. oidc-demo sends PKCE, as oidc_login does, and
+# keeps the rule; the eight clients of the FAPI 2 plans further down keep it too, the profile asking for it.
+#
+# The secrets of the clients of this file, 32 visible ASCII characters at least, generated, never chosen, are
+# written into .env.local by "castor provision" with the password of the development user, where "castor
+# conformance" and oidc-demo (#20) read them. The clients of the FAPI 2 and FAPI-CIBA plans hold no secret at
+# all: the same task generates one key each into var/conformance/ and writes the public half into .env.local,
+# one CONFORMANCE_*_JWKS variable per client, base64 of the JWK Set (.castor/stack/provision.php names them).
+# It writes BEFFROI_DEV_USER_SUBJECT there as well, the subject the provider issued the development user,
+# which is what a client of the FAPI-CIBA plans names its user by (CIBA Core §7.1).
+#
+# CONFORMANCE_ACCESS_TOKEN_FORMAT gives the five clients of the OpenID Connect plans of the suite their access
+# token shape, "jwt" or "opaque" (docs/11-architecture.md §4.6), so that the plans run with either: "castor
+# start --conformance --access-token-format opaque" recreates the op container with the second one, and the
+# parameter is the shape otherwise, the default the container validates the option against.
+parameters:
+    env(CONFORMANCE_ACCESS_TOKEN_FORMAT): jwt
+
+beffroi:
+    # RFC 7591 §1.3, decisions 0009 and 0017: the tenant of the development stack registers whoever
+    # asks, with no credential presented at all, because that is the only thing the "dynamic_client"
+    # variant of the conformance suite sends and the Dynamic OP profile cannot be certified without it.
+    # The mode is read from BEFFROI_REGISTRATION_MODE, as on every deployment, and "open" is the value
+    # "castor provision" writes into .env.local and nowhere else: .env is what an image is compiled from,
+    # and the empty mode it holds is a tenant with no registration endpoint, in its document as on the
+    # wire. There is no key that opens the mode for more than the tenant that names it, and what would
+    # make it acceptable to a tenant with real users, what an anonymous client may ask for and how the
+    # name and the logo of a stranger reach a consent page, is an open question
+    # (docs/10-questions-ouvertes.md). The reason this tenant may carry it is that it has no real user:
+    # it serves the suite and "alice", whom "castor provision" creates.
+    #
+    # The exemption is decision 0017, for the same reason and bounded the same way: the 22 modules of
+    # the plan that run an authorization send no "code_challenge" and the suite offers no way to add
+    # one, so a client it registers would fail in "invalid_request" before any other rule was judged.
+    # It reaches the confidential clients this policy registers and never a public one, and it is
+    # written here, in the configuration of development, and nowhere else.
+    #
+    # The two durations are what keeps the table from becoming a record of every run this project has
+    # ever made: the plan registers a client per module, most of them used once and never again. An
+    # hour for a client nobody ever used, which is longer than any module takes to use the client it
+    # registered and the period of the step that removes them; a day for one that was used, which
+    # leaves the clients of the last run readable to whoever is looking at why a module went red.
+    #
+    # The default set of scopes is RFC 7591 §2 as this tenant writes it: the registration request of
+    # every module of the plan carries no "scope" member at all, and two of them then ask for
+    # "openid offline_access" at the authorization endpoint, which a client registered for "openid"
+    # alone is refused. It is the set the clients this file declares for the OpenID Connect plans
+    # carry, so a client that registers itself here is registered for what those clients are
+    # registered for, and it is held to what the tenant announces like every other registered scope: a
+    # scope written here that the tenant does not hand out tokens for refuses every registration rather
+    # than granting one. A client that names its own scopes keeps them. It is written here over the
+    # variable a deployment names its own by, the set being what this tenant serves the suite with.
+    #
+    # A run of the lab may need another mode than the suite does: the plans register with no credential
+    # and want "open", and "castor demo --register" plays the mode a real ecosystem uses, an initial
+    # access token the tenant issued, which it asks for by writing BEFFROI_REGISTRATION_MODE at the end
+    # of .env.local for the length of its run.
+    client_registration:
+        exempt_confidential_clients_from_pkce: true
+        default_scope: 'openid profile email address phone offline_access'
+        keep_a_client_unused_for: 86400
+        keep_a_client_never_used_for: 3600
+        # The authority whose software statements this tenant accepts (RFC 7591 §2.3), which
+        # "castor demo --attested" signs with under the mode it asks for for the length of its run. It is
+        # pinned whatever the mode is, because a pin is what this tenant accepts and not what it uses
+        # today: the mode decides whether a statement is read at all, the pin decides whose. Its public
+        # half is all the provider is given, "castor provision" writes it, and no key a statement carries
+        # is ever read (RFC 8725 §3.10).
+        statement_issuers:
+            'https://attestation.demo.localhost':
+                jwks: '%env(json:base64:DEMO_ATTESTATION_JWKS)%'
+                signing_algorithms: ['ES256']
+    # The service provider of the SAML judge (issue beffroi-auth/beffroi#732), in development only: the
+    # SimpleSAMLphp that "castor saml-sp" serves on https://saml-sp.localhost. Its entity ID is the one its own
+    # metadata carry, compared exactly (spec/saml.md S-5). Its metadata are a file, the one that task writes from
+    # the service provider itself into the directory compose.yaml mounts into the op container and the worker, and
+    # that "beffroi:saml:service-provider:refresh" reads; the channel is the machine, so no signer is pinned.
+    # Three claims of "alice" are sent under the OID names (urn:oid, the "uri" format the SAML V2.0
+    # interoperability profiles ask for) the way a SimpleSAMLphp or a Shibboleth expects them.
+    saml:
+        # The tenant is a SAML service provider as well in development (spec/saml.md section 6.9, issue
+        # beffroi-auth/beffroi#788): its metadata at /saml/sp/metadata, and at /saml/sp/metadata/{identity
+        # provider} for each provider below, its assertion consumer service at /saml/sp/acs, under the SAML key
+        # of the identity provider above (S-40).
+        service_provider:
+            enabled: true
+        service_providers:
+            'https://saml-sp.localhost/simplesaml/module.php/saml/sp/metadata/beffroi':
+                metadata: '/saml-sp/sp-metadata.xml'
+                attributes:
+                    'urn:oid:0.9.2342.19200300.100.1.1':
+                        claim: preferred_username
+                        friendly_name: uid
+                    'urn:oid:0.9.2342.19200300.100.1.3':
+                        claim: email
+                        friendly_name: mail
+                    'urn:oid:2.16.840.1.113730.3.1.241':
+                        claim: name
+                        friendly_name: displayName
+            # The same SimpleSAMLphp as a second service provider that demands its assertion encrypted ("castor
+            # saml-sp --encrypted", issue beffroi-auth/beffroi#733): encrypted for the first key for encryption
+            # of its metadata, under aes256-gcm and rsa-oaep-mgf1p (spec/saml.md S-19, S-20).
+            'https://saml-sp.localhost/simplesaml/module.php/saml/sp/metadata/beffroi-encrypted':
+                metadata: '/saml-sp/sp-encrypted-metadata.xml'
+                encrypt_assertions: true
+                attributes:
+                    'urn:oid:0.9.2342.19200300.100.1.1':
+                        claim: preferred_username
+                        friendly_name: uid
+                    'urn:oid:0.9.2342.19200300.100.1.3':
+                        claim: email
+                        friendly_name: mail
+                    'urn:oid:2.16.840.1.113730.3.1.241':
+                        claim: name
+                        friendly_name: displayName
+            # The service provider of the Entra judge (issue beffroi-auth/beffroi#736): the SAML federation of
+            # guests of the maintainer's test tenant, Entra ID Free, set up without a domain. Its entity ID is
+            # the tenanted issuer of the AuthnRequest Entra sends for a new federation, the trailing slash
+            # included, which is also the Audience it expects (spec/saml.md section 7). Entra publishes no
+            # metadata for it, so they are written by hand from Microsoft's documentation and committed
+            # (config/saml/), mounted with the application into op and the worker: no key, since Entra signs no
+            # request of a guest federation, hence "signs_authn_requests: false" (S-9, S-11); no encryption,
+            # which it does not ask for; the one claim it requires, the email address, under its WS-Federation
+            # claim type. "castor saml-entra" registers it and prints what the portal of Entra takes.
+            'https://login.microsoftonline.com/20a6e528-cf9e-4f79-8949-bbd59006eff5/':
+                metadata: '%kernel.project_dir%/config/saml/entra-guest-federation-sp.xml'
+                signs_authn_requests: false
+                attributes:
+                    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress':
+                        claim: email
+        # The upstream identity providers of the tenant in development, one entry per judge, keyed by its entity
+        # ID, compared exactly (spec/saml.md S-42). Declaring one federates its domains: every login page of the
+        # development stack asks for the address first (S-61), an address of these domains goes to its provider,
+        # and any other address, or a username, goes on to the usual page.
+        identity_providers:
+            # SimpleSAMLphp 2.5.3.1, the identity provider of the judge of sub-spike 9d ("castor saml-idp", issue
+            # beffroi-auth/beffroi#788), on https://saml-idp.localhost. Its metadata are a file, the one that task
+            # writes from what the identity provider serves into the directory compose.yaml mounts into op and
+            # the worker, and that "beffroi:saml:identity-provider:refresh" reads; the channel is the machine, so
+            # no signer is pinned. It names its people by a persistent NameID (S-55) and sends the attributes
+            # below under their plain names (docker/saml-idp/); its group "beffroi-admins" is the group
+            # "Administrators" of the tenant, which that task creates, no group being created from what a
+            # provider sends (S-45, S-56). Its assertions arrive in clear or encrypted for its own key (S-64), as
+            # the walk asks it.
+            'https://saml-idp.localhost/simplesaml/module.php/saml/idp/metadata':
+                metadata: '/saml-idp-metadata/idp-metadata.xml'
+                domains: ['idp.example']
+                email_attribute: mail
+                profile:
+                    givenName: given_name
+                    sn: family_name
+                groups:
+                    attribute: groups
+                    map:
+                        beffroi-admins: Administrators
+            # Entra ID, the identity provider of the Entra judge of sub-spike 9d ("castor saml-entra --upstream",
+            # issue beffroi-auth/beffroi#789): the enterprise application "Beffroi OP dev" of the maintainer's test
+            # tenant, Entra ID Free, whose Identifier is the entity ID of the service provider of this tenant and
+            # whose Reply URL is its assertion consumer service, set by hand in its portal. Its entity ID is the
+            # one of its Federation Metadata XML, the tenanted issuer of sts.windows.net, the trailing slash
+            # included (S-42). Its metadata are that document, fetched once from the App Federation Metadata URL
+            # on 23 October 2026 and committed as it came (config/saml/), so that nothing reaches Microsoft when
+            # the provider reads them: they carry no validUntil, which readSigned() demands (S-6), so no signer is
+            # pinned and the repository vouches for them; a certificate rolled over in the portal is a new file.
+            # Entra signs the response and the assertion, under SHA-256 ("Sign SAML response and assertion"), and
+            # encrypts nothing, Entra ID Free having no token encryption, so no key to encrypt for is drawn.
+            # Every attribute is named by its claim type, the URI and not the short name the portal shows.
+            'https://sts.windows.net/20a6e528-cf9e-4f79-8949-bbd59006eff5/':
+                metadata: '%kernel.project_dir%/config/saml/entra-enterprise-application-idp.xml'
+                # The domain of the tenant, the one of the UPN of alice and bob: an address of it typed on the
+                # login page goes to Entra (S-61), and the first sign-in refuses an address of another (S-56).
+                domains: ['beffroilaboutlook.onmicrosoft.com']
+                # emailaddress is user.mail, the Email field of a member, which is filled for alice and bob; the
+                # UPN goes under "name", which nothing here reads.
+                email_attribute: 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
+                # The request asks for a persistent NameID (S-48), which Entra answers with a pairwise identifier
+                # of the person for this application, the subject then (S-55). Its portal shows "Email address"
+                # as the format: should that be what it sends, an address names nobody (S-55), and the object ID
+                # of the user, which Entra always sends and never changes, is the subject instead.
+                subject_attribute: 'http://schemas.microsoft.com/identity/claims/objectidentifier'
+                profile:
+                    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname': given_name
+                    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname': family_name
+                # The groups claim of the application, "Security groups" sent as their object IDs, the default of
+                # Entra, which a display name renamed in the portal does not change. "Lab Finance", bob's, is the
+                # group "finance" of the tenant, which "castor saml-entra --upstream" creates; "Lab Unmapped",
+                # alice's, is mapped to nothing, on purpose: a value the map does not name is no group, and none
+                # is created (S-56).
+                groups:
+                    attribute: 'http://schemas.microsoft.com/ws/2008/06/identity/claims/groups'
+                    map:
+                        '72ab10ba-c2a2-4021-bdaa-9eb4ae7b00e0': finance
+                # Entra reads the address on its single sign-on URL, in login_hint, and prefills its sign-in with
+                # it (Microsoft, "Single sign-on SAML protocol", section Subject; played by hand on 23 October
+                # 2026): the address typed on the login page goes there, so that alice and bob type it once
+                # (spec/saml.md S-68). A hint and nothing more: the person is who the signed assertion names.
+                address_parameter: login_hint
+    # The issuer of the development stack whose signature the tenant trusts (RFC 7523 §3, issue #299),
+    # which "castor demo --assertion" signs with. Whoever holds its key can name a user of this tenant,
+    # so everything about it is written here and nothing is asked for: the keys are the ones below and
+    # no key an assertion names is ever read, the one client that may present its assertions is named,
+    # and its subjects are users of this tenant only through linked identities of the source it is
+    # trusted for (decision 0002), which "beffroi:user:link" writes and nothing invents.
+    trusted_issuers:
+        'https://issuer.demo.localhost':
+            jwks: '%env(json:base64:DEMO_ISSUER_JWKS)%'
+            signing_algorithms: ['ES256']
+            clients: ['demo-assertion']
+            identity_provider: demo-issuer
+            trusted_scopes: ['invoices.read']
+    clients:
+        conformance-basic:
+            client_name: 'OpenID conformance suite'
+            secret: '%env(CONFORMANCE_BASIC_SECRET)%'
+            redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+            post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
+            token_endpoint_auth_method: client_secret_basic
+            scope: 'openid profile email address phone offline_access'
+            requires_pkce: false
+            access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
+            # The second named exception this client carries (issue #161): the modules of the Basic
+            # and Form Post profiles that send a request object send it unsigned, so the client of
+            # those plans registers "none" and the OP reads the object instead of refusing it unread
+            # (OIDC Core §6, beffroi#142). No FAPI client registers it; the plans of FAPI 2 run with
+            # their own clients, which sign what they send.
+            #
+            # It is also what makes this tenant announce "none" in
+            # "request_object_signing_alg_values_supported", the document saying what a client of the
+            # tenant may register (decision 0012). So "oidcc-request-uri-unsigned" of the Dynamic OP
+            # plan does not skip itself, and it is refused all the same: the client that module
+            # registers says nothing about the member, and one that registered nothing is never read
+            # an unsigned object. What that costs is written once, in the "known" list of
+            # CONFORMANCE_PLANS (issue #385); dropping the line here would buy that module and lose
+            # the one of the Basic and Form Post plans this exception exists for.
+            request_object_signing_alg: none
+        conformance-basic-second:
+            client_name: 'OpenID conformance suite, second client'
+            secret: '%env(CONFORMANCE_BASIC_SECOND_SECRET)%'
+            redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+            post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
+            token_endpoint_auth_method: client_secret_basic
+            scope: 'openid profile email address phone offline_access'
+            requires_pkce: false
+            access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
+        conformance-post:
+            client_name: 'OpenID conformance suite'
+            secret: '%env(CONFORMANCE_POST_SECRET)%'
+            redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+            post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
+            token_endpoint_auth_method: client_secret_post
+            scope: 'openid profile email address phone offline_access'
+            requires_pkce: false
+            access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
+        # One client per logout channel. The suite certifies one channel at a time: a client that
+        # registers a logout URI is told at every logout of its sessions, and a module of another
+        # plan fails on a request it did not expect. The metadata is per client, so the three logout
+        # profiles take three clients.
+        conformance-front-channel-logout:
+            client_name: 'OpenID conformance suite'
+            secret: '%env(CONFORMANCE_FRONT_CHANNEL_LOGOUT_SECRET)%'
+            redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+            post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
+            token_endpoint_auth_method: client_secret_basic
+            scope: 'openid profile email address phone offline_access'
+            requires_pkce: false
+            access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
+            frontchannel_logout_uri: 'https://localhost:8443/test/a/beffroi/frontchannel_logout'
+            frontchannel_logout_session_required: true
+        conformance-back-channel-logout:
+            client_name: 'OpenID conformance suite'
+            secret: '%env(CONFORMANCE_BACK_CHANNEL_LOGOUT_SECRET)%'
+            redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+            post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
+            token_endpoint_auth_method: client_secret_basic
+            scope: 'openid profile email address phone offline_access'
+            requires_pkce: false
+            access_token_format: '%env(CONFORMANCE_ACCESS_TOKEN_FORMAT)%'
+            backchannel_logout_uri: 'https://localhost:8443/test/a/beffroi/backchannel_logout'
+            backchannel_logout_session_required: true
+        # The four clients of the FAPI 2 plans (issue #166, tests/conformance/README.md): two per
+        # run, because a handful of modules need a second client to present an authorization code
+        # or a request URI that was issued to another one. They carry what the profile asks of a
+        # client and nothing of what the six OpenID Connect plans above are allowed: no secret, an
+        # authentication method that proves a key or a certificate, PAR the only way in, PKCE kept,
+        # and ES256 wherever an algorithm is registered, RS256 being refused by the profile.
+        #
+        # They register every scope whose claims the provider announces, "address" and "phone"
+        # included, and ask for fewer (CONFORMANCE_FAPI_SCOPE): a module of the profile asks by name
+        # for every claim of "claims_supported" and expects each of them back
+        # (fapi2-security-profile-final-test-claims-parameter-identity-claims), and a claim asked for
+        # by name is served within the scopes the client registered (OIDC Core §5.5, issue #827).
+        #
+        # Their keys are generated by "castor provision" into var/conformance/ and published here
+        # as the public half, base64 of the JWK Set in apps/beffroi/.env.local: the suite holds the
+        # private half, the provider holds the public one, and neither is committed. The two mTLS
+        # clients publish their certificate in the "x5c" of that key, which is what
+        # "self_signed_tls_client_auth" authenticates against (RFC 8705 §2.2); the certificate is
+        # issued on the very key the set publishes, so one key serves the handshake and the
+        # signature of a request object.
+        conformance-fapi-private-key-jwt:
+            client_name: 'OpenID conformance suite'
+            redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+            post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
+            token_endpoint_auth_method: private_key_jwt
+            jwks: '%env(json:base64:CONFORMANCE_FAPI_PRIVATE_KEY_JWT_JWKS)%'
+            scope: 'openid profile email address phone offline_access'
+            require_pushed_authorization_requests: true
+            require_sender_constrained_tokens: true
+            id_token_signed_response_alg: ES256
+            authorization_signed_response_alg: ES256
+            request_object_signing_alg: ES256
+        conformance-fapi-private-key-jwt-second:
+            client_name: 'OpenID conformance suite, second client'
+            # The second client of a FAPI run registers the callback of the suite twice, bare and
+            # with the query the happy flow of the profile pushes back to it
+            # ("dummy1=lorem&dummy2=ipsum"): a redirect URI is compared byte for byte
+            # (decision 0006), so a query the client will send is a registration of its own.
+            redirect_uris:
+                - 'https://localhost:8443/test/a/beffroi/callback'
+                - 'https://localhost:8443/test/a/beffroi/callback?dummy1=lorem&dummy2=ipsum'
+            post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
+            token_endpoint_auth_method: private_key_jwt
+            jwks: '%env(json:base64:CONFORMANCE_FAPI_PRIVATE_KEY_JWT_SECOND_JWKS)%'
+            scope: 'openid profile email address phone offline_access'
+            require_pushed_authorization_requests: true
+            require_sender_constrained_tokens: true
+            id_token_signed_response_alg: ES256
+            authorization_signed_response_alg: ES256
+            request_object_signing_alg: ES256
+        conformance-fapi-mtls:
+            client_name: 'OpenID conformance suite'
+            redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+            post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
+            token_endpoint_auth_method: self_signed_tls_client_auth
+            jwks: '%env(json:base64:CONFORMANCE_FAPI_MTLS_JWKS)%'
+            scope: 'openid profile email address phone offline_access'
+            require_pushed_authorization_requests: true
+            require_sender_constrained_tokens: true
+            id_token_signed_response_alg: ES256
+            authorization_signed_response_alg: ES256
+            request_object_signing_alg: ES256
+        conformance-fapi-mtls-second:
+            client_name: 'OpenID conformance suite, second client'
+            # The second client of a FAPI run registers the callback of the suite twice, bare and
+            # with the query the happy flow of the profile pushes back to it
+            # ("dummy1=lorem&dummy2=ipsum"): a redirect URI is compared byte for byte
+            # (decision 0006), so a query the client will send is a registration of its own.
+            redirect_uris:
+                - 'https://localhost:8443/test/a/beffroi/callback'
+                - 'https://localhost:8443/test/a/beffroi/callback?dummy1=lorem&dummy2=ipsum'
+            post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
+            token_endpoint_auth_method: self_signed_tls_client_auth
+            jwks: '%env(json:base64:CONFORMANCE_FAPI_MTLS_SECOND_JWKS)%'
+            scope: 'openid profile email address phone offline_access'
+            require_pushed_authorization_requests: true
+            require_sender_constrained_tokens: true
+            id_token_signed_response_alg: ES256
+            authorization_signed_response_alg: ES256
+            request_object_signing_alg: ES256
+        # The Message Signing runs hold their clients to signing every authorization request they
+        # start (RFC 9101 §10.5, require_signed_request_object): that is a registration and not a
+        # mode, so the same client cannot also send the unsigned requests the Security Profile plan
+        # sends, and each profile gets a pair of its own.
+        conformance-fapi-signing-private-key-jwt:
+            client_name: 'OpenID conformance suite'
+            redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+            post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
+            token_endpoint_auth_method: private_key_jwt
+            jwks: '%env(json:base64:CONFORMANCE_FAPI_SIGNING_PRIVATE_KEY_JWT_JWKS)%'
+            scope: 'openid profile email address phone offline_access'
+            require_pushed_authorization_requests: true
+            require_sender_constrained_tokens: true
+            require_signed_request_object: true
+            id_token_signed_response_alg: ES256
+            authorization_signed_response_alg: ES256
+            request_object_signing_alg: ES256
+        conformance-fapi-signing-private-key-jwt-second:
+            client_name: 'OpenID conformance suite, second client'
+            redirect_uris:
+                - 'https://localhost:8443/test/a/beffroi/callback'
+                - 'https://localhost:8443/test/a/beffroi/callback?dummy1=lorem&dummy2=ipsum'
+            post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
+            token_endpoint_auth_method: private_key_jwt
+            jwks: '%env(json:base64:CONFORMANCE_FAPI_SIGNING_PRIVATE_KEY_JWT_SECOND_JWKS)%'
+            scope: 'openid profile email address phone offline_access'
+            require_pushed_authorization_requests: true
+            require_sender_constrained_tokens: true
+            require_signed_request_object: true
+            id_token_signed_response_alg: ES256
+            authorization_signed_response_alg: ES256
+            request_object_signing_alg: ES256
+        conformance-fapi-signing-mtls:
+            client_name: 'OpenID conformance suite'
+            redirect_uris: ['https://localhost:8443/test/a/beffroi/callback']
+            post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
+            token_endpoint_auth_method: self_signed_tls_client_auth
+            jwks: '%env(json:base64:CONFORMANCE_FAPI_SIGNING_MTLS_JWKS)%'
+            scope: 'openid profile email address phone offline_access'
+            require_pushed_authorization_requests: true
+            require_sender_constrained_tokens: true
+            require_signed_request_object: true
+            id_token_signed_response_alg: ES256
+            authorization_signed_response_alg: ES256
+            request_object_signing_alg: ES256
+        conformance-fapi-signing-mtls-second:
+            client_name: 'OpenID conformance suite, second client'
+            redirect_uris:
+                - 'https://localhost:8443/test/a/beffroi/callback'
+                - 'https://localhost:8443/test/a/beffroi/callback?dummy1=lorem&dummy2=ipsum'
+            post_logout_redirect_uris: ['https://localhost:8443/test/a/beffroi/post_logout_redirect']
+            token_endpoint_auth_method: self_signed_tls_client_auth
+            jwks: '%env(json:base64:CONFORMANCE_FAPI_SIGNING_MTLS_SECOND_JWKS)%'
+            scope: 'openid profile email address phone offline_access'
+            require_pushed_authorization_requests: true
+            require_sender_constrained_tokens: true
+            require_signed_request_object: true
+            id_token_signed_response_alg: ES256
+            authorization_signed_response_alg: ES256
+            request_object_signing_alg: ES256
+        # The four clients of the FAPI-CIBA runs (issue #227), two per run. A client registers one
+        # backchannel token delivery mode (CIBA Core §4), so the poll run and the ping run cannot
+        # share theirs; the second client of each is the one a module signs a request object with
+        # when it must be the wrong client. None of them registers a redirect URI: there is no
+        # browser of the client anywhere in this flow, and the one page it has is a page of the
+        # provider. They authenticate with "private_key_jwt" and present a certificate all the same,
+        # which is what the profile binds the tokens to and what the suite refuses to configure a
+        # static client of this plan without ("castor provision" issues it on the same key); each
+        # one registers that binding, the certificate being what authenticates none of them
+        # (RFC 8705 §3.4, FAPI 1.0 Advanced Final §5.2.2).
+        conformance-ciba-poll:
+            client_name: 'OpenID conformance suite'
+            token_endpoint_auth_method: private_key_jwt
+            jwks: '%env(json:base64:CONFORMANCE_CIBA_POLL_JWKS)%'
+            tls_client_certificate_bound_access_tokens: true
+            grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
+            scope: 'openid profile email offline_access'
+            backchannel_token_delivery_mode: poll
+            require_signed_request_object: true
+            id_token_signed_response_alg: ES256
+            request_object_signing_alg: ES256
+        conformance-ciba-poll-second:
+            client_name: 'OpenID conformance suite, second client'
+            token_endpoint_auth_method: private_key_jwt
+            jwks: '%env(json:base64:CONFORMANCE_CIBA_POLL_SECOND_JWKS)%'
+            tls_client_certificate_bound_access_tokens: true
+            grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
+            scope: 'openid profile email offline_access'
+            backchannel_token_delivery_mode: poll
+            require_signed_request_object: true
+            id_token_signed_response_alg: ES256
+            request_object_signing_alg: ES256
+        # The two of the ping run name where this provider posts the identifier of a request once it
+        # has been answered (CIBA Core §10.2): the endpoint the suite serves under the alias of its
+        # configuration, which the worker reaches through the sidecar of compose.yaml.
+        conformance-ciba-ping:
+            client_name: 'OpenID conformance suite'
+            token_endpoint_auth_method: private_key_jwt
+            jwks: '%env(json:base64:CONFORMANCE_CIBA_PING_JWKS)%'
+            tls_client_certificate_bound_access_tokens: true
+            grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
+            scope: 'openid profile email offline_access'
+            backchannel_token_delivery_mode: ping
+            backchannel_client_notification_endpoint: 'https://localhost:8443/test/a/beffroi/ciba-notification-endpoint'
+            require_signed_request_object: true
+            id_token_signed_response_alg: ES256
+            request_object_signing_alg: ES256
+        conformance-ciba-ping-second:
+            client_name: 'OpenID conformance suite, second client'
+            token_endpoint_auth_method: private_key_jwt
+            jwks: '%env(json:base64:CONFORMANCE_CIBA_PING_SECOND_JWKS)%'
+            tls_client_certificate_bound_access_tokens: true
+            grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
+            scope: 'openid profile email offline_access'
+            backchannel_token_delivery_mode: ping
+            backchannel_client_notification_endpoint: 'https://localhost:8443/test/a/beffroi/ciba-notification-endpoint'
+            require_signed_request_object: true
+            id_token_signed_response_alg: ES256
+            request_object_signing_alg: ES256
+        oidc-demo:
+            client_name: 'oidc-demo'
+            secret: '%env(OIDC_DEMO_SECRET)%'
+            # The callback of the firewall every "castor demo" walk drives, and nothing else: a
+            # redirect URI is compared byte for byte (decision 0006), and a client of the forge
+            # registers its own (issue #582).
+            redirect_uris: ['https://localhost:8002/oidc/callback']
+            post_logout_redirect_uris: ['https://localhost:8002/']
+            token_endpoint_auth_method: client_secret_basic
+            # The three scopes of the API of the demonstration beside the three an application that
+            # signs a user in comes for (issue #556). Its firewall asks for the first two of them and
+            # never for "invoices.write", so a write is refused on a token that was never granted it,
+            # with the "insufficient_scope" challenge of RFC 6750 §3.1 and not at the authorization
+            # endpoint: a scope that stands for no claim exists here because this client registers it,
+            # the development stack declaring none for its tenant (OfferedScopes, issues #278 and
+            # #920), so all three are announced and held to.
+            scope: 'openid profile email invoices.read invoices.pay invoices.write'
+        # The same demonstration registered a second time, for the one thing that tells the two
+        # apart: the shape of its access token. "castor demo --resource-server" signs in as this
+        # one to hold an opaque token, which says nothing to whoever reads it and everything to
+        # the introspection endpoint, then as the one above to hold an "at+jwt", which a resource
+        # server verifies offline and which revoking therefore does not reach (issue #64).
+        oidc-demo-opaque:
+            client_name: 'oidc-demo, opaque access tokens'
+            secret: '%env(OIDC_DEMO_OPAQUE_SECRET)%'
+            redirect_uris: ['https://localhost:8002/oidc/callback']
+            post_logout_redirect_uris: ['https://localhost:8002/']
+            token_endpoint_auth_method: client_secret_basic
+            access_token_format: opaque
+            # The scopes of the registration above, because one firewall of the demonstration drives
+            # both and asks for the same thing whichever it is signed in as (issue #556)
+            scope: 'openid profile email invoices.read invoices.pay invoices.write'
+        # The clients of the forge of demonstration clients are not here, and that is the point of it
+        # (issue #582): a visitor composes one on a page, it registers itself with an initial access
+        # token the console issued (RFC 7591, decision 0009), it draws the keys its composition needs
+        # and publishes their public half in that registration, and it deletes itself afterwards
+        # (RFC 7592). Nothing of it is declared here, nothing of it is provisioned, and what a
+        # dynamic client may not ask for it does not get: the shape of its access token, its
+        # resources and the five other members of `RegisteredMembers` stay this file's to write.
+        # The clients of this spike that are not browsers (issue #228): a CLI on the device grant
+        # (RFC 8628), a service acting for itself (RFC 6749 §4.4) and a gateway that exchanges the
+        # token of that service to act on its behalf (RFC 8693). The two last ones ask their tokens
+        # for a resource of the demonstration, which is what its resource server compares its own
+        # "aud" against, and for a second resource it does not answer for, so that a token addressed
+        # elsewhere can be refused rather than described.
+        demo-appliance:
+            client_name: 'The CLI on the device grant'
+            # A program on the machine of whoever runs it keeps no secret (RFC 8252 §8.5), so it is a
+            # public client; the device grant sends no browser anywhere, so it registers no redirect
+            # URI, and it renews without pairing again, so it registers the refresh token grant.
+            token_endpoint_auth_method: none
+            grant_types: ['urn:ietf:params:oauth:grant-type:device_code', 'refresh_token']
+            scope: 'openid profile offline_access'
+        demo-service:
+            client_name: 'A service acting for itself'
+            secret: '%env(DEMO_SERVICE_SECRET)%'
+            token_endpoint_auth_method: client_secret_basic
+            grant_types: ['client_credentials']
+            scope: 'invoices.read'
+            resources:
+                - 'https://localhost:8002/api/service'
+                - 'https://cal.example.com/'
+            # RFC 8693 §4.4: who may act for the subject of a token of this service, written on every
+            # token it receives, so that a resource server verifying one offline reads the rule the
+            # provider applies. The gateway below and nobody else.
+            may_act: 'demo-gateway'
+        demo-gateway:
+            client_name: 'A gateway acting for a service'
+            secret: '%env(DEMO_GATEWAY_SECRET)%'
+            token_endpoint_auth_method: client_secret_basic
+            grant_types: ['client_credentials', 'urn:ietf:params:oauth:grant-type:token-exchange']
+            scope: 'invoices.read'
+            resources:
+                - 'https://localhost:8002/api/service'
+                - 'https://cal.example.com/'
+            # It asks for a token of its own by client_credentials, which is what it presents as the
+            # "actor_token" of the exchange: an "act" names who holds the new token for its subject,
+            # and a client writes nothing into it but a token that names itself (§2.1, §4.1).
+            token_exchange:
+                subject_token_types: ['urn:ietf:params:oauth:token-type:access_token']
+                # It exchanges the token of a service and never one somebody signed in for: a gateway
+                # carrying the token of a user is not the same party (RFC 6749 §4.4)
+                may_act_for_a_user: false
+        # The two clients of "castor demo --ciba" (issue #299), one per delivery mode, because a client
+        # registers one and one only (CIBA Core §4). Both ask for a user they name and wait; what tells
+        # them apart is how they learn the answer is ready. Confidential, as every client of this flow
+        # is: there is no browser in the request, so nothing about it is public.
+        demo-ciba-poll:
+            client_name: 'A backchannel client that polls'
+            secret: '%env(DEMO_CIBA_POLL_SECRET)%'
+            token_endpoint_auth_method: client_secret_basic
+            grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
+            scope: 'openid profile offline_access'
+            backchannel_token_delivery_mode: poll
+        demo-ciba-ping:
+            client_name: 'A backchannel client the provider calls back'
+            secret: '%env(DEMO_CIBA_PING_SECRET)%'
+            token_endpoint_auth_method: client_secret_basic
+            grant_types: ['urn:openid:params:grant-type:ciba', 'refresh_token']
+            scope: 'openid profile offline_access'
+            backchannel_token_delivery_mode: ping
+            # Where the worker posts the identifier of the request once it has been answered (CIBA Core
+            # §10.2). The listener is the client itself (tests/demo/ciba-client.php), on the host, so it
+            # is named as the worker reaches the host: "localhost" is the container from in there, and
+            # "demo.localhost" resolves to its gateway (compose.yaml). Plain HTTP on a loopback name,
+            # for the reason the second instance of oidc-demo uses one.
+            backchannel_client_notification_endpoint: 'http://demo.localhost:8004/ciba/notification'
+        # The client of "castor demo --assertion" (issue #299): it presents an assertion signed by the
+        # issuer the tenant trusts below and is answered with a token for the user that assertion names
+        # (RFC 7523 §2.1). It shares a secret because the assertion is the authorization and not the
+        # client authentication: the two readings of an assertion are separate, and a client that
+        # authenticated with one of its own would make them look like one thing.
+        demo-assertion:
+            client_name: 'A service presenting an assertion of a trusted issuer'
+            secret: '%env(DEMO_ASSERTION_SECRET)%'
+            token_endpoint_auth_method: client_secret_basic
+            grant_types: ['urn:ietf:params:oauth:grant-type:jwt-bearer']
+            scope: 'invoices.read'
+            resources:
+                - 'https://localhost:8002/api/service'
+                - 'https://cal.example.com/'
+        # The client of "castor demo --rar", which asks for what it may do, to what and how much,
+        # rather than for a kind of thing (RFC 9396 §2, issues #299 and #307). It registers the one
+        # type of detail the development stack wires, App\Lab\AuthorizationDetails\InvoicePaymentType
+        # (config/packages/lab.yaml), and a request of it naming another type is refused whatever the
+        # type says. The walk reads the code off the redirection and spends it itself, which is why
+        # this client registers a callback it never follows; the forge composes the same thing in a
+        # browser (issue #582).
+        demo-rar:
+            client_name: 'A client asking for authorization details'
+            secret: '%env(DEMO_RAR_SECRET)%'
+            redirect_uris: ['https://localhost:8002/c/rar/callback']
+            post_logout_redirect_uris: ['https://localhost:8002/']
+            token_endpoint_auth_method: client_secret_basic
+            scope: 'openid profile invoices.read'
+            authorization_details_types: ['invoice_payment']
+        # The client of "castor demo --native" (issue #299): a program on the machine of whoever runs it,
+        # which listens on the port the operating system hands it and cannot register that port in
+        # advance. It is the named exception of RFC 8252 §7.3, and the only one: the IP literal and the
+        # path are compared byte for byte, the client is public, and PKCE stays mandatory for it.
+        demo-native:
+            client_name: 'A native client on the loopback interface'
+            token_endpoint_auth_method: none
+            redirect_uris: ['http://127.0.0.1/callback']
+            scope: 'openid profile'
+        # The second instance of oidc-demo, the one "castor demo --logout-others" logs out by
+        # back-channel from the first: another client, another port, and a host the worker can
+        # reach, which "localhost" is not from inside its container (compose.yaml maps
+        # demo.localhost to the gateway of the host). Plain HTTP on a loopback host, so that the
+        # outbound request of the worker has no certificate of the Symfony CLI to trust; it is
+        # the first instance that initiates the logout, so that one registers no URI.
+        oidc-demo-second:
+            client_name: 'oidc-demo, second instance'
+            secret: '%env(OIDC_DEMO_SECOND_SECRET)%'
+            redirect_uris: ['http://demo.localhost:8003/oidc/callback']
+            post_logout_redirect_uris: ['http://demo.localhost:8003/']
+            token_endpoint_auth_method: client_secret_basic
+            backchannel_logout_uri: 'http://demo.localhost:8003/oidc/backchannel-logout'
+            backchannel_logout_session_required: true
+            # The same scopes again, for the same reason: it is the same application, on another
+            # client and another port (issue #556)
+            scope: 'openid profile email invoices.read invoices.pay invoices.write'

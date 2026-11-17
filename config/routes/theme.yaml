@@ -1,0 +1,8 @@
+# The choice of a theme (issue #447), a route of this application and not of the provider: the pages of the
+# provider carry no look of their own, and what a visitor reads them in is the decision of the application
+# (architecture §5.2, §6). The name carries the interaction plane, which is the convention BEFFROI_PLANE reads
+# (Plane::ofRoute, issue #988): a process that serves the protocol alone answers 404 here, as it does on every
+# page meant for a browser.
+beffroi_interaction_theme:
+    resource: ../../src/Theme/ChooseThemeController.php
+    type: attribute

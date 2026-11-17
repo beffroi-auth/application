@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!-- A refresh token as the provider keeps it (architecture §4.6): the hash is the key, its family is a row every token of the lineage names, rotated and revoked tokens stay so that a reuse can be told from an unknown token. -->
+    <entity name="Beffroi\Oidc\Domain\Token\RefreshToken" table="beffroi_refresh_token">
+        <indexes>
+            <index name="beffroi_refresh_token_family_id" columns="family_id"/>
+        </indexes>
+        <id name="tokenHash" type="string" column="token_hash" length="64">
+            <options>
+                <option name="fixed">true</option>
+            </options>
+        </id>
+        <many-to-one field="tenant" target-entity="Beffroi\Core\Domain\Tenant\Tenant">
+            <join-column name="tenant_id" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
+        <field name="clientId" type="string" column="client_id" length="255"/>
+        <!-- Loaded with the token and never behind a proxy: every validation of a token reads the dates of
+             its family, so the deferral buys nothing, and a proxy could not carry it at all, the class being
+             readonly and Doctrine being unable to write a readonly property on an instance it has already
+             constructed. -->
+        <many-to-one field="family" target-entity="Beffroi\Oidc\Domain\Token\RefreshTokenFamily" fetch="EAGER">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+            <join-column name="family_id" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
+        <many-to-one field="session" target-entity="Beffroi\Core\Domain\Session\AuthenticationSession">
+            <join-column name="session_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+        <field name="scopes" type="beffroi_scopes" column="scopes"/>
+        <field name="resources" type="beffroi_resources" column="resources" nullable="true"/>
+        <field name="authorizationDetails" type="beffroi_authorization_details" column="authorization_details" nullable="true"/>
+        <field name="claimsRequest" type="beffroi_claims_request" column="claims" nullable="true"/>
+        <field name="authentication" type="beffroi_authentication_snapshot" column="authentication"/>
+        <field name="issuedAt" type="datetime_immutable" column="issued_at"/>
+        <field name="expiresAt" type="datetime_immutable" column="expires_at"/>
+        <field name="rotatedAt" type="datetime_immutable" column="rotated_at" nullable="true"/>
+        <field name="confirmation" type="beffroi_confirmation" column="cnf" nullable="true"/>
+        <field name="revokedAt" type="datetime_immutable" column="revoked_at" nullable="true"/>
+        <entity-listeners>
+            <entity-listener class="App\Doctrine\Listener\ClientResolver">
+                <lifecycle-callback type="postLoad" method="postLoad"/>
+            </entity-listener>
+        </entity-listeners>
+    </entity>
+</doctrine-mapping>

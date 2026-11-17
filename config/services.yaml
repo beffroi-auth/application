@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
+
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+# See also https://symfony.com/doc/current/service_container/import.html
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # The provider is wired by config/beffroi/services.php, which the extension of the "beffroi:" tree loads
+    # (src/DependencyInjection/BeffroiExtension.php), so that the kernel of the suite of the integration
+    # (tests/symfony) boots the same wiring as this one. Here is what only the kernel of this application
+    # boots, because it reads what that kernel alone has: the theme, its cookie and its controller; the
+    # navigation of the account and the Twig functions of the skeletons of templates/layout/; and the
+    # policy of this deployment, which nelmio/security-bundle writes (DeploymentPolicyPrevails).
+    App\Theme\:
+        resource: '../src/Theme/'
+    App\Account\AccountNavigation: ~
+    App\Http\DeploymentPolicyPrevails: ~
+    App\Twig\AccountNavigationExtension: ~
+    App\Twig\ThemeExtension: ~
+
+    # Two directories are no part of the product, and each is wired where it is read and nowhere else
+    # (issue #922): the demonstration, in development and in the suite of this application
+    # (config/packages/demonstration.yaml), because it records the payload of every hop a flow exchanges,
+    # tokens and all, and nothing of the product reads it (issue #462); the lab, in development alone
+    # (config/packages/lab.yaml). The image carries neither.
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones

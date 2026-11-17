@@ -1,0 +1,20 @@
+# What the tasks of the lab (.castor/lab/) need of this application and the product does not serve (issue #922):
+# the endpoint that tells "castor mtls" what the client certificate of a request became once it reached PHP
+# (config/routes/mtls.yaml), and the type of authorization detail of the API of the demonstration, which "castor
+# demo --rar" and the forge of oidc-demo ask for, with the sentence a user reads before agreeing to one. In
+# development only, where the stack serves the lab, and the suite of this application asks for neither: the image
+# leaves this file and src/Lab/ out, so that a deployment of it routes no endpoint of the lab and announces no type
+# of detail.
+when@dev:
+    services:
+        _defaults:
+            autowire: true
+            autoconfigure: true
+
+        App\Lab\:
+            resource: '../../src/Lab/'
+
+    framework:
+        translator:
+            paths:
+                - '%kernel.project_dir%/src/Lab/translations'

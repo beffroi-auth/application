@@ -1,0 +1,83 @@
+{#
+    The panel of the provider (issue #152). It renders observations it has never heard of, under tabs it
+    has never heard of either: an observer says where its observation goes, what its heading is and which
+    facts go under it, and nothing here enumerates them.
+#}
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% macro provider_icon() %}
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="11" width="18" height="10" rx="2"></rect>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+    </svg>
+{% endmacro %}
+
+{% block toolbar %}
+    {% if collector.count > 0 %}
+        {% set icon %}
+            {{ _self.provider_icon() }}
+            <span class="sf-toolbar-value">{{ collector.count }}</span>
+        {% endset %}
+
+        {% set text %}
+            {% for tab, observations in collector.tabs %}
+                <div class="sf-toolbar-info-piece">
+                    <b>{{ tab }}</b>
+                    <span>{{ observations|map(o => o.heading)|join(', ') }}</span>
+                </div>
+            {% endfor %}
+        {% endset %}
+
+        {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: true }) }}
+    {% endif %}
+{% endblock %}
+
+{% block menu %}
+    <span class="label {{ collector.count > 0 ? '' : 'disabled' }}">
+        <span class="icon">{{ _self.provider_icon() }}</span>
+        <strong>OpenID Provider</strong>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    <h2>What the provider received, decided and emitted</h2>
+
+    {% if collector.count == 0 %}
+        <div class="empty">
+            <p>This request reached no endpoint of the provider.</p>
+        </div>
+    {% else %}
+        <p class="help">
+            No token, secret, proof or key material is collected here. What is personal data is named rather than given.
+        </p>
+
+        <div class="sf-tabs">
+            {% for tab, observations in collector.tabs %}
+                <div class="tab">
+                    <h3 class="tab-title">{{ tab }} <span class="badge">{{ observations|length }}</span></h3>
+                    <div class="tab-content">
+                        {% for observation in observations %}
+                            <h4>{{ observation.heading }}</h4>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="key">Fact</th>
+                                        <th scope="col">Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for label, value in observation.entries %}
+                                        <tr>
+                                            <th scope="row">{{ label }}</th>
+                                            <td>{{ value|nl2br }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

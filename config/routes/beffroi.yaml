@@ -1,0 +1,4 @@
+# The routes of the provider (docs/11-architecture.md §5.2), at the root: the issuer of a tenant is an origin,
+# and one that carries a path refuses the start (TenantFactory, issue #992). Every route name carries its plane, which BEFFROI_PLANE reads.
+beffroi:
+    resource: '../beffroi/routes.php'

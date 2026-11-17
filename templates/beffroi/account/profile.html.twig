@@ -1,0 +1,77 @@
+{# What this provider holds of the signed-in person, and what they may correct of it, edited in place
+   (issue beffroi-auth/application#17), written with symfony/form: AccountProfileController shows it and
+   AccountProfileDescriptionController takes what a person corrects.
+
+   Two panels, because the page answers two questions: the account this provider keeps, which nobody
+   changes here, and what it holds of the person. One line per claim in that second one, read where it is
+   held and written where the tenant opens it: the same claim is not read in one list and offered in
+   another, so somebody corrects what they are reading. What they have changed of it is a page of its own
+   (beffroi-auth/beffroi#482), and the way there is what this page offers.
+
+   Edited in place, and with no script: the value a person reads is the field they type into, and the
+   button that saves it appears when the line is touched. That is a stylesheet (assets/styles/app.css) and
+   not a behaviour, so a browser that runs nothing still shows a field and a button that work. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'profile.title'|trans }}{% endblock %}
+
+{% block action %}
+    <a href="{{ path('beffroi_interaction_account_profile_changes') }}" data-profile="changes">{{ 'changes.title'|trans }}</a>
+{% endblock %}
+
+{% block content %}
+    {{ include('@Beffroi/account/back.html.twig') }}
+    <p>{{ 'profile.explanation'|trans }}</p>
+
+    <section data-panel="account">
+        <h2>{{ 'profile.account'|trans }}</h2>
+        <dl data-information="account">
+            {% for detail in identity %}
+                {{ include('@Beffroi/account/detail.html.twig', {detail: detail}) }}
+            {% endfor %}
+        </dl>
+    </section>
+
+    <section data-panel="claims">
+        <h2>{{ 'profile.about_you'|trans }}</h2>
+        {% if held == 0 %}<p data-claims="none">{{ 'profile.none'|trans }}</p>{% endif %}
+        {% if forms is empty %}
+            <p data-changeable="none">{{ 'profile.change_nothing'|trans }}</p>
+        {% else %}
+            <p>{{ 'profile.change_explanation'|trans }}</p>
+        {% endif %}
+        <ul data-information="claims" data-claims="{{ held }}">
+            {% for detail in claims %}
+                {% set form = forms[detail.key] ?? null %}
+                {% if form is not null %}
+                    {# the field this form was built for, carried by the view (App\Form\ClaimType): what the
+                       suggestions of a set of several hundred are drawn from, and what says there are any #}
+                    {% set field = form.vars.field %}
+                    <li data-claim="{{ detail.key }}">
+                        {{ form_start(form, {attr: {'data-editable': detail.key}}) }}
+                            {{ form_label(form.value) }}
+                            {{ form_widget(form.value) }}
+                            {# A set of several hundred is typed into with the whole set suggested
+                               (beffroi-auth/beffroi#479). No type of the component renders a datalist and
+                               these pages run no script, so the page renders it beside the field and the
+                               field names it. #}
+                            {% if field.isPicked %}
+                                <datalist id="claim-{{ detail.key }}-values" data-values="{{ field.choices|length }}">
+                                    {% for value, label in field.choices %}
+                                        <option value="{{ value }}">{{ label }}</option>
+                                    {% endfor %}
+                                </datalist>
+                            {% endif %}
+                            <button type="submit" data-save>{{ 'profile.save'|trans }}</button>
+                            {{ form_errors(form.value) }}
+                            {{ form_help(form.value) }}
+                        {{ form_end(form) }}
+                    </li>
+                {% elseif detail.value is not null or detail.moment is not null %}
+                    {{ include('@Beffroi/account/claim.html.twig', {detail: detail}) }}
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

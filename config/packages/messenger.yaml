@@ -1,0 +1,11 @@
+# What this application owes of Messenger, and nothing more: the transports of its tests, which
+# config/packages/test/messenger.yaml declares, so that a deployment reads nothing here. The three buses,
+# their middleware, where each marker is sent and the four lanes are the contract of the provider and the
+# provider prepends them (App\Messenger\MessengerContract, architecture §5.6, issue
+# beffroi-auth/beffroi#456): a deployment that wired them itself and got "dispatch_after_current_bus" or
+# "doctrine_transaction" wrong would break the asynchronous half of the provider, quietly.
+#
+# Where the lanes go is a deployment's choice, named by BEFFROI_MESSENGER_DSN (.env, issue
+# beffroi-auth/beffroi#919): a queue of its own in the database for each lane unless that variable names a
+# broker, "{lane}" in it being where the name of each lane goes. This application leaves it on the database:
+# it requires the transport of no broker, and its image carries the extension of none (issue #927).

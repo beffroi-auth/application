@@ -1,0 +1,29 @@
+{# OAuth 2.0 Form Post Response Mode §2: the answer of the authorization endpoint handed to the user agent
+   as a form it posts to the redirect URI, so that no parameter of the answer is ever written in a URL.
+   This page does not extend the layout of the interaction plane, on purpose: it carries a response of the
+   protocol rather than a page of the product, and its Content-Security-Policy is "default-src 'none'" with
+   the one script below named by its hash, which a layout bringing a stylesheet or a script of its own
+   would break. A browser that runs the script never reads a word of it; the sentence and the button are
+   what a browser without scripting shows. Whoever edits it keeps the script exactly as it is given: its
+   hash is the policy. #}
+{% trans_default_domain 'beffroi' %}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|replace({'_': '-'}) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ 'form_post.title'|trans }}</title>
+</head>
+<body>
+    <main>
+        <p>{{ 'form_post.explanation'|trans }}</p>
+        <form method="post" action="{{ redirect_uri }}">
+            {% for name, value in parameters %}
+                <input type="hidden" name="{{ name }}" value="{{ value }}">
+            {% endfor %}
+            <button type="submit">{{ 'form_post.continue'|trans }}</button>
+        </form>
+    </main>
+    <script>{{ script|raw }}</script>
+</body>
+</html>

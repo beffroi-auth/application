@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!--
+      One browser of a user this provider may push to (architecture §3.1, §5.6). The endpoint is what the
+      push service handed the browser and it is long, so it is text and the unique constraint is on its
+      digest: a browser that subscribes again hands back the same endpoint, and two rows for one browser
+      would be two notifications for one request. The two keys are what RFC 8291 §3.1 gives, base64url as
+      the browser wrote them; "application_server_kid" is the key of the tenant the subscription is bound
+      to, which is what signs a push to it and what a retirement of that key makes worthless. Revoked and
+      not deleted, like every credential of a user: a row says a browser was reachable and is not any more.
+
+      Two columns carry a personal datum and are sealed under the data key of their tenant (decisions 0011
+      and 0018): the endpoint, which designates one browser on one device and through it a person, and the
+      label, which that person typed for that device.
+
+      **This table needs no blind index.** The digest of the endpoint is already a column, already carries
+      the unique constraint and is already what the lookup matches on, which is the shape a blind index
+      would have had to build: a browser is recognised by comparing the digest of the endpoint it hands
+      back, and the sealed column is never searched. So the constraint and the lookup stay exactly where
+      they were.
+    -->
+    <entity name="Beffroi\Core\Domain\Identity\PushSubscription" table="beffroi_push_subscription">
+        <unique-constraints>
+            <unique-constraint name="beffroi_push_subscription_endpoint" columns="user_id,endpoint_hash"/>
+        </unique-constraints>
+        <indexes>
+            <index name="beffroi_push_subscription_user" columns="user_id,revoked_at"/>
+        </indexes>
+        <id name="id" type="uuid" column="id"/>
+        <many-to-one field="tenant" target-entity="Beffroi\Core\Domain\Tenant\Tenant">
+            <join-column name="tenant_id" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
+        <many-to-one field="user" target-entity="Beffroi\Core\Domain\Identity\User">
+            <join-column name="user_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+        <field name="endpoint" type="beffroi_encrypted_push_subscription_text" column="endpoint"/>
+        <field name="endpointHash" type="string" column="endpoint_hash" length="64">
+            <options>
+                <option name="fixed">true</option>
+            </options>
+        </field>
+        <field name="publicKey" type="string" column="public_key" length="255"/>
+        <field name="authSecret" type="string" column="auth_secret" length="255"/>
+        <field name="applicationServerKid" type="string" column="application_server_kid" length="255"/>
+        <!-- The length is the one the domain carries and not the width of the column, a sealed column being unbounded binary. Nullable because the label is: a browser nobody named has none. -->
+        <field name="label" type="beffroi_encrypted_push_subscription_string" column="label" length="255" nullable="true"/>
+        <field name="createdAt" type="datetime_immutable" column="created_at"/>
+        <field name="lastPushedAt" type="datetime_immutable" column="last_pushed_at" nullable="true"/>
+        <field name="revokedAt" type="datetime_immutable" column="revoked_at" nullable="true"/>
+    </entity>
+</doctrine-mapping>

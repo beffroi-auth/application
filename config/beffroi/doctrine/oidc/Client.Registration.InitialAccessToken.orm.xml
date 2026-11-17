@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!-- What a tenant hands to whoever may register a client for it (RFC 7591 §1.2, decision 0009): the digest of the value and never the value, the name the tenant gave it, what it is worth and what it has served, when it expires and whether it was taken back. The digest is unique under its tenant, which is what a presented value is looked up by. -->
+    <entity name="Beffroi\Oidc\Domain\Client\Registration\InitialAccessToken" table="beffroi_initial_access_token">
+        <unique-constraints>
+            <unique-constraint name="beffroi_initial_access_token_digest" columns="tenant_id,digest"/>
+        </unique-constraints>
+        <id name="id" type="uuid" column="id"/>
+        <many-to-one field="tenant" target-entity="Beffroi\Core\Domain\Tenant\Tenant">
+            <join-column name="tenant_id" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
+        <field name="digest" type="string" column="digest" length="64">
+            <options>
+                <option name="fixed">true</option>
+            </options>
+        </field>
+        <field name="name" type="string" column="name" length="255"/>
+        <field name="registrationsAllowed" type="integer" column="registrations_allowed"/>
+        <field name="registrationsServed" type="integer" column="registrations_served"/>
+        <field name="issuedAt" type="datetime_immutable" column="issued_at"/>
+        <field name="expiresAt" type="datetime_immutable" column="expires_at"/>
+        <field name="revokedAt" type="datetime_immutable" column="revoked_at" nullable="true"/>
+        <!-- What the token gives the clients it registers (decision 0043), which a registration copies onto its client: null for a token that gives nothing, and for one issued before the column existed. -->
+        <field name="granted" type="beffroi_granted_members" column="granted" nullable="true"/>
+        <!-- Whether the clients it registers are clients of the administration API of the tenant (decision 0038). Its default, in the database, is what a token issued before the column existed was: a token for no administration. -->
+        <field name="administration" type="boolean" column="administration">
+            <options>
+                <option name="default">false</option>
+            </options>
+        </field>
+    </entity>
+</doctrine-mapping>

@@ -1,0 +1,20 @@
+{# One control of the bar of either skeleton (issues #447, #448): a button, and what opens under it.
+
+   **No script, like every page of this plane.** What holds the state is a radio button the keyboard
+   reaches, its label is the button somebody sees, and the panel is shown while that button is the one
+   checked. The three controls share one group, so one of them is open at a time, and the veil of
+   _controls.html.twig lies over the page while one is: a click anywhere else closes it, and a second click
+   on the button of the one that is open is a click on that veil.
+
+   Two blocks: "trigger", what the button says, and "panel", what opens under it. The caller embeds this
+   file and fills them; "control" names the control in the identifiers and the stylesheet, "label" is what
+   the button is to whoever does not see it. #}
+<div data-control="{{ control }}">
+    <input type="radio" name="layout-control" id="layout-control-{{ control }}" aria-label="{{ label }}">
+    <label for="layout-control-{{ control }}" class="btn btn-ghost btn-sm" data-control="trigger">
+        {%- block trigger %}{% endblock -%}
+    </label>
+    <div data-control="panel">
+        {%- block panel %}{% endblock -%}
+    </div>
+</div>

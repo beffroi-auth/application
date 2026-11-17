@@ -1,0 +1,12 @@
+{# Shown after a logout request that has nowhere to send the user, or after the user chose to stay signed
+   in, in the locale of the request. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ (logged_out ? 'logged_out.title' : 'still_signed_in.title')|trans }}{% endblock %}
+
+{% block heading %}<span data-logged-out="{{ logged_out ? 'yes' : 'no' }}">{{ block('title') }}</span>{% endblock %}
+
+{% block content %}
+    <p>{{ (logged_out ? 'logged_out.close' : 'still_signed_in.unchanged')|trans }}</p>
+{% endblock %}

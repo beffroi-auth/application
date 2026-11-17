@@ -1,0 +1,23 @@
+# APP_PROFILER stops the profiler from collecting on a stack that serves the conformance suite, a plan of a
+# hundred requests having no use for a hundred profiles: "castor start --conformance" sets it to 0 for the op
+# container (compose.yaml), and it is 1 otherwise, the parameter below. "enabled" and "toolbar" are read at
+# compile time and stay, "collect" is the one option read at runtime, and without a profile the toolbar shows
+# nothing. Neither environment is the one of the image, which installs no profiler and leaves this file out.
+when@dev:
+    parameters:
+        env(APP_PROFILER): '1'
+
+    web_profiler:
+        toolbar: true
+
+    framework:
+        profiler:
+            collect: '%env(bool:APP_PROFILER)%'
+            excluded_paths:
+                - '^/\.well-known/'
+                - '^/favicon\.ico$'
+
+when@test:
+    framework:
+        profiler:
+            collect: false

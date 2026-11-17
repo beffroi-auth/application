@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!-- What the provider keeps of a backchannel authentication request (CIBA Core §7): the identifier the client comes back with, by its hash, as the key. The user it named is a row of its own and may be none, a request naming a stranger being kept exactly like every other so that nothing tells the two apart. The two sealed columns are for a client this provider has to call back (§10.2) and are null for every other: they hold the identifier it was handed and the token it sent, in an envelope of the KMS of the tenant, as a shared secret of a user is. What the client would like that user to prove is a column of its own, read by the page that answers and never by the endpoint that took the request (CIBA Core §7.1). Where the client asked from is kept because the page that answers shows it (BCP 10027 §5.2). The session the user approved with, and what it had proven then, arrive when somebody answers and are null until then, which is why the snapshot is a document here and an embeddable where it is there from the start. The client is a registration the module reads from its repository, not a row, as it is for a device authorization request. The record is also the grant the tokens of this flow name, under a unique constraint on "grant_id", and revoked when the consent behind it is taken back. -->
+    <entity name="Beffroi\Oidc\Domain\Ciba\BackchannelAuthenticationRecord" table="beffroi_backchannel_authentication_request">
+        <indexes>
+            <index name="beffroi_backchannel_authentication_expiry" columns="expires_at"/>
+        </indexes>
+        <unique-constraints>
+            <unique-constraint name="beffroi_backchannel_authentication_grant" columns="grant_id"/>
+        </unique-constraints>
+        <id name="authRequestIdHash" type="string" column="auth_request_id_hash" length="64">
+            <options>
+                <option name="fixed">true</option>
+            </options>
+        </id>
+        <many-to-one field="tenant" target-entity="Beffroi\Core\Domain\Tenant\Tenant">
+            <join-column name="tenant_id" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
+        <field name="grantId" type="uuid" column="grant_id"/>
+        <field name="clientId" type="string" column="client_id" length="255"/>
+        <many-to-one field="user" target-entity="Beffroi\Core\Domain\Identity\User">
+            <join-column name="user_id" referenced-column-name="id" nullable="true" on-delete="CASCADE"/>
+        </many-to-one>
+        <field name="scopes" type="beffroi_scopes" column="scopes"/>
+        <field name="resources" type="beffroi_resources" column="resources" nullable="true"/>
+        <!--
+          The sentence a person reads on the device that asks them to confirm, which a client wrote and
+          which is read by a person about a person: sealed here rather than with the other hints of a
+          request, because it is this migration that touches this table.
+        -->
+        <field name="bindingMessage" type="beffroi_encrypted_backchannel_authentication_request_binding_message" column="binding_message" length="255" nullable="true"/>
+        <field name="acrValues" type="jsonb" column="acr_values"/>
+        <field name="sealedAuthRequestId" type="beffroi_bytes" column="sealed_auth_request_id" nullable="true"/>
+        <field name="sealedNotificationToken" type="beffroi_bytes" column="sealed_notification_token" nullable="true"/>
+        <!--
+          The provenance of a request, one column and one JSON document, sealed under the data key of its
+          tenant (decisions 0011 and 0018). It was five columns of an embeddable, which could not seal: an
+          embeddable fixes the type of each of its fields once for the whole model, so the same field could
+          not carry the type of each of the three tables that hold a context. Nothing is lost, the object
+          being immutable and replaced whole by the asynchronous enrichment, and no query reading a column
+          of a context on its own.
+        -->
+        <field name="requestedFrom" type="beffroi_encrypted_backchannel_authentication_request_request_context" column="requested_from"/>
+        <field name="issuedAt" type="datetime_immutable" column="issued_at"/>
+        <field name="expiresAt" type="datetime_immutable" column="expires_at"/>
+        <field name="interval" type="integer" column="poll_interval"/>
+        <field name="lastPolledAt" type="datetime_immutable" column="last_polled_at" nullable="true"/>
+        <field name="approvedAt" type="datetime_immutable" column="approved_at" nullable="true"/>
+        <field name="deniedAt" type="datetime_immutable" column="denied_at" nullable="true"/>
+        <many-to-one field="session" target-entity="Beffroi\Core\Domain\Session\AuthenticationSession">
+            <join-column name="session_id" referenced-column-name="id" nullable="true" on-delete="CASCADE"/>
+        </many-to-one>
+        <field name="authentication" type="beffroi_authentication_snapshot" column="authentication" nullable="true"/>
+        <entity-listeners>
+            <entity-listener class="App\Doctrine\Listener\ClientResolver">
+                <lifecycle-callback type="postLoad" method="postLoad"/>
+            </entity-listener>
+        </entity-listeners>
+    </entity>
+</doctrine-mapping>

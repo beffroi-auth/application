@@ -1,0 +1,46 @@
+{# The document every page of the interaction plane is served in (architecture §5.2, §6): its language,
+   which is the language of the interaction (§5.7), the theme it was asked for, the colours the tenant
+   declared, the one stylesheet built from assets/styles/app.css, and the body a skeleton fills.
+
+   Two skeletons extend this one, layout/interaction.html.twig and layout/account.html.twig, because the
+   pages are of two kinds, and the layout of the pages of the provider (templates/beffroi/layout.html.twig)
+   picks the one a route belongs to. What the two have in common is here and in no other file.
+
+   The theme is on the document and not in a script (issue #447): light and dark are what the stylesheet
+   declares, and a document that names neither leaves the answer to the browser.
+
+   The colours the tenant declared (issue beffroi-auth/beffroi#449) are written in a style element of the
+   head as the two custom properties DaisyUI draws a primary surface from: the accent of the buttons and
+   the links, and the colour of what is written on them. They are in the document and not in the stylesheet
+   because the stylesheet is built once for the deployment and these come from a row. The value is three or
+   six hexadecimal digits, which is all the model lets a tenant say, so there is nothing else it could put
+   there; a tenant that declared no colour leaves the element off and the themes answer.
+
+   The element carries the nonce of the response and not a style attribute of the document, because a
+   Content-Security-Policy names a nonce and cannot name an attribute: "style-src 'self'" refuses an inline
+   attribute whatever is in it, and nothing but "unsafe-inline" would let one through
+   (config/packages/nelmio_security.yaml). The nonce is drawn for this response alone, so the one block
+   this page carries runs and an injected one does not. It comes after the stylesheet, which is what
+   settles the two declarations against the ones a theme makes at the same specificity. #}
+{% set chosen_theme = theme() %}
+{% set tenant = beffroi_tenant() %}
+{% set colored = tenant is not null and tenant.primaryColor is not null %}
+<!DOCTYPE html>
+<html
+    lang="{{ app.request.locale|replace({'_': '-'}) }}"
+    {%- if chosen_theme.attribute() is not null %} data-theme="{{ chosen_theme.attribute() }}"{% endif %}
+>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+    {% if colored %}
+        <style nonce="{{ csp_nonce('style') }}">:root, html[data-theme] { --color-primary: {{ tenant.primaryColor }}; --color-primary-content: {{ tenant.primaryContentColor }}; }</style>
+    {% endif %}
+    {% block head %}{% endblock %}
+</head>
+<body class="min-h-dvh {% block surface %}bg-base-200{% endblock %}">
+{% block body %}{% endblock %}
+</body>
+</html>

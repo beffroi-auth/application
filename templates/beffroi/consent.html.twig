@@ -1,0 +1,43 @@
+{# The consent page of an interaction, in the locale the interaction recorded: who is asking, the user,
+   every scope of the request, the standard scopes of OIDC Core §5.4 in words, any other by its value, the
+   claims the request asks for by name that none of its scopes stands for (OIDC Core §5.5), and what the
+   request asks for beyond them (RFC 9396 §2) said in the words of each type.
+
+   Who is asking is what the client registered about itself (OIDC Registration §2, ConsentPage): its name,
+   its logo, and the pages a user may read before deciding. The logo is loaded by the browser of the user
+   from the host the client named, with no referrer and under the policy of the deployment, whose "img-src"
+   names that host and no other (Http\ImageSource); the provider never fetches it. A client that registered
+   none of them shows its name alone, no empty image and no empty link. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'consent.title'|trans({client: page.presentation.name}) }}{% endblock %}
+
+{% block content %}
+    {% if page.presentation.logoUri is not null %}
+        <img data-client="logo" src="{{ page.presentation.logoUri }}" alt="{{ 'consent.logo'|trans({client: page.presentation.name}) }}" referrerpolicy="no-referrer">
+    {% endif %}
+    <p>{{ 'consent.signed_in_as'|trans({username: user.username}) }}</p>
+    <p>{{ 'consent.request'|trans_with_client(page.presentation.name) }}</p>
+    {{ include('@Beffroi/scopes.html.twig', {scopes: scopes}) }}
+    {% if claims is not empty %}
+        {{ include('@Beffroi/claims.html.twig', {claims: claims}) }}
+    {% endif %}
+    {% if authorization_details is not null %}
+        <p>{{ 'consent.authorization_details'|trans_with_client(page.presentation.name) }}</p>
+        {{ include('@Beffroi/authorization_details.html.twig', {details: authorization_details}) }}
+    {% endif %}
+    {% if page.links is not empty %}
+        <ul>
+            {% for member, uri in page.links %}
+                <li><a data-client="{{ member }}" href="{{ uri }}" target="_blank" rel="noreferrer noopener">{{ ('consent.' ~ member)|trans_with_client(page.presentation.name) }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form method="post" action="{{ path('beffroi_interaction_consent') }}">
+        <input type="hidden" name="interaction" value="{{ interaction.id }}">
+        <input type="hidden" name="_token" value="{{ csrf_token('beffroi_consent') }}">
+        <button type="submit" name="answer" value="allow">{{ 'consent.allow'|trans }}</button>
+        <button type="submit" name="answer" value="deny">{{ 'consent.deny'|trans }}</button>
+    </form>
+{% endblock %}

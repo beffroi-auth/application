@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!-- An opaque access token whose subject was named by what the client presented (RFC 8693 §2.1, RFC 7523 §2.1, architecture §4.6): the "sub" as it was named, the sign-in the presented token named as it named it, and the chain of actors that holds it. The session is a column and not a row: what named it is a token, which carries a "sid". -->
+    <entity name="Beffroi\Oidc\Domain\Token\StoredSubjectAccessToken" table="beffroi_subject_access_token">
+        <indexes>
+            <index name="beffroi_subject_access_token_grant" columns="grant_id"/>
+            <index name="beffroi_subject_access_token_session" columns="session_id"/>
+            <index name="beffroi_subject_access_token_expiry" columns="expires_at"/>
+        </indexes>
+        <entity-listeners>
+            <entity-listener class="App\Doctrine\Listener\ClientResolver">
+                <lifecycle-callback type="postLoad" method="postLoad"/>
+            </entity-listener>
+        </entity-listeners>
+        <field name="subject" type="beffroi_subject" column="sub" length="255"/>
+        <!-- The person this token is in the name of (issue #593), resolved once where the presented token was read and kept here: the "sub" above means something for the client that token was written for and for no other, so nothing can read it back under the client that asked. Null when nothing read it back as somebody this provider serves. In the clear as every other subject of this schema, a subject naming a person without saying anything about them. -->
+        <field name="person" type="beffroi_subject" column="person" length="255" nullable="true"/>
+        <field name="sessionId" type="uuid" column="session_id" nullable="true"/>
+        <field name="authentication" type="beffroi_authentication_snapshot" column="authentication" nullable="true"/>
+        <field name="actor" type="beffroi_actor" column="act" nullable="true"/>
+    </entity>
+</doctrine-mapping>

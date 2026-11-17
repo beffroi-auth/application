@@ -1,0 +1,157 @@
+{
+    "type": "project",
+    "license": ["MIT"],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.4",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "ext-intl": "*",
+        "ext-zip": "*",
+        "bacon/bacon-qr-code": "^3.0",
+        "beffroi/core": "@dev",
+        "beffroi/oidc": "@dev",
+        "beffroi/saml": "@dev",
+        "doctrine/dbal": "^4.4",
+        "doctrine/doctrine-bundle": "^3.3.3",
+        "doctrine/doctrine-migrations-bundle": "^4.0.1",
+        "doctrine/migrations": "^3.9",
+        "doctrine/orm": "^3.7.5",
+        "maxmind-db/reader": "^1.14",
+        "nelmio/cors-bundle": "^2.6.1",
+        "nelmio/security-bundle": "^3.9",
+        "psr/event-dispatcher": "^1.0",
+        "spomky-labs/web-push-lib": "^3.2",
+        "symfony/asset": "8.2.*",
+        "symfony/asset-mapper": "8.2.*",
+        "symfony/aws-key-management": "8.2.*",
+        "symfony/clock": "8.2.*",
+        "symfony/config": "8.2.*",
+        "symfony/console": "8.2.*",
+        "symfony/dependency-injection": "8.2.*",
+        "symfony/doctrine-bridge": "8.2.*",
+        "symfony/doctrine-dbal-key-management": "8.2.*",
+        "symfony/doctrine-messenger": "8.2.*",
+        "symfony/doctrine-orm-key-management": "8.2.*",
+        "symfony/dotenv": "8.2.*",
+        "symfony/event-dispatcher": "8.2.*",
+        "symfony/flex": "^2.11",
+        "symfony/form": "8.2.*",
+        "symfony/framework-bundle": "8.2.*",
+        "symfony/hashicorp-vault-key-management": "8.2.*",
+        "symfony/http-client": "8.2.*",
+        "symfony/http-foundation": "8.2.*",
+        "symfony/http-kernel": "8.2.*",
+        "symfony/intl": "8.2.*",
+        "symfony/key-management": "8.2.*",
+        "symfony/messenger": "8.2.*",
+        "symfony/monolog-bundle": "^4.1",
+        "symfony/password-hasher": "^8.1",
+        "symfony/rate-limiter": "8.2.*",
+        "symfony/routing": "8.2.*",
+        "symfony/runtime": "8.2.*",
+        "symfony/scheduler": "8.2.*",
+        "symfony/security-bundle": "8.2.*",
+        "symfony/security-core": "8.2.*",
+        "symfony/security-csrf": "8.2.*",
+        "symfony/security-http": "8.2.*",
+        "symfony/translation": "8.2.*",
+        "symfony/twig-bridge": "8.2.*",
+        "symfony/twig-bundle": "8.2.*",
+        "symfony/uid": "8.2.*",
+        "symfony/validator": "8.2.*",
+        "symfony/yaml": "8.2.*",
+        "symfonycasts/tailwind-bundle": "^1.0",
+        "twig/twig": "^3.21"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "bump-after-update": true,
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*",
+        "symfony/polyfill-php82": "*",
+        "symfony/polyfill-php83": "*",
+        "symfony/polyfill-php84": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "importmap:install": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "runtime": {
+            "class": "App\\Runtime\\Runtime"
+        },
+        "symfony": {
+            "allow-contrib": "true",
+            "require": "8.2.*"
+        }
+    },
+    "name": "beffroi/beffroi",
+    "description": "Beffroi: the identity provider application.",
+    "repositories": [{
+        "name": "beffroi-oidc",
+        "type": "path",
+        "url": "../../src/oidc"
+    },{
+        "name": "beffroi-core",
+        "type": "path",
+        "url": "../../src/core"
+    },{
+        "name": "beffroi-saml",
+        "type": "path",
+        "url": "../../src/saml"
+    },{
+        "name": "beffroi-saml2-bindings",
+        "type": "path",
+        "url": "../../src/saml2-bindings"
+    },{
+        "name": "beffroi-saml2-model",
+        "type": "path",
+        "url": "../../src/saml2-model"
+    },{
+        "name": "beffroi-xml-security",
+        "type": "path",
+        "url": "../../src/xml-security"
+    }],
+    "require-dev": {
+        "symfony/browser-kit": "8.2.*",
+        "symfony/css-selector": "8.2.*",
+        "symfony/debug-bundle": "8.2.*",
+        "symfony/web-profiler-bundle": "8.2.*"
+    }
+}

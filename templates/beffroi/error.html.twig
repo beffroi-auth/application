@@ -1,0 +1,39 @@
+{# The page shown when a request cannot go on and nothing may be sent to a client (RFC 9700 §4.1,
+   RP-Initiated Logout §4), in the locale of the request. "error" is a code: the "error" of the protocol,
+   or one of the constants of AuthorizationResponder and of the controllers; the codes this page can
+   explain get their sentence, any other the general one. "description", when there is one, is the
+   error_description of the protocol: what the developer of the application needs to fix their request
+   (RFC 6749 §4.1.2.1), in the language of the specification. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{# This page is a refusal and not a page of this provider: the request stops here, there is nothing on it
+   to come back to and nothing of a person to read, whatever route it was asked on. An application whose
+   layout serves the pages of the account in a skeleton of their own reads this to serve a refusal in the
+   skeleton of a page that asks one thing and carries nothing else, rather than as one more page of an
+   account that nobody is signed in to. The name is the provider's, as the functions an overridden layout
+   reads are (beffroi_tenant), because it is what a page of the provider says to a layout of an application
+   and not a variable a page is rendered with. #}
+{% set beffroi_refusal = true %}
+
+{% set explained_errors = ['unknown_interaction', 'interaction_expired', 'interaction_completed', 'invalid_csrf_token', 'invalid_request', 'login_required', 'no_login_to_begin', 'too_many_requests', 'enrolment_ticket_refused', 'password_ticket_refused', 'saml_request_refused', 'saml_logout_refused', 'saml_upstream_sign_on_refused', 'saml_assertion_refused'] %}
+
+{% block title %}{{ 'error.title'|trans }}{% endblock %}
+
+{% block content %}
+    <p data-error="{{ error }}">{{ (error in explained_errors ? 'error.' ~ error : 'error.default')|trans }}</p>
+    {% if description is not null %}
+        <p data-description><code>{{ error }}</code>: {{ description }}</p>
+    {% endif %}
+    {# The way out of the one refusal that has one here. A page of the account refused to a browser that
+       holds no session is a page it may read once it has one, and the home of the account is where this
+       provider offers the login and comes back from it (AccountController, LoginTarget): the link is that
+       login, and the refusal is not a page somebody is left on. The other codes are refusals of a request
+       a client made, and what they are answered by is that client and nothing of this provider.
+
+       It is the home of the account and never "/": the root is the application's own decision, the pages of
+       the issuer being served under the path the application imports them at. #}
+    {% if error == 'login_required' %}
+        <nav><a href="{{ path('beffroi_interaction_account') }}" data-sign-in>{{ 'error.sign_in'|trans }}</a></nav>
+    {% endif %}
+{% endblock %}

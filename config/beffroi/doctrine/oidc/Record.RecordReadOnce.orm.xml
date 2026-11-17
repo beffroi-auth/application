@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!-- What every record the provider hands out once and reads once carries (architecture §4.4): the instant it was consumed, in the table of its own kind, under the same name in each. The row stays after its use, so that the next presentation is told from a reference nobody ever issued. -->
+    <mapped-superclass name="Beffroi\Oidc\Domain\Record\RecordReadOnce">
+        <field name="usedAt" type="datetime_immutable" column="used_at" nullable="true"/>
+    </mapped-superclass>
+</doctrine-mapping>

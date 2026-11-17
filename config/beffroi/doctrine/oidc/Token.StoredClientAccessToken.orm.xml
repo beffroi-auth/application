@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!-- An opaque access token a client holds for itself (RFC 6749 §4.4, architecture §4.6): what it is good for and nothing else. There is no session behind it, so no logout reaches it and it expires or is revoked (RFC 7009). -->
+    <entity name="Beffroi\Oidc\Domain\Token\StoredClientAccessToken" table="beffroi_client_access_token">
+        <indexes>
+            <index name="beffroi_client_access_token_grant" columns="grant_id"/>
+            <index name="beffroi_client_access_token_expiry" columns="expires_at"/>
+        </indexes>
+        <entity-listeners>
+            <entity-listener class="App\Doctrine\Listener\ClientResolver">
+                <lifecycle-callback type="postLoad" method="postLoad"/>
+            </entity-listener>
+        </entity-listeners>
+    </entity>
+</doctrine-mapping>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!-- Groups and roles of a tenant, with the source that owns them (decision 0002). Table posed in spike 1. -->
+    <entity name="Beffroi\Core\Domain\Group\Group" table="beffroi_group">
+        <unique-constraints>
+            <unique-constraint name="beffroi_group_name" columns="tenant_id,name"/>
+        </unique-constraints>
+        <id name="id" type="uuid" column="id"/>
+        <many-to-one field="tenant" target-entity="Beffroi\Core\Domain\Tenant\Tenant">
+            <join-column name="tenant_id" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
+        <field name="name" type="string" column="name" length="255"/>
+        <field name="source" type="string" column="source" length="32" enum-type="Beffroi\Core\Domain\Group\GroupSource"/>
+        <field name="createdAt" type="datetime_immutable" column="created_at"/>
+    </entity>
+</doctrine-mapping>

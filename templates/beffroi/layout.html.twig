@@ -1,0 +1,16 @@
+{# The layout of the pages of the provider (architecture §5.2, §6): the blocks every page fills, filled by
+   one of the two skeletons of layout/, which carry the document, the one stylesheet and no script. The
+   pages are untouched by it: what they render is styled by its structure and its data-* codes.
+
+   Which skeleton a page is served in, is its route (architecture §5.4). A page of an interaction asks one
+   thing of whoever is in front of it and has nothing else on it; a page of the account is a page someone
+   reads and comes back to. Everything that follows from that is in the skeleton, and nothing of it here.
+
+   A refusal is a page of the first kind served on a route of either (templates/beffroi/error.html.twig,
+   which says so): the request stops there, so a browser that holds no session reads what it has to
+   do on a page that asks that and nothing else, and not in the column, the trail and the bar of an account
+   it is not signed in to. #}
+{% set route = app.request.attributes.get('_route') ?? '' %}
+{% extends route starts with 'beffroi_interaction_account' and beffroi_refusal is not defined
+    ? 'layout/account.html.twig'
+    : 'layout/interaction.html.twig' %}

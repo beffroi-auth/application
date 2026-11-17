@@ -1,0 +1,22 @@
+{# Where a user types the code an appliance is showing (RFC 8628 §3.3): one field, nothing else, and one
+   message when the code names no request awaiting an answer, whatever the reason it names none
+   (device.refused.<refusal>: a code worth nothing, too many codes refused to this user). The code is shown
+   back so that a wrong character can be corrected. Nothing is approved here: the code is checked, and what
+   comes back is the page that asks for a confirmation. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'device.title'|trans }}{% endblock %}
+
+{% block content %}
+    <p>{{ 'device.prompt'|trans }}</p>
+    {% if refusal is not null %}
+        <p data-error="{{ refusal }}">{{ ('device.refused.' ~ refusal)|trans }}</p>
+    {% endif %}
+    <form method="post" action="{{ path('beffroi_interaction_device') }}" data-device="code">
+        <input type="hidden" name="_token" value="{{ csrf_token('beffroi_device') }}">
+        <label for="user_code">{{ 'device.code'|trans }}</label>
+        <input type="text" id="user_code" name="user_code" value="{{ typed ?? '' }}" autocomplete="off" autocapitalize="characters" spellcheck="false" required autofocus>
+        <button type="submit">{{ 'device.submit'|trans }}</button>
+    </form>
+{% endblock %}

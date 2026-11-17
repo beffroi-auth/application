@@ -1,0 +1,5 @@
+twig:
+    file_name_pattern: '*.twig'
+    # The pages of the provider, under the namespace their controllers and their templates name them by.
+    paths:
+        '%kernel.project_dir%/templates/beffroi': Beffroi

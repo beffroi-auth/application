@@ -1,0 +1,22 @@
+{# The code page of an interaction (architecture §5.2, §5.4), in the locale the interaction recorded: the
+   second step of a login whose password was verified, one field for the code of the authenticator app
+   or for a backup code, posted to the TOTP authenticator of the firewall with the same token as the
+   login page; a refused code shows the message of the shape that was typed (code.failed.<refusal>: the
+   code of an app, a backup code, too many attempts), never of the reason it was refused. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'code.title'|trans }}{% endblock %}
+
+{% block content %}
+    <p>{{ client is null ? 'code.prompt_alone'|trans : 'code.prompt'|trans_with_client(client.registration.presentation.name) }}</p>
+    {% if refusal is not null %}
+        <p data-error="{{ refusal.value }}">{{ ('code.failed.' ~ refusal.value)|trans }}</p>
+    {% endif %}
+    <form method="post" action="{{ path('beffroi_interaction_login_code', interaction is null ? {} : {interaction: interaction.id}) }}" data-login="code">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('beffroi_login') }}">
+        <label for="code">{{ 'code.code'|trans }}</label>
+        <input type="text" id="code" name="_code" inputmode="numeric" autocomplete="one-time-code" required autofocus>
+        <button type="submit">{{ 'code.submit'|trans }}</button>
+    </form>
+{% endblock %}

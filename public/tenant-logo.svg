@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  A placeholder mark for a tenant whose deployment names none (issue beffroi-auth/beffroi#449), served from
+  the origin of the application itself so that the policy of every page allows it under 'self'. It is here
+  to show where a logo lands and how large a page draws it, and it is not a brand: a deployment points
+  "beffroi.tenant.look.logo_uri" at whatever mark it owns. Two tones rather than currentColor, an image a
+  browser loads being a document of its own that inherits nothing from the page.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img">
+    <rect width="48" height="48" rx="10" fill="#1f2937"/>
+    <path d="M24 8 34 16v6h-4v14h-12V22h-4v-6Z" fill="#f9fafb"/>
+    <rect x="22" y="26" width="4" height="10" fill="#1f2937"/>
+</svg>

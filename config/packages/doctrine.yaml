@@ -1,0 +1,48 @@
+doctrine:
+    dbal:
+        url: '%env(resolve:DATABASE_URL)%'
+
+        # IMPORTANT: You MUST configure your server version,
+        # either here or in the DATABASE_URL env var (see .env file)
+        #server_version: '16'
+
+        profiling_collect_backtrace: '%kernel.debug%'
+
+        # A JSONB column of PostgreSQL reads back as the JSONB type its mapping names, as DBAL 5 reads it
+        # (doctrine/dbal#6942). DBAL 4 reads it otherwise, as the "json" type carrying the "jsonb" platform
+        # option it deprecates (doctrine/dbal#6939), which "doctrine:schema:validate" and
+        # "doctrine:migrations:diff" would raise once per JSONB column at every comparison (issue
+        # beffroi-auth/beffroi#976).
+        mapping_types:
+            jsonb: jsonb
+    orm:
+        validate_xml_mapping: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        identity_generation_preferences:
+            Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
+        auto_mapping: true
+        mappings:
+            App:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'App\Entity'
+                alias: App
+
+when@prod:
+    doctrine:
+        orm:
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    The suite of this application (issue beffroi-auth/beffroi#521). It boots the kernel of "apps/beffroi", the one a
+    deployment runs, against the database and the KMS that kernel needs: what is judged here is the pages and
+    the configuration of the application, the rules of the provider being the three suites of the monorepo
+    (.ci-tools/phpunit.xml.dist).
+
+    No coverage and no mutation: the lines that would be measured are in "src", which the suites of the
+    monorepo cover and Infection mutates. What this one covers is the wiring, which a mutation score does not
+    read.
+
+    PHPUnit is no dependency of this application: the runner is the one the QA image carries, as every tool
+    of this repository is, and "castor app-phpunit" is what plays this file (.castor/stack/qa.php). Which is
+    why nothing here names a schema under "vendor".
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         cacheDirectory=".phpunit.cache"
+         failOnWarning="true"
+         failOnDeprecation="true"
+         failOnNotice="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+>
+    <php>
+        <ini name="display_errors" value="1"/>
+        <ini name="error_reporting" value="-1"/>
+        <ini name="date.timezone" value="UTC"/>
+        <server name="APP_ENV" value="test" force="true"/>
+        <!-- Not in debug, as every functional test of this repository runs: what a deployment serves is a
+             kernel that is not in debug, and the pages are what is read here. -->
+        <server name="APP_DEBUG" value="0" force="true"/>
+        <server name="SHELL_VERBOSITY" value="-1"/>
+    </php>
+
+    <testsuites>
+        <testsuite name="app">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <source ignoreIndirectDeprecations="true">
+        <include>
+            <directory>src</directory>
+        </include>
+
+        <deprecationTrigger>
+            <method>Doctrine\Deprecations\Deprecation::trigger</method>
+            <method>Doctrine\Deprecations\Deprecation::delegateTriggerToBackend</method>
+            <function>trigger_deprecation</function>
+        </deprecationTrigger>
+    </source>
+</phpunit>

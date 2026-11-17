@@ -1,0 +1,43 @@
+# The listener that asks for a client certificate, imported by CADDY_EXTRA_CONFIG when a deployment
+# serves the mTLS endpoints of RFC 8705 ("import mtls.Caddyfile", as worker.Caddyfile is imported).
+# MTLS_SERVER_NAME names the host it serves, which is the one "mtls_endpoint_aliases" will point a client
+# at; the ordinary host of SERVER_NAME is served by the Caddyfile beside this file and keeps asking for
+# no certificate at all. Two hosts and one listener: a browser, the conformance suite and oidc-demo go on
+# reaching the ordinary one and are never asked for anything.
+#
+# "mode request" asks the client for a certificate and serves the connection when it presents none
+# (Caddy 2.11), which is what a provider needs: a client that authenticates another way must not fail at
+# the handshake, and "self_signed_tls_client_auth" (RFC 8705 §2.2) presents a certificate that chains
+# nowhere. The handshake still proves the client holds the private key of what it presented, since a
+# certificate is only accepted with its CertificateVerify signature (RFC 8446 §4.4.3). What it does not
+# prove is a chain: a deployment doing "tls_client_auth" (§2.1) adds a "trust_pool" here, because only
+# the leaf reaches PHP and no chain can be validated there (docs/mtls-at-the-edge.md).
+#
+# The leaf is handed to PHP in a variable and not in a header: a client sets every header of its request
+# and no variable of the process that serves it. Caddy replaces the placeholder per request, and fills
+# the envelope with nothing when the client presented nothing.
+#
+# "fapi_tls" is the snippet of the Caddyfile beside this file: both hosts offer the cipher suites FAPI 1.0
+# Advanced Final §8.5 permits and the certificate that authenticates them. This one is the host a FAPI run
+# calls the token endpoint on, and the host it reads the resource of, which is where it runs the TLS
+# checks of the profile.
+{$MTLS_SERVER_NAME} {
+	log {
+		{$CADDY_SERVER_LOG_OPTIONS}
+	}
+
+	tls {
+		import fapi_tls
+
+		client_auth {
+			mode request
+		}
+	}
+
+	root * /app/public
+	encode zstd br gzip
+
+	php_server {
+		env SSL_CLIENT_CERT {http.request.tls.client.certificate_pem}
+	}
+}

@@ -1,0 +1,18 @@
+{# The organisation the visitor came for (issue #449): the logo the tenant declared, with its name as the
+   text that stands in for the image, so that a reader who does not see it is told who they came for. The
+   browser of that reader loads the image, never the provider, and no referrer goes with the request; the
+   policy of the page names the origin it is served from and no other, which reading the tenant names
+   (TenantExtension, issue #926).
+
+   A tenant that declared no logo renders nothing at all, which is the page every deployment has been
+   served so far. The colours it declared are not here: a colour is a look, and the look of these pages is
+   the application's (architecture §5.2), which reads them from the same object.
+
+   The provider ships the shape and the words, never a class: "data-tenant" is what a stylesheet reads, and
+   an application that wants this somewhere else includes this one file. #}
+{% set tenant = beffroi_tenant() %}
+{% if tenant is not null and tenant.logoUri is not null %}
+    <header data-tenant="brand">
+        <img data-tenant="logo" src="{{ tenant.logoUri }}" alt="{{ tenant.name }}" referrerpolicy="no-referrer">
+    </header>
+{% endif %}

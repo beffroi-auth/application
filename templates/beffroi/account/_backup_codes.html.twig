@@ -1,0 +1,16 @@
+{# The backup codes of a second factor, shown this once (architecture §5.2): the codes, the way to take
+   them in one click, and what each one is worth.
+
+   One file for the two pages that show them, the enrolment and the renewal, because what a person has to
+   do with them is the same thing both times: put them somewhere safe before they leave the page. They are
+   stored hashed, so nothing shows them again.
+
+   The button that copies them is hidden until the script of the provider finds a browser that can write a
+   clipboard (copy.js); the codes are on the page either way, as text somebody selects. #}
+{% trans_default_domain 'beffroi' %}
+<ol id="backup-codes" data-two-factor="backup-codes" data-codes="{{ backup_codes|length }}">
+    {% for code in backup_codes %}
+        <li><code>{{ code }}</code></li>
+    {% endfor %}
+</ol>
+<p data-copy-refused hidden>{{ 'two_factor.backup_codes.not_copied'|trans }}</p>

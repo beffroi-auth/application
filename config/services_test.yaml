@@ -1,0 +1,64 @@
+# What the suite of this application reaches into (issue beffroi-auth/beffroi#521), and nothing else: the
+# kernel it boots is the kernel of a deployment, down to its database and its KMS, so this file adds no
+# behaviour and replaces no service. It names ports, because a private service nothing references is removed
+# from the compiled container, and a test writing the person a page is about has to reach the one that saves
+# them.
+#
+# Imported for the test environment alone (MicroKernelTrait reads "config/services_{env}.yaml"), the same
+# way the kernel of the suite of the integration names the ports its own suite reads (tests/symfony/config/config_test.yml).
+#
+# One service is replaced, and it is the one thing this suite cannot have: the client the demonstration
+# calls this provider with (issue #462). A functional test sends its requests into the kernel and opens
+# no socket, so there is no provider at the other end of a hop; the client is one a test says the answers
+# of, and what is judged is the request the demonstration built and what it made of the answer.
+services:
+    # The one service named here that is not an alias is wired as the application wires its own, because
+    # replacing an argument of a definition is declaring that definition again.
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    test.beffroi.tenant_provider:
+        alias: App\Doctrine\TenantProvider
+        public: true
+    test.beffroi.tenant_synchronizer:
+        alias: App\Doctrine\TenantSynchronizer
+        public: true
+    test.beffroi.users:
+        alias: Beffroi\Core\Port\UserRepositoryInterface
+        public: true
+    test.beffroi.credentials:
+        alias: Beffroi\Core\Port\CredentialRepositoryInterface
+        public: true
+    test.beffroi.password_hasher:
+        alias: Beffroi\Core\Port\PasswordHasherInterface
+        public: true
+    test.beffroi.sessions:
+        alias: Beffroi\Core\Port\AuthenticationSessionRepositoryInterface
+        public: true
+    test.beffroi.browser_session:
+        alias: App\Http\BrowserSession
+        public: true
+    # The client the demonstration takes a hop with, which a test hands the answers of
+    # (MockHttpClient::setResponseFactory()).
+    test.app.demonstration_http_client:
+        class: Symfony\Component\HttpClient\MockHttpClient
+        public: true
+
+    App\Demonstration\Live\TakenHop:
+        arguments:
+            $http: '@test.app.demonstration_http_client'
+
+    test.app.demonstration_traces:
+        alias: App\Demonstration\Trace\TraceStore
+        public: true
+
+    # The pool the trace lives in, which a test of the demonstration empties before it runs: a cache
+    # outlives a test where a table does not, and a trace left behind would be read by the next one.
+    test.app.demonstration_trace_pool:
+        alias: cache.beffroi_demonstration
+        public: true
+
+    test.beffroi.flow_pictures:
+        alias: Beffroi\Oidc\Port\FlowPicturesInterface
+        public: true

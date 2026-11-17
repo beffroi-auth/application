@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!-- One issuer (architecture §3.1). Every other table carries its identifier. Its "acr" policy (decision 0010) is a JSON document whose default, in the database as in the core, is the default policy: a row written before the column existed speaks it. -->
+    <entity name="Beffroi\Core\Domain\Tenant\Tenant" table="beffroi_tenant">
+        <unique-constraints>
+            <unique-constraint name="beffroi_tenant_slug" columns="slug"/>
+            <unique-constraint name="beffroi_tenant_issuer" columns="issuer"/>
+        </unique-constraints>
+        <id name="id" type="uuid" column="id"/>
+        <field name="slug" type="string" column="slug" length="63"/>
+        <field name="issuer" type="beffroi_issuer" column="issuer" length="255"/>
+        <field name="name" type="string" column="name" length="255"/>
+        <field name="authenticationContextPolicy" type="beffroi_authentication_context_policy" column="authentication_context_policy">
+            <options>
+                <option name="default">{"classes":[{"name":"phrh","predicate":"phishing_resistant_hardware"},{"name":"phr","predicate":"phishing_resistant"},{"name":"2","predicate":"two_factors"},{"name":"1","predicate":"single_factor"}]}</option>
+            </options>
+        </field>
+        <!-- The floor of every login of this tenant (issue #327). A row written before the column existed names the single factor, which is every login this provider serves: a tenant that never hardened behaves as it always did. -->
+        <field name="loginFloor" type="beffroi_authentication_predicate" column="login_floor" length="32">
+            <options>
+                <option name="default">single_factor</option>
+            </options>
+        </field>
+        <field name="look" type="beffroi_tenant_look" column="look">
+            <options>
+                <option name="default">{}</option>
+            </options>
+        </field>
+        <field name="selfServedClaims" type="beffroi_self_served_claims" column="self_served_claims">
+            <options>
+                <option name="default">[]</option>
+            </options>
+        </field>
+        <!-- What the enrolment of a passkey asks of its authenticator (decision 0046). A row written before the column existed asks for none, as every tenant did. -->
+        <field name="passkeyAttestation" type="beffroi_passkey_attestation" column="passkey_attestation">
+            <options>
+                <option name="default">{"policy":"none","roots":[],"own_roots":[],"models_under_alert":[]}</option>
+            </options>
+        </field>
+        <field name="createdAt" type="datetime_immutable" column="created_at"/>
+    </entity>
+</doctrine-mapping>

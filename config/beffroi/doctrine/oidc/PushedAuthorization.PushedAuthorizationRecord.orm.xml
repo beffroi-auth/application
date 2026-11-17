@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!-- What the provider keeps of an authorization request a client pushed (RFC 9126 §2.2), waiting for the reference it was answered with. The parameters are kept as the client wrote them, not as the parser read them: the authorization endpoint reads one request whichever way it arrived. The client is a registration the module reads from its repository, not a row, as it is for an interaction. -->
+    <entity name="Beffroi\Oidc\Domain\PushedAuthorization\PushedAuthorizationRecord" table="beffroi_pushed_authorization_request">
+        <indexes>
+            <!-- What the sweep of the dead rows reads (issue #177): a record is worth nothing once it has expired, and the sweep asks the table for the oldest of them rather than reading it. -->
+            <index name="beffroi_pushed_authorization_expiry" columns="expires_at"/>
+        </indexes>
+        <id name="requestUriHash" type="string" column="request_uri_hash" length="64">
+            <options>
+                <option name="fixed">true</option>
+            </options>
+        </id>
+        <many-to-one field="tenant" target-entity="Beffroi\Core\Domain\Tenant\Tenant">
+            <join-column name="tenant_id" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
+        <field name="clientId" type="string" column="client_id" length="255"/>
+        <!--
+          Sealed under the data key of its tenant (decisions 0011 and 0018): the parameters are kept as the
+          client wrote them, so a pushed "login_hint" or "id_token_hint" is in here word for word (RFC 9126
+          §2.2). It loses its "jsonb" with the rest, what the column holds now being the ciphertext of a
+          JSON document, which no query can read into and which no query did.
+        -->
+        <field name="parameters" type="beffroi_encrypted_pushed_authorization_request_json" column="parameters"/>
+        <field name="issuedAt" type="datetime_immutable" column="issued_at"/>
+        <field name="expiresAt" type="datetime_immutable" column="expires_at"/>
+        <!-- Whether the push carried a request object the client signed (RFC 9101 §6.1): once the record answers for the request, the authorization endpoint can no longer see it. -->
+        <!-- Whether the request arrived inside a signed object (RFC 9101). Its default, in the database, is what a request pushed before the column existed carried: nothing signed. -->
+        <field name="carriedBySignedObject" type="boolean" column="carried_by_signed_object">
+            <options>
+                <option name="default">false</option>
+            </options>
+        </field>
+        <entity-listeners>
+            <entity-listener class="App\Doctrine\Listener\ClientResolver">
+                <lifecycle-callback type="postLoad" method="postLoad"/>
+            </entity-listener>
+        </entity-listeners>
+    </entity>
+</doctrine-mapping>

@@ -1,0 +1,22 @@
+{# The stretch of time a table of the account is read over (architecture §5.2): two days, in a form a
+   browser sends with no script, and the way back to the whole table.
+
+   The page is not carried over: a filter that changed is a table read from its first page, which is why
+   the form posts to the route alone and the control under the table is the only thing that names a page.
+   What the fields hold is the stretch of time that was read and not what the request said: a period that
+   ends before it starts is read as none, and a filter that holds nothing is what the table then shows.
+
+   The provider ships the shape and the words, never a class: "data-filter" is what a stylesheet reads. #}
+{% trans_default_domain 'beffroi' %}
+{% set route = app.request.attributes.get('_route') %}
+{% set own = app.request.attributes.get('_route_params') ?? {} %}
+<form method="get" action="{{ path(route, own) }}" data-filter="period" aria-label="{{ 'filter.period'|trans }}">
+    <label for="filter-from">{{ 'filter.from'|trans }}</label>
+    <input type="date" id="filter-from" name="from" value="{{ period is not null and period.from is not null ? period.from|date('Y-m-d', false) : '' }}">
+    <label for="filter-to">{{ 'filter.to'|trans }}</label>
+    <input type="date" id="filter-to" name="to" value="{{ period is not null and period.to is not null ? period.to|date('Y-m-d', false) : '' }}">
+    <button type="submit" data-filter="apply">{{ 'filter.apply'|trans }}</button>
+    {% if period is not null %}
+        <a href="{{ path(route, own) }}" data-filter="clear">{{ 'filter.clear'|trans }}</a>
+    {% endif %}
+</form>

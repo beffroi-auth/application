@@ -1,0 +1,96 @@
+# Where this provider lets a browser read its answer (RFC 9700 §6.3).
+#
+# CORS is the one header of this configuration that opens rather than closes, so it is cut to the size of
+# what needs it: the endpoints a public client running in a page calls with fetch, and nothing else. It is
+# not an access control. It says who may read the answer; who may call the endpoint is the client
+# authentication, the proof of possession and the exact match of the redirect URI, none of which is here.
+#
+# The origin is "*" and the credentials are never allowed, which is the pair that makes it safe: a browser
+# refuses the two together anyway, and with no credentials there is nothing a page of a stranger gains by
+# calling these endpoints. A code is spent once, against the verifier only its holder knows (RFC 7636), and
+# a token is read by whoever presents it. The set of origins that may ask is the set of origins the
+# registered clients run on, which a file of the deployment cannot know and which the registration already
+# bounds. The session cookie of this provider never crosses this way: it is read on the pages of the
+# interaction plane, and none of them is below.
+#
+# "*" is written twice per endpoint, and both lines are needed for one answer. "allow_origin" is what the
+# origin of a request is compared against, and the provider then answers with that origin rather than with a
+# star; "forced_allow_origin_value" is what makes the answer the star itself. That is what a provider wants:
+# the answer of these endpoints then does not depend on who asked, so no cache in front of it has to be
+# told to vary on the origin, and no cache that was not told hands the answer of one client to another.
+#
+# The authorization endpoint is deliberately absent. A browser arrives there by navigation, and a
+# navigation is not subject to CORS: a header on it would say nothing to anybody. Absent as well are the
+# endpoints no browser reaches, whatever a client holds: the introspection, which a resource server calls
+# from its own process, the registration of a client, the device authorization request and the backchannel
+# authentication request, whose clients are a program and an appliance.
+nelmio_cors:
+    # What an endpoint that is named below does not say for itself, and what every other path of this
+    # provider is answered with: nothing. These are not a baseline the paths relax, they are the fallback of
+    # a request whose path matches no rule, and an origin allowed here would be an origin allowed on the
+    # authorization endpoint and on every page of the interaction plane.
+    defaults:
+        allow_credentials: false
+        allow_origin: []
+        forced_allow_origin_value: null
+        allow_methods: []
+        allow_headers: []
+        expose_headers: []
+        max_age: 0
+
+    paths:
+        # OIDC Discovery §4 and RFC 8414 §3: the document a client reads before anything else, which the
+        # OIDC client of Symfony fetches from the page it runs in.
+        '^/\.well-known/':
+            allow_origin: ['*']
+            forced_allow_origin_value: '*'
+            allow_methods: ['GET']
+            max_age: 3600
+
+        # The keys the client verifies an ID token with (OIDC Core §10.1).
+        '^/jwks$':
+            allow_origin: ['*']
+            forced_allow_origin_value: '*'
+            allow_methods: ['GET']
+            max_age: 3600
+
+        # RFC 6749 §3.2. "Authorization" carries client_secret_basic, "DPoP" the proof of possession of
+        # RFC 9449 §5, and "DPoP-Nonce" is the one answer header a client has to read to make that proof
+        # again (RFC 9449 §8). "WWW-Authenticate" carries the challenge of a refusal (RFC 6749 §5.2) and
+        # "Retry-After" the delay of a budget that is spent (RFC 6585 §4); neither is on the list a browser
+        # exposes to a script on its own.
+        '^/token$':
+            allow_origin: ['*']
+            forced_allow_origin_value: '*'
+            allow_methods: ['POST']
+            allow_headers: ['content-type', 'authorization', 'dpop']
+            expose_headers: ['DPoP-Nonce', 'WWW-Authenticate', 'Retry-After']
+            max_age: 3600
+
+        # OIDC Core §5.3, where the claims are read with the access token that was issued.
+        '^/userinfo$':
+            allow_origin: ['*']
+            forced_allow_origin_value: '*'
+            allow_methods: ['GET', 'POST']
+            allow_headers: ['content-type', 'authorization', 'dpop']
+            expose_headers: ['DPoP-Nonce', 'WWW-Authenticate', 'Retry-After']
+            max_age: 3600
+
+        # RFC 7009 §2, which is what a page does with a refresh token when the person signs out of it.
+        '^/revoke$':
+            allow_origin: ['*']
+            forced_allow_origin_value: '*'
+            allow_methods: ['POST']
+            allow_headers: ['content-type', 'authorization']
+            expose_headers: ['WWW-Authenticate', 'Retry-After']
+            max_age: 3600
+
+        # RFC 9126 §2: the request pushed before the browser is sent to the authorization endpoint, which is
+        # what a client running in a page is told to do rather than write the request into a URL.
+        '^/par$':
+            allow_origin: ['*']
+            forced_allow_origin_value: '*'
+            allow_methods: ['POST']
+            allow_headers: ['content-type', 'authorization', 'dpop']
+            expose_headers: ['DPoP-Nonce', 'WWW-Authenticate', 'Retry-After']
+            max_age: 3600

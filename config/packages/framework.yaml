@@ -1,0 +1,32 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    secret: '%env(APP_SECRET)%'
+
+    # Note that the session will be started ONLY if you read or write from it.
+    #
+    # The cookie that carries it is a header of this provider like the ones nelmio_security.yaml writes, and
+    # the one of them a bundle does not set: it is where the session of a browser lives, so it is named and
+    # bounded here (the risk the headers answer, session hijacking, is answered by these four lines).
+    #
+    # The name carries the "__Host-" prefix, which reverses who checks the three attributes under it: a
+    # browser refuses the cookie outright unless it is Secure, unless its path is "/" and unless it names no
+    # Domain, so the cookie cannot be shipped half configured and a subdomain of the issuer cannot set one
+    # in its place. The issuer of this application is the origin alone, which is what makes "/" the right
+    # path to begin with.
+    #
+    # "lax" and not "strict", and this is the one value of the file that a provider cannot tighten. A client
+    # sends the browser to the authorization endpoint by a top-level navigation from its own site, which is
+    # a cross-site request: "strict" drops the cookie on it, so every authorization request would arrive at
+    # a provider that does not know the visitor and ask them to sign in again. "lax" sends it on that
+    # navigation and on no cross-site POST, which is where the form post response mode and the walk that
+    # plays it twice read what a browser makes of it ("castor demo --form-post").
+    session:
+        name: '__Host-beffroi_session'
+        cookie_secure: true
+        cookie_httponly: true
+        cookie_samesite: lax
+        cookie_path: '/'
+        cookie_domain: ~
+
+    #esi: true
+    #fragments: true

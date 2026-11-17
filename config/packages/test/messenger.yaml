@@ -1,0 +1,13 @@
+# The transports of the suite of this application (config/packages/messenger.yaml): every lane handled in the
+# request that sent it.
+#
+# The block lives under "messenger" and not under "framework.messenger": the component has its own
+# extension since Symfony 8.2 split FrameworkBundle per component, and a block nested under "framework" is
+# not overridden by an application through a bundle's prepend.
+messenger:
+    transports:
+        async_priority_high: 'sync://'
+        async_priority_medium: 'sync://'
+        async_priority_low: 'sync://'
+        async_notifications: 'sync://'
+        failed: 'sync://'

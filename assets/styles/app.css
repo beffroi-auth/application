@@ -1,0 +1,1140 @@
+/*
+ * The look of the pages of the provider (architecture §5.2, §6): Tailwind and DaisyUI, built by the Tailwind
+ * standalone binary (symfonycasts/tailwind-bundle) and served by the asset mapper as styles/app.css.
+ *
+ * The pages carry bare structure and their codes in data-* attributes, never a class. This stylesheet
+ * styles that structure, so that the layout of the pages (templates/beffroi/layout.html.twig) and the two
+ * skeletons it picks from (templates/layout/) are the only templates that know the look, and the pages stay
+ * untouched.
+ *
+ * Three sections. The skeletons come first: the column of pages and the bar of a page of the account, and
+ * the panel of a page of an interaction, each named by an identifier the skeleton carries so that no rule
+ * here has to guess which page it is on. Then what every page shares: a page of an interaction is one
+ * question, and its paragraphs, its alerts and its form are that question. Then the pages of the account,
+ * which the skeleton marks with data-page="account": panels someone reads, where a heading, a table, a list
+ * of what the account holds and the way back each have a shape of their own. A page is flat and bordered
+ * rather than raised, a border being what tells a panel from the page it sits on at any width.
+ *
+ * Every rule here is written into the utilities layer, where DaisyUI writes its own classes: a layer
+ * declared before that one loses to it whatever the selector says, so a rule of this file sitting in an
+ * earlier layer would be a rule that dresses "btn" or "menu" everywhere except where those classes decide
+ * something themselves. The look of a link is the one rule of the base layer, so that it loses to all of them.
+ */
+
+@import "tailwindcss";
+
+@source "../../templates";
+
+
+@plugin "../vendor/daisyui/daisyui.index.js" {
+    themes: light --default, dark --prefersdark;
+}
+
+/*
+ * A link reads as one wherever it sits on a page: a line under it, outlined under the keyboard, and the colour
+ * of the buttons drawn towards the colour of the text, darker on a light theme and lighter on a dark one, so
+ * that it keeps the contrast of text on either; one step further under the pointer. A rule below that draws a
+ * link as something else, a button, a card or a page of the pager, keeps its own colours over it, and takes the
+ * line away itself, a button drawing none; a button drawn as a link takes the same two colours.
+ */
+@layer base {
+    main {
+        --color-link: color-mix(in oklab, var(--color-primary) 70%, var(--color-base-content));
+        --color-link-hover: color-mix(in oklab, var(--color-primary) 50%, var(--color-base-content));
+    }
+
+    main a {
+        @apply cursor-pointer underline;
+
+        color: var(--color-link);
+    }
+
+    main a:hover {
+        color: var(--color-link-hover);
+    }
+
+    main a:focus-visible {
+        @apply outline-2 outline-offset-2 outline-current;
+    }
+}
+
+@layer utilities {
+    /*
+     * The skeleton of a page of the account: the column of its pages, the bar above it, and the page.
+     */
+
+    /* The column stays where it is while the page scrolls: the pages of the account are read one after the
+       other, and the list of them is what a reader goes back to between two of them. */
+    #layout-sidebar {
+        @apply sticky top-0 flex h-dvh flex-col self-start border-e border-base-300 bg-base-100;
+
+        width: 16rem;
+        min-width: 16rem;
+    }
+
+    #layout-sidebar-brand {
+        @apply flex min-h-16 items-center gap-3 border-b border-base-300 px-5;
+    }
+
+    #layout-sidebar-pages {
+        @apply flex min-h-0 grow flex-col gap-5 overflow-y-auto p-3;
+    }
+
+    #layout-sidebar-pages ul {
+        @apply flex flex-col gap-0.5;
+    }
+
+    /* The heading a group of pages is read under: a label of the column and not a link in it, which is
+       why the list it heads is named by it and whoever listens to the page is not read it twice. */
+    #layout-sidebar-pages p[data-group-title] {
+        @apply px-3 pb-1.5 text-xs font-medium uppercase tracking-wide text-base-content/50;
+    }
+
+    #layout-sidebar-pages a {
+        @apply flex items-center gap-2.5 rounded-box px-3 py-2 text-sm text-base-content/70;
+    }
+
+    /* What a page is asking for, beside its link: a page that asks nothing carries nothing, never a zero. */
+    #layout-sidebar-pages a span[data-count] {
+        @apply badge badge-sm badge-primary ms-auto font-medium;
+    }
+
+    #layout-sidebar-pages a:hover {
+        @apply bg-base-200 text-base-content;
+    }
+
+    /* The page being read says so, in the list and in the document: aria-current is the state, not a class. */
+    #layout-sidebar-pages a[aria-current="page"] {
+        @apply bg-base-200 font-medium text-base-content;
+    }
+
+    /* What is true of the whole plane, above every page of it and following the page as it scrolls. */
+    #layout-topbar {
+        @apply sticky top-0 z-10 flex min-h-16 items-center gap-3 border-b border-base-300 bg-base-100 px-4 md:px-6;
+    }
+
+    #layout-topbar-home {
+        @apply truncate font-medium;
+    }
+
+    #layout-content {
+        @apply grow p-4 md:p-6 lg:p-8;
+    }
+
+    /*
+     * The column slides over the page where the screen is too narrow to hold both. A checkbox the keyboard
+     * reaches opens it and a veil closes it again, so that nothing of this is a script: the pages of this
+     * plane carry none, and a browser that runs nothing opens and closes this one.
+     */
+    #layout-pages-switch {
+        @apply sr-only;
+    }
+
+    #layout-sidebar-veil {
+        @apply hidden;
+    }
+
+    /* Wide enough for both: the column is beside the page, and what opens it has nothing left to open. */
+    @media (width >= 64rem) {
+        #layout-pages-switch,
+        #layout-pages-button {
+            @apply hidden;
+        }
+    }
+
+    @media (width < 64rem) {
+        #layout-sidebar {
+            @apply fixed top-0 bottom-0 z-30 transition-[margin] duration-200;
+
+            margin-inline-start: -16rem;
+        }
+
+        #layout-pages-switch:checked ~ #layout-sidebar {
+            @apply shadow-xl;
+
+            margin-inline-start: 0;
+        }
+
+        #layout-pages-switch:checked ~ #layout-sidebar-veil {
+            @apply fixed inset-0 z-20 block bg-base-content/20;
+        }
+    }
+
+    /*
+     * The skeleton of a page of an interaction: the question is a column of its own, and the rest of the
+     * width says who the visitor came for. The panel is a surface and a wash of the colour the tenant
+     * declared, which is the colour of the buttons of the question beside it.
+     */
+    #interaction-panel {
+        @apply bg-base-200;
+
+        background-image: radial-gradient(
+            75% 60% at 50% 35%,
+            color-mix(in oklab, var(--color-primary) 14%, transparent),
+            transparent 70%
+        );
+    }
+
+    /*
+     * What every page carries.
+     */
+
+    /*
+     * A control that opens under itself: the language, the theme and who is signed in (issues #448, #447).
+     * Three controls of one shape (templates/layout/_control.html.twig), and no script, because no page of
+     * this application carries one: a radio button holds the state, its label is the button, and the three
+     * share one group, so one of them is open at a time. The veil lies over the page while one is open, so
+     * a click anywhere else closes it, and over the buttons too: a second click on the one that is open is
+     * a click on the veil.
+     */
+    div[data-control]:has(> input[name="layout-control"]) {
+        @apply relative;
+    }
+
+    input[name="layout-control"] {
+        @apply sr-only;
+    }
+
+    label[data-control="trigger"] {
+        @apply gap-1.5;
+    }
+
+    /* The control that is open reads as pressed, and the keyboard says where it is: what a browser focuses
+       is the radio button, and what somebody sees is its label. */
+    input[name="layout-control"]:checked ~ label[data-control="trigger"] {
+        @apply bg-base-200;
+    }
+
+    input[name="layout-control"]:focus-visible ~ label[data-control="trigger"] {
+        @apply ring-2 ring-primary ring-offset-2 ring-offset-base-100;
+    }
+
+    /* Under the button and aligned on its end, as wide as what it holds and never narrower than a line of
+       it: a list of two languages and a list of three themes are the same control. */
+    div[data-control] > div[data-control="panel"] {
+        @apply absolute end-0 top-full z-30 mt-2 hidden w-max min-w-52 max-w-72 rounded-box border border-base-300 bg-base-100 p-1 shadow-lg;
+    }
+
+    input[name="layout-control"]:checked ~ div[data-control="panel"] {
+        @apply block;
+    }
+
+    div[data-control="panel"] .menu {
+        @apply w-full gap-0.5 p-0;
+    }
+
+    div[data-control="panel"] .menu :is(a, button) {
+        @apply flex w-full items-center justify-start gap-2.5 text-sm;
+    }
+
+    label[data-control="veil"] {
+        @apply hidden;
+    }
+
+    body:has(div[data-control] > input[name="layout-control"]:checked) label[data-control="veil"] {
+        @apply fixed inset-0 z-20 block;
+    }
+
+    /* The logo of the tenant (issue beffroi-auth/beffroi#449): served by a host the tenant named, so how
+       large it is on the page is the page's decision and never the tenant's, exactly as a client's logo on
+       the consent page. The skeletons place it; its height is the only thing said of it here, and the panel
+       of an interaction, which is nothing but that logo and that name, is given more of it. */
+    header[data-tenant="brand"] img[data-tenant="logo"] {
+        @apply h-10 w-auto max-w-full object-contain;
+    }
+
+    #interaction-panel header[data-tenant="brand"] img[data-tenant="logo"] {
+        @apply h-16;
+    }
+
+    main p {
+        @apply text-base-content;
+    }
+
+    /* The name a client gave itself, in a sentence of the provider (ClientNameExtension): written apart from
+       the words around it, which are the provider's. */
+    main b[data-client-name] {
+        @apply font-semibold;
+    }
+
+    main p[data-error],
+    main p[data-description] {
+        @apply alert alert-error alert-soft mt-4;
+    }
+
+    /* A block and not the grid of an alert, which would set the code and the description that follows it in
+       two columns: the code, its colon and the description are one line of text. */
+    main p[data-description] {
+        @apply alert-info block font-mono text-sm;
+    }
+
+    main p[data-requirement] {
+        @apply alert alert-info alert-soft mt-4;
+    }
+
+    /* The way out of a refusal (the error page of the provider): the one thing there is to do on a page where
+       the request stopped, so it is read as the action it is and not as a line of small print under it. */
+    main a[data-sign-in] {
+        @apply btn btn-primary mt-6 no-underline;
+    }
+
+    /* A form the script of the provider keeps hidden until it has a browser for it stays hidden. */
+    main form:not([hidden]) {
+        @apply mt-6 flex flex-col gap-4;
+    }
+
+    main form label {
+        @apply label;
+    }
+
+    main form input[type="text"],
+    main form input[type="password"] {
+        @apply input w-full;
+    }
+
+    main form button[type="submit"] {
+        @apply btn btn-primary;
+    }
+
+    /* The way in with a passkey is an answer like the others: the answer when it is the only one, the second
+       one beside the form of the password. */
+    main button[data-passkey-button] {
+        @apply btn btn-primary;
+    }
+
+    /* The second answer to a question is a bordered button the size of the first, never a line of text beside
+       it: the way out is as plain to see as the way in (brand guidelines, consent and components). At rest it
+       is written in the colour of the links, which keeps the contrast of text on either theme; under the
+       pointer it fills as the first does. */
+    main form button[type="submit"]:is([value="deny"], [value="no"]),
+    main form:not([hidden]) ~ form[data-passkey="login"] button[data-passkey-button] {
+        @apply btn-outline;
+    }
+
+    main form button[type="submit"]:is([value="deny"], [value="no"]):not(:hover, :active:focus, :focus-visible),
+    main form:not([hidden]) ~ form[data-passkey="login"] button[data-passkey-button]:not(:hover, :active:focus, :focus-visible) {
+        --btn-rest-fg: var(--color-link);
+        --btn-border: var(--color-link);
+    }
+
+    /* Another address goes back to the first question and answers nothing on this page: a link under the
+       answers, the third choice. */
+    main form[data-step="another-address"] button[type="submit"] {
+        @apply btn-link underline;
+
+        color: var(--color-link);
+    }
+
+    main form[data-step="another-address"] button[type="submit"]:hover {
+        color: var(--color-link-hover);
+    }
+
+    main ul {
+        @apply mt-4 flex flex-wrap gap-2;
+    }
+
+    main li[data-scope] {
+        @apply badge badge-outline badge-lg;
+    }
+
+    /*
+     * Who is asking, on the consent page (OIDC Registration section 2). The logo comes from a host the
+     * client named, so how large it is on the page is the page's decision and never the client's: it is
+     * given a height and keeps its proportions, whatever was served. The pages it links to are read
+     * before the question, not instead of it, so they are small and under the rest.
+     */
+    main img[data-client="logo"] {
+        @apply mx-auto h-16 w-auto max-w-full object-contain;
+    }
+
+    main ul:has(> li > a[data-client]) {
+        @apply gap-4;
+    }
+
+    main a[data-client] {
+        @apply text-sm;
+    }
+
+    /*
+     * The pages of the account. The skeleton is a column with a gap of its own, so what the rules above
+     * space by a margin is spaced by that gap here, and the margin goes.
+     */
+    main[data-page="account"] > :is(p, ul, ol, dl, table, form, figure, nav, section) {
+        @apply mt-0;
+    }
+
+    /*
+     * The head of a page of the account, which every one of them opens with: where the reader is, the
+     * title of the page, and the one action the page offers, beside the title and not at the end of what
+     * the page says. The way back is in that trail and not a link of its own, a page of this plane hanging
+     * from the home and from at most one page under it.
+     */
+    main[data-page="account"] header[data-page-header] {
+        @apply flex flex-col gap-2;
+    }
+
+    main[data-page="account"] header[data-page-header] ol {
+        @apply flex flex-wrap items-center gap-2 text-sm text-base-content/60;
+    }
+
+    main[data-page="account"] header[data-page-header] li + li::before {
+        @apply me-2 text-base-content/30;
+
+        content: "/";
+    }
+
+    main[data-page="account"] header[data-page-header] [aria-current="page"] {
+        @apply text-base-content;
+    }
+
+    main[data-page="account"] div[data-heading-row] {
+        @apply flex flex-wrap items-center justify-between gap-3;
+    }
+
+    main[data-page="account"] h1 {
+        @apply text-2xl font-semibold tracking-tight sm:text-3xl;
+    }
+
+    /* The action of a page is the one thing it offers, and it is read the same way on every page of the
+       plane, whether the page posts it or it opens a page of its own. */
+    main[data-page="account"] div[data-heading-row] div[data-action] {
+        @apply flex flex-row items-center gap-3;
+    }
+
+    main[data-page="account"] div[data-heading-row] :is(a, button) {
+        @apply btn btn-primary btn-sm no-underline;
+    }
+
+    main[data-page="account"] div[data-heading-row] form:not([hidden]) {
+        @apply m-0 mt-0 flex-row items-center;
+    }
+
+    /* The one action of the plane that takes something away rather than offering something new reads as
+       the buttons that take a session or a browser out, and not as the thing to do on the page. */
+    main[data-page="account"] div[data-heading-row] form[data-sessions="revoke-others"] button {
+        @apply btn-outline btn-error;
+    }
+
+    /* Who is signed in, and since when on the home: the subtitle of the heading, not a paragraph of the page. */
+    main[data-page="account"] > p:first-of-type,
+    main[data-page="account"] > p:has(> time) {
+        @apply -mt-3 text-sm text-base-content/60;
+    }
+
+    main[data-page="account"] > p {
+        @apply max-w-prose;
+    }
+
+    /* What the account holds nothing of: said in the shape of the panel that would have held it. */
+    main[data-page="account"] > p[data-two-factor="none"],
+    main[data-page="account"] > p[data-approvals="none"] {
+        @apply rounded-box border border-dashed border-base-content/20 px-5 py-6 text-center text-base-content/60;
+    }
+
+    /* A table that holds nothing keeps its head and says so in one row, so the eye reads the same table
+       whether there is anything in it or not: the row is the width of the table and carries no border of
+       its own, a line between nothing and nothing being a line too many. */
+    main[data-page="account"] tbody tr[data-empty] td {
+        @apply border-0 py-10 text-center text-base-content/60;
+    }
+
+    main[data-page="account"] tbody tr[data-empty]:hover {
+        @apply bg-transparent;
+    }
+
+    /*
+     * The pages of the account on its home: one card each, which says the page it opens, what that page is
+     * for, and what the account holds there. The three are read in that order whatever the card is about,
+     * so that ten of them are read down a column and not deciphered one by one.
+     */
+    main[data-page="account"] ul[data-sections] {
+        @apply grid gap-4 sm:grid-cols-2 xl:grid-cols-3;
+    }
+
+    /* A card is clicked anywhere on, which the link below draws over it: the box is the way to the page,
+       and the name of that way is the title and not everything the card says. */
+    main[data-page="account"] li[data-section] {
+        @apply relative flex flex-col gap-2 rounded-box border border-base-300 bg-base-100 p-5 transition-colors;
+    }
+
+    main[data-page="account"] li[data-section]:hover {
+        @apply border-base-content/20 bg-base-200/40;
+    }
+
+    main[data-page="account"] li[data-section] div[data-section-head] {
+        @apply flex items-center gap-3;
+    }
+
+    /* The icon of the page, the one the column of pages reads it by: a square the eye finds the card by,
+       and a drawing a reader who listens to the page is never read. */
+    main[data-page="account"] li[data-section] span[data-section-icon] {
+        @apply flex size-9 shrink-0 items-center justify-center rounded-box bg-base-200 text-base-content/70 transition-colors;
+    }
+
+    main[data-page="account"] li[data-section]:hover span[data-section-icon] {
+        @apply bg-base-300 text-base-content;
+    }
+
+    main[data-page="account"] li[data-section] a {
+        @apply link-hover text-lg font-semibold text-base-content;
+    }
+
+    main[data-page="account"] li[data-section] a::after {
+        @apply absolute inset-0;
+
+        content: "";
+    }
+
+    /* What the page is for, in one line under its name: it says why somebody would open it, never what
+       they would find on it, which is the next line and the page itself. */
+    main[data-page="account"] li[data-section] p[data-section-about] {
+        @apply text-sm text-base-content/60;
+    }
+
+    /*
+     * What the account holds there: a chip at the foot of the card, in the same place on every one of
+     * them, so that ten cards are read down a column and the words of a list are not read one by one.
+     *
+     * One chip and one shape, whatever the state says. A section counts what the account holds there or
+     * says what was done and when, and both are its own words: a shape of its own for "nothing held"
+     * would be a shape this page could only keep its word about on the sections that count, and the page
+     * would be saying something of a password or of an archive that the section never said. A state is
+     * written for a line of a list, so the chip opens it with a capital whichever of them it is.
+     *
+     * The surface is the one of the theme and never a colour of DaisyUI: its neutral is nearly black in
+     * the dark theme as in the light one, which is a chip nobody could read on a dark page.
+     */
+    main[data-page="account"] li[data-section] span[data-state] {
+        @apply badge badge-sm mt-auto border-base-300 bg-base-200 text-base-content/70 first-letter:uppercase;
+    }
+
+
+    /* One request waiting for an answer, on the page of the answers: a panel of its own, the warning under
+       them all and not inside one of them (BCP 10027 §5.2). */
+    main[data-page="account"] section[data-approval] {
+        @apply flex flex-col gap-2 rounded-box border border-base-300 bg-base-100 p-5;
+    }
+
+    main[data-page="account"] > p[data-warning] {
+        @apply alert alert-warning alert-soft;
+    }
+
+    /*
+     * A part of a page that is a panel of its own: a heading, the line that says what it is for, and the
+     * list, the table or the forms it holds. The page of the profile is written with them (issue
+     * beffroi-auth/application#17), so that what this provider holds of somebody, what they may change of it and
+     * what they have changed are three panels a reader tells apart and not three headings in one column.
+     */
+    main[data-page="account"] section[data-panel] {
+        @apply flex flex-col gap-4 rounded-box border border-base-300 bg-base-100 p-6;
+    }
+
+    /* Inside a panel the heading is the panel's own, and the line of a part has nothing left to cross. */
+    main[data-page="account"] section[data-panel] > h2 {
+        @apply mt-0 gap-0;
+    }
+
+    main[data-page="account"] section[data-panel] > h2::after {
+        @apply hidden;
+    }
+
+    main[data-page="account"] section[data-panel] > p {
+        @apply max-w-prose text-sm text-base-content/60;
+    }
+
+    /* The border and the surface of a panel are drawn once, by the panel, and not again by what it holds. */
+    main[data-page="account"] section[data-panel] :is(dl, table, ul[data-information="claims"]) {
+        @apply border-0 bg-transparent p-0;
+    }
+
+    /* One line per thing the account holds: the table is the panel, and a revoked line is spent. */
+    main[data-page="account"] table {
+        @apply table rounded-box border border-base-300 bg-base-100;
+    }
+
+    main[data-page="account"] thead th {
+        @apply text-xs font-medium uppercase tracking-wide text-base-content/50;
+    }
+
+    main[data-page="account"] tbody tr[data-revoked="yes"] {
+        @apply text-base-content/40;
+    }
+
+    /* The line being pointed at: a table of twenty sessions is read across, and the eye needs the line. */
+    main[data-page="account"] tbody tr:hover {
+        @apply bg-base-200/40;
+    }
+
+    /* What the line is about carries the eye; a date and a button are read whole, never wrapped. */
+    main[data-page="account"] tbody td:first-child {
+        @apply font-medium;
+    }
+
+    main[data-page="account"] tbody td:last-child {
+        @apply text-right;
+    }
+
+    main[data-page="account"] tbody time,
+    main[data-page="account"] tbody button {
+        @apply whitespace-nowrap;
+    }
+
+    /*
+     * What a table is narrowed to, read above it: two days and the way back to the whole of it. It is a
+     * row and not a panel, because it belongs to the table under it as the control of the pages does.
+     */
+    main[data-page="account"] form[data-filter="period"] {
+        @apply mt-0 flex flex-row flex-wrap items-center gap-2;
+    }
+
+    /* The word belongs to the field beside it and sits on its line, not under it and not above: what this
+       row says is read as a sentence, "from this day to that one". */
+    main[data-page="account"] form[data-filter="period"] label {
+        @apply p-0 text-sm text-base-content/60;
+    }
+
+    /* A day is as wide as a day: the field a library gives is made for a sentence. */
+    main[data-page="account"] form[data-filter="period"] input[type="date"] {
+        @apply input input-sm w-44;
+    }
+
+    main[data-page="account"] form[data-filter="period"] button[data-filter="apply"],
+    main[data-page="account"] form[data-filter="period"] a[data-filter="clear"] {
+        @apply ms-1;
+    }
+
+    main[data-page="account"] form[data-filter="period"] button[data-filter="apply"] {
+        @apply btn btn-sm btn-neutral;
+    }
+
+    main[data-page="account"] form[data-filter="period"] a[data-filter="clear"] {
+        @apply btn btn-sm btn-ghost font-normal no-underline;
+    }
+
+    /*
+     * The control under a table that is read in pages belongs to that table: it is the foot of its card,
+     * which is why the table above it loses its bottom corners and its bottom border and the control
+     * closes the box. Which rows of the whole list are shown on the left, the pages on the right.
+     */
+    main[data-page="account"] table:has(+ nav[data-pager]) {
+        @apply rounded-b-none border-b-0;
+    }
+
+    main[data-page="account"] nav[data-pager] {
+        @apply -mt-6 flex flex-wrap items-center justify-between gap-3 rounded-b-box border border-t-0 border-base-300 bg-base-100 px-4 py-3;
+    }
+
+    main[data-page="account"] nav[data-pager] p[data-pager-rows] {
+        @apply text-sm text-base-content/60;
+    }
+
+    main[data-page="account"] nav[data-pager] ul[data-pager-pages] {
+        @apply mt-0 flex-nowrap items-center gap-1;
+    }
+
+    /* Every way through the pages is a button of the same size; the page being read is the pressed one,
+       and a page there is nowhere to go to is the same button spent. */
+    main[data-page="account"] nav[data-pager] :is(a, span)[data-pager] {
+        @apply btn btn-ghost btn-sm font-normal no-underline;
+    }
+
+    main[data-page="account"] nav[data-pager] span[data-pager="current"] {
+        @apply btn-active font-medium;
+    }
+
+    main[data-page="account"] nav[data-pager] span[data-pager]:not([data-pager="current"]) {
+        @apply btn-disabled;
+    }
+
+    /*
+     * The four ways to an end of the table are a chevron, and they keep their words for whoever does not
+     * see one: the word is in the document and the shape is drawn here, from a path and not from an icon
+     * font, these pages loading none.
+     */
+    main[data-page="account"] nav[data-pager] :is(a, span):is([data-pager="first"], [data-pager="previous"], [data-pager="next"], [data-pager="last"]) {
+        @apply btn-square;
+    }
+
+    main[data-page="account"] nav[data-pager] span[data-pager-label] {
+        @apply sr-only;
+    }
+
+    main[data-page="account"] nav[data-pager] [data-pager="first"]::before,
+    main[data-page="account"] nav[data-pager] [data-pager="previous"]::before,
+    main[data-page="account"] nav[data-pager] [data-pager="next"]::before,
+    main[data-page="account"] nav[data-pager] [data-pager="last"]::before {
+        @apply size-4 bg-current;
+
+        content: "";
+        mask-position: center;
+        mask-repeat: no-repeat;
+        mask-size: contain;
+    }
+
+    main[data-page="account"] nav[data-pager] [data-pager="first"]::before {
+        mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 17-5-5 5-5"/><path d="m18 17-5-5 5-5"/></svg>');
+    }
+
+    main[data-page="account"] nav[data-pager] [data-pager="previous"]::before {
+        mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>');
+    }
+
+    main[data-page="account"] nav[data-pager] [data-pager="next"]::before {
+        mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>');
+    }
+
+    main[data-page="account"] nav[data-pager] [data-pager="last"]::before {
+        mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m13 17 5-5-5-5"/><path d="m6 17 5-5-5-5"/></svg>');
+    }
+
+    /* The page somebody types: one field, no button, and the browser sends it. */
+    main[data-page="account"] nav[data-pager] form[data-pager="go-to"] {
+        @apply m-0 mt-0 flex flex-row items-center gap-2;
+    }
+
+    main[data-page="account"] nav[data-pager] form[data-pager="go-to"] label {
+        @apply p-0 text-xs text-base-content/60;
+    }
+
+    main[data-page="account"] nav[data-pager] form[data-pager="go-to"] input {
+        @apply input input-xs w-20 text-center;
+    }
+
+    /* Inside a panel the table draws no border of its own, so the control under it closes nothing. */
+    main[data-page="account"] section[data-panel] nav[data-pager] {
+        @apply mt-0 border-0 bg-transparent px-0 py-0;
+    }
+
+    /* A scope is the width of a column of its own here, not the sentence the consent page opens with. */
+    main[data-page="account"] td ul {
+        @apply mt-0 gap-1;
+    }
+
+    main[data-page="account"] td li[data-scope] {
+        @apply badge-sm font-normal;
+    }
+
+    /* The last cell of a row is what that row lets somebody do, read from the end of the line: the words
+       that qualify the act and the button that takes it sit on that one line, and never one under the
+       other. */
+    main[data-page="account"] td form:not([hidden]) {
+        @apply m-0 inline-flex align-middle;
+    }
+
+    main[data-page="account"] form button[type="submit"] {
+        @apply btn-sm;
+    }
+
+    /*
+     * A passkey and a browser are named in the line where they are read (issue #446), the same editing in
+     * place as a claim of the profile: the name is the value, the label is for whoever does not see the
+     * column it is under, and the button that saves it waits for the line to be touched.
+     */
+    main[data-page="account"] form:is([data-passkey="rename"], [data-subscription="rename"]) {
+        @apply m-0 mt-0 flex flex-row items-center gap-2;
+    }
+
+    main[data-page="account"] form:is([data-passkey="rename"], [data-subscription="rename"]) label {
+        @apply sr-only;
+    }
+
+    main[data-page="account"] form:is([data-passkey="rename"], [data-subscription="rename"]) input {
+        @apply input input-sm input-ghost w-44 border-transparent bg-transparent px-2 font-medium;
+    }
+
+    main[data-page="account"] form:is([data-passkey="rename"], [data-subscription="rename"]) input:focus {
+        @apply border-base-300 bg-base-100;
+    }
+
+    main[data-page="account"] form:is([data-passkey="rename"], [data-subscription="rename"]) button[data-save] {
+        @apply btn btn-primary btn-xs invisible;
+    }
+
+    main[data-page="account"] tbody tr:hover form:is([data-passkey="rename"], [data-subscription="rename"]) button[data-save],
+    main[data-page="account"] form:is([data-passkey="rename"], [data-subscription="rename"]):focus-within button[data-save] {
+        @apply visible;
+    }
+
+    /*
+     * What holds a passkey (issue beffroi-auth/beffroi#983): the logo and the name of the model on one line,
+     * its certification as a state of it, then what the flags of the passkey say and how it is reached, in
+     * smaller words under them. An authenticator no source names says so, dimmer than a name, as a place
+     * nothing could find does. A logo with a variant for each theme is written twice, and the page shows the
+     * one of its theme: the dark one when the document says "dark", or when it names no theme and the browser
+     * prefers a dark scheme, which is when DaisyUI draws the dark theme; the light one otherwise.
+     */
+    main[data-page="account"] td[data-authenticator] img[data-logo] {
+        @apply me-2 inline-block size-5 object-contain align-middle;
+    }
+
+    main[data-page="account"] td[data-authenticator] img[data-logo="dark"],
+    [data-theme="dark"] main[data-page="account"] td[data-authenticator] img[data-logo="light"] {
+        @apply hidden;
+    }
+
+    [data-theme="dark"] main[data-page="account"] td[data-authenticator] img[data-logo="dark"] {
+        @apply inline-block;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root:not([data-theme]) main[data-page="account"] td[data-authenticator] img[data-logo="light"] {
+            @apply hidden;
+        }
+
+        :root:not([data-theme]) main[data-page="account"] td[data-authenticator] img[data-logo="dark"] {
+            @apply inline-block;
+        }
+    }
+
+    main[data-page="account"] td[data-authenticator] span[data-model] {
+        @apply align-middle font-medium;
+    }
+
+    main[data-page="account"] td[data-authenticator="unknown"] span[data-model] {
+        @apply font-normal opacity-60;
+    }
+
+    main[data-page="account"] td[data-authenticator] span[data-certification] {
+        @apply badge badge-sm badge-soft ms-2 align-middle font-normal;
+    }
+
+    main[data-page="account"] td[data-authenticator] :is(span[data-backup], span[data-transports]) {
+        @apply block text-xs opacity-60;
+    }
+
+    /* Taking something back is not the action a page offers first. */
+    main[data-page="account"] form button[name="revoke"],
+    main[data-page="account"] form[data-two-factor="revoke"] button[type="submit"] {
+        @apply btn-outline btn-error btn-sm;
+    }
+
+    /*
+     * What a person may change of themselves, edited in place (issue beffroi-auth/application#17): the value they
+     * read is the field they type into, so a line looks like the list above it until it is touched. No
+     * script does this. The button is always in the document, for a browser that styles nothing and for
+     * whoever moves by keyboard; what the stylesheet does is keep it out of the way until the line has
+     * the focus or the pointer.
+     */
+    main[data-page="account"] ul[data-information="claims"] {
+        @apply mt-0 flex flex-col gap-0 rounded-box border border-base-300 bg-base-100 p-2;
+    }
+
+    main[data-page="account"] li[data-claim] {
+        @apply w-full;
+    }
+
+    /* A claim nobody may change here is a line of the same list and reads like the others: the label where
+       the labels are, the value where the fields are, and no box around either. */
+    main[data-page="account"] li[data-claim]:has(> span[data-label]) {
+        @apply grid grid-cols-[12rem_1fr_auto] items-center gap-3 rounded-box px-3 py-2;
+    }
+
+    main[data-page="account"] li[data-claim] span[data-label] {
+        @apply text-sm text-base-content/60;
+    }
+
+    main[data-page="account"] li[data-claim] span[data-detail] {
+        @apply px-2 font-medium;
+    }
+
+    main[data-page="account"] li[data-claim] span[data-nothing] {
+        @apply font-normal text-base-content/40;
+    }
+
+    main[data-page="account"] li[data-claim] span[data-verified] {
+        @apply badge badge-sm ml-2 align-middle font-normal;
+    }
+
+    main[data-page="account"] li[data-claim] span[data-verified="yes"] {
+        @apply badge-success badge-soft;
+    }
+
+    main[data-page="account"] li[data-claim] span[data-verified="no"] {
+        @apply badge-warning badge-soft;
+    }
+
+    main[data-page="account"] form[data-editable] {
+        @apply m-0 grid grid-cols-[12rem_1fr_auto] items-center gap-3 rounded-box px-3 py-2;
+    }
+
+    main[data-page="account"] form[data-editable]:hover,
+    main[data-page="account"] form[data-editable]:focus-within {
+        @apply bg-base-200;
+    }
+
+    main[data-page="account"] form[data-editable] label {
+        @apply p-0 text-sm text-base-content/60;
+    }
+
+    /* The field reads as the value: no border and no box, until it is the one being written in. */
+    main[data-page="account"] form[data-editable] :is(input, select) {
+        @apply input input-ghost w-full border-transparent bg-transparent px-2 font-medium;
+    }
+
+    main[data-page="account"] form[data-editable] :is(input, select):focus {
+        @apply border-base-300 bg-base-100;
+    }
+
+    main[data-page="account"] form[data-editable] button[data-save] {
+        @apply btn btn-primary btn-sm invisible;
+    }
+
+    main[data-page="account"] form[data-editable]:hover button[data-save],
+    main[data-page="account"] form[data-editable]:focus-within button[data-save] {
+        @apply visible;
+    }
+
+    /* What was refused is said under the line that was refused, which is what a form is for. */
+    main[data-page="account"] form[data-editable] ul li {
+        @apply col-start-2 text-sm text-error;
+    }
+
+    main[data-page="account"] form[data-editable] p {
+        @apply col-start-2 text-xs text-base-content/50;
+    }
+
+    /* A page long enough to be read in parts says where a part starts: the heading, and a line across
+       what is left of the width, which tells one part from the next without a box around the heading. */
+    main[data-page="account"] h2 {
+        @apply mt-2 flex items-center gap-4 text-lg font-semibold tracking-tight;
+    }
+
+    main[data-page="account"] h2::after {
+        @apply h-px grow bg-base-300;
+
+        content: "";
+    }
+
+    /* The second factor: what it is worth now, then its dates and its codes left, two columns. */
+    main[data-page="account"] p[data-two-factor]:not([data-two-factor="none"]) {
+        @apply alert alert-success alert-soft;
+    }
+
+    main[data-page="account"] dl {
+        @apply grid grid-cols-[auto_1fr] gap-y-2 rounded-box border border-base-300 bg-base-100 p-5;
+    }
+
+    main[data-page="account"] dt {
+        @apply pr-8 text-sm text-base-content/60;
+    }
+
+    main[data-page="account"] dd {
+        @apply text-sm font-medium;
+    }
+
+    /* One line per thing, the line above it drawn across both columns. */
+    main[data-page="account"] dt:not(:first-of-type),
+    main[data-page="account"] dd:not(:first-of-type) {
+        @apply border-t border-base-200 pt-2;
+    }
+
+    /* Whether a contact detail has been verified is a state of it, not more of its value. */
+    main[data-page="account"] dd span[data-verified] {
+        @apply badge badge-sm ml-2 align-middle font-normal;
+    }
+
+    main[data-page="account"] dd span[data-verified="yes"] {
+        @apply badge-success badge-soft;
+    }
+
+    main[data-page="account"] dd span[data-verified="no"] {
+        @apply badge-warning badge-soft;
+    }
+
+    /* What a session proved is a state of it, not more of its value, and the session of the browser
+       reading the page is the one whose end signs that reader out (issue beffroi-auth/beffroi#450). */
+    main[data-page="account"] td span[data-acr],
+    main[data-page="account"] td span[data-amr] {
+        @apply badge badge-sm badge-soft mr-1 font-normal;
+    }
+
+    main[data-page="account"] td span[data-amr] {
+        @apply font-mono;
+    }
+
+    main[data-page="account"] td span[data-user-agent] {
+        @apply block text-xs opacity-60;
+    }
+
+    /* Where a request came from: the place, the address beside it, the browser under both. A place
+       nothing could put on a map says so, dimmer than one that was found, rather than leaving the line
+       looking unfilled. */
+    main[data-page="account"] td span[data-place="unknown"] {
+        @apply opacity-60;
+    }
+
+    /* The row of the browser reading the page, wherever a page of this plane lists browsers: the session
+       it holds and the subscription it is pushed to are the same fact to whoever reads it. */
+    main[data-page="account"] td :is(span[data-session-current], span[data-subscription-current]) {
+        @apply badge badge-sm badge-primary badge-soft mr-2 align-middle font-normal;
+    }
+
+    /*
+     * The page of one application (issue beffroi-auth/beffroi#451) opens on what that application holds
+     * and not on who is signed in, so its first paragraph is a state of the panel and not the subtitle
+     * the rules above give one. The date of the last renewal keeps that subtitle shape: it is read under
+     * the count and not beside it.
+     */
+    main[data-page="account"] > p[data-application="renewable"] {
+        @apply alert alert-info alert-soft mt-0 text-base;
+    }
+
+    main[data-page="account"] > p[data-application="pending"][data-pending="0"] {
+        @apply rounded-box mt-0 border border-dashed border-base-content/20 px-5 py-6 text-center text-sm text-base-content/60;
+    }
+
+    /* What a client wrote for the person it is waiting on (CIBA Core §7.1), beside the scopes it asked. */
+    main[data-page="account"] span[data-binding-message] {
+        @apply badge badge-sm badge-soft ml-2 font-normal;
+    }
+
+    /* The file of everything this provider holds, once it is ready: what the page of the archive is for,
+       and the only link of these pages that is read as the thing to do. */
+    main[data-page="account"] a[data-archive-file] {
+        @apply btn btn-primary btn-sm w-fit no-underline;
+    }
+
+    /* Dropping it is the end of what the page offers, so it reads under both ways of taking the file and
+       looks like what it is: the same button as taking a browser or a passkey out. */
+    main[data-page="account"] form[data-archive-drop] button[type="submit"] {
+        @apply btn-outline btn-error btn-sm;
+    }
+
+    /*
+     * The enrolment of an authenticator app: the two steps it is, each a panel of its own, numbered by the
+     * list they are. The app is given the secret, by the picture it scans or by the key somebody types into
+     * it, and then the code it shows confirms the enrolment, so a reader of the page knows which of the two
+     * they are at. The number is drawn beside the step and written nowhere in the page: an ordered list is
+     * what these are.
+     */
+    main[data-page="account"] ol[data-two-factor="enrol-steps"] {
+        @apply flex flex-col gap-4;
+
+        counter-reset: step;
+    }
+
+    main[data-page="account"] ol[data-two-factor="enrol-steps"] > li[data-step] {
+        @apply relative m-0 flex flex-col items-start gap-3 rounded-box border border-base-300 bg-base-100 p-6 ps-16;
+
+        counter-increment: step;
+    }
+
+    main[data-page="account"] ol[data-two-factor="enrol-steps"] > li[data-step]::before {
+        @apply absolute start-6 top-6 flex size-8 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-content;
+
+        content: counter(step);
+    }
+
+    /* Inside a step the heading is the panel's own, and the line a part of a page draws has nothing left
+       to cross. */
+    main[data-page="account"] ol[data-two-factor="enrol-steps"] h2 {
+        @apply mt-0 gap-0 text-base;
+    }
+
+    main[data-page="account"] ol[data-two-factor="enrol-steps"] h2::after {
+        @apply hidden;
+    }
+
+    /* What the step asks of whoever is reading it; what the browser answered is not one of these lines. */
+    main[data-page="account"] ol[data-two-factor="enrol-steps"] > li > p:not([data-copy-line], [data-copy-refused]) {
+        @apply max-w-prose text-sm text-base-content/60;
+    }
+
+    /* The panel spaces what it holds by its own gap, so the form of a step carries no margin of its own. */
+    main[data-page="account"] ol[data-two-factor="enrol-steps"] form:not([hidden]) {
+        @apply mt-0 gap-2;
+    }
+
+    /* The QR code of an enrolment is black on white whatever the theme reads: an app has to scan it. */
+    main[data-page="account"] figure[data-two-factor="qr-code"] {
+        @apply w-fit rounded-box border border-base-300 bg-white p-4;
+    }
+
+    main[data-page="account"] figure[data-two-factor="qr-code"] svg {
+        @apply block h-auto max-w-full;
+    }
+
+    /*
+     * The key an app is given by hand, where no camera reads the picture: the value, the one click that
+     * takes it and what the browser answered are read on the line the key is on, and not at the end of the
+     * page. The key is forty characters of base32 in groups of four, so it is read as a key and not as a
+     * word, and a click on it selects the whole of it for whoever copies it themselves.
+     */
+    main[data-page="account"] p[data-copy-line] {
+        @apply flex flex-wrap items-center gap-3;
+    }
+
+    main[data-page="account"] code[data-two-factor="key"] {
+        @apply kbd select-all font-mono text-base tracking-widest;
+    }
+
+    /* The key is clickable once the script of the provider has found a browser that can write a clipboard
+       (copy.js), and says so from then on and never before: a value that does nothing when it is clicked
+       is a value that says nothing about being clicked. */
+    main[data-page="account"] code[data-two-factor="key"][data-copy-click] {
+        @apply cursor-pointer transition-colors;
+    }
+
+    main[data-page="account"] code[data-two-factor="key"][data-copy-click]:hover {
+        @apply border-primary text-primary;
+    }
+
+    main[data-page="account"] p[data-copy-line] button[data-copy] {
+        @apply btn btn-outline btn-sm;
+    }
+
+    main[data-page="account"] p[data-copy-line] span[data-copied] {
+        @apply badge badge-success badge-soft;
+    }
+
+    /* The code the app shows is six figures read off one screen and typed into another: the field is as
+       wide as what goes in it and not as the panel, and spaced out so that one figure is not read as the
+       next. */
+    main[data-page="account"] form[data-two-factor="enrol"] input[name="code"] {
+        @apply w-44 text-center font-mono text-lg tracking-[0.25em];
+    }
+
+    /*
+     * The backup codes of a second factor, shown once: ten things somebody has to take away with them, so
+     * they are one block and not ten, numbered, so that whoever writes them down knows which one they are
+     * at. The block is as wide as the codes and not as the page, because it is read as one thing, and it
+     * is two columns wherever there is room for two. What the page says of them is above and under it,
+     * never between two of them.
+     */
+    main[data-page="account"] ol[data-two-factor="backup-codes"] {
+        @apply w-fit list-inside list-decimal columns-1 gap-10 rounded-box border border-base-300 bg-base-100 px-6 py-5 sm:columns-2;
+    }
+
+    main[data-page="account"] ol[data-two-factor="backup-codes"] li {
+        @apply m-0 break-inside-avoid py-1 marker:text-sm marker:text-base-content/40;
+    }
+
+    main[data-page="account"] ol[data-two-factor="backup-codes"] code {
+        @apply ms-2 bg-transparent p-0 font-mono text-base tracking-widest;
+    }
+
+    /* What the browser did with the codes when somebody asked for them in one click: the word that says
+       it is done sits where the click happened, and the refusal, which has something to tell somebody,
+       is a line of the page. Neither is a box a browser draws over it. */
+    main[data-page="account"] div[data-heading-row] span[data-copied] {
+        @apply badge badge-success badge-soft;
+    }
+
+    main[data-page="account"] p[data-copy-refused] {
+        @apply alert alert-warning alert-soft text-base;
+    }
+
+    /* A button on a page is the width of its words; a form of an interaction fills the box it is in. */
+    main[data-page="account"] form:not([hidden]) {
+        @apply items-start;
+    }
+
+    /* A form that asks for something is a panel of its own; a form that is one button is that button. */
+    main[data-page="account"] > form:not([hidden]):has(input:not([type="hidden"])) {
+        @apply rounded-box border border-base-300 bg-base-100 p-5;
+    }
+
+    main[data-page="account"] p[data-passkeys-unsupported] {
+        @apply text-sm text-base-content/50;
+    }
+}

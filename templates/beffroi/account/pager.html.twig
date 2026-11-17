@@ -1,0 +1,78 @@
+{# The control under a table of the account that is longer than one page (architecture §5.2): which rows of
+   the whole list the reader is looking at, the pages it offers, and the page they may type.
+
+   It is rendered only where there is more than one page, a control that can do nothing being a control
+   nobody should have to read. The page it names is the "page" of the query string, which is the one word
+   every table of this plane is paged by (AskedPage), and a link it writes keeps whatever else the request
+   carried: the page of one application is read at an address that names that application.
+
+   The pages offered are the ones the listing offers, the first two, the one being read with its
+   neighbours, the last two, and the gap it leaves between them; what the control decides is nothing. A
+   page a reader cannot go to is the same words unlinked, so that what they may do and what they may not
+   are read in one place and in one shape, and the page they are on says so (`aria-current`).
+
+   The page somebody types is a form of one field and no button: a browser sends such a form on its own,
+   which is how this control asks for a page without a script.
+
+   The provider ships the shape and the words, never a class: "data-pager" is what a stylesheet reads, and
+   the word of each way through the pages is in the document for whoever does not see the shape it is
+   given. #}
+{% trans_default_domain 'beffroi' %}
+{% if listing.pages > 1 %}
+    {% set route = app.request.attributes.get('_route') %}
+    {% set own = app.request.attributes.get('_route_params') ?? {} %}
+    {% set parameters = own|merge(app.request.query.all) %}
+    <nav data-pager="{{ listing.pagination.number }}" data-pages="{{ listing.pages }}" aria-label="{{ 'pager.pages'|trans }}">
+        <p data-pager-rows>{{ 'pager.rows'|trans({first: listing.firstRow, last: listing.lastRow, total: listing.total}) }}</p>
+        <ul data-pager-pages>
+            <li>
+                {% if listing.hasPrevious %}
+                    <a href="{{ path(route, parameters|merge({page: 1})) }}" data-pager="first"><span data-pager-label>{{ 'pager.first'|trans }}</span></a>
+                {% else %}
+                    <span data-pager="first" aria-disabled="true"><span data-pager-label>{{ 'pager.first'|trans }}</span></span>
+                {% endif %}
+            </li>
+            <li>
+                {% if listing.hasPrevious %}
+                    <a href="{{ path(route, parameters|merge({page: listing.previous})) }}" data-pager="previous" rel="prev"><span data-pager-label>{{ 'pager.previous'|trans }}</span></a>
+                {% else %}
+                    <span data-pager="previous" aria-disabled="true"><span data-pager-label>{{ 'pager.previous'|trans }}</span></span>
+                {% endif %}
+            </li>
+            {% for number in listing.numbers %}
+                <li>
+                    {% if number is null %}
+                        <span data-pager="gap" aria-hidden="true">&hellip;</span>
+                    {% elseif number == listing.pagination.number %}
+                        <span data-pager="current" aria-current="page">{{ number }}</span>
+                    {% else %}
+                        <a href="{{ path(route, parameters|merge({page: number})) }}" data-pager="number">{{ number }}</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            <li>
+                {% if listing.hasNext %}
+                    <a href="{{ path(route, parameters|merge({page: listing.next})) }}" data-pager="next" rel="next"><span data-pager-label>{{ 'pager.next'|trans }}</span></a>
+                {% else %}
+                    <span data-pager="next" aria-disabled="true"><span data-pager-label>{{ 'pager.next'|trans }}</span></span>
+                {% endif %}
+            </li>
+            <li>
+                {% if listing.hasNext %}
+                    <a href="{{ path(route, parameters|merge({page: listing.pages})) }}" data-pager="last"><span data-pager-label>{{ 'pager.last'|trans }}</span></a>
+                {% else %}
+                    <span data-pager="last" aria-disabled="true"><span data-pager-label>{{ 'pager.last'|trans }}</span></span>
+                {% endif %}
+            </li>
+        </ul>
+        <form method="get" action="{{ path(route, own) }}" data-pager="go-to">
+            {# whatever else the request carried travels with the page: a table that was narrowed stays
+               narrowed when a reader types a page of it #}
+            {% for name, value in app.request.query.all %}
+                {% if name != 'page' %}<input type="hidden" name="{{ name }}" value="{{ value }}">{% endif %}
+            {% endfor %}
+            <label for="pager-go-to">{{ 'pager.go_to'|trans }}</label>
+            <input type="number" id="pager-go-to" name="page" min="1" max="{{ listing.pages }}" value="{{ listing.pagination.number }}">
+        </form>
+    </nav>
+{% endif %}

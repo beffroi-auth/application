@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!-- An opaque access token somebody signed in for (architecture §4.6): the session is what a logout revokes by, and what it had proven at the grant is what the introspection of the token renders. -->
+    <entity name="Beffroi\Oidc\Domain\Token\StoredUserAccessToken" table="beffroi_access_token">
+        <indexes>
+            <index name="beffroi_access_token_grant" columns="grant_id"/>
+            <index name="beffroi_access_token_expiry" columns="expires_at"/>
+        </indexes>
+        <many-to-one field="session" target-entity="Beffroi\Core\Domain\Session\AuthenticationSession">
+            <join-column name="session_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+        <field name="authorizationDetails" type="beffroi_authorization_details" column="authorization_details" nullable="true"/>
+        <field name="claimsRequest" type="beffroi_claims_request" column="claims" nullable="true"/>
+        <field name="authentication" type="beffroi_authentication_snapshot" column="authentication"/>
+        <entity-listeners>
+            <entity-listener class="App\Doctrine\Listener\ClientResolver">
+                <lifecycle-callback type="postLoad" method="postLoad"/>
+            </entity-listener>
+        </entity-listeners>
+    </entity>
+</doctrine-mapping>

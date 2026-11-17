@@ -1,0 +1,62 @@
+# The demonstration of the flows (issue #462), the pages config/routes/demonstration.yaml routes in
+# development and in the suite of this application: the pictures come from the grants the provider is
+# wired with, the trace from what the demonstration took and from what this provider recorded while a
+# browser took the rest. A deployment wires none of it, and the image carries none of it: it leaves this
+# file, its routes, src/Demonstration/ and templates/demonstration/ out (issue #922).
+when@dev: &demonstration
+    services:
+        _defaults:
+            autowire: true
+            autoconfigure: true
+
+        _instanceof:
+            # one class per call of this provider the demonstration recognises, and one per hop it takes
+            # itself: what is tagged is what it recognises and what it can play, never a list. What
+            # collects them names the tag on the parameter it collects into (#[AutowireIterator]), a
+            # custom tag of YAML being something the linter of the application does not read.
+            App\Demonstration\Trace\RecordedEndpointInterface:
+                tags: ['app.demonstration.endpoint']
+            App\Demonstration\Live\DrivenHopInterface:
+                tags: ['app.demonstration.hop']
+
+        App\Demonstration\:
+            resource: '../../src/Demonstration/'
+
+        App\Demonstration\Trace\TraceStore:
+            arguments:
+                $traces: '@cache.beffroi_demonstration'
+
+        # The clients of the lab the demonstration plays each flow as
+        # (config/packages/dev/beffroi.yaml): a flow none of them is registered for is a flow the
+        # demonstration says it cannot play, rather than one it plays as somebody who may not.
+        App\Demonstration\Live\DemonstrationClients:
+            arguments:
+                $clients:
+                    # RFC 8628: a program on somebody's machine keeps no secret, so it names itself in
+                    # the request and the page draws that too
+                    'urn:ietf:params:oauth:grant-type:device_code':
+                        client_id: 'demo-appliance'
+                        scope: 'openid profile offline_access'
+                    # CIBA Core §7.1: what a "login_hint" names is this provider's to decide, and this
+                    # stack reads the subject it issued the development user
+                    'urn:openid:params:grant-type:ciba':
+                        client_id: 'demo-ciba-poll'
+                        secret: '%env(DEMO_CIBA_POLL_SECRET)%'
+                        scope: 'openid profile offline_access'
+                        login_hint: '%env(default::BEFFROI_DEV_USER_SUBJECT)%'
+                    # RFC 6749 §4.4, RFC 8707 §2: a service asking for itself, for a resource it
+                    # registered
+                    'client_credentials':
+                        client_id: 'demo-service'
+                        secret: '%env(DEMO_SERVICE_SECRET)%'
+                        scope: 'invoices.read'
+                        resource: 'https://localhost:8002/api/service'
+
+    # The trace lives in a pool of its own, so that what a lab exchanged with itself is cleared on its own and
+    # never shares a namespace with the application's.
+    framework:
+        cache:
+            pools:
+                cache.beffroi_demonstration: ~
+
+when@test: *demonstration

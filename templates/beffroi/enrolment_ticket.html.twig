@@ -1,0 +1,28 @@
+{# The page where a person poses a passkey without a session (architecture §5.2, issue #613),
+   in the language of the browser: it names the account the ticket of its URL opens, and holds the one
+   ceremony it is for. The form is hidden until the script of the provider finds a browser that can create
+   a passkey, and the page says so for one that cannot, there being nothing else here to do. "error" is a
+   code of EnrolmentTicketEnrolmentController, shown after a ceremony that did not end in a passkey. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'enrolment_ticket.title'|trans }}{% endblock %}
+
+{% block head %}
+    <script src="{{ path('beffroi_interaction_passkey_script') }}" defer></script>
+{% endblock %}
+
+{% block content %}
+    <p>{{ 'enrolment_ticket.prompt'|trans({username: user.username}) }}</p>
+    {% if error is not null %}
+        <p data-error="{{ error }}">{{ ('enrolment_ticket.error.' ~ error)|trans }}</p>
+    {% endif %}
+    <p data-passkeys-unsupported>{{ 'enrolment_ticket.unsupported'|trans }}</p>
+    <form method="post" action="{{ path('beffroi_interaction_enrolment_ticket_enrol', ticket) }}" data-passkey="enrol" data-options-url="{{ path('beffroi_interaction_enrolment_ticket_options', ticket) }}" hidden>
+        <input type="hidden" name="_token" value="{{ csrf_token('beffroi_enrolment_ticket') }}">
+        <input type="hidden" name="_passkey" value="">
+        <input type="hidden" name="name" value="{{ 'passkeys.new_default'|trans }}">
+        <button type="button" data-passkey-button>{{ 'enrolment_ticket.enrol'|trans }}</button>
+        <p data-passkey-error hidden>{{ 'enrolment_ticket.error.refused'|trans }}</p>
+    </form>
+{% endblock %}

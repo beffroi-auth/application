@@ -1,0 +1,14 @@
+# The second instance of oidc-demo runs on the machine that runs the stack, and the worker is what
+# carries a logout token to it ("castor demo --logout-others"). curl resolves every name ending in
+# ".localhost" to the loopback address of whoever asks, ignoring /etc/hosts, so from inside a
+# container that is the container: the address docker wrote there for the gateway of the host is
+# given to curl explicitly. BEFFROI_DEMO_HOST_IP is read from /etc/hosts by the entrypoint of the worker
+# (docker/worker/entrypoint.sh) and is the loopback address everywhere else, which changes nothing.
+parameters:
+    env(BEFFROI_DEMO_HOST_IP): 127.0.0.1
+
+framework:
+    http_client:
+        default_options:
+            resolve:
+                demo.localhost: '%env(BEFFROI_DEMO_HOST_IP)%'

@@ -1,0 +1,226 @@
+# The configuration of the provider (docs/11-architecture.md §5.1). Everything a deployment chooses is an
+# environment variable, which .env documents with the value an image takes when the deployment names none;
+# the local KMS key and the secrets of the clients of the development stack (config/packages/dev/beffroi.yaml,
+# which the image leaves out) are written into .env.local by "castor provision" (development only, nothing
+# secret is committed), production sets its own.
+parameters:
+    # The placeholder mark of public/tenant-logo.svg, served from the origin of the application itself, which
+    # is what a tenant shows until its deployment names the mark it owns (BEFFROI_TENANT_LOGO_URI).
+    app.tenant_logo_uri: '%env(BEFFROI_ISSUER)%/tenant-logo.svg'
+    # The secrets that bind the data keys while BEFFROI_DATA_KEY_SECRETS is not set: the secret of the kernel
+    # alone, as the provider binds them by default.
+    app.data_key_secrets: ['%kernel.secret%']
+    # The names the container validates the two readings of a "login_hint" against when it is compiled, the values of
+    # .env, which a variable of the deployment replaces when it runs.
+    env(BEFFROI_INTERACTION_LOGIN_HINT): sub
+    env(BEFFROI_BACKCHANNEL_AUTHENTICATION_LOGIN_HINT): sub
+
+beffroi:
+    tenant:
+        issuer: '%env(BEFFROI_ISSUER)%'
+        slug: '%env(BEFFROI_TENANT_SLUG)%'
+        # The name the pages and the consent give the tenant, the host of the issuer when the variable is
+        # empty: "default::" makes an empty variable no name at all.
+        name: '%env(default::BEFFROI_TENANT_NAME)%'
+        # What this tenant shows of itself on every page (issue beffroi-auth/beffroi#449). The logo is the
+        # placeholder mark above, served from the origin of the application itself, which is why the policy
+        # of every page allows it without naming an origin, until the deployment points it at the mark it
+        # owns, anywhere over HTTPS. The two colours go together: the accent the buttons and the links are
+        # drawn in, and the colour of what is written on them, which is what keeps them readable under both
+        # themes; an empty variable is no colour.
+        look:
+            logo_uri: '%env(default:app.tenant_logo_uri:BEFFROI_TENANT_LOGO_URI)%'
+            primary_color: '%env(default::BEFFROI_TENANT_PRIMARY_COLOR)%'
+            primary_content_color: '%env(default::BEFFROI_TENANT_PRIMARY_CONTENT_COLOR)%'
+        # Every list of this file but the clients is a JSON document of the environment, of the shape the list
+        # has in this file, held to the rules of the tree when the service it reaches is built (decision 0030): what
+        # the people of this tenant may change of themselves (issue beffroi-auth/beffroi#452), its "acr"
+        # vocabulary (decision 0010), the scopes of the APIs it protects, which stand for no claim and which a
+        # client that registers itself may then register (issue beffroi-auth/beffroi#920), and the groups whose
+        # members administer it (decision 0038). .env documents the four with what an image takes.
+        self_served_claims: '%env(json:BEFFROI_TENANT_SELF_SERVED_CLAIMS)%'
+        authentication_classes: '%env(json:BEFFROI_TENANT_AUTHENTICATION_CLASSES)%'
+        scopes: '%env(json:BEFFROI_TENANT_SCOPES)%'
+        administrators: '%env(json:BEFFROI_TENANT_ADMINISTRATORS)%'
+        # The administration API of the tenant, the audience the provider reserves to those administrators (decision
+        # 0038): "default::" makes an empty variable no API at all, which reserves nothing.
+        administration_resource: '%env(default::BEFFROI_TENANT_ADMINISTRATION_RESOURCE)%'
+        # What the enrolment of a passkey asks of its authenticator (decision 0046): the name of the policy, then
+        # the PEM roots of the enterprise attestations it admits, the PEM authorities of the tenant itself, and
+        # the models under a security alert it still enrols, each to the last day it does. .env documents them
+        # with what an image takes.
+        passkey_attestation: '%env(BEFFROI_TENANT_PASSKEY_ATTESTATION)%'
+        passkey_attestation_roots: '%env(json:BEFFROI_TENANT_PASSKEY_ATTESTATION_ROOTS)%'
+        passkey_attestation_own_roots: '%env(json:BEFFROI_TENANT_PASSKEY_ATTESTATION_OWN_ROOTS)%'
+        passkey_compromised_models: '%env(json:BEFFROI_TENANT_PASSKEY_COMPROMISED_MODELS)%'
+    keys:
+        # The KMS client of config/packages/key_management.yaml the private keys are sealed with; the DSN
+        # of that client, and whether it is one provider or several, are declared there.
+        kms: op
+        key_id: '%env(BEFFROI_KMS_KEY_ID)%'
+        # The secrets that bind the data keys, the list a rotation of APP_SECRET keeps the old one second in;
+        # the secret of the kernel alone while the variable is not set.
+        data_key_secrets: '%env(default:app.data_key_secrets:json:BEFFROI_DATA_KEY_SECRETS)%'
+        storage: '%kernel.project_dir%/var/keys'
+        # Read at runtime with the lifetimes of the tokens, so that "castor demo --rotate" can shorten the windows
+        # of a rotation for its run without recompiling anything (.env documents the values). The staging delay
+        # is the max-age plus the refetch cooldown of oidc_login while its variable is empty, which keeps the two
+        # from drifting apart.
+        jwks_max_age: '%env(int:BEFFROI_JWKS_MAX_AGE)%'
+        staging_delay: '%env(BEFFROI_KEY_STAGING_DELAY)%'
+        age: '%env(int:BEFFROI_KEY_AGE)%'
+    mutual_tls:
+        # The host whose TLS listener asks for a client certificate (issue #157, architecture §5.1),
+        # announced in "mtls_endpoint_aliases" (RFC 8705 §5). Empty for a deployment that serves one host.
+        origin: '%env(BEFFROI_MTLS_ORIGIN)%'
+    # Reaching a user through the push service of a browser they signed in with (RFC 8030, architecture
+    # §5.6). Naming a subject is what turns it on, and the subject is the deployment's: the "mailto:" or
+    # "https:" URI at which a push service can reach its operator (RFC 8292 §2.1). A deployment that reaches its
+    # users some other way, or not at all, empties BEFFROI_WEB_PUSH_SUBJECT, which "default::" makes no subject
+    # at all: the tenant then draws no application server key, no push leaves it, and the page of the account
+    # says so.
+    web_push:
+        subject: '%env(default::BEFFROI_WEB_PUSH_SUBJECT)%'
+        timeout: '%env(float:BEFFROI_WEB_PUSH_TIMEOUT)%'
+    # The tenant is a SAML identity provider until its deployment turns it off (beffroi/saml, issue
+    # beffroi-auth/beffroi#728): its signing key is drawn by "castor provision" under SAML-SIGNING, kept by the KMS and
+    # rotated as every key of the tenant, and its metadata is served at /saml/metadata, the certificate of each key in
+    # service in it. Every service provider is asked to sign its requests, which is the default and the setting a
+    # broker configured from that metadata signs its requests by (spec/model.md section 6.9). It is a SAML service
+    # provider once its deployment turns that role on (spec/saml.md section 6.9), named by the URL of its metadata
+    # unless the deployment names its entity ID, "default::" making an empty variable none. A role turned off serves
+    # nothing, and a tenant whose roles are both off draws no SAML key. Its key is a family of its own (issue
+    # beffroi-auth/beffroi#738, spec/saml.md S-12): a rotation publishes the next certificate seven days before it
+    # signs, the key works a year, and the metadata tells a service provider to fetch it again every day; the keys of
+    # the JWK Set keep the figures of "keys".
+    saml:
+        keys:
+            staging_delay: '%env(int:BEFFROI_SAML_KEY_STAGING_DELAY)%'
+            age: '%env(int:BEFFROI_SAML_KEY_AGE)%'
+        metadata:
+            cache_duration: '%env(int:BEFFROI_SAML_METADATA_CACHE_DURATION)%'
+        identity_provider:
+            enabled: '%env(bool:BEFFROI_SAML_IDENTITY_PROVIDER)%'
+            want_authn_requests_signed: '%env(bool:BEFFROI_SAML_WANT_AUTHN_REQUESTS_SIGNED)%'
+        service_provider:
+            enabled: '%env(bool:BEFFROI_SAML_SERVICE_PROVIDER)%'
+            entity_id: '%env(default::BEFFROI_SAML_SERVICE_PROVIDER_ENTITY_ID)%'
+        # The service providers the identity provider of the tenant serves (spec/saml.md S-5), and the upstream
+        # identity providers its service provider receives assertions of (S-42), the second declared only for a
+        # tenant whose service provider is on.
+        service_providers: '%env(json:BEFFROI_SAML_SERVICE_PROVIDERS)%'
+        identity_providers: '%env(json:BEFFROI_SAML_IDENTITY_PROVIDERS)%'
+    webauthn:
+        # The FIDO metadata the passkey ceremonies check an attestation against, next to the keys: filled by hand
+        # with "beffroi:webauthn:mds-refresh" (the blob of the FIDO Alliance, verified under its root) and
+        # "beffroi:webauthn:mds-import" (a statement of a manufacturer or of the FIDO conformance tools); empty
+        # until then, which the enrolment of the provider does not need (it asks for no attestation). Its
+        # "community" directory holds the list of passkey providers "beffroi:webauthn:aaguids-refresh" stored, from
+        # which the page of the passkeys names the authenticators the metadata do not.
+        metadata_storage: '%kernel.project_dir%/var/webauthn'
+    geoip:
+        # The GeoLite2 databases the enrichment of a provenance reads, next to the keys and shared with the
+        # worker that does the enriching (compose.yaml): filled by the weekly step of the schedule and by
+        # "beffroi:geoip:refresh", empty until a licence key is named, which every flow of the provider is
+        # served without, a session and an act of the journal then saying an address and no place.
+        storage: '%kernel.project_dir%/var/geoip'
+        license_key: '%env(GEOIP_LICENSE_KEY)%'
+    passwords:
+        breached:
+            # The list of compromised passwords a password posed here is compared against (NIST SP
+            # 800-63B §3.1.1.2, issue beffroi-auth/beffroi#552): five hexadecimal characters of the SHA-1
+            # leave, the comparison of the thirty-five that are left is local, there is no API key and no
+            # subscription. Empty until a deployment names it, which is what makes the lookup a decision
+            # and not a default; a deployment that leaves it empty poses passwords and signs people in on
+            # the rules of the core alone, how long a password has to be and how hard to guess being rules
+            # and not options. How long a credential goes before it is looked up again is the core's
+            # (PasswordCredential::LOOKUP_AGAIN_AFTER).
+            endpoint: '%env(BEFFROI_BREACHED_PASSWORDS_ENDPOINT)%'
+            # How long a person posing a password waits on that list: a lookup still unanswered by then refuses
+            # the password, an unknown never being a count of zero (decision 0006).
+            timeout: '%env(float:BEFFROI_BREACHED_PASSWORDS_TIMEOUT)%'
+    # What a client that registers itself is registered under (RFC 7591, decisions 0009 and 0017), the
+    # deployment's policy for its tenant: an empty mode is no registration endpoint at all, in the document
+    # as on the wire, and that is what an image gets until its deployment names a mode. A client reaches a
+    # deployment this way and no other, an initial access token from "beffroi:client:token:issue" being what
+    # the mode of a real ecosystem asks for: the image declares none.
+    client_registration:
+        mode: '%env(BEFFROI_REGISTRATION_MODE)%'
+        default_scope: '%env(BEFFROI_REGISTRATION_DEFAULT_SCOPE)%'
+        keep_a_client_unused_for: '%env(int:BEFFROI_REGISTRATION_KEEP_A_CLIENT_UNUSED_FOR)%'
+        keep_a_client_never_used_for: '%env(int:BEFFROI_REGISTRATION_KEEP_A_CLIENT_NEVER_USED_FOR)%'
+        sector_identifier_timeout: '%env(float:BEFFROI_REGISTRATION_SECTOR_IDENTIFIER_TIMEOUT)%'
+        sector_identifier_max_size: '%env(int:BEFFROI_REGISTRATION_SECTOR_IDENTIFIER_MAX_SIZE)%'
+        statement_max_lifetime: '%env(int:BEFFROI_REGISTRATION_STATEMENT_MAX_LIFETIME)%'
+        statement_leeway: '%env(int:BEFFROI_REGISTRATION_STATEMENT_LEEWAY)%'
+        # The authorities whose software statements the tenant accepts (RFC 7591 §2.3), which the mode
+        # "software_statement" reads.
+        statement_issuers: '%env(json:BEFFROI_REGISTRATION_STATEMENT_ISSUERS)%'
+    # The issuers whose assertions the tenant accepts as an authorization (RFC 7523 §2.1).
+    trusted_issuers: '%env(json:BEFFROI_TRUSTED_ISSUERS)%'
+    # How long the acts of the journal and the changes of a claim are kept, in days (issues #454 and #482).
+    journal:
+        retention: '%env(int:BEFFROI_JOURNAL_RETENTION)%'
+    history:
+        retention: '%env(int:BEFFROI_HISTORY_RETENTION)%'
+    # The two budgets of decision 0014, which depend on the size of the deployment and are measured on what
+    # its own clients send.
+    load:
+        origin:
+            limit: '%env(int:BEFFROI_LOAD_ORIGIN_LIMIT)%'
+            interval: '%env(int:BEFFROI_LOAD_ORIGIN_INTERVAL)%'
+        client:
+            limit: '%env(int:BEFFROI_LOAD_CLIENT_LIMIT)%'
+            interval: '%env(int:BEFFROI_LOAD_CLIENT_INTERVAL)%'
+    # The window of a DPoP proof (RFC 9449 §11.1), and whether it carries a nonce this provider issued (§8), the
+    # server's to decide.
+    dpop:
+        proof_max_age: '%env(int:BEFFROI_DPOP_PROOF_MAX_AGE)%'
+        leeway: '%env(int:BEFFROI_DPOP_LEEWAY)%'
+        nonce:
+            required: '%env(bool:BEFFROI_DPOP_NONCE_REQUIRED)%'
+            ttl: '%env(int:BEFFROI_DPOP_NONCE_TTL)%'
+    # What a "login_hint" names, on the login page and in a backchannel request (OIDC Core §3.1.2.1, CIBA Core §7.1).
+    interaction:
+        login_hint: '%env(BEFFROI_INTERACTION_LOGIN_HINT)%'
+    backchannel_authentication:
+        login_hint: '%env(BEFFROI_BACKCHANNEL_AUTHENTICATION_LOGIN_HINT)%'
+        client_notification_timeout: '%env(float:BEFFROI_CLIENT_NOTIFICATION_TIMEOUT)%'
+    # How a logout token reaches a client, and how patiently a notification comes back to a third party that did not
+    # answer (Back-Channel Logout 1.0 §2.5).
+    back_channel_logout:
+        timeout: '%env(float:BEFFROI_BACK_CHANNEL_LOGOUT_TIMEOUT)%'
+        retries: '%env(int:BEFFROI_BACK_CHANNEL_LOGOUT_RETRIES)%'
+        retry_delay: '%env(int:BEFFROI_BACK_CHANNEL_LOGOUT_RETRY_DELAY)%'
+        retry_multiplier: '%env(int:BEFFROI_BACK_CHANNEL_LOGOUT_RETRY_MULTIPLIER)%'
+        retry_max_delay: '%env(int:BEFFROI_BACK_CHANNEL_LOGOUT_RETRY_MAX_DELAY)%'
+    # The window of an assertion a client signs (RFC 7523 §3) and of a request object (RFC 9101 §4), and what one read
+    # of a URL a client or a trusted issuer hosts may cost.
+    client_authentication:
+        assertion_max_lifetime: '%env(int:BEFFROI_CLIENT_ASSERTION_MAX_LIFETIME)%'
+        assertion_leeway: '%env(int:BEFFROI_CLIENT_ASSERTION_LEEWAY)%'
+        jwks_timeout: '%env(float:BEFFROI_JWKS_URI_TIMEOUT)%'
+        jwks_max_size: '%env(int:BEFFROI_JWKS_URI_MAX_SIZE)%'
+        jwks_ttl: '%env(int:BEFFROI_JWKS_URI_TTL)%'
+        jwks_refetch_cooldown: '%env(int:BEFFROI_JWKS_URI_REFETCH_COOLDOWN)%'
+    request_objects:
+        max_lifetime: '%env(int:BEFFROI_REQUEST_OBJECT_MAX_LIFETIME)%'
+        leeway: '%env(int:BEFFROI_REQUEST_OBJECT_LEEWAY)%'
+        timeout: '%env(float:BEFFROI_REQUEST_OBJECT_TIMEOUT)%'
+        max_size: '%env(int:BEFFROI_REQUEST_OBJECT_MAX_SIZE)%'
+    # The lifetimes, in seconds. A deployment may shorten them; the provider refuses a lifetime below a second or
+    # past the bound a specification sets, a number of the environment included, when the service it reaches
+    # is built.
+    tokens:
+        authorization_code_ttl: '%env(int:BEFFROI_AUTHORIZATION_CODE_TTL)%'
+        access_token_ttl: '%env(int:BEFFROI_ACCESS_TOKEN_TTL)%'
+        id_token_ttl: '%env(int:BEFFROI_ID_TOKEN_TTL)%'
+        refresh_token_ttl: '%env(int:BEFFROI_REFRESH_TOKEN_TTL)%'
+        refresh_token_absolute_ttl: '%env(int:BEFFROI_REFRESH_TOKEN_ABSOLUTE_TTL)%'
+        request_uri_ttl: '%env(int:BEFFROI_REQUEST_URI_TTL)%'
+        device_code_ttl: '%env(int:BEFFROI_DEVICE_CODE_TTL)%'
+        backchannel_authentication_ttl: '%env(int:BEFFROI_BACKCHANNEL_AUTHENTICATION_TTL)%'
+        device_code_interval: '%env(int:BEFFROI_DEVICE_CODE_INTERVAL)%'
+        backchannel_authentication_interval: '%env(int:BEFFROI_BACKCHANNEL_AUTHENTICATION_INTERVAL)%'
+        backchannel_authentication_max_requested_expiry: '%env(int:BEFFROI_BACKCHANNEL_AUTHENTICATION_MAX_REQUESTED_EXPIRY)%'
+    clients: []

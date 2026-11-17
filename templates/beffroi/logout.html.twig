@@ -1,0 +1,22 @@
+{# The logout confirmation page (OIDC RP-Initiated Logout 1.0 §2), in the locale of the request: the
+   request did not prove it is about the session the browser holds, so the user is asked. The form
+   re-submits the same parameters with the answer. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'logout.title'|trans }}{% endblock %}
+
+{% block content %}
+    <p data-reason="{{ reason.value }}">
+        {% if client is not null %}{{ 'logout.prompt.client'|trans_with_client(client.registration.presentation.name) }}{% else %}{{ 'logout.prompt.anonymous'|trans }}{% endif %}
+        {{ 'logout.signed_in_as'|trans({username: user.username}) }}
+    </p>
+    <form method="post" action="{{ path('beffroi_interaction_logout') }}">
+        {% for name, value in parameters %}
+            <input type="hidden" name="{{ name }}" value="{{ value }}">
+        {% endfor %}
+        <input type="hidden" name="_token" value="{{ csrf_token('beffroi_logout') }}">
+        <button type="submit" name="confirm" value="yes">{{ 'logout.confirm'|trans }}</button>
+        <button type="submit" name="confirm" value="no">{{ 'logout.stay'|trans }}</button>
+    </form>
+{% endblock %}

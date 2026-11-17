@@ -1,0 +1,136 @@
+{# The passkeys of the signed-in user (architecture §5.2), in the language of the browser: the list with
+   the name, the authenticator, the dates and the state of each one, a button that revokes one, and the
+   form that enrols a new one, hidden until the script of the provider finds a browser that can create a
+   passkey. "error" is a code of PasskeyEnrolmentController, shown after a failed enrolment. A person of a
+   federated domain ("federated", decision 0029) is offered no enrolment, and told why. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'passkeys.title'|trans }}{% endblock %}
+
+{% block head %}
+    <script src="{{ path('beffroi_interaction_passkey_script') }}" defer></script>
+{% endblock %}
+
+{# Enrolling one is what this page offers, and it is one click: the name that tells one passkey from
+   another is corrected in its own line afterwards, so nothing is asked before the ceremony. The form is
+   hidden until the script of the provider finds a browser that can create a passkey, and the name it sends
+   is the one this page gives a new one. #}
+{% block action %}
+    {% if not federated %}
+        <form method="post" action="{{ path('beffroi_interaction_account_passkeys_enrol') }}" data-passkey="enrol" data-options-url="{{ path('beffroi_interaction_account_passkeys_options') }}" hidden>
+            <input type="hidden" name="_token" value="{{ csrf_token('beffroi_passkey_enrol') }}">
+            <input type="hidden" name="_passkey" value="">
+            <input type="hidden" name="name" value="{{ 'passkeys.new_default'|trans }}">
+            <button type="button" data-passkey-button>{{ 'passkeys.enrol'|trans }}</button>
+        </form>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {{ include('@Beffroi/account/back.html.twig') }}
+    {% if federated %}
+        <p data-federated>{{ 'account.federated_domain'|trans }}</p>
+    {% endif %}
+    {% if error is not null %}
+        <p data-error="{{ error }}">{{ ('passkeys.error.' ~ error)|trans }}</p>
+    {% endif %}
+    {{ include('@Beffroi/account/period.html.twig', {period: period}) }}
+    <table data-passkeys="{{ passkeys|length }}">
+        <thead>
+            <tr>
+                <th>{{ 'passkeys.name'|trans }}</th>
+                <th>{{ 'passkeys.held_by'|trans }}</th>
+                <th>{{ 'passkeys.created_at'|trans }}</th>
+                <th>{{ 'passkeys.last_used_at'|trans }}</th>
+                <th>{{ 'passkeys.state'|trans }}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for passkey in passkeys %}
+                <tr data-passkey="{{ passkey.id }}" data-revoked="{{ passkey.revoked ? 'yes' : 'no' }}">
+                    <td>
+                        {# The name is the holder's and theirs to correct, in the line where they read it;
+                           a revoked passkey is a record of what was and is not renamed. #}
+                        {% if passkey.revoked %}
+                            {{ passkey.name }}
+                        {% else %}
+                            <form method="post" action="{{ path('beffroi_interaction_account_passkeys_rename', {id: passkey.id}) }}" data-passkey="rename">
+                                <input type="hidden" name="_token" value="{{ csrf_token('beffroi_passkey_rename') }}">
+                                <label for="passkey-{{ passkey.id }}-name">{{ 'passkeys.name'|trans }}</label>
+                                <input type="text" id="passkey-{{ passkey.id }}-name" name="name" value="{{ passkey.name }}" maxlength="255" required>
+                                <button type="submit" data-save>{{ 'passkeys.rename'|trans }}</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                    {# What holds it (issue #983): the make and model its authenticator declared, as the
+                       first source that knows the AAGUID writes them, with the logo of that source for the
+                       theme of the page and the FIDO certification of the model; or an unknown authenticator.
+                       Then what the enrolment proved of that model under the policy of the tenant (decision
+                       0046): declared, verified by its attestation, or attested for the organisation with the
+                       serial number of the device, and whether the model was under a security alert the tenant
+                       still admitted. Then what the flags of the passkey say, synced or bound to its device
+                       (WebAuthn Level 3 §6.1.3), and how it is reached (§5.8.4). The logos are data: URLs read
+                       from what the console stored, so the page fetches nothing; both variants are written when
+                       they differ, and the stylesheet of the application shows the one of its theme. #}
+                    {% set model = passkey|beffroi_authenticator %}
+                    {% set backup = not passkey.backupEligible ? 'single_device' : (passkey.backedUp ? 'backed_up' : 'not_backed_up') %}
+                    {% set transports = passkey.reachedThrough %}
+                    <td data-authenticator="{{ model is null ? 'unknown' : model.source }}">
+                        {% if model is null %}
+                            <span data-model>{{ 'passkeys.authenticator.unknown'|trans }}</span>
+                        {% else %}
+                            {% if model.logo is not null and model.logo.hasDarkVariant() %}
+                                <img src="{{ model.logo.light }}" alt="" data-logo="light">
+                                <img src="{{ model.logo.dark }}" alt="" data-logo="dark">
+                            {% elseif model.logo is not null %}
+                                <img src="{{ model.logo.light }}" alt="" data-logo>
+                            {% endif %}
+                            <span data-model>{{ model.name }}</span>
+                            {% if model.certification is not null %}
+                                <span data-certification="{{ model.certification.value }}">{{ ('passkeys.certification.' ~ model.certification.value)|trans }}</span>
+                            {% endif %}
+                        {% endif %}
+                        <span data-model-proof="{{ passkey.modelProof.value }}">{{ ('passkeys.model_proof.' ~ passkey.modelProof.value)|trans }}</span>
+                        {% if passkey.serialNumber is not null %}
+                            <span data-serial-number="{{ passkey.serialNumber }}">{{ 'passkeys.serial_number'|trans({serial: passkey.serialNumber}) }}</span>
+                        {% endif %}
+                        {% if passkey.underSecurityAlert %}
+                            <span data-under-security-alert>{{ 'passkeys.under_security_alert'|trans }}</span>
+                        {% endif %}
+                        <span data-backup="{{ backup }}">{{ ('passkeys.backup.' ~ backup)|trans }}</span>
+                        {% if transports is not empty %}
+                            <span data-transports="{{ transports|map(transport => transport.value)|join(' ') }}">
+                                {{- 'passkeys.reached_through'|trans({ways: transports|map(transport => ('passkeys.transport.' ~ transport.value)|trans)|join(', ')}) -}}
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td><time datetime="{{ passkey.createdAt|date('c') }}">{{ passkey.createdAt|beffroi_moment(user) }}</time></td>
+                    <td>{% if passkey.lastUsedAt is not null %}<time datetime="{{ passkey.lastUsedAt|date('c') }}">{{ passkey.lastUsedAt|beffroi_moment(user) }}</time>{% else %}{{ 'passkeys.never_used'|trans }}{% endif %}</td>
+                    <td>{% if passkey.revoked %}{{ 'passkeys.revoked_at'|trans({date: passkey.revokedAt|beffroi_moment(user)}) }}{% else %}{{ 'passkeys.active'|trans }}{% endif %}</td>
+                    <td>
+                        {% if not passkey.revoked %}
+                            <form method="post" action="{{ path('beffroi_interaction_account_passkeys_revoke', {id: passkey.id}) }}" data-passkey="revoke">
+                                <input type="hidden" name="_token" value="{{ csrf_token('beffroi_passkey_revoke') }}">
+                                <button type="submit" name="revoke" value="{{ passkey.id }}">{{ 'passkeys.revoke'|trans }}</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                {# A table that holds nothing keeps its head and says so in one row of its own, which is
+                   how every table of this plane says it. #}
+                <tr data-empty><td colspan="6">{{ (period is null ? 'passkeys.none' : 'passkeys.none_in_period')|trans }}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ include('@Beffroi/account/pager.html.twig', {listing: passkeys}) }}
+    {# WebAuthn Level 3 §6: "the AAGUID is not provably authentic without attestation", so the page says what
+       an authenticator it names without one is. #}
+    {% if passkeys|filter(passkey => passkey.modelProof.value == 'declared')|length > 0 %}
+        <p data-authenticators-declared>{{ 'passkeys.authenticator.declared'|trans }}</p>
+    {% endif %}
+    <p data-passkey-error hidden>{{ 'passkeys.error.browser'|trans }}</p>
+    <p data-passkeys-unsupported>{{ 'passkeys.unsupported'|trans }}</p>
+{% endblock %}

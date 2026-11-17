@@ -1,0 +1,39 @@
+{# The language of the pages (issue #448, architecture §5.7): the language in use under its name, the
+   languages this deployment serves in a list under it, each a button of one form. The pages read the
+   control by its code ("data-locale"), and the form sends the token, the page to come back to and the
+   interaction in progress with the choice.
+
+   No script: the control is a radio button and a label (layout/_control.html.twig), and submitting
+   reloads the page.
+
+   It is for whoever is not known yet (issue #485): somebody who is signed in reads these pages in the
+   language their record names, so this renders nothing. #}
+{% set locales = beffroi_locale_choice() %}
+{% if locales|length > 1 %}
+    {% set interaction = app.request.query.get('interaction') %}
+    {% embed 'layout/_control.html.twig' with {control: 'locale', label: 'locale.choose'|trans([], 'beffroi')} %}
+        {% block trigger %}
+            {%- include 'layout/icon/globe.html.twig' -%}
+            <span>{{ ('language.' ~ app.request.locale)|trans([], 'beffroi') }}</span>
+            {%- include 'layout/icon/chevron.html.twig' with {size: 'size-3.5'} -%}
+        {% endblock %}
+        {% block panel %}
+            <form method="post" action="{{ path('beffroi_interaction_locale') }}" data-locale="choice">
+                <input type="hidden" name="_token" value="{{ csrf_token('beffroi_locale') }}">
+                <input type="hidden" name="target" value="{{ app.request.requestUri }}">
+                {% if interaction %}<input type="hidden" name="interaction" value="{{ interaction }}">{% endif %}
+                <ul class="menu">
+                    {% for locale in locales %}
+                        <li>
+                            <button type="submit" name="locale" value="{{ locale }}" data-locale="{{ locale }}"
+                                    class="{{ locale == app.request.locale ? 'menu-active' : '' }}"
+                                    {%- if locale == app.request.locale %} aria-current="true"{% endif %}>
+                                {{- ('language.' ~ locale)|trans([], 'beffroi') -}}
+                            </button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </form>
+        {% endblock %}
+    {% endembed %}
+{% endif %}

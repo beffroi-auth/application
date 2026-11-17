@@ -1,0 +1,30 @@
+{# The choice of a theme (issue #447), a control of this application and of no page of the provider: the one
+   in use under its icon, the three in a list under it, each a button of one form. No script: the control
+   is a radio button and a label (layout/_control.html.twig), and submitting reloads the page.
+
+   The one in use says so to a screen reader, and each icon carries its name for whoever does not see it. #}
+{% set current = theme() %}
+{% set icons = {light: 'sun', dark: 'moon', system: 'device'} %}
+{% embed 'layout/_control.html.twig' with {control: 'theme', label: 'theme.choose'|trans([], 'beffroi')} %}
+    {% block trigger %}
+        {%- include 'layout/icon/' ~ icons[current.value] ~ '.html.twig' -%}
+        {%- include 'layout/icon/chevron.html.twig' with {size: 'size-3.5'} -%}
+    {% endblock %}
+    {% block panel %}
+        <form method="post" action="{{ path('beffroi_interaction_theme') }}">
+            <input type="hidden" name="target" value="{{ app.request.requestUri }}">
+            <ul class="menu">
+                {% for value, icon in icons %}
+                    <li>
+                        <button type="submit" name="theme" value="{{ value }}"
+                                class="{{ current.value == value ? 'menu-active' : '' }}"
+                                aria-pressed="{{ current.value == value ? 'true' : 'false' }}">
+                            {%- include 'layout/icon/' ~ icon ~ '.html.twig' -%}
+                            {{- ('theme.' ~ value)|trans([], 'beffroi') -}}
+                        </button>
+                    </li>
+                {% endfor %}
+            </ul>
+        </form>
+    {% endblock %}
+{% endembed %}

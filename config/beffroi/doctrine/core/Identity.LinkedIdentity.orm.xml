@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!--
+      The identity a user has at an upstream provider (architecture §3.1). What writes a row today is
+      "beffroi:user:link", and what reads one is the grant that reads an assertion of a trusted issuer; a
+      federation will write one per person who signs in through it.
+
+      Its three columns carry a personal datum and are sealed under the data key of their tenant, in the
+      "linked_identity" family (decisions 0011 and 0018). The subject here is the identifier of the person
+      at the upstream provider, which is not the "sub" this provider issued and gets none of that column's
+      exemption; the claims are the snapshot that provider returned, a name, an address and whatever else
+      it sent. "claims" loses its jsonb with the rest: what the column holds is the ciphertext of a JSON
+      document, which no operator of the database can read into.
+
+      The table is sealed before a federation fills it, and that is the whole point of sealing it now: a
+      blind index added once a directory has been imported is a reindex, which means reading and unsealing
+      every row of every tenant of a customer, where added here it is a column of a migration.
+    -->
+    <entity name="Beffroi\Core\Domain\Identity\LinkedIdentity" table="beffroi_linked_identity">
+        <unique-constraints>
+            <!--
+              Held on the two index columns: a sealed column holds a different ciphertext for every write of
+              the same value, so a constraint on the pair in the clear would refuse nothing.
+            -->
+            <unique-constraint name="beffroi_linked_identity_subject" columns="tenant_id,provider_index,subject_index"/>
+        </unique-constraints>
+        <id name="id" type="uuid" column="id"/>
+        <many-to-one field="tenant" target-entity="Beffroi\Core\Domain\Tenant\Tenant">
+            <join-column name="tenant_id" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
+        <many-to-one field="user" target-entity="Beffroi\Core\Domain\Identity\User">
+            <join-column name="user_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+        <field name="provider" type="beffroi_encrypted_linked_identity_string" column="provider" length="255"/>
+        <!--
+          The one tag of this schema on a column that is not high-entropy: a tenant federates from a handful
+          of providers, so this column says which rows share one and the largest bucket is guessable
+          outright. It is here because the unique constraint above is on the pair, not because anything
+          looks a provider up on its own (decision 0011).
+        -->
+        <field name="providerIndex" type="string" column="provider_index" length="64"/>
+        <field name="subject" type="beffroi_encrypted_linked_identity_string" column="subject" length="255"/>
+        <field name="subjectIndex" type="string" column="subject_index" length="64"/>
+        <field name="claims" type="beffroi_encrypted_linked_identity_json" column="claims"/>
+        <field name="linkedAt" type="datetime_immutable" column="linked_at"/>
+        <field name="lastSeenAt" type="datetime_immutable" column="last_seen_at"/>
+    </entity>
+</doctrine-mapping>

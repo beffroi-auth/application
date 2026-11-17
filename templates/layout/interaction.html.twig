@@ -1,0 +1,38 @@
+{# The skeleton of a page of an interaction (architecture §5.2): a page that asks one thing of whoever is in
+   front of it, a sign-in, a consent, a code read off an appliance, and carries nothing else.
+
+   Two columns on a wide screen. The question takes two thirds of the width, a column of text with room on
+   every side of it, so that no page of this plane is read in a box squeezed against an edge of the screen;
+   the third that is left is the panel that says who the visitor came for, which is what somebody reads
+   before answering anything. Under that width there is one column and no panel, a telephone having room
+   for the question and for nothing beside it.
+
+   Who the visitor came for is in the document once, whatever the width: the panel carries it where the
+   panel is shown, the head of the column where it is not, and a reader who listens to the page is told the
+   one that is displayed. #}
+{% extends 'layout/document.html.twig' %}
+
+{% block surface %}bg-base-100{% endblock %}
+
+{% block body %}
+    <div class="grid min-h-dvh lg:grid-cols-12">
+        <aside id="interaction-panel" class="relative hidden overflow-hidden lg:col-span-4 lg:block">
+            <div class="flex h-full flex-col items-center justify-center gap-5 p-16 text-center">
+                {% if tenant is not null %}
+                    {% include '@Beffroi/_brand.html.twig' %}
+                    <p class="text-3xl font-semibold tracking-tight">{{ tenant.name }}</p>
+                {% endif %}
+            </div>
+        </aside>
+        <div id="interaction-column" class="flex min-h-dvh min-w-0 flex-col gap-10 px-6 py-8 sm:px-10 lg:col-span-8 lg:px-14">
+            <div class="flex items-start gap-3">
+                <div class="lg:hidden">{% include '@Beffroi/_brand.html.twig' %}</div>
+                <div class="ms-auto flex items-center gap-2">{% include 'layout/_controls.html.twig' %}</div>
+            </div>
+            <main class="mx-auto my-auto w-full max-w-md">
+                <h1 class="text-2xl font-semibold tracking-tight">{% block heading %}{{ block('title') }}{% endblock %}</h1>
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+{% endblock %}

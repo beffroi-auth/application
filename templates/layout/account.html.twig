@@ -1,0 +1,144 @@
+{# The skeleton of a page of the account (architecture §5.2): a page somebody reads and comes back to,
+   holding a list, a table, a heading and the way to the next one.
+
+   Three parts. A column on the side carries the pages of the account, under the headings this application
+   arranges them under (App\Account\AccountNavigation), so that every one of them is one click away from
+   every other and the page being read says so. A bar above carries what is true of the whole plane: the
+   language, the theme, and who the browser is signed in as with the way out under their name. What is left
+   is the page, which opens the same way whatever it holds: where the reader is, the title, the action the
+   page offers, then what the page says. It takes the width the screen has and not the width of a box, a
+   table of sessions, of consents or of acts being read across; a paragraph is held to the width of a
+   column of text by the stylesheet and not by the page.
+
+   On a screen too narrow for the column beside the page, the column slides over the page and a veil closes
+   it again. That is a checkbox and a stylesheet, never a script: the pages of this plane carry none, and a
+   browser that runs nothing opens and closes this one with the keyboard. #}
+{% extends 'layout/document.html.twig' %}
+
+{% block body %}
+    {% set route = app.request.attributes.get('_route') ?? '' %}
+    {% set groups = account_navigation(user ?? null) %}
+    {# the page of the navigation this one hangs from, when it is a page under one of them: the enrolment
+       of a second factor is read under the second factor, and the breadcrumb says both #}
+    {% set parent = groups|reduce((pages, group) => pages|merge(group.pages), [])|filter(page => route starts with page.route ~ '_')|first %}
+    <div class="flex min-h-dvh">
+        <input type="checkbox" id="layout-pages-switch" aria-label="{{ 'navigation.show_pages'|trans([], 'beffroi') }}">
+        <aside id="layout-sidebar">
+            <div id="layout-sidebar-brand">
+                {% if tenant is not null and tenant.logoUri is not null %}
+                    {% include '@Beffroi/_brand.html.twig' %}
+                {% else %}
+                    <p class="truncate text-lg font-semibold tracking-tight">{{ tenant is not null ? tenant.name : 'account.title'|trans([], 'beffroi') }}</p>
+                {% endif %}
+            </div>
+            {# The pages of the account under their headings, the home above every heading. A group names
+               the list it heads, so that a reader who listens to the page is told which heading a link is
+               under and not only that there are ten of them; the icon is drawn and never read aloud. #}
+            <nav id="layout-sidebar-pages" aria-label="{{ 'navigation.pages'|trans([], 'beffroi') }}">
+                <ul>
+                    <li>
+                        <a href="{{ path('beffroi_interaction_account') }}"{% if route == 'beffroi_interaction_account' %} aria-current="page"{% endif %}>
+                            {%- include 'layout/icon/house.html.twig' -%}
+                            {{- 'account.title'|trans([], 'beffroi') -}}
+                        </a>
+                    </li>
+                </ul>
+                {% for group in groups %}
+                    {% set heading = group.title is not null ? group.title|trans([], 'beffroi') : null %}
+                    <div data-group>
+                        {% if heading is not null %}<p data-group-title aria-hidden="true">{{ heading }}</p>{% endif %}
+                        <ul{% if heading is not null %} aria-label="{{ heading }}"{% endif %}>
+                            {% for page in group.pages %}
+                                <li>
+                                    <a href="{{ path(page.route) }}"{% if route == page.route or route starts with page.route ~ '_' %} aria-current="page"{% endif %}>
+                                        {%- if page.icon is not null %}{% include 'layout/icon/' ~ page.icon ~ '.html.twig' ignore missing %}{% endif -%}
+                                        <span>{{ page.title|trans([], 'beffroi') }}</span>
+                                        {%- if page.count is not null %}<span data-count="{{ page.count }}">{{ page.count }}</span>{% endif -%}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </nav>
+        </aside>
+        <label for="layout-pages-switch" id="layout-sidebar-veil" aria-hidden="true"></label>
+        <div class="flex min-h-dvh min-w-0 grow flex-col">
+            <header id="layout-topbar">
+                <label for="layout-pages-switch" id="layout-pages-button" class="btn btn-ghost btn-square btn-sm" aria-hidden="true">
+                    {% include 'layout/icon/menu.html.twig' with {size: 'size-5'} %}
+                </label>
+                {# where the column of pages is not shown, the bar says whose provider this is #}
+                <a href="{{ path('beffroi_interaction_account') }}" id="layout-topbar-home" class="lg:hidden">
+                    {{- tenant is not null ? tenant.name : 'account.title'|trans([], 'beffroi') -}}
+                </a>
+                <div class="ms-auto flex items-center gap-2">
+                    {% include 'layout/_controls.html.twig' %}
+                    {# Who the browser is signed in as is the button, and what they can do about it is what
+                       opens under it: the name is read once, where the way out is, every page of this
+                       plane being a page of that person. A page served to a browser that holds no session
+                       says so in its own words and has nobody to name. #}
+                    {% if user is defined %}
+                        {% embed 'layout/_control.html.twig' with {control: 'user', label: 'account.title'|trans([], 'beffroi')} %}
+                            {% block trigger %}
+                                {%- include 'layout/icon/user.html.twig' -%}
+                                <span class="max-sm:hidden">{{ user.username }}</span>
+                                {%- include 'layout/icon/chevron.html.twig' with {size: 'size-3.5'} -%}
+                            {% endblock %}
+                            {% block panel %}
+                                <ul class="menu">
+                                    <li>
+                                        <a href="{{ path('beffroi_interaction_account_profile') }}">
+                                            {%- include 'layout/icon/card.html.twig' -%}
+                                            {{- 'profile.title'|trans([], 'beffroi') -}}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('beffroi_interaction_logout') }}">
+                                            {%- include 'layout/icon/exit.html.twig' -%}
+                                            {{- 'account.sign_out'|trans([], 'beffroi') -}}
+                                        </a>
+                                    </li>
+                                </ul>
+                            {% endblock %}
+                        {% endembed %}
+                    {% endif %}
+                </div>
+            </header>
+            <div id="layout-content">
+                <main data-page="account" class="mx-auto flex w-full max-w-[84rem] flex-col gap-6">
+                    {# Every page of the plane opens the same way: where the reader is, what the page is,
+                       and the one action it offers, which is beside the title and not at the end of what
+                       the page says. A page that offers none fills the block with nothing. #}
+                    <header data-page-header>
+                        <nav aria-label="{{ 'navigation.where_you_are'|trans([], 'beffroi') }}">
+                            <ol>
+                                <li>
+                                    {%- if route == 'beffroi_interaction_account' -%}
+                                        <span aria-current="page">{{ 'account.title'|trans([], 'beffroi') }}</span>
+                                    {%- else -%}
+                                        <a href="{{ path('beffroi_interaction_account') }}">{{ 'account.title'|trans([], 'beffroi') }}</a>
+                                    {%- endif -%}
+                                </li>
+                                {% if parent %}
+                                    <li><a href="{{ path(parent.route) }}">{{ parent.title|trans([], 'beffroi') }}</a></li>
+                                {% endif %}
+                                {% if route != 'beffroi_interaction_account' %}
+                                    <li><span aria-current="page">{{ block('title') }}</span></li>
+                                {% endif %}
+                            </ol>
+                        </nav>
+                        <div data-heading-row>
+                            <h1>{% block heading %}{{ block('title') }}{% endblock %}</h1>
+                            {# What the page offers is one thing at the end of the line, whether the page
+                               writes one element there or three: the block is wrapped here so that a page
+                               that answers with a button and a word does not spread them apart. #}
+                            <div data-action>{% block action %}{% endblock %}</div>
+                        </div>
+                    </header>
+                    {% block content %}{% endblock %}
+                </main>
+            </div>
+        </div>
+    </div>
+{% endblock %}

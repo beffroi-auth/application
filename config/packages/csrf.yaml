@@ -1,0 +1,16 @@
+# The CSRF protection of the forms this application owns (issue beffroi-auth/application#17).
+#
+# The stateful token and not the stateless one the recipe of symfony/form proposes: a stateless token is a
+# double submit whose hidden field is filled by a Stimulus controller, so a form protected that way does
+# not work in a browser that runs nothing. These pages must, as every page of the provider does, so the
+# token is the session-backed one the pages of the provider already carry.
+#
+# The recipe of symfony/security-csrf declares three stateless tokens, "authenticate", "logout" and
+# "switch_user", and this file declares none: none of them is the token of a form of these pages, every
+# form that carries one posting it under an identifier of the provider ("beffroi_login" for its three logins,
+# "beffroi_logout", "beffroi_profile_describe" below). The recipe stands in symfony.lock without its file,
+# so that Flex does not write it again.
+framework:
+    form:
+        csrf_protection:
+            token_id: beffroi_profile_describe

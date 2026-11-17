@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!--
+      A validated authorization request (architecture §4.2), every parameter in its own column; the client
+      is not mapped here, an embeddable cannot hold it, the entity that carries the request does.
+
+      **This is the one embeddable the mapping holds**, and what keeps it is the client: a registration is
+      read back from wherever registrations are read at every load (ClientResolver), while a DBAL type is
+      asked for a complete object and the constructor of a request requires it, so no type hands this
+      object back whole. Its seventeen other fields already have a type each, eight of them types of the
+      provider and two of those handed a registry at boot, which a type reading one document for the whole
+      object would have to be handed too. What holds the exemption to those reasons is
+      OneEmbeddableRemainsTest, which refuses a second embeddable and a reason that stopped being true,
+      and not this comment.
+
+      Two of its columns carry a personal datum and are sealed under the data key of their tenant
+      (decisions 0011 and 0018): the two hints, which name the person a client is asking for. Every other
+      parameter is what the request asked of the protocol, and the state and the nonce are values the
+      client drew to tie its own request to the answer it gets back.
+
+      **The family of the two sealed types is "interaction", which is the table, and this object is
+      embedded by one entity.** An embeddable fixes the type of each of its fields once for the whole
+      model, so a second entity embedding this object would seal those two columns under the scope of a
+      table that is not its own. What makes that loud is an invariant of the walk of the schema and not a
+      comment: the family of a sealed column is its own table (`Sealed`, `ClassifiedSchema`). The day a
+      second entity needs this object, the hints leave the embeddable, as the provenance of a request left
+      its own.
+    -->
+    <embeddable name="Beffroi\Oidc\Domain\Authorization\AuthorizationRequest">
+        <field name="redirectUri" type="beffroi_redirect_uri" column="redirect_uri" length="2048"/>
+        <field name="scopes" type="beffroi_scopes" column="scopes"/>
+        <field name="resources" type="beffroi_resources" column="resources" nullable="true"/>
+        <field name="authorizationDetails" type="beffroi_authorization_details" column="authorization_details" nullable="true"/>
+        <field name="codeChallenge" type="beffroi_code_challenge" column="code_challenge" length="133" nullable="true"/>
+        <field name="state" type="text" column="state" nullable="true"/>
+        <field name="nonce" type="text" column="nonce" nullable="true"/>
+        <field name="prompts" type="jsonb" column="prompts" enum-type="Beffroi\Oidc\Domain\Authorization\Prompt"/>
+        <field name="maxAge" type="integer" column="max_age" nullable="true"/>
+        <field name="loginHint" type="beffroi_encrypted_interaction_text" column="login_hint" nullable="true"/>
+        <field name="uiLocales" type="jsonb" column="ui_locales"/>
+        <field name="acrValues" type="jsonb" column="acr_values"/>
+        <field name="display" type="string" column="display" length="8" nullable="true" enum-type="Beffroi\Oidc\Domain\Authorization\Display"/>
+        <field name="idTokenHint" type="beffroi_encrypted_interaction_text" column="id_token_hint" nullable="true"/>
+        <field name="claims" type="beffroi_claims_request" column="claims" nullable="true"/>
+        <field name="responseMode" type="string" column="response_mode" length="16"/>
+        <field name="dpopKey" type="beffroi_key_confirmation" column="dpop_jkt" length="43" nullable="true"/>
+    </embeddable>
+</doctrine-mapping>

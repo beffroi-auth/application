@@ -1,0 +1,48 @@
+{# What happened to the account of the signed-in user (architecture §5.2, issues #454 and #571), in the
+   language of the browser: one line per act the journal holds of them, each saying what it is by its own
+   name, with the moment on their own clock and what the request carried of where it came from. The
+   refusals are there on purpose: a line a person does not recognise is what this page is for, and the
+   place beside the address is what makes one recognisable (issue #473); it is absent where the enrichment
+   found nothing. An act an administrator of the tenant did says so in place of where it came from, and
+   nothing else of them: who they are, where they were and the client they acted through are theirs. An
+   act is named from the catalogue, so an act this provider comes to write down is named here by being
+   translated and this page is not edited. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'acts.title'|trans }}{% endblock %}
+
+{% block content %}
+    {{ include('@Beffroi/account/back.html.twig') }}
+    <p>{{ 'acts.explanation'|trans }}</p>
+    {{ include('@Beffroi/account/period.html.twig', {period: period}) }}
+    <table data-acts="{{ acts|length }}">
+        <thead>
+            <tr>
+                <th>{{ 'acts.what'|trans }}</th>
+                <th>{{ 'acts.when'|trans }}</th>
+                <th>{{ 'acts.from'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for act in acts %}
+                <tr data-act="{{ act.act }}">
+                    <td>{{ ('act.' ~ act.act)|trans }}</td>
+                    <td><time datetime="{{ act.occurredAt|date('c') }}">{{ act.occurredAt|beffroi_moment(user) }}</time></td>
+                    <td>
+                        {%- if act.author is not null -%}
+                            <span data-author>{{ 'acts.by_an_administrator'|trans }}</span>
+                        {%- else -%}
+                            {{ include('@Beffroi/account/provenance.html.twig', {provenance: act.context}) }}
+                        {%- endif -%}
+                    </td>
+                </tr>
+            {% else %}
+                {# A table that holds nothing keeps its head and says so in one row of its own, which is
+                   how every table of this plane says it. #}
+                <tr data-empty><td colspan="3">{{ (period is null ? 'acts.none' : 'acts.none_in_period')|trans }}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ include('@Beffroi/account/pager.html.twig', {listing: acts}) }}
+{% endblock %}

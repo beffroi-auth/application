@@ -1,0 +1,51 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Load;
+
+use App\Plane\Plane;
+use App\Plane\PlaneRequestListener;
+use Beffroi\Core\Exception\LoadBudgetSpentException;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
+
+/**
+ * Consumes the budget of the origin before any work a route asks for, on the address behind the trusted proxies and
+ * never on a "client_id", which a caller can choose for somebody else.
+ */
+#[AsEventListener(event: KernelEvents::REQUEST, priority: self::PRIORITY)]
+final readonly class OriginLoadListener
+{
+    /**
+     * Below the plane (31), which refuses what this process does not serve, and above the firewall (8).
+     */
+    public const int PRIORITY = PlaneRequestListener::PRIORITY - 1;
+
+    /**
+     * Requests with no address are counted together rather than served free, as Symfony's own listener does.
+     */
+    public const string NO_ADDRESS = 'unknown';
+
+    public function __construct(
+        private LoadBudget $origin,
+    ) {
+    }
+
+    /**
+     * @throws LoadBudgetSpentException
+     */
+    public function __invoke(RequestEvent $event): void
+    {
+        if (! $event->isMainRequest()) {
+            return;
+        }
+        $request = $event->getRequest();
+        if (Plane::ofRoute($request->attributes->getString('_route')) === null) {
+            return;
+        }
+
+        $this->origin->consume($request->getClientIp() ?? self::NO_ADDRESS);
+    }
+}

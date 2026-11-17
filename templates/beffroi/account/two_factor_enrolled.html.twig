@@ -1,0 +1,23 @@
+{# The backup codes of an authenticator app just set up (architecture §5.2), shown this once: the page
+   is the response to the code that confirmed the enrolment, and the codes are stored hashed, so that
+   nothing shows them again. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'two_factor.enrolled.title'|trans }}{% endblock %}
+
+{% block head %}
+    <script src="{{ path('beffroi_interaction_copy_script') }}" defer></script>
+{% endblock %}
+
+{% block action %}
+    <button type="button" data-copy="backup-codes" hidden>{{ 'two_factor.backup_codes.copy'|trans }}</button>
+    <span data-copied hidden>{{ 'two_factor.backup_codes.copied'|trans }}</span>
+{% endblock %}
+
+{% block content %}
+    {{ include('@Beffroi/account/back.html.twig') }}
+    <p data-two-factor="enrolled">{{ 'two_factor.enrolled.done'|trans }}</p>
+    <p>{{ 'two_factor.enrolled.codes'|trans }}</p>
+    {{ include('@Beffroi/account/_backup_codes.html.twig', {backup_codes: backup_codes}) }}
+{% endblock %}

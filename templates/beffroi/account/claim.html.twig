@@ -1,0 +1,21 @@
+{# One thing this provider holds about a person that they may not change here (architecture §5.2): its
+   label, translated under the key the detail carries, and its value, a moment with the instant it stands
+   for or a string, followed by the verification when the detail is a contact one.
+
+   A row of the same list as the claims they may change, because what is read and what is written are one
+   list: a page that read a value in one place and offered it in another made somebody find the same claim
+   twice. #}
+{% trans_default_domain 'beffroi' %}
+<li data-claim="{{ detail.key }}">
+    <span data-label>{{ ('profile.' ~ detail.key)|trans }}</span>
+    <span data-detail="{{ detail.key }}">
+        {%- if detail.moment is not null -%}
+            <time datetime="{{ detail.moment|date('c') }}">{{ detail.moment|beffroi_moment(user) }}</time>
+        {%- elseif detail.value is not null -%}
+            {{ detail.value }}
+        {%- else -%}
+            <span data-nothing>{{ 'profile.nothing'|trans }}</span>
+        {%- endif -%}
+        {%- if detail.verified is not null %} <span data-verified="{{ detail.verified ? 'yes' : 'no' }}">{{ (detail.verified ? 'profile.verified' : 'profile.unverified')|trans }}</span>{% endif -%}
+    </span>
+</li>

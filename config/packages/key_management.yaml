@@ -1,0 +1,31 @@
+# The KMS clients of the deployment. The provider seals with the one "beffroi.keys.kms" names and builds none
+# itself, so what that client is, one provider or several, is decided here and nowhere else: a DSN, or the
+# members of a composite client that wraps under each of them and reads back through the first to answer.
+#
+# The client is named through "service://" instead of carrying the DSN, because the "dsn" of a client
+# refuses an environment variable: the node cannot be empty and carries a final validation closure, which
+# is what Config\VariableNode denies a placeholder for. The DSN of a deployment comes from the environment
+# (apps/beffroi/.env: it may carry a credential), so the application builds the client from it and names the
+# service. This is a limit of symfony/key-management, to be fixed there rather than worked around further.
+#
+# A second client is declared beside the first because a provider migration is a run with both configured at
+# once: each data key row says which client wrapped it, and "beffroi:data-keys:rewrap --from=op --to=second"
+# moves them over without reading a single sealed value. The provider seals with "op" and never with this one,
+# so a deployment that moves nothing leaves BEFFROI_KMS_DSN_SECOND empty and the service is never built. On the
+# development stack "castor provision --kms sodium" or "--kms vault" writes it, which is what "castor rewrap-live"
+# needs.
+key_management:
+    clients:
+        op: 'service://beffroi.kms.op'
+        second: 'service://beffroi.kms.second'
+
+services:
+    beffroi.kms.op:
+        class: Symfony\Component\KeyManagement\EncrypterInterface
+        factory: ['@key_management.factory', 'fromString']
+        arguments: ['%env(BEFFROI_KMS_DSN)%']
+
+    beffroi.kms.second:
+        class: Symfony\Component\KeyManagement\EncrypterInterface
+        factory: ['@key_management.factory', 'fromString']
+        arguments: ['%env(BEFFROI_KMS_DSN_SECOND)%']

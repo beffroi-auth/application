@@ -1,0 +1,75 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Controller;
+
+use App\Http\Account\ReachedOnTheSessionAloneInterface;
+use App\Http\AccountAccess;
+use App\Http\InteractionPages;
+use App\Http\RequestContextFactory;
+use App\Http\WhatWasRefused;
+use Beffroi\Core\Application\Credential\CredentialRenaming;
+use Beffroi\Core\Domain\Credential\PasskeyCredential;
+use Beffroi\Core\Exception\InvalidArgumentException;
+use Beffroi\Core\Port\CredentialRepositoryInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Uid\Uuid;
+
+#[AsController]
+final readonly class PasskeyRenameController implements ReachedOnTheSessionAloneInterface
+{
+    public const string ROUTE = 'beffroi_interaction_account_passkeys_rename';
+
+    public const string CSRF_TOKEN_ID = 'beffroi_passkey_rename';
+
+    public const string NAME_PARAMETER = 'name';
+
+    public const string INVALID_NAME = 'invalid_name';
+
+    public function __construct(
+        private AccountAccess $account,
+        private RequestContextFactory $contexts,
+        private CredentialRepositoryInterface $credentials,
+        private CredentialRenaming $renaming,
+        private WhatWasRefused $refusals,
+        private InteractionPages $pages,
+    ) {
+    }
+
+    #[Route(
+        '/account/passkeys/{id}/name',
+        name: self::ROUTE,
+        methods: ['POST'],
+        requirements: [
+            'id' => '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}',
+        ],
+    )]
+    public function __invoke(Request $request, string $id): Response
+    {
+        $session = $this->account->granted($request, self::CSRF_TOKEN_ID);
+        if ($session instanceof Response) {
+            return $session;
+        }
+        $passkey = $this->credentials->find(Uuid::fromString($id));
+        if (! $passkey instanceof PasskeyCredential || ! $passkey->user->id->equals($session->user->id)) {
+            throw new NotFoundHttpException('No such passkey.');
+        }
+
+        try {
+            $this->renaming->rename(
+                $passkey,
+                $request->request->getString(self::NAME_PARAMETER),
+                $this->contexts->fromRequest($request),
+            );
+        } catch (InvalidArgumentException) {
+            $this->refusals->keep($request, self::INVALID_NAME);
+        }
+
+        return $this->pages->afterTheForm(AccountPasskeysController::ROUTE);
+    }
+}

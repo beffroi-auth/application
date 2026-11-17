@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!-- What every kind of ticket shares (decision 0026), each kind in a table of its own: the identifier the URL carries, a hash of the value it carries beside it, and the three dates that say whether it still opens anything. The row holds no value anybody could present, as a backup code does not. -->
+    <mapped-superclass name="Beffroi\Core\Domain\Ticket\Ticket">
+        <id name="id" type="uuid" column="id"/>
+        <many-to-one field="tenant" target-entity="Beffroi\Core\Domain\Tenant\Tenant">
+            <join-column name="tenant_id" referenced-column-name="id" nullable="false"/>
+        </many-to-one>
+        <many-to-one field="user" target-entity="Beffroi\Core\Domain\Identity\User">
+            <join-column name="user_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+        <field name="secret" type="beffroi_password_hash" column="secret"/>
+        <field name="createdAt" type="datetime_immutable" column="created_at"/>
+        <field name="expiresAt" type="datetime_immutable" column="expires_at"/>
+        <field name="spentAt" type="datetime_immutable" column="spent_at" nullable="true"/>
+    </mapped-superclass>
+</doctrine-mapping>

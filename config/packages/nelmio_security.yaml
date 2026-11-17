@@ -1,0 +1,255 @@
+# The security headers this provider answers with (the response headers of architecture §5.2, §6).
+#
+# Two things share the work, and which one writes a header is the rule here:
+#
+#   * the provider writes what belongs to a page it builds. The pages of the interaction plane carry
+#     "X-Frame-Options: DENY", "Referrer-Policy: no-referrer" and "Cache-Control: no-store"
+#     (App\Http\InteractionPages), and the two pages whose Content-Security-Policy is part of
+#     the protocol carry their own: the form post response names the hash of the one script that submits it
+#     and the origin the form posts to, and the front channel logout page names the frames it opens.
+#     Nothing here overwrites a header a response already carries, so those policies stand as they are
+#     written;
+#   * this file writes what belongs to the deployment: the policy of every page the provider computes none
+#     for, the headers no page of any plane sends on its own, and HSTS.
+#
+# Which leaves one meeting point, and App\Http\DeploymentPolicyPrevails is where it is settled. Every page
+# of the interaction plane carries the floor the provider gives it, "frame-ancestors 'none'", and a floor is
+# what the policy below says as its first line and then eight more. So that one value gives way to it, and
+# a page carrying a whole policy it computed for itself, which is another value, does not.
+#
+# A page of that plane with something to say about the request it is answering says it as a directive of
+# the policy below and not as a policy of its own, and the provider completes that directive once this one is
+# written (App\Http\PolicyCompletion): the consent page shows the logo of a host the asking
+# client named and its submission ends at that client, so the "img-src" and the "form-action" written below
+# are the ones that page is served, each with one origin more. Every page that shows the logo of the tenant
+# is served the "img-src" below with the origin of that logo, which BEFFROI_TENANT_LOGO_URI names and this
+# file never repeats.
+#
+# One layer and no second one: a header set twice does not get overridden, it collides. Two policies
+# intersect, two HSTS headers leave the first and drop the rest, so nothing below is also written in the
+# web server or at the edge. The exception is what the web server serves without asking PHP: the compiled
+# assets of public/assets/ in production are answered by FrankenPHP itself and carry none of this.
+#
+# "external_redirects" stays off on purpose. A provider answers an authorization request by sending the
+# browser to a URI a client registered, which is an outbound redirect by definition and the one thing
+# decision 0006 keeps bounded by the exact match of that URI rather than by a host list.
+nelmio_security:
+    # RFC 9700 §4.15: nothing frames a page of this provider, whatever plane answers. The interaction pages
+    # already say it for themselves, which is what a deployment that installs nothing else still gets; this
+    # covers the rest, the protocol endpoints and the scripts of the provider among them.
+    clickjacking:
+        paths:
+            '^/.*': DENY
+
+    # The content type of an answer is the one it declares. A JWK set read as a script, an access token read
+    # as HTML: that is what a browser guesses when nobody tells it not to.
+    content_type:
+        nosniff: true
+
+    # "no-referrer" alone, and not the pair the recipe proposes. An authorization request carries the
+    # client, the state, the scope and sometimes a request URI in the query string, and a provider has
+    # nothing to gain from any of it travelling to a third party: it is the value the interaction pages of
+    # the provider already set, and a second value here would quietly widen them.
+    referrer_policy:
+        enabled: true
+        policies:
+            - 'no-referrer'
+
+    # One year, every subdomain, and the preload list. The listener adds nothing to an answer served over
+    # plain HTTP, which is what RFC 6797 §7.2 requires of it.
+    forced_ssl:
+        enabled: true
+        hsts_max_age: 31536000
+        hsts_subdomains: true
+        hsts_preload: true
+
+    # A directive left out of the header does not fall back to a refusal: it falls back to the default
+    # allow list of the specification, which is "self" for most features and "*" for a few. So the whole set
+    # is written and two entries open.
+    permissions_policy:
+        enabled: true
+        policies:
+            # Sensors and position: no page of this provider reads any of them.
+            accelerometer: []
+            ambient_light_sensor: []
+            compute_pressure: []
+            geolocation: []
+            gyroscope: []
+            magnetometer: []
+            xr_spatial_tracking: []
+
+            # Sound, image and screen capture.
+            camera: []
+            captured_surface_control: []
+            display_capture: []
+            microphone: []
+            speaker_selection: []
+
+            # Media playback: no page carries sound or video.
+            autoplay: []
+            encrypted_media: []
+            picture_in_picture: []
+
+            # Devices attached to the machine. The security key is reached through the credential API
+            # opened below, never through one of these.
+            bluetooth: []
+            gamepad: []
+            hid: []
+            midi: []
+            serial: []
+            usb: []
+
+            # Advertising measurement, refused on principle.
+            attribution_reporting: []
+            browsing_topics: []
+            interest_cohort: []
+
+            # Fingerprinting of the machine and watching of the person.
+            idle_detection: []
+            local_fonts: []
+            screen_wake_lock: []
+            window_management: []
+
+            # The language models of the browser: every string of these pages is translated by the provider.
+            language_detector: []
+            summarizer: []
+            translator: []
+
+            # Identity and payment. Whoever signs in here does so with what this provider holds of them,
+            # never through a federated chooser, a code a browser reads out of an SMS or a card.
+            identity_credentials_get: []
+            otp_credentials: []
+            payment: []
+
+            # Native sharing, deferred fetching, and the storage of a frame of another origin: no page of
+            # any plane calls one, and no page of this provider is a frame of anything.
+            deferred_fetch: []
+            deferred_fetch_minimal: []
+            storage_access: []
+            web_share: []
+
+            # Nothing here is cross-origin isolated (see below), so the feature that reports it is off.
+            cross_origin_isolated: []
+
+            # Full screen is never asked for: a page that asks one thing of whoever is in front of it is
+            # read in the window they already have.
+            fullscreen: []
+
+            # The two features that are open, to this origin and to no other: a passkey is enrolled from
+            # the account and presented at the login (WebAuthn §5.9, architecture §3.4). Close them and
+            # nobody signs in with one.
+            publickey_credentials_create: ['self']
+            publickey_credentials_get: ['self']
+
+    # Who may embed what this provider answers, and who shares a browsing context with it. Paths are read
+    # in order and the first match wins, so the two groups that need something of their own come first.
+    #
+    # No value of these three headers is written here that a specification spells with the word "unsafe".
+    # Where a header is not written at all, what answers is the behaviour a browser has without it, which
+    # is the one the pages of that group need, and a value added later is a value that shows up in the diff
+    # of this file and in a red test rather than in nobody's reading of it.
+    cross_origin_isolation:
+        enabled: true
+        paths:
+            # The protocol plane: JSON, read by a program. COEP and COOP describe a browsing context and an
+            # answer that is not a document has no business carrying either. CORP is the one that applies,
+            # and it refuses an embedding without touching a CORS fetch, which is checked elsewhere
+            # (nelmio_cors.yaml) and is how a browser-based client reaches these endpoints.
+            '^/(\.well-known/|jwks|token|userinfo|introspect|revoke|par|register|device_authorization|backchannel_authentication)':
+                corp: same-origin
+
+            # The pages a relying party drives. These carry no COOP, and the reason is the protocol: a
+            # client that opens the authorization request in a popup keeps the handle on it, and the page it
+            # finally lands on keeps its opener. "same-origin" swaps the browsing context group on the way
+            # in, which severs that handle for good, and the callback page of the client then has no opener
+            # to post its result to.
+            #
+            # They carry no COEP either, and that follows from the line above rather than from anything
+            # these pages load: cross-origin isolation is COOP and COEP together, so a group that cannot
+            # have the first is a group where the second isolates nothing and only refuses things. Two of
+            # these pages do load something of a stranger, and would be the ones to refuse: the logout opens
+            # a frame per registered URI (an RP that answers no COEP of its own is then an RP that never
+            # learns the user left), and the consent page shows a logo served by a host the client named.
+            '^/(authorize|login|consent|logout|device|initiate-login)':
+                corp: same-origin
+
+            # Everything else a browser reads: the account, the home, the scripts of the provider, the
+            # stylesheet. Nobody opens these in a popup to carry a step of the protocol, so the browsing
+            # context is cut loose and the three headers hold together: the document owns its browsing
+            # context group, nothing cross-origin is in its process that did not ask to be, and what the
+            # CPU speculates on in that process is this provider's own. It is also what leaves a page opened
+            # from here no opener to navigate back.
+            #
+            # Which bounds what these pages may load, and it is the same bound as the "img-src" below: the
+            # logo of the tenant is served from the issuer itself unless BEFFROI_TENANT_LOGO_URI names
+            # another host, and nothing else here is cross-origin. The provider names the origin of that logo
+            # in the policy of every page that shows it; what no policy can say is the answer of that host,
+            # and a browser under "require-corp" refuses an image of another origin whose answer carries no
+            # "Cross-Origin-Resource-Policy" that lets it in. A deployment that serves the logo from another
+            # host has that host answer "Cross-Origin-Resource-Policy: cross-origin", the value that lets it
+            # in whatever the site, or serves the logo from its own origin.
+            '^/.*':
+                coep: require-corp
+                coop: same-origin
+                corp: same-origin
+
+    # The policy of every answer that does not already carry one. "default-src 'none'" and then one
+    # directive per kind of thing a page of this deployment loads, which is: its own stylesheet, its own
+    # scripts, its own images and nothing else. No CDN, no inline script, and the two inline style blocks
+    # the pages of this application carry are named by the nonce of the response (csp_nonce('style')).
+    #
+    # It is enforced in every environment, the web profiler relaxing it for itself where it is loaded: its
+    # own handler adds a nonce and "unsafe-inline" to the policy of a page it puts a toolbar on, so a
+    # developer reads the same policy a deployment serves and sees it refuse the same things. A deployment
+    # that wants to land a change to it without breaking anything moves these directives under "report",
+    # reads what the browsers report for a while, and moves them back.
+    csp:
+        enabled: true
+        hash:
+            algorithm: sha512
+        hosts: []
+        content_types: []
+        # "X-Content-Security-Policy" and "X-WebKit-CSP", which are read by no browser anybody still serves
+        # and say what this provider is built with to everybody who asks.
+        compat_headers: false
+        enforce:
+            # No "unsafe-inline" added behind our back. The fallback exists for a browser that reads no
+            # nonce, and what it writes into the policy is the one value this provider refuses to send.
+            level1_fallback: false
+            browser_adaptive:
+                enabled: false
+            default-src: ['none']
+            base-uri: ['none']
+            # RFC 9700 §4.15 again, said the modern way, and the directive that wins over X-Frame-Options
+            # everywhere both are read.
+            frame-ancestors: ['none']
+            # The only page of this provider that opens a frame is the front channel logout, and it carries
+            # the policy that names the URIs it opens.
+            frame-src: ['none']
+            object-src: ['none']
+            # The scripts of the provider are served by the provider, under the path of its own pages
+            # (App\Http\ProviderScript): same origin, no pipeline, no CDN.
+            script-src: ['self']
+            style-src: ['self']
+            # The logo of the tenant is served from the issuer itself unless BEFFROI_TENANT_LOGO_URI names
+            # another host (beffroi.yaml: logo_uri), and neither it nor the logo of an asking client is
+            # named here: every page that shows the logo of the tenant names its origin, the consent page
+            # names the one of the client, and the provider completes this directive with them
+            # (App\Http\ImageSource). "data:" is the images the stylesheet draws the arrows of a
+            # pager with, and the logos of the authenticators the page of the passkeys writes (issue #983).
+            img-src: ['self', 'data:']
+            font-src: ['none']
+            media-src: ['none']
+            manifest-src: ['none']
+            # What the scripts of the provider fetch: the options of a passkey, the registration of a push
+            # subscription, both on this origin.
+            connect-src: ['self']
+            # The service worker that receives a push for a browser of a user (Push API §5).
+            worker-src: ['self']
+            # Every form of these pages comes back to the page it was sent from, and a browser checks this
+            # directive over the whole redirect chain of a submission: a page whose submission ends with
+            # the code carried to a client names that client and the provider completes this directive with
+            # it (App\Http\FormTarget). The one form that posts elsewhere outright is the form
+            # post response, which carries the policy naming the redirect URI it posts to.
+            form-action: ['self']
+            upgrade-insecure-requests: true

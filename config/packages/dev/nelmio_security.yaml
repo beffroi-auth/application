@@ -1,0 +1,6 @@
+nelmio_security:
+    # HSTS is not sent on a development machine. "includeSubDomains" on op.localhost pins every
+    # ".localhost" name of the machine to HTTPS for a year, which is every other project served over
+    # plain HTTP on the same browser.
+    forced_ssl:
+        enabled: false

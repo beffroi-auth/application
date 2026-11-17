@@ -1,0 +1,57 @@
+{# What one application holds of the signed-in user (issue #451, architecture §4.3, §5.2), in the language
+   of the browser: what they agreed to let it obtain and when, what of it it can still renew, and what it
+   has asked that is waiting for them. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% set consent = holding.consent %}
+
+{% block title %}{{ consent.client.registration.presentation.name }}{% endblock %}
+
+{% block content %}
+    {{ include('@Beffroi/account/back.html.twig') }}
+
+    <h2>{{ 'application.granted'|trans }}</h2>
+    <dl data-application="granted">
+        <dt>{{ 'consents.access'|trans }}</dt>
+        <dd>
+            {{ include('@Beffroi/scopes.html.twig', {scopes: consent.scopes}) }}
+            {% if consent.claims is not empty %}
+                {{ include('@Beffroi/claims.html.twig', {claims: consent.claims}) }}
+            {% endif %}
+            {% if consent.authorizationDetails is not null %}
+                {{ include('@Beffroi/authorization_details.html.twig', {details: consent.authorizationDetails}) }}
+            {% endif %}
+        </dd>
+        <dt>{{ 'consents.granted_at'|trans }}</dt>
+        <dd><time datetime="{{ consent.grantedAt|date('c') }}">{{ consent.grantedAt|beffroi_moment(user) }}</time></dd>
+    </dl>
+
+    <h2>{{ 'application.holds'|trans }}</h2>
+    <p data-application="renewable" data-renewable="{{ holding.renewable }}">{{ 'application.renewable'|trans({count: holding.renewable}) }}</p>
+    {% if holding.lastIssued is not null %}
+        <p data-application="last-issued">{{ 'application.last_issued'|trans }} <time datetime="{{ holding.lastIssued|date('c') }}">{{ holding.lastIssued|beffroi_moment(user) }}</time></p>
+    {% endif %}
+    <p>{{ 'application.self_contained'|trans }}</p>
+
+    <h2>{{ 'application.pending'|trans }}</h2>
+    {% if holding.pending is empty %}
+        <p data-application="pending" data-pending="0">{{ 'application.nothing_pending'|trans }}</p>
+    {% else %}
+        <ul data-application="pending" data-pending="{{ holding.pending|length }}">
+            {% for record in holding.pending %}
+                <li>
+                    {{ include('@Beffroi/scopes.html.twig', {scopes: record.scopes}) }}
+                    {% if record.bindingMessage is not null %}<span data-binding-message>{{ record.bindingMessage.value }}</span>{% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+        <p><a href="{{ path('beffroi_interaction_account_approvals') }}">{{ 'application.answer_them'|trans }}</a></p>
+    {% endif %}
+
+    <form method="post" action="{{ path('beffroi_interaction_account_consents_revoke', {id: consent.id}) }}">
+        <input type="hidden" name="_token" value="{{ csrf_token('beffroi_consent_revoke') }}">
+        <button type="submit" name="revoke" value="{{ consent.id }}">{{ 'application.take_it_back'|trans }}</button>
+    </form>
+    <p>{{ 'application.take_it_back_means'|trans }}</p>
+{% endblock %}

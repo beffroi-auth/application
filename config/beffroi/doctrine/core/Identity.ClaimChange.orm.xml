@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!--
+      What a claim of a person used to say, and what they made it say (issue #482). It is not the journal:
+      a row of the journal is four facts and two names and no column a caller fills, and a value a person
+      said of themselves is a personal datum, which would be both at once in there. The journal keeps
+      saying that the act happened; this says what changed.
+
+      The two values and the provenance are sealed under the data key of the tenant, in a family of their
+      own (decisions 0011 and 0018). Both values are nullable: null on either side is a claim that said
+      nothing, a person filling one in for the first time or taking back what they had said; a row where
+      neither says anything is refused by the model.
+
+      The index is what the page of a record and the archive read: the changes of one person, the newest
+      first, by an identifier that is a UUIDv7 and so sorts chronologically. The second is what the timed
+      step reads, which walks by the date of the change and not by identifier.
+    -->
+    <entity name="Beffroi\Core\Domain\Identity\ClaimChange" table="beffroi_claim_change">
+        <indexes>
+            <index name="beffroi_claim_change_person" columns="user_id,id"/>
+            <index name="beffroi_claim_change_kept_until" columns="tenant_id,changed_at"/>
+        </indexes>
+        <id name="id" type="uuid" column="id"/>
+        <many-to-one field="tenant" target-entity="Beffroi\Core\Domain\Tenant\Tenant">
+            <join-column name="tenant_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+        <many-to-one field="user" target-entity="Beffroi\Core\Domain\Identity\User">
+            <join-column name="user_id" referenced-column-name="id" nullable="false" on-delete="CASCADE"/>
+        </many-to-one>
+        <field name="claim" type="string" column="claim" length="64"/>
+        <!-- The length is the one the model checks and not the width of the column, a sealed column being unbounded binary. -->
+        <field name="was" type="beffroi_encrypted_claim_change_string" column="was" length="255" nullable="true"/>
+        <field name="became" type="beffroi_encrypted_claim_change_string" column="became" length="255" nullable="true"/>
+        <field name="changedAt" type="datetime_immutable" column="changed_at"/>
+        <field name="context" type="beffroi_encrypted_claim_change_request_context" column="context"/>
+    </entity>
+</doctrine-mapping>

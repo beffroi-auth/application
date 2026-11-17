@@ -1,0 +1,51 @@
+{# What the signed-in user has agreed to (architecture §5.2), in the language of the browser: one line
+   per client that may obtain something about them, what each was granted and when, and the button that
+   takes one back. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'consents.title'|trans }}{% endblock %}
+
+{% block content %}
+    {{ include('@Beffroi/account/back.html.twig') }}
+    <p>{{ 'consents.explanation'|trans }}</p>
+    {{ include('@Beffroi/account/period.html.twig', {period: period}) }}
+    <table data-consents="{{ consents|length }}">
+        <thead>
+            <tr>
+                <th>{{ 'consents.application'|trans }}</th>
+                <th>{{ 'consents.access'|trans }}</th>
+                <th>{{ 'consents.granted_at'|trans }}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for consent in consents %}
+                <tr data-consent="{{ consent.id }}" data-client="{{ consent.clientId }}">
+                    <td><a href="{{ path('beffroi_interaction_account_application', {id: consent.id}) }}">{{ consent.client.registration.presentation.name }}</a></td>
+                    <td>
+                        {{ include('@Beffroi/scopes.html.twig', {scopes: consent.scopes}) }}
+                        {% if consent.claims is not empty %}
+                            {{ include('@Beffroi/claims.html.twig', {claims: consent.claims}) }}
+                        {% endif %}
+                        {% if consent.authorizationDetails is not null %}
+                            {{ include('@Beffroi/authorization_details.html.twig', {details: consent.authorizationDetails}) }}
+                        {% endif %}
+                    </td>
+                    <td><time datetime="{{ consent.grantedAt|date('c') }}">{{ consent.grantedAt|beffroi_moment(user) }}</time></td>
+                    <td>
+                        <form method="post" action="{{ path('beffroi_interaction_account_consents_revoke', {id: consent.id}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('beffroi_consent_revoke') }}">
+                            <button type="submit" name="revoke" value="{{ consent.id }}">{{ 'consents.revoke'|trans }}</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                {# A table that holds nothing keeps its head and says so in one row of its own, which is
+                   how every table of this plane says it. #}
+                <tr data-empty><td colspan="4">{{ (period is null ? 'consents.none' : 'consents.none_in_period')|trans }}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ include('@Beffroi/account/pager.html.twig', {listing: consents}) }}
+{% endblock %}

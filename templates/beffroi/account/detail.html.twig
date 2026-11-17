@@ -1,0 +1,14 @@
+{# One thing this provider holds about a person, on the page of their information (architecture §5.2): its
+   label, translated under the key the detail carries, and its value, a moment with the instant it stands
+   for or a string, followed by the verification when the detail is a contact one. Included by that page
+   for every detail, so that a line is written the same way wherever it is read. #}
+{% trans_default_domain 'beffroi' %}
+<dt>{{ ('profile.' ~ detail.key)|trans }}</dt>
+<dd data-detail="{{ detail.key }}">
+    {%- if detail.moment is not null -%}
+        <time datetime="{{ detail.moment|date('c') }}">{{ detail.moment|beffroi_moment(user) }}</time>
+    {%- else -%}
+        {{ detail.value }}
+    {%- endif -%}
+    {%- if detail.verified is not null %} <span data-verified="{{ detail.verified ? 'yes' : 'no' }}">{{ (detail.verified ? 'profile.verified' : 'profile.unverified')|trans }}</span>{% endif -%}
+</dd>

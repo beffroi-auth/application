@@ -1,0 +1,54 @@
+{# The second factor of the signed-in user (architecture §5.2), in the language of the browser: the
+   authenticator app the account holds, with its dates and the backup codes left, and the button that
+   removes it; or the button that sets one up. "error" is a code of TotpEnrolmentBeginController or
+   TotpEnrolmentController, shown when the enrolment could not start or go on. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'two_factor.title'|trans }}{% endblock %}
+
+{# Setting one up is what this page offers to somebody who holds none, where the tenant admits a one-time
+   code at all ("admitted", issue #327) and the person is of no federated domain ("federated", decision 0029); to somebody who holds one, it is another set of backup codes,
+   which is what they come here for once the list they wrote down is spent or lost, unless they are of a
+   federated domain, for whom nothing of either is posed. Neither is a ceremony: the authenticator and what
+   it proves are untouched. #}
+{% block action %}
+    {% if totp is null and admitted and not federated %}
+        <form method="post" action="{{ path('beffroi_interaction_account_two_factor_begin') }}" data-two-factor="begin">
+            <input type="hidden" name="_token" value="{{ csrf_token('beffroi_two_factor_begin') }}">
+            <button type="submit">{{ 'two_factor.set_up'|trans }}</button>
+        </form>
+    {% elseif totp is not null and not federated %}
+        <form method="post" action="{{ path('beffroi_interaction_account_two_factor_backup_codes') }}" data-two-factor="backup-codes">
+            <input type="hidden" name="_token" value="{{ csrf_token('beffroi_backup_codes_renew') }}">
+            <button type="submit">{{ 'two_factor.backup_codes.renew'|trans }}</button>
+        </form>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {{ include('@Beffroi/account/back.html.twig') }}
+    {% if error is not null %}
+        <p data-error="{{ error }}">{{ ('two_factor.error.' ~ error)|trans }}</p>
+    {% endif %}
+    {% if federated %}
+        <p data-federated>{{ 'account.federated_domain'|trans }}</p>
+    {% endif %}
+    {% if totp is null %}
+        {% if not federated %}
+            <p data-two-factor="none">{{ admitted ? 'two_factor.none'|trans : 'two_factor.not_admitted'|trans }}</p>
+        {% endif %}
+    {% else %}
+        <p data-two-factor="{{ totp.id }}" data-backup-codes-left="{{ backup_codes_left }}">{{ 'two_factor.active'|trans({date: totp.createdAt|beffroi_moment(user)}) }}</p>
+        <dl>
+            <dt>{{ 'two_factor.last_used_at'|trans }}</dt>
+            <dd>{% if totp.lastUsedAt is not null %}<time datetime="{{ totp.lastUsedAt|date('c') }}">{{ totp.lastUsedAt|beffroi_moment(user) }}</time>{% else %}{{ 'two_factor.never_used'|trans }}{% endif %}</dd>
+            <dt>{{ 'two_factor.backup_codes'|trans }}</dt>
+            <dd>{{ 'two_factor.backup_codes_left'|trans({count: backup_codes_left}) }}</dd>
+        </dl>
+        <form method="post" action="{{ path('beffroi_interaction_account_two_factor_revoke') }}" data-two-factor="revoke">
+            <input type="hidden" name="_token" value="{{ csrf_token('beffroi_two_factor_revoke') }}">
+            <button type="submit">{{ 'two_factor.revoke'|trans }}</button>
+        </form>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!-- What every record a token descends from carries (architecture §4.6): the instant the grant was revoked, in the table of its own kind, under the same name in each. The identifier of the grant is the record's own column, because each table names it after the value that is its key. -->
+    <mapped-superclass name="Beffroi\Oidc\Domain\Grant\GrantRecord">
+        <field name="revokedAt" type="datetime_immutable" column="revoked_at" nullable="true"/>
+    </mapped-superclass>
+</doctrine-mapping>

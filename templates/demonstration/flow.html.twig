@@ -1,0 +1,75 @@
+{# One flow and what it exchanged (issue #462): the actors, one marker between them, the hops of the
+   picture, and the payload of each hop as it really was. The script walks the trace; the stylesheet
+   moves the marker. #}
+{% extends 'demonstration/layout.html.twig' %}
+
+{% block title %}{{ drawing.flow }}{% endblock %}
+{% block heading %}<code>{{ drawing.flow }}</code>{% endblock %}
+
+{% block lead %}
+    {% if drawing.client %}Played by <code>{{ drawing.client }}</code>.{% endif %}
+    {% if driven %}Played from this page, one hop per click.{% else %}Replayed from what this provider recorded while it happened.{% endif %}
+    <a href="{{ path('app_demonstration_flows') }}">Every flow</a>
+{% endblock %}
+
+{% block content %}
+    {# How many actors the drawing has, which the columns of the lane and the place of the marker are
+       computed from (demonstration/layout.html.twig). It is a property of this one drawing, so it is on
+       this one element, and it is in a block carrying the nonce of the response rather than in a style
+       attribute, which "style-src 'self'" refuses whatever is in it. #}
+    <style nonce="{{ csp_nonce('style') }}">#flow { --actors: {{ drawing.actors|length }}; }</style>
+    <section
+        id="flow"
+        data-flow="{{ drawing.flow }}"
+        data-driven="{{ driven ? '1' : '' }}"
+        data-advance="{{ path('app_demonstration_advance', {flow: drawing.flow}) }}"
+        data-actors="{{ drawing.actors|json_encode }}"
+        data-trace="{{ drawing.hops|json_encode }}"
+    >
+        <div class="actors">
+            {% for actor in drawing.actors %}
+                <div class="actor" data-actor="{{ actor }}">{{ actor }}</div>
+            {% endfor %}
+            <div class="marker" id="marker" aria-hidden="true"></div>
+        </div>
+
+        <div class="card">
+            <h2 id="hop-name"><code>{{ drawing.hops is empty ? 'nothing exchanged yet' : drawing.hops|first.name }}</code></h2>
+            <p class="faint" id="hop-where"></p>
+            <pre id="hop-payload"></pre>
+            <div id="hop-jwts"></div>
+        </div>
+
+        <nav class="controls">
+            <label><input type="checkbox" id="step-by-step" checked> step by step</label>
+            <button type="button" id="next">next</button>
+            <button type="button" id="play">play</button>
+            <form method="post" action="{{ path('app_demonstration_open', drawing.client ? {flow: drawing.flow, client: drawing.client} : {flow: drawing.flow}) }}">
+                <button type="submit">restart</button>
+            </form>
+            <span class="faint" id="state"></span>
+        </nav>
+
+        <ol class="plan">
+            {% for hop in drawing.plan %}
+                <li data-hop="{{ hop.name }}"{% if hop.taken > 0 %} data-taken="{{ hop.taken }}"{% endif %}>
+                    <code>{{ hop.name }}</code>
+                    <span class="faint">{{ hop.from }} &rarr; {{ hop.to }}</span>
+                    <span class="badge">{{ hop.specification }}</span>
+                    {% if hop.repeats %}<span class="badge">repeats</span>{% endif %}
+                    {% if hop.taken > 1 %}<span class="badge">&times;{{ hop.taken }}</span>{% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+
+        {% if clients|length > 1 %}
+            <p class="faint">
+                Also traced for
+                {% for client in clients|filter(other => other != drawing.client) %}
+                    <a href="{{ path('app_demonstration_flow', {flow: drawing.flow, client: client}) }}"><code>{{ client }}</code></a>{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+        {% endif %}
+    </section>
+    <script src="{{ path('app_demonstration_script') }}" defer></script>
+{% endblock %}

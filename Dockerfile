@@ -1,0 +1,146 @@
+# syntax=docker/dockerfile:1
+ARG PHP_VERSION=8.5
+
+FROM dunglas/frankenphp:1-php${PHP_VERSION} AS frankenphp_base
+
+WORKDIR /app
+
+RUN install-php-extensions \
+    @composer \
+    apcu \
+    intl \
+    opcache \
+    zip \
+    pdo_pgsql \
+    gmp \
+    sodium \
+    uuid
+
+ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV PHP_INI_SCAN_DIR=":$PHP_INI_DIR/app.conf.d"
+
+COPY --link apps/beffroi/frankenphp/conf.d/10-app.ini $PHP_INI_DIR/app.conf.d/
+COPY --link --chmod=755 apps/beffroi/frankenphp/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+COPY --link apps/beffroi/frankenphp/Caddyfile /etc/frankenphp/Caddyfile
+COPY --link apps/beffroi/frankenphp/worker.Caddyfile /etc/frankenphp/worker.Caddyfile
+COPY --link apps/beffroi/frankenphp/mtls.Caddyfile /etc/frankenphp/mtls.Caddyfile
+COPY --link apps/beffroi/frankenphp/administration.Caddyfile /etc/frankenphp/administration.Caddyfile
+
+ENTRYPOINT ["docker-entrypoint"]
+
+HEALTHCHECK --start-period=60s CMD curl -f http://localhost:2019/metrics || exit 1
+CMD [ "frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile" ]
+
+# Development image: the monorepo is bind-mounted, the packages are symlinked into vendor/ by Composer.
+FROM frankenphp_base AS frankenphp_dev
+
+ENV APP_ENV=dev
+ENV XDEBUG_MODE=off
+
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+
+COPY --link apps/beffroi/frankenphp/conf.d/20-app.dev.ini $PHP_INI_DIR/app.conf.d/
+
+CMD [ "frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile", "--watch" ]
+
+# Production image, in two stages: this one installs and builds the application where the extensions are
+# compiled, and the next one is what image.yml publishes and a deployment runs. The packages and the
+# application are copied so that the path repositories resolve, then the application is installed.
+FROM frankenphp_base AS frankenphp_prod_builder
+
+ENV APP_ENV=prod
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+COPY --link apps/beffroi/frankenphp/conf.d/20-app.prod.ini $PHP_INI_DIR/app.conf.d/
+
+# Build context is the monorepo root (see compose.yaml), which Dockerfile.dockerignore narrows to the
+# packages and the application without what a working copy holds beside the repository: its .env.local,
+# var/ and vendor/ never reach an image. Nor does what only the development stack, the suite and the lab
+# read (issue #922). The packages land in /src so that the path repositories of composer.json
+# (../../src/<package>, relative to /app) resolve unchanged. The files of FrankenPHP and of PHP are copied
+# where they are read by the stages above, the configuration of the development image among them, which is
+# why the context keeps them and the application leaves its frankenphp/ out of /app.
+COPY --link src/ /src/
+COPY --link --exclude=frankenphp apps/beffroi/ /app/
+
+# The standalone binary of Tailwind goes once the stylesheet it built is compiled into public/assets. The
+# directories the processes write are made here, the volumes of compose.prod.yaml among them, since a named
+# volume takes the owner of the directory it is first mounted on.
+RUN set -eux; \
+    composer install --no-cache --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress; \
+    composer dump-autoload --classmap-authoritative --no-dev; \
+    composer dump-env prod; \
+    composer run-script --no-dev post-install-cmd; \
+    chmod +x bin/console; sync; \
+    bin/console tailwind:build --minify --no-debug; \
+    bin/console asset-map:compile --no-debug; \
+    rm -rf var/tailwind/v*; \
+    mkdir -p var/keys var/kms var/geoip var/webauthn var/share var/log
+
+# The shared libraries FrankenPHP, PHP and each extension load, collected for a runtime that installs none.
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends libtree; \
+    mkdir /tmp/libs; \
+    for target in /usr/local/bin/frankenphp /usr/local/bin/php $(find "$(php -r 'echo ini_get("extension_dir");')" -name '*.so'); do \
+        libtree -pv "$target" | grep -oP '(?:── )\K/\S+(?= \[)' | while read -r library; do \
+            cp -n "$library" /tmp/libs/; \
+        done; \
+    done; \
+    rm -rf /var/lib/apt/lists/*
+
+# The production image: Debian slim, of the release the FrankenPHP image is built on, with FrankenPHP, PHP,
+# the extensions and the libraries they load, the packages and the application, and nothing to compile,
+# install or download with (issue #932). Every process runs as www-data, named by its number so that a
+# runtime can tell it is not root: the code is root's and only read, var/ and what Caddy keeps are www-data's,
+# group 0 holding what the owner holds for a runtime that draws the uid itself.
+FROM debian:13-slim AS frankenphp_prod
+
+ENV APP_ENV=prod
+ENV FRANKENPHP_CONFIG="import worker.Caddyfile"
+ENV PHP_INI_SCAN_DIR=":/usr/local/etc/php/app.conf.d"
+ENV XDG_CONFIG_HOME=/config XDG_DATA_HOME=/data GODEBUG=cgocheck=0
+ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt OPENSSL_CONF=/etc/ssl/openssl.cnf
+
+COPY --link --from=frankenphp_prod_builder /usr/local/bin/frankenphp /usr/local/bin/php /usr/local/bin/docker-php-entrypoint /usr/local/bin/docker-entrypoint /usr/local/bin/
+COPY --link --from=frankenphp_prod_builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
+COPY --link --from=frankenphp_prod_builder /usr/local/etc/php /usr/local/etc/php
+COPY --link --from=frankenphp_prod_builder /tmp/libs /usr/lib/
+COPY --link --from=frankenphp_prod_builder /etc/frankenphp /etc/frankenphp
+COPY --link --from=frankenphp_prod_builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --link --from=frankenphp_prod_builder /etc/ssl/openssl.cnf /etc/ssl/
+COPY --link --from=frankenphp_prod_builder /src /src
+COPY --link --exclude=var --from=frankenphp_prod_builder /app /app
+# Without --link, which would give www-data the /app this layer creates: it writes in var/ and nowhere above.
+COPY --chown=33:0 --from=frankenphp_prod_builder /app/var /app/var
+
+# The setuid and setgid bits of the system go, and the build fails here rather than at the first start when
+# FrankenPHP or an extension misses a library, or when Caddy refuses its configuration in one of the two ways
+# the image serves the site of SERVER_NAME: Caddy terminating TLS, and a proxy in front of it terminating TLS
+# (TLS_TERMINATION, issue #908). Behind such a proxy, the site of the administration API is adapted too, and
+# must carry the directives a deployment gives it (CADDY_ADMINISTRATION_EXTRA_DIRECTIVES, issue #1042).
+# The configuration is adapted and not validated: validating provisions it, which draws the key of the internal
+# CA of Caddy into /data, and every deployment of the image would start with the same one.
+RUN set -eux; \
+    mkdir -p /data/caddy /config/caddy; \
+    chown -R 33:0 /data /config; \
+    chmod -R g=u /app/var /data /config; \
+    find / -xdev -perm /6000 -type f -exec chmod a-s {} +; \
+    frankenphp version; \
+    frankenphp adapt --config /etc/frankenphp/Caddyfile > /dev/null; \
+    TLS_TERMINATION=proxy SERVER_NAME=:80 frankenphp adapt --config /etc/frankenphp/Caddyfile > /dev/null; \
+    TLS_TERMINATION=proxy SERVER_NAME=:80 ADMINISTRATION_SERVER_NAME=:81 \
+        CADDY_EXTRA_CONFIG='import administration.Caddyfile' \
+        CADDY_ADMINISTRATION_EXTRA_DIRECTIVES='request_header X-Forwarded-For {client_ip}' \
+        frankenphp adapt --config /etc/frankenphp/Caddyfile | grep -q '"X-Forwarded-For"'; \
+    test -z "$(php -m 2>&1 >/dev/null)"
+
+USER 33
+WORKDIR /app
+
+ENTRYPOINT ["docker-entrypoint"]
+
+# The image carries no curl: PHP asks the admin endpoint of Caddy.
+HEALTHCHECK --start-period=60s CMD ["php", "-r", "exit(false === @file_get_contents('http://localhost:2019/metrics', context: stream_context_create(['http' => ['timeout' => 5]])) ? 1 : 0);"]
+CMD [ "frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile" ]

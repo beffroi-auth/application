@@ -1,0 +1,13 @@
+{# The two controls a page of either plane carries: the language, which the provider ships as structure and
+   words and this application draws as a control of the bar, and the theme, which is this application's
+   alone (issues #448 and #447). They are in one file because the two skeletons place them in two places.
+
+   The radio button that is checked while nothing is open comes first, and the veil that checks it again
+   comes last: one group of radio buttons is what makes a single control open at a time, and the veil over
+   the page is what makes a click anywhere else close it. Neither is a script; a page of this plane runs
+   none. A skeleton may add a control of its own after the include, the user menu of the account being one:
+   the group is named here and the veil is read wherever it sits. #}
+<input type="radio" name="layout-control" id="layout-control-none" aria-label="{{ 'controls.close'|trans([], 'beffroi') }}" checked>
+{% include '@Beffroi/_locale_switcher.html.twig' %}
+{% include '_theme_switcher.html.twig' %}
+<label for="layout-control-none" data-control="veil" aria-hidden="true"></label>

@@ -1,0 +1,11 @@
+{# The answer is given (RFC 8628 §3.3): the appliance learns it at its next poll, and there is nothing left
+   to do in this browser. A refusal says so, because a user who refused must not be left wondering whether
+   it worked. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ (approved ? 'device.answered.approved.title' : 'device.answered.denied.title')|trans }}{% endblock %}
+
+{% block content %}
+    <p data-answer="{{ approved ? 'approved' : 'denied' }}">{{ (approved ? 'device.answered.approved' : 'device.answered.denied')|trans_with_client(client.registration.presentation.name) }}</p>
+{% endblock %}

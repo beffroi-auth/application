@@ -1,0 +1,37 @@
+{# The home of the account: the pages of the account and what the account
+   holds in each of them, and nothing else.
+
+   Who the browser is signed in as and the way out are in the bar above every page of this plane
+   (templates/layout/account.html.twig), where they are true of every one of them and not of this page
+   alone; when the session was opened is read where every session of this person is read, the page of the
+   sessions saying which one is this browser's. The pages are the sections that are wired, in their order;
+   this template names none of them.
+
+   One card per page, and a card says three things: the page it opens, with the icon the column of pages
+   reads it by, what that page is for, and what the account holds there. The first two come from the
+   arrangement of this application (App\Account\AccountNavigation), where a page is named once for the
+   column and for here; the third is the section's own words and nothing of this page's. A page the
+   arrangement does not name is a card with its title and its state, never a card missing. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'account.title'|trans }}{% endblock %}
+
+{% block content %}
+    {% set cards = account_cards() %}
+    <ul data-sections="{{ sections|length }}">
+        {% for section in sections %}
+            {% set card = cards[section.route] ?? null %}
+            <li data-section="{{ section.route }}">
+                <div data-section-head>
+                    {%- if card is not null %}
+                        <span data-section-icon>{% include 'layout/icon/' ~ card.icon ~ '.html.twig' ignore missing with {size: 'size-5'} %}</span>
+                    {% endif -%}
+                    <a href="{{ path(section.route) }}">{{ section.title|trans }}</a>
+                </div>
+                {% if card is not null %}<p data-section-about>{{ card.description|trans }}</p>{% endif %}
+                <span data-state="{{ section.state.key }}">{{ section.state.key|trans(section.state.parameters) }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

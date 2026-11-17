@@ -1,0 +1,32 @@
+{# The flows this provider serves (issue #462), one picture per wired grant. The list is the wiring:
+   unwiring a grant takes its picture off this page. #}
+{% extends 'demonstration/layout.html.twig' %}
+
+{% block title %}The flows of this provider{% endblock %}
+
+{% block lead %}
+    One picture per grant the token endpoint is wired with. A flow the demonstration can play is played
+    hop by hop from its page; a flow that opens in a browser navigating away is replayed from what this
+    provider recorded while it happened.
+{% endblock %}
+
+{% block content %}
+    {% for flow in flows %}
+        <section class="card">
+            <h2><a href="{{ path('app_demonstration_flow', {flow: flow.picture.grantType.value}) }}"><code>{{ flow.picture.grantType.value }}</code></a></h2>
+            <p class="faint">
+                {{ flow.picture.hops|length }} hops between
+                {% for actor in flow.picture.actors %}<code>{{ actor.value }}</code>{% if not loop.last %}, {% endif %}{% endfor %}.
+                {% if flow.driven %}Played from its page.{% else %}Replayed from what this provider recorded.{% endif %}
+            </p>
+            {% if flow.clients is not empty %}
+                <p class="faint">
+                    Traced for
+                    {% for client in flow.clients %}
+                        <a href="{{ path('app_demonstration_flow', {flow: flow.picture.grantType.value, client: client}) }}"><code>{{ client }}</code></a>{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+            {% endif %}
+        </section>
+    {% endfor %}
+{% endblock %}
