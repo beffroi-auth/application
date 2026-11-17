@@ -1,0 +1,23 @@
+{# The backup codes of an authenticator app a one-time password ticket enrolled (decision 0026), shown this once: the
+   page is the response to the code that confirmed it, and the codes are stored hashed. Every session of the person
+   has ended, so the way on is the login, which the home of the account offers. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'two_factor.enrolled.title'|trans }}{% endblock %}
+
+{% block head %}
+    <script src="{{ path('beffroi_interaction_copy_script') }}" defer></script>
+{% endblock %}
+
+{% block action %}
+    <button type="button" data-copy="backup-codes" hidden>{{ 'two_factor.backup_codes.copy'|trans }}</button>
+    <span data-copied hidden>{{ 'two_factor.backup_codes.copied'|trans }}</span>
+{% endblock %}
+
+{% block content %}
+    <p data-two-factor="enrolled">{{ 'totp_ticket.enrolled'|trans }}</p>
+    <p>{{ 'two_factor.enrolled.codes'|trans }}</p>
+    {{ include('@Beffroi/account/_backup_codes.html.twig', {backup_codes: backup_codes}) }}
+    <nav><a href="{{ path('beffroi_interaction_account') }}" data-sign-in>{{ 'totp_ticket.sign_in'|trans }}</a></nav>
+{% endblock %}

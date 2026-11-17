@@ -1753,6 +1753,38 @@
         <source>act.password_ticket.issued</source>
         <target>Un lien pour poser un nouveau mot de passe a été émis pour ce compte</target>
       </trans-unit>
+      <trans-unit id="totp_ticket.title" resname="totp_ticket.title">
+        <source>totp_ticket.title</source>
+        <target>Configurez une nouvelle application d'authentification</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.prompt" resname="totp_ticket.prompt">
+        <source>totp_ticket.prompt</source>
+        <target>Ce lien configure une application d'authentification pour vous connecter en tant que {username}, à la place de celle que ce compte tient. Il fonctionne une fois.</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.what_happens" resname="totp_ticket.what_happens">
+        <source>totp_ticket.what_happens</source>
+        <target>Une fois configurée, l'application que ce compte tenait ne fonctionne plus et chacune de vos sessions prend fin, sur chaque appareil : reconnectez-vous avec un code de la nouvelle application.</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.enrolled" resname="totp_ticket.enrolled">
+        <source>totp_ticket.enrolled</source>
+        <target>Votre nouvelle application d'authentification est configurée, et chacune de vos sessions a pris fin. Désormais, un code de l'application vous sera demandé après votre mot de passe.</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.sign_in" resname="totp_ticket.sign_in">
+        <source>totp_ticket.sign_in</source>
+        <target>Se connecter</target>
+      </trans-unit>
+      <trans-unit id="two_factor.error.not_admitted" resname="two_factor.error.not_admitted">
+        <source>two_factor.error.not_admitted</source>
+        <target>Votre organisation n'admet aucune application d'authentification pour vous : ce lien n'en configure aucune.</target>
+      </trans-unit>
+      <trans-unit id="error.totp_ticket_refused" resname="error.totp_ticket_refused">
+        <source>error.totp_ticket_refused</source>
+        <target>Ce lien n'ouvre rien : il a déjà servi, ou son délai est passé ; demandez-en un autre.</target>
+      </trans-unit>
+      <trans-unit id="act.totp_ticket.issued" resname="act.totp_ticket.issued">
+        <source>act.totp_ticket.issued</source>
+        <target>Un lien pour configurer une application d'authentification a été émis pour ce compte</target>
+      </trans-unit>
       <trans-unit id="post_again.title" resname="post_again.title">
         <source>post_again.title</source>
         <target>Connexion en cours</target>

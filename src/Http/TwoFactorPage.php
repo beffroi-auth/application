@@ -12,16 +12,13 @@ use Beffroi\Core\Domain\Credential\BackupCode;
 use Beffroi\Core\Domain\Credential\TotpCredential;
 use Beffroi\Core\Domain\Credential\TotpProvisioning;
 use Beffroi\Core\Domain\Identity\User;
-use function implode;
-use ParagonIE\ConstantTime\Base32;
-use function str_split;
 use Symfony\Component\HttpFoundation\Response;
 
 final readonly class TwoFactorPage
 {
     public function __construct(
         private ActiveTotp $activeTotp,
-        private QrCode $qrCode,
+        private TotpSecretShown $secrets,
         private InteractionPages $pages,
         private FederatedDomains $federated,
     ) {
@@ -51,8 +48,7 @@ final readonly class TwoFactorPage
             'account/two_factor_enrol.html.twig',
             [
                 'user' => $user,
-                'qr_code' => $this->qrCode->svg($provisioning->uri),
-                'key' => implode(' ', str_split(Base32::encodeUpperUnpadded($provisioning->secret->bytes), 4)),
+                ...$this->secrets->of($provisioning),
                 'error' => $error,
             ],
             $status,

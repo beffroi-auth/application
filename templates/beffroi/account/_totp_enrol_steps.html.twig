@@ -1,0 +1,36 @@
+{# The two steps of the enrolment of an authenticator app (architecture §5.2), on the page of the account and on the
+   page of a one-time password ticket (decision 0026): the app is given the secret, by the QR code it scans or by the
+   key somebody types into it, then the first code it shows confirms the enrolment, and nothing exists until that
+   code holds. The QR code is drawn by the provider as an SVG embedded here, so no image is loaded from anywhere; the
+   key is the same secret in base32, offered to the clipboard in one click by the script of the provider (copy.js,
+   Clipboard API §3) and on the page as text somebody selects either way. "action" is where the code is posted and
+   "token_id" the identifier of the token of that form; "error" is set when the code did not match, and the same QR
+   code stays. #}
+{% trans_default_domain 'beffroi' %}
+<ol data-two-factor="enrol-steps">
+    <li data-step="secret">
+        <h2>{{ 'two_factor.enrol.step_secret'|trans }}</h2>
+        <p>{{ 'two_factor.enrol.scan'|trans }}</p>
+        <figure data-two-factor="qr-code">{{ qr_code|raw }}</figure>
+        {# The key, for an app in front of no camera: one click puts it where that app is, and the
+           button waits for a browser that can write a clipboard. #}
+        <p>{{ 'two_factor.enrol.manual'|trans }}</p>
+        <p data-copy-line>
+            <code id="two-factor-key" data-two-factor="key">{{ key }}</code>
+            <button type="button" data-copy="two-factor-key" hidden>{{ 'two_factor.enrol.copy_key'|trans }}</button>
+            <span data-copied hidden>{{ 'two_factor.enrol.key_copied'|trans }}</span>
+        </p>
+        <p data-copy-refused hidden>{{ 'two_factor.enrol.key_not_copied'|trans }}</p>
+    </li>
+    <li data-step="code">
+        <h2>{{ 'two_factor.enrol.step_code'|trans }}</h2>
+        <form method="post" action="{{ action }}" data-two-factor="enrol">
+            <input type="hidden" name="_token" value="{{ csrf_token(token_id) }}">
+            <label for="code">{{ 'two_factor.enrol.code'|trans }}</label>
+            {# The field takes the focus where it is what somebody has to come back to, a code that did
+               not match, and not on a page they open to scan a picture at the top of it. #}
+            <input type="text" id="code" name="code" inputmode="numeric" autocomplete="one-time-code" required{% if error is not null %} autofocus{% endif %}>
+            <button type="submit">{{ 'two_factor.enrol.submit'|trans }}</button>
+        </form>
+    </li>
+</ol>

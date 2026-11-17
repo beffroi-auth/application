@@ -1,0 +1,25 @@
+{# The page where a person enrols an authenticator app with a ticket, in place of the one they hold and without a
+   session (decision 0026), in the language of the browser: it names the account the ticket of its URL opens, and
+   says before the code is asked for that every session of the person ends once the app is enrolled. The two steps
+   are those of the account (account/_totp_enrol_steps.html.twig). "refusal" is a code of TotpTicketController or
+   TotpTicketEnrolmentController; under "not_admitted" the page shows no secret, the tenant admitting no app for
+   this person. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'totp_ticket.title'|trans }}{% endblock %}
+
+{% block head %}
+    <script src="{{ path('beffroi_interaction_copy_script') }}" defer></script>
+{% endblock %}
+
+{% block content %}
+    <p>{{ 'totp_ticket.prompt'|trans({username: user.username}) }}</p>
+    {% if refusal is not null %}
+        <p data-error="{{ refusal }}">{{ ('two_factor.error.' ~ refusal)|trans }}</p>
+    {% endif %}
+    {% if qr_code is not null %}
+        <p>{{ 'totp_ticket.what_happens'|trans }}</p>
+        {{ include('@Beffroi/account/_totp_enrol_steps.html.twig', {action: path('beffroi_interaction_totp_ticket_enrol', ticket), token_id: 'beffroi_totp_ticket', error: refusal}) }}
+    {% endif %}
+{% endblock %}

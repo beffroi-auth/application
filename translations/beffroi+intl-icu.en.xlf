@@ -1753,6 +1753,38 @@
         <source>act.password_ticket.issued</source>
         <target>A link to set a new password was issued for this account</target>
       </trans-unit>
+      <trans-unit id="totp_ticket.title" resname="totp_ticket.title">
+        <source>totp_ticket.title</source>
+        <target>Set up a new authenticator app</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.prompt" resname="totp_ticket.prompt">
+        <source>totp_ticket.prompt</source>
+        <target>This link sets up an authenticator app to sign in as {username}, in place of the one this account holds. It works once.</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.what_happens" resname="totp_ticket.what_happens">
+        <source>totp_ticket.what_happens</source>
+        <target>Once it is set up, the app this account held stops working and every session of yours ends, on every device: sign in again with a code of the new app.</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.enrolled" resname="totp_ticket.enrolled">
+        <source>totp_ticket.enrolled</source>
+        <target>Your new authenticator app is set up, and every session of yours has ended. From now on, a code from it is asked after your password.</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.sign_in" resname="totp_ticket.sign_in">
+        <source>totp_ticket.sign_in</source>
+        <target>Sign in</target>
+      </trans-unit>
+      <trans-unit id="two_factor.error.not_admitted" resname="two_factor.error.not_admitted">
+        <source>two_factor.error.not_admitted</source>
+        <target>Your organisation admits no authenticator app for you: this link sets none up.</target>
+      </trans-unit>
+      <trans-unit id="error.totp_ticket_refused" resname="error.totp_ticket_refused">
+        <source>error.totp_ticket_refused</source>
+        <target>This link opens nothing. It was used already, or it ran out of time; ask for another one.</target>
+      </trans-unit>
+      <trans-unit id="act.totp_ticket.issued" resname="act.totp_ticket.issued">
+        <source>act.totp_ticket.issued</source>
+        <target>A link to set up an authenticator app was issued for this account</target>
+      </trans-unit>
       <trans-unit id="post_again.title" resname="post_again.title">
         <source>post_again.title</source>
         <target>Signing you in</target>
