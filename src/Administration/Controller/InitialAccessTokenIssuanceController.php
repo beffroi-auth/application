@@ -13,9 +13,7 @@ use Beffroi\Oidc\Application\Client\Registration\InitialAccessTokenIssuance;
 use Beffroi\Oidc\Domain\Administration\ActingAdministrator;
 use Beffroi\Oidc\Domain\Client\Metadata\GrantedMembers;
 use Beffroi\Oidc\Exception\InvalidArgumentException;
-use DateInterval;
 use Psr\Clock\ClockInterface;
-use function sprintf;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -58,19 +56,12 @@ final readonly class InitialAccessTokenIssuanceController
             if ($name === null || $registrations === null || $days === null) {
                 return AdministrationAnswer::refusal(Response::HTTP_BAD_REQUEST, 'invalid_request', self::ASKED);
             }
-            if ($days < 1) {
-                return AdministrationAnswer::refusal(
-                    Response::HTTP_BAD_REQUEST,
-                    'invalid_request',
-                    'An initial access token is worth something for a day at least.',
-                );
-            }
             $granted = $asked->nested('granted');
             $issued = $this->issuance->issueByAnAdministrator(
                 $administrator->tenant,
                 $name,
                 $registrations,
-                new DateInterval(sprintf('P%dD', $days)),
+                $days,
                 $administrator->user->subject,
                 $this->contexts->fromRequest($request),
                 $granted === null ? null : GrantedMembers::fromDocument($granted),
