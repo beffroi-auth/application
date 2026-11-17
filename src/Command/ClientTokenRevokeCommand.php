@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Http\RequestContextFactory;
 use Beffroi\Oidc\Application\Client\Registration\InitialAccessTokenRevocation;
 use function sprintf;
 use Symfony\Component\Console\Attribute\Argument;
@@ -24,6 +25,7 @@ final readonly class ClientTokenRevokeCommand
     public function __construct(
         private ConfiguredTenant $tenant,
         private InitialAccessTokenRevocation $revocation,
+        private RequestContextFactory $contexts,
     ) {
     }
 
@@ -43,7 +45,7 @@ final readonly class ClientTokenRevokeCommand
             return Command::INVALID;
         }
 
-        $token = $this->revocation->revoke($tenant, Uuid::fromString($named));
+        $token = $this->revocation->revoke($tenant, Uuid::fromString($named), $this->contexts->fromConsole(self::NAME));
         if ($token === null) {
             $io->error(sprintf('The tenant "%s" has no initial access token "%s".', $tenant->slug, $named));
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Http\RequestContextFactory;
 use DateInterval;
 use Beffroi\Oidc\Application\Client\Registration\InitialAccessTokenIssuance;
 use Beffroi\Oidc\Domain\Client\Metadata\GrantedMembers;
@@ -31,6 +32,7 @@ final readonly class ClientTokenIssueCommand
     public function __construct(
         private ConfiguredTenant $tenant,
         private InitialAccessTokenIssuance $issuance,
+        private RequestContextFactory $contexts,
     ) {
     }
 
@@ -86,6 +88,7 @@ final readonly class ClientTokenIssueCommand
                 trim($name),
                 $registrations,
                 new DateInterval(sprintf('P%dD', $days)),
+                $this->contexts->fromConsole(self::NAME),
                 self::granted($resource, $accessTokenFormat, $requireSenderConstrainedTokens, $exchangeSubjectTokenType, $exchangeForAUser, $mayAct),
                 $administration,
             );

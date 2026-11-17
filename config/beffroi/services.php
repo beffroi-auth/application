@@ -24,6 +24,7 @@ use Beffroi\Oidc\Application\Administration\AdministeredPasswordTicket;
 use Beffroi\Oidc\Application\Administration\AdministeredTotpTicket;
 use Beffroi\Oidc\Application\Administration\AdministeredPersonCreation;
 use Beffroi\Oidc\Application\Administration\AdministeredDescription;
+use Beffroi\Oidc\Application\Administration\AdministeredClientRemoval;
 use Beffroi\Oidc\Application\Administration\AdministeredConsents;
 use Beffroi\Oidc\Application\Administration\AdministeredDisabling;
 use Beffroi\Oidc\Application\Administration\AdministeredGroupCreation;
@@ -1668,6 +1669,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(AdministeredDescription::class);
     $services->set(AdministeredDisabling::class);
     $services->set(AdministeredConsents::class);
+    $services->set(AdministeredClientRemoval::class);
     $services->set(AdministeredGroups::class);
     $services->set(AdministeredGroupCreation::class);
     $services->set(AdministeredMemberships::class);

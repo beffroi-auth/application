@@ -15,8 +15,9 @@ use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * One client of the tenant: what `beffroi:client:show` reads (decision 0038). A client registered here comes with what
- * it registered (RFC 7591 §2), what the registration policy of the tenant assigned it, and whether it is a client of
- * this API; a client the deployment declares comes with none of them, being what its configuration says.
+ * it registered (RFC 7591 §2), what the registration policy of the tenant assigned it, what the initial access token
+ * that registered it gave, and whether it is a client of this API; a client the deployment declares comes with none of
+ * them, being what its configuration says.
  */
 #[AsController]
 final readonly class ClientController
@@ -35,6 +36,7 @@ final readonly class ClientController
             return AdministrationAnswer::refusal(Response::HTTP_NOT_FOUND, 'not_found', 'The tenant has no client of this identifier.');
         }
         $record = $this->store->findRecord($administrator->tenant, $client->clientId);
+        $granted = $record?->granted;
 
         return AdministrationAnswer::of(
             ClientDocument::of($client)
@@ -42,6 +44,7 @@ final readonly class ClientController
                 'administration' => $record?->administration,
                 'metadata' => $record === null ? null : (object) $record->metadata,
                 'assigned' => $record === null ? null : (object) $record->assigned,
+                'granted' => $granted === null ? null : (object) $granted,
             ],
         );
     }
