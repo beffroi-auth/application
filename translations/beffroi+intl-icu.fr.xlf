@@ -1205,6 +1205,14 @@
         <source>act.person.described</source>
         <target>Vos informations ont été changées</target>
       </trans-unit>
+      <trans-unit id="act.person.disabled" resname="act.person.disabled">
+        <source>act.person.disabled</source>
+        <target>Compte désactivé</target>
+      </trans-unit>
+      <trans-unit id="act.person.enabled" resname="act.person.enabled">
+        <source>act.person.enabled</source>
+        <target>Compte réactivé</target>
+      </trans-unit>
       <trans-unit id="act.archive.asked" resname="act.archive.asked">
         <source>act.archive.asked</source>
         <target>Dossier de vos données demandé</target>
