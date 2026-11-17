@@ -27,6 +27,7 @@ use Beffroi\Oidc\Application\Administration\AdministeredSessionEnd;
 use Beffroi\Oidc\Application\Administration\AdministeredSessions;
 use Beffroi\Oidc\Application\Administration\AdministratorOfARequest;
 use Beffroi\Oidc\Application\Administration\PersonsOfTheTenant;
+use App\Doctor\ClientsSignedWithHeldKeys;
 use App\Doctor\NotificationsLanePatience;
 use Beffroi\Oidc\Application\Secret\SecretDrawer;
 use Beffroi\Oidc\Application\Secret\UserCodeDrawer;
@@ -1011,6 +1012,7 @@ return static function (ContainerConfigurator $container): void {
     ]);
     $services->set(LaneBacklogs::class)->args([service('messenger.receiver_locator')]);
     $services->set(InstanceStatistics::class);
+    $services->set(ClientsSignedWithHeldKeys::class)->arg('$sources', tagged_iterator('beffroi.oidc.client_source'))->tag('beffroi.doctor_check');
     $services
         ->set(NotificationsLanePatience::class)
         ->args([
