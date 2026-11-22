@@ -16,8 +16,9 @@ use Symfony\Component\Routing\Attribute\Route;
 /**
  * The tenant an administrator administers, as the provider holds it (decision 0038): its issuer and its name, the
  * floor of its logins and the classes of authentication its policy names, by the predicate each one stands on
- * (decisions 0010 and 0025), the groups its deployment names to administer it and the identifier of this API, and how
- * many days its journal keeps an act.
+ * (decisions 0010 and 0025), the groups its deployment names to administer it and the identifier of this API, how
+ * many days its journal keeps an act, and the contact it gives its people when it tells them of a change to their
+ * account (NIST SP 800-63B-4 §4.6), null while it gives none.
  */
 #[AsController]
 final readonly class TenantController
@@ -54,6 +55,7 @@ final readonly class TenantController
             'administrators' => $this->administrators->groupsAdministering($tenant),
             'administration_api' => $this->resources->administrationResourceOf($tenant)?->value,
             'journal_retention_days' => $this->retention->window->days,
+            'contact' => $tenant->contact?->value,
         ]);
     }
 }

@@ -13,6 +13,7 @@ use App\Doctrine\Type\AuthenticationPredicateType;
 use App\Doctrine\Type\SelfServedClaimsType;
 use App\Doctrine\Type\LogoutProgressType;
 use App\Doctrine\Type\PasskeyAttestationType;
+use App\Doctrine\Type\TenantContactType;
 use App\Doctrine\Type\TenantLookType;
 use App\Doctrine\Type\AuthenticationProofsType;
 use App\Doctrine\Type\BackupCodesType;
@@ -125,6 +126,7 @@ final class BeffroiExtension extends AbstractExtension
         AuthenticationContextPolicyType::NAME => AuthenticationContextPolicyType::class,
         AuthenticationPredicateType::NAME => AuthenticationPredicateType::class,
         TenantLookType::NAME => TenantLookType::class,
+        TenantContactType::NAME => TenantContactType::class,
         PasskeyAttestationType::NAME => PasskeyAttestationType::class,
         SelfServedClaimsType::NAME => SelfServedClaimsType::class,
         BackupCodesType::NAME => BackupCodesType::class,

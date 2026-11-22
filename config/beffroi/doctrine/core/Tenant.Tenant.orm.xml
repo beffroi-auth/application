@@ -40,6 +40,7 @@
                 <option name="default">{"policy":"none","roots":[],"own_roots":[],"models_under_alert":[]}</option>
             </options>
         </field>
+        <field name="contact" type="beffroi_tenant_contact" column="contact" length="255" nullable="true"/>
         <field name="createdAt" type="datetime_immutable" column="created_at"/>
     </entity>
 </doctrine-mapping>
