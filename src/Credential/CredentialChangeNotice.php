@@ -10,7 +10,7 @@ namespace App\Credential;
 final readonly class CredentialChangeNotice
 {
     /**
-     * @param string $accountPage where the person reads and undoes the change, a page that acts on nothing
+     * @param string $accountPage where the person reads the change, a page that acts on nothing
      */
     public function __construct(
         public string $title,

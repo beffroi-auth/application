@@ -11,7 +11,7 @@ use function max;
 
 /**
  * Carries no identifier and no link that acts: a notification that could be followed straight into an approval, or
- * into undoing a change, is the attack the pages where a person answers or undoes it exist to prevent.
+ * into an act on an account, is the attack the pages where a person answers and acts, signed in, exist to prevent.
  */
 final readonly class PushMessage
 {
