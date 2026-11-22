@@ -1013,6 +1013,38 @@
         <source>push.approval.body_with_message</source>
         <target>{client} vous demande d'approuver : {message}. Ouvrez votre compte pour répondre.</target>
       </trans-unit>
+      <trans-unit id="credential_change.title" resname="credential_change.title">
+        <source>credential_change.title</source>
+        <target>{provider}</target>
+      </trans-unit>
+      <trans-unit id="credential_change.body" resname="credential_change.body">
+        <source>credential_change.body</source>
+        <target>{what} Si ce n'était pas vous, ouvrez votre compte.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.body_with_contact" resname="credential_change.body_with_contact">
+        <source>credential_change.body_with_contact</source>
+        <target>{what} Si ce n'était pas vous, ouvrez votre compte et contactez {contact}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.credential.enrolled" resname="credential_change.credential.enrolled">
+        <source>credential_change.credential.enrolled</source>
+        <target>{kind, select, passkey {Une passkey a été ajoutée} totp {Une application d'authentification a été ajoutée} password {Un mot de passe a été ajouté} other {Un moyen de connexion a été ajouté}} à votre compte le {when}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.credential.revoked" resname="credential_change.credential.revoked">
+        <source>credential_change.credential.revoked</source>
+        <target>{kind, select, passkey {Une passkey a été retirée} totp {Une application d'authentification a été retirée} password {Un mot de passe a été retiré} other {Un moyen de connexion a été retiré}} de votre compte le {when}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.password.changed" resname="credential_change.password.changed">
+        <source>credential_change.password.changed</source>
+        <target>Le mot de passe de votre compte a été changé le {when}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.enrolment_ticket.issued" resname="credential_change.enrolment_ticket.issued">
+        <source>credential_change.enrolment_ticket.issued</source>
+        <target>Un lien pour ajouter une passkey à votre compte a été émis le {when}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.backup_codes.renewed" resname="credential_change.backup_codes.renewed">
+        <source>credential_change.backup_codes.renewed</source>
+        <target>Les codes de secours de votre compte ont été renouvelés le {when}.</target>
+      </trans-unit>
       <trans-unit id="c7a1e4f9b3" resname="locale.choose">
         <source>locale.choose</source>
         <target>Langue</target>

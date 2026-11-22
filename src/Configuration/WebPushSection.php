@@ -17,6 +17,8 @@ final readonly class WebPushSection extends ConfigurationSection
 
     public const string CHANNEL_TAG = 'beffroi.pending_approval_channel';
 
+    public const string CREDENTIAL_CHANGE_CHANNEL_TAG = 'beffroi.credential_change_channel';
+
     public const string ALGORITHM_TAG = 'beffroi.application_server_algorithm';
 
     public const string ROLE = 'beffroi.web_push.role';

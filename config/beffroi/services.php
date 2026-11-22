@@ -44,6 +44,10 @@ use Beffroi\Core\Port\RandomnessInterface;
 use Beffroi\Core\Bridge\Random\PlatformRandomness;
 use App\Account\ApplicationHoldings;
 use App\Ciba\QueuedPendingApprovalNotifier;
+use App\Credential\CredentialChangeNotices;
+use App\Credential\QueuedCredentialChangeNotifier;
+use App\Credential\WebPushCredentialChangeChannel;
+use Beffroi\Core\Port\CredentialChangeNotifierInterface;
 use App\Cache\SeenOnce;
 use App\Client\ClientAssertionReplayGuard;
 use App\Client\SoftwareStatementReplayGuard;
@@ -209,6 +213,7 @@ use App\Load\LoadRefusalListener;
 use App\Load\OriginLoadListener;
 use App\Load\RateLimitedClientLoad;
 use App\MessageHandler\TellUserOfPendingApprovalHandler;
+use App\MessageHandler\TellUserOfCredentialChangeHandler;
 use App\MessageHandler\QueueLogoutTokenHandler;
 use App\Messenger\EventBusDispatcher;
 use App\Messenger\KeysOpenedAtWorkerStart;
@@ -885,6 +890,8 @@ return static function (ContainerConfigurator $container): void {
     $services->set(WebPushSender::class);
     $services->set(WebPushBroadcast::class);
     $services->set(WebPushApprovalChannel::class);
+    $services->set(CredentialChangeNotices::class)->arg('$router', service(ProviderRoutes::URL_GENERATOR));
+    $services->set(WebPushCredentialChangeChannel::class);
     $services->set(AccountAccess::class);
     $services->set(ProviderScript::class);
     // The home of the account shows these sections in the order they are wired.
@@ -1095,6 +1102,16 @@ return static function (ContainerConfigurator $container): void {
             tagged_iterator(WebPushSection::CHANNEL_TAG),
             service(WebPushSection::ROLE),
             iterator([service(WebPushApprovalChannel::class)]),
+        ]),
+    ]);
+    // WebPushSection::CREDENTIAL_CHANGE_CHANNEL_TAG is for a deployment's own channels; the provider tags none.
+    $services->set(QueuedCredentialChangeNotifier::class);
+    $services->alias(CredentialChangeNotifierInterface::class, QueuedCredentialChangeNotifier::class);
+    $services->get(TellUserOfCredentialChangeHandler::class)->args([
+        '$channels' => inline_service(SwitchedServices::class)->args([
+            tagged_iterator(WebPushSection::CREDENTIAL_CHANGE_CHANNEL_TAG),
+            service(WebPushSection::ROLE),
+            iterator([service(WebPushCredentialChangeChannel::class)]),
         ]),
     ]);
     $services->set(LogoutTokenSender::class);

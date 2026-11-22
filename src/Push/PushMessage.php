@@ -10,8 +10,8 @@ use const JSON_THROW_ON_ERROR;
 use function max;
 
 /**
- * Carries no identifier and no link to an approval: a notification that could be followed straight into an
- * approval is the attack the page where a user finds what waits for them exists to prevent.
+ * Carries no identifier and no link that acts: a notification that could be followed straight into an approval, or
+ * into undoing a change, is the attack the pages where a person answers or undoes it exist to prevent.
  */
 final readonly class PushMessage
 {
