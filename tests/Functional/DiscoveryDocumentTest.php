@@ -60,4 +60,46 @@ final class DiscoveryDocumentTest extends BrowserTestCase
         static::assertIsArray($document);
         static::assertArrayNotHasKey('authorization_details_types_supported', $document);
     }
+
+    /**
+     * RFC 8705 §2, RFC 8414 §2
+     */
+    #[Test]
+    public function itAnnouncesNoMethodThatReadsACertificateForAHostTheDeploymentDidNotName(): void
+    {
+        // When
+        $this->browser->request('GET', '/.well-known/openid-configuration');
+
+        // Then
+        $response = $this->browser->getResponse();
+        static::assertSame(Response::HTTP_OK, $response->getStatusCode());
+        $document = json_decode(self::string($response->getContent()), true);
+        static::assertIsArray($document);
+        foreach ([
+            'token_endpoint_auth_methods_supported',
+            'introspection_endpoint_auth_methods_supported',
+            'revocation_endpoint_auth_methods_supported',
+        ] as $member) {
+            static::assertIsArray($document[$member] ?? null, $member);
+            static::assertNotContains('tls_client_auth', $document[$member], $member);
+            static::assertNotContains('self_signed_tls_client_auth', $document[$member], $member);
+        }
+    }
+
+    /**
+     * RFC 8705 §3.3
+     */
+    #[Test]
+    public function itBindsNoTokenToACertificateForAHostTheDeploymentDidNotName(): void
+    {
+        // When
+        $this->browser->request('GET', '/.well-known/openid-configuration');
+
+        // Then
+        $response = $this->browser->getResponse();
+        static::assertSame(Response::HTTP_OK, $response->getStatusCode());
+        $document = json_decode(self::string($response->getContent()), true);
+        static::assertIsArray($document);
+        static::assertFalse($document['tls_client_certificate_bound_access_tokens'] ?? null);
+    }
 }

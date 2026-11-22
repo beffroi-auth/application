@@ -981,7 +981,7 @@
                             "origin": {
                                 "$ref": "#/$defs/types/scalar",
                                 "default": null,
-                                "description": "Scheme and authority of that host, without a path (\"https://mtls.op.example\"). The endpoints are announced under it in \"mtls_endpoint_aliases\", with the paths they are served at. Absent, the document announces no alias and a client authenticating by mutual TLS reaches the ordinary endpoints, which is what a deployment serving one host does."
+                                "description": "Scheme and authority of that host, without a path (\"https://mtls.op.example\"). The endpoints are announced under it in \"mtls_endpoint_aliases\", with the paths they are served at. Absent, the provider serves no mutual TLS: tls_client_auth, self_signed_tls_client_auth and the tokens bound to a certificate are neither announced nor registered. A deployment whose edge hands the certificate to the host of the issuer names that host."
                             }
                         },
                         "additionalProperties": false,

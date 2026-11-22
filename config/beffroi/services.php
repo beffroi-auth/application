@@ -821,6 +821,7 @@ use Beffroi\Core\Bridge\JwtLibrary\Algorithm\Vapid;
 use Beffroi\Core\Application\Push\PushSubscriptionNaming;
 use Beffroi\Core\Application\Push\PushSubscriptionRevocation;
 use Beffroi\Core\Application\Push\PushSubscriptionEnrolment;
+use App\Configuration\MutualTlsSection;
 use App\Configuration\SamlSection;
 use App\Configuration\SwitchedServices;
 use App\Configuration\WebPushSection;
@@ -1561,10 +1562,17 @@ return static function (ContainerConfigurator $container): void {
     $services->set(ClientSecretPost::class)->tag('beffroi.client_authentication_method');
     $services->set(PrivateKeyJwt::class)->tag('beffroi.client_authentication_method');
     $services->set(ClientSecretJwt::class)->tag('beffroi.client_authentication_method');
-    $services->set(TlsClientAuth::class)->tag('beffroi.client_authentication_method');
-    $services->set(SelfSignedTlsClientAuth::class)->tag('beffroi.client_authentication_method');
     $services->set(NoAuthentication::class)->tag('beffroi.client_authentication_method');
-    $services->set(ClientAuthenticationMethods::class)->args([tagged_iterator('beffroi.client_authentication_method')]);
+    // Only a host that asks for a certificate hands one to PHP: without it, a method that reads one serves no client.
+    $services->set(TlsClientAuth::class);
+    $services->set(SelfSignedTlsClientAuth::class);
+    $services->set(ClientAuthenticationMethods::class)->args([
+        inline_service(SwitchedServices::class)->args([
+            tagged_iterator('beffroi.client_authentication_method'),
+            service(MutualTlsSection::ROLE),
+            iterator([service(TlsClientAuth::class), service(SelfSignedTlsClientAuth::class)]),
+        ]),
+    ]);
     $services->alias(ClientAuthenticationMethodsInterface::class, ClientAuthenticationMethods::class);
     $services->set(ClientAuthenticationRequestParser::class);
     $services->set(ClientAuthenticator::class);
