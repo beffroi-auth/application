@@ -23,15 +23,15 @@ final class TenantLookTest extends BrowserTestCase
     }
 
     #[Test]
-    public function aPageIsDrawnInTheColoursOfTheImage(): void
+    public function aPageOfAnImageThatDeclaresNoColourLeavesItsColoursToTheThemes(): void
     {
         // Given
         $this->signIn(self::user());
 
         // When
-        $style = $this->accountHome()->filter('head style')->text();
+        $styles = $this->accountHome()->filter('head style');
 
         // Then
-        static::assertStringContainsString('--color-primary: #1f6feb; --color-primary-content: #ffffff;', $style);
+        static::assertCount(0, $styles);
     }
 }

@@ -238,7 +238,8 @@ nelmio_security:
             # (App\Http\ImageSource). "data:" is the images the stylesheet draws the arrows of a
             # pager with, and the logos of the authenticators the page of the passkeys writes (issue #983).
             img-src: ['self', 'data:']
-            font-src: ['none']
+            # Archivo, the font of the pages, compiled into public/assets with the stylesheet: never a CDN.
+            font-src: ['self']
             media-src: ['none']
             manifest-src: ['none']
             # What the scripts of the provider fetch: the options of a passkey, the registration of a push

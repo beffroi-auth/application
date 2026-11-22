@@ -31,6 +31,55 @@
 }
 
 /*
+ * The default templates of the brand guidelines (v1.0, p. 36): ultramarine, white on it, ink on paper,
+ * Archivo served by the provider itself, square corners, and no mark of Beffroi. The dark theme sets them on
+ * an ink ground with paper text. A tenant's two colours replace the accent and what is written on it
+ * (templates/layout/document.html.twig).
+ */
+@plugin "../vendor/daisyui/theme.js" {
+    name: "light";
+    default: true;
+    color-scheme: light;
+    --color-base-100: #f2f4f6;
+    --color-base-200: #e6e9ee;
+    --color-base-300: #d6d9db;
+    --color-base-content: #0c1016;
+    --color-primary: #2f45ff;
+    --color-primary-content: #ffffff;
+    --radius-selector: 0rem;
+    --radius-field: 0rem;
+    --radius-box: 0rem;
+}
+
+@plugin "../vendor/daisyui/theme.js" {
+    name: "dark";
+    prefersdark: true;
+    color-scheme: dark;
+    --color-base-100: #0c1016;
+    --color-base-200: #1c2026;
+    --color-base-300: #282b31;
+    --color-base-content: #f2f4f6;
+    --color-primary: #2f45ff;
+    --color-primary-content: #ffffff;
+    --radius-selector: 0rem;
+    --radius-field: 0rem;
+    --radius-box: 0rem;
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "Archivo";
+    font-stretch: 62% 125%;
+    font-style: normal;
+    font-weight: 100 900;
+    src: url("../fonts/archivo.woff2") format("woff2");
+}
+
+@theme {
+    --font-sans: "Archivo", Arial, sans-serif;
+}
+
+/*
  * A link reads as one wherever it sits on a page: a line under it, outlined under the keyboard, and the colour
  * of the buttons drawn towards the colour of the text, darker on a light theme and lighter on a dark one, so
  * that it keeps the contrast of text on either; one step further under the pointer. A rule below that draws a
