@@ -127,7 +127,7 @@ final readonly class KeysListCommand
                     $tenant->slug,
                     count($dead) === 1 ? 'it' : 'them',
                 ),
-                'If the KMS is not reachable, start it and run this command again. If the KMS lost the master key (Vault in dev mode and LocalStack forget everything when they restart), the envelopes sealed under it are dead: a rotation publishes a key sealed under the master key the KMS has now and signs with it at once, the dead key retires with its window, its public half still verifying what it signed. Nothing is deleted.',
+                'If the KMS is not reachable, start it and run this command again. If the KMS lost the master key (Vault in dev mode and an AWS KMS emulator in memory forget everything when they restart), the envelopes sealed under it are dead: a rotation publishes a key sealed under the master key the KMS has now and signs with it at once, the dead key retires with its window, its public half still verifying what it signed. Nothing is deleted.',
                 // One entry and not one per run, so that the runs read as a list a block does not space out.
                 'A rotation reaches one algorithm, the default one when none is named, so each algorithm above has its own run:'
                     . \PHP_EOL
