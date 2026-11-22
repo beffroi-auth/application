@@ -2101,6 +2101,86 @@
         <source>profile.mail_encryption</source>
         <target>Courriel chiffré</target>
       </trans-unit>
+      <trans-unit id="notifications.channels.title" resname="notifications.channels.title">
+        <source>notifications.channels.title</source>
+        <target>Canaux</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.explanation" resname="notifications.channels.explanation">
+        <source>notifications.channels.explanation</source>
+        <target>Choisissez les canaux qui vous préviennent de chaque sorte de notification. Une sorte que vous ne mettez pas à part suit le choix fait pour toutes. Un e-mail ne part que vers une adresse marquée vérifiée, un SMS que vers un numéro marqué vérifié, et l'un comme l'autre ne fait que vous prévenir : vous répondez ici, sur votre compte.</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.none" resname="notifications.channels.none">
+        <source>notifications.channels.none</source>
+        <target>Ce fournisseur ne vous prévient par aucun canal : ce qui vous attend et ce qui change sur votre compte sont sur ces pages.</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.kind" resname="notifications.channels.kind">
+        <source>notifications.channels.kind</source>
+        <target>Notification</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.apart" resname="notifications.channels.apart">
+        <source>notifications.channels.apart</source>
+        <target>Choix à part</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.apart_label" resname="notifications.channels.apart_label">
+        <source>notifications.channels.apart_label</source>
+        <target>{kind} : choix à part</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.by" resname="notifications.channels.by">
+        <source>notifications.channels.by</source>
+        <target>{kind} : {channel}</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.every_kind" resname="notifications.channels.every_kind">
+        <source>notifications.channels.every_kind</source>
+        <target>Toute sorte qui n'est pas à part</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.every_channel" resname="notifications.channels.every_channel">
+        <source>notifications.channels.every_channel</source>
+        <target>Votre choix ne s'y applique pas : chaque canal qui porte cet avis vous prévient.</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.save" resname="notifications.channels.save">
+        <source>notifications.channels.save</source>
+        <target>Enregistrer ces canaux</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.not_chosen" resname="notifications.channels.not_chosen">
+        <source>notifications.channels.not_chosen</source>
+        <target>Pas choisi</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.no_channel" resname="notifications.channels.no_channel">
+        <source>notifications.channels.no_channel</source>
+        <target>Aucun canal</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.web_push" resname="notifications.channel.web_push">
+        <source>notifications.channel.web_push</source>
+        <target>Navigateurs</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.mail" resname="notifications.channel.mail">
+        <source>notifications.channel.mail</source>
+        <target>E-mail</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.sms" resname="notifications.channel.sms">
+        <source>notifications.channel.sms</source>
+        <target>SMS</target>
+      </trans-unit>
+      <trans-unit id="notifications.kind.pending_approval" resname="notifications.kind.pending_approval">
+        <source>notifications.kind.pending_approval</source>
+        <target>Une demande qui attend votre approbation</target>
+      </trans-unit>
+      <trans-unit id="notifications.kind.credential_change" resname="notifications.kind.credential_change">
+        <source>notifications.kind.credential_change</source>
+        <target>Un changement de vos moyens de connexion</target>
+      </trans-unit>
+      <trans-unit id="profile.notification_channels" resname="profile.notification_channels">
+        <source>profile.notification_channels</source>
+        <target>Canaux de toute sorte de notification qui n'est pas à part</target>
+      </trans-unit>
+      <trans-unit id="profile.notification_channels.pending_approval" resname="profile.notification_channels.pending_approval">
+        <source>profile.notification_channels.pending_approval</source>
+        <target>Canaux d'une demande qui attend votre approbation</target>
+      </trans-unit>
+      <trans-unit id="act.notification_channels.chosen" resname="act.notification_channels.chosen">
+        <source>act.notification_channels.chosen</source>
+        <target>Canaux des notifications choisis</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

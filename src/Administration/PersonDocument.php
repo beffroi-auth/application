@@ -10,13 +10,15 @@ use Beffroi\Core\Domain\Credential\ModelDeclaringCredentialInterface;
 use Beffroi\Core\Domain\Credential\RevocableCredentialInterface;
 use Beffroi\Core\Domain\Group\GroupMembership;
 use Beffroi\Core\Domain\Identity\User;
+use Beffroi\Core\Domain\Notification\ChosenChannels;
 use function array_filter;
 use function array_map;
 
 /**
  * A person as the administration API writes them: the account and the source that created it, the standard claims it
- * holds (OIDC Core §5.1), the groups with the source of each membership, and the credentials with their kind, name,
- * authenticator and dates. The account and its claims are what a patch of the person changes.
+ * holds (OIDC Core §5.1), the channels the person chose to be told by, the groups with the source of each membership,
+ * and the credentials with their kind, name, authenticator and dates. The account and its claims are what a patch of
+ * the person changes.
  */
 final readonly class PersonDocument
 {
@@ -67,6 +69,21 @@ final readonly class PersonDocument
             'source' => $user->source->provider ?? 'local',
             'created_at' => AdministrationAnswer::moment($user->createdAt),
             'claims' => (object) self::claims($user),
+            'notification_channels' => self::channels($user->notificationChannels),
+        ];
+    }
+
+    /**
+     * The channels of every kind, null when the person chose nothing for every kind, and those of each kind they set
+     * apart, by its name.
+     *
+     * @return array{every_kind: list<string>|null, set_apart: object}
+     */
+    private static function channels(ChosenChannels $chosen): array
+    {
+        return [
+            'every_kind' => $chosen->forEveryKind,
+            'set_apart' => (object) $chosen->setApart,
         ];
     }
 

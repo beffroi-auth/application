@@ -22,6 +22,11 @@ final readonly class WebPushApprovalChannel implements PendingApprovalChannelInt
     ) {
     }
 
+    public function name(): string
+    {
+        return WebPushBroadcast::CHANNEL;
+    }
+
     public function tell(User $user, PendingApproval $approval): bool
     {
         $locale = $this->locales->of($user);

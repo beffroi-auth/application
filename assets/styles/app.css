@@ -651,6 +651,11 @@
         @apply my-2;
     }
 
+    /* A channel is a box in the line of its kind, as the box that sets a kind apart is. */
+    main[data-page="account"] form[data-channels] input[type="checkbox"] {
+        @apply checkbox checkbox-sm;
+    }
+
     /*
      * What a table is narrowed to, read above it: two days and the way back to the whole of it. It is a
      * row and not a panel, because it belongs to the table under it as the control of the pages does.

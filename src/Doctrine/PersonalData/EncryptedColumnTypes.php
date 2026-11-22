@@ -27,7 +27,7 @@ final readonly class EncryptedColumnTypes
      * @var array<string, list<string>> by scope, the name of the table without the prefix
      */
     public const array FAMILIES = [
-        'user' => ['string', 'beffroi_email_address', 'beffroi_address', 'beffroi_profile', 'beffroi_user_source', 'beffroi_mail_encryption_key'],
+        'user' => ['string', 'beffroi_email_address', 'beffroi_address', 'beffroi_profile', 'beffroi_user_source', 'beffroi_mail_encryption_key', 'beffroi_chosen_channels'],
         'linked_identity' => ['string', 'json'],
         'passkey_credential' => ['string'],
         'push_subscription' => ['string', 'text'],

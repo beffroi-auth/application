@@ -2101,6 +2101,86 @@
         <source>profile.mail_encryption</source>
         <target>Encrypted mail</target>
       </trans-unit>
+      <trans-unit id="notifications.channels.title" resname="notifications.channels.title">
+        <source>notifications.channels.title</source>
+        <target>Channels</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.explanation" resname="notifications.channels.explanation">
+        <source>notifications.channels.explanation</source>
+        <target>Choose the channels that tell you of each kind of notification. A kind you do not set apart follows the choice for every kind. A mail goes only to an address marked verified, a text only to a number marked verified, and either only tells you: you answer here, on your account.</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.none" resname="notifications.channels.none">
+        <source>notifications.channels.none</source>
+        <target>This provider tells you by no channel: what waits for you and what changes on your account are on these pages.</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.kind" resname="notifications.channels.kind">
+        <source>notifications.channels.kind</source>
+        <target>Notification</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.apart" resname="notifications.channels.apart">
+        <source>notifications.channels.apart</source>
+        <target>Its own choice</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.apart_label" resname="notifications.channels.apart_label">
+        <source>notifications.channels.apart_label</source>
+        <target>{kind}: its own choice</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.by" resname="notifications.channels.by">
+        <source>notifications.channels.by</source>
+        <target>{kind}: {channel}</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.every_kind" resname="notifications.channels.every_kind">
+        <source>notifications.channels.every_kind</source>
+        <target>Every kind not set apart</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.every_channel" resname="notifications.channels.every_channel">
+        <source>notifications.channels.every_channel</source>
+        <target>Your choice does not apply: every channel that carries this notice tells you.</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.save" resname="notifications.channels.save">
+        <source>notifications.channels.save</source>
+        <target>Save these channels</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.not_chosen" resname="notifications.channels.not_chosen">
+        <source>notifications.channels.not_chosen</source>
+        <target>Not chosen</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.no_channel" resname="notifications.channels.no_channel">
+        <source>notifications.channels.no_channel</source>
+        <target>No channel</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.web_push" resname="notifications.channel.web_push">
+        <source>notifications.channel.web_push</source>
+        <target>Browsers</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.mail" resname="notifications.channel.mail">
+        <source>notifications.channel.mail</source>
+        <target>Mail</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.sms" resname="notifications.channel.sms">
+        <source>notifications.channel.sms</source>
+        <target>Text message</target>
+      </trans-unit>
+      <trans-unit id="notifications.kind.pending_approval" resname="notifications.kind.pending_approval">
+        <source>notifications.kind.pending_approval</source>
+        <target>A request waiting for your approval</target>
+      </trans-unit>
+      <trans-unit id="notifications.kind.credential_change" resname="notifications.kind.credential_change">
+        <source>notifications.kind.credential_change</source>
+        <target>A change of the ways you sign in</target>
+      </trans-unit>
+      <trans-unit id="profile.notification_channels" resname="profile.notification_channels">
+        <source>profile.notification_channels</source>
+        <target>Channels of every kind of notification not set apart</target>
+      </trans-unit>
+      <trans-unit id="profile.notification_channels.pending_approval" resname="profile.notification_channels.pending_approval">
+        <source>profile.notification_channels.pending_approval</source>
+        <target>Channels of a request waiting for your approval</target>
+      </trans-unit>
+      <trans-unit id="act.notification_channels.chosen" resname="act.notification_channels.chosen">
+        <source>act.notification_channels.chosen</source>
+        <target>Notification channels chosen</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

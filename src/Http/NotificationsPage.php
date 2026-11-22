@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http;
 
+use App\Notification\NotificationKinds;
+use App\Notification\OfferedChannels;
 use App\Push\ApplicationServerKey;
 use Beffroi\Core\Domain\Identity\User;
 use Beffroi\Core\Exception\KeyNotFoundException;
@@ -21,6 +23,8 @@ final readonly class NotificationsPage
         private AskedPage $asked,
         private AskedPeriod $period,
         private InteractionPages $pages,
+        private NotificationKinds $kinds,
+        private OfferedChannels $channels,
     ) {
     }
 
@@ -35,6 +39,10 @@ final readonly class NotificationsPage
                 'subscriptions' => $this->subscriptions->pageOfActiveSubscriptions($user, $this->asked->asked(), $period),
                 'period' => $period,
                 'application_server_key' => $this->applicationServerKey($user)?->publicKey,
+                'channels' => $this->channels->names(),
+                'chosen_kinds' => $this->kinds->choosable(),
+                'every_channel_kinds' => $this->kinds->reachingEveryChannel(),
+                'chosen' => $user->notificationChannels,
                 'error' => $error,
             ],
             $status,

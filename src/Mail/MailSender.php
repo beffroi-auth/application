@@ -23,6 +23,8 @@ use Symfony\Component\Mime\Exception\ExceptionInterface as MimeException;
  */
 final readonly class MailSender
 {
+    public const string CHANNEL = 'mail';
+
     /**
      * @param Closure(): TransportInterface $transport built at the first mail, so that a DSN no installed factory reads
      *                                                 fails the mail alone and never the channels beside it

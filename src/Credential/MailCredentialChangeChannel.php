@@ -13,8 +13,6 @@ use Beffroi\Core\Domain\Identity\User;
  */
 final readonly class MailCredentialChangeChannel implements CredentialChangeChannelInterface
 {
-    public const string NAME = 'mail';
-
     public function __construct(
         private CredentialChangeNotices $notices,
         private MailSender $sender,
@@ -23,7 +21,7 @@ final readonly class MailCredentialChangeChannel implements CredentialChangeChan
 
     public function name(): string
     {
-        return self::NAME;
+        return MailSender::CHANNEL;
     }
 
     public function tell(User $user, CredentialChange $change): void

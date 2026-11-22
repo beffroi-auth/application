@@ -22,6 +22,11 @@ final readonly class SmsApprovalChannel implements PendingApprovalChannelInterfa
     ) {
     }
 
+    public function name(): string
+    {
+        return SmsSender::CHANNEL;
+    }
+
     public function tell(User $user, PendingApproval $approval): bool
     {
         $locale = $this->locales->of($user);
