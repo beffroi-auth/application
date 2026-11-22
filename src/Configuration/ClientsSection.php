@@ -98,7 +98,7 @@ final readonly class ClientsSection extends ConfigurationSection
             ->defaultFalse()
             ->end()
             ->booleanNode('require_sender_constrained_tokens')
-            ->info('The tokens of this client are bound to what the request proves it holds, or the request is refused (FAPI 2.0 Security Profile §5.3.1): a token request that proves neither a certificate (RFC 8705 §3) nor a key (RFC 9449 §5) is answered with an error rather than with bearer tokens. Per client, nothing global.')
+            ->info('The tokens of this client are bound to what the request proves it holds, or the request is refused (FAPI 2.0 Security Profile §5.3.2.1): a token request that proves neither a certificate (RFC 8705 §3) nor a key (RFC 9449 §5) is answered with an error rather than with bearer tokens. Per client, nothing global.')
             ->defaultFalse()
             ->end()
             ->booleanNode('tls_client_certificate_bound_access_tokens')
