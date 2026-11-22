@@ -14,7 +14,9 @@ use Beffroi\Oidc\Domain\Ciba\PendingApproval;
 interface PendingApprovalChannelInterface
 {
     /**
+     * @return bool false when this channel has no way to reach the user, who was told nothing by it
+     *
      * @throws NotificationNotDeliveredException when a later attempt may reach the user
      */
-    public function tell(User $user, PendingApproval $approval): void;
+    public function tell(User $user, PendingApproval $approval): bool;
 }

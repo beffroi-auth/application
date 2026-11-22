@@ -844,6 +844,13 @@ use App\Http\Account\PasswordSection;
 use App\Http\Account\ActsSection;
 use App\Doctrine\Repository\DoctrinePushSubscriptionRepository;
 use App\Ciba\WebPushApprovalChannel;
+use App\Ciba\MailApprovalChannel;
+use App\Ciba\SmsApprovalChannel;
+use App\Ciba\PendingApprovalWording;
+use App\Configuration\MailSection;
+use App\Configuration\SmsSection;
+use App\Mail\MailSender;
+use App\Sms\SmsSender;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
@@ -889,7 +896,12 @@ return static function (ContainerConfigurator $container): void {
     $services->set(NotificationsPage::class);
     $services->set(WebPushSender::class);
     $services->set(WebPushBroadcast::class);
+    $services->set(MailSender::class);
+    $services->set(SmsSender::class);
+    $services->set(PendingApprovalWording::class);
     $services->set(WebPushApprovalChannel::class);
+    $services->set(MailApprovalChannel::class);
+    $services->set(SmsApprovalChannel::class);
     $services->set(CredentialChangeNotices::class)->arg('$router', service(ProviderRoutes::URL_GENERATOR));
     $services->set(WebPushCredentialChangeChannel::class);
     $services->set(AccountAccess::class);
@@ -1097,12 +1109,22 @@ return static function (ContainerConfigurator $container): void {
     // WebPushSection::CHANNEL_TAG is for a deployment's own channels; the provider tags none.
     $services->set(QueuedPendingApprovalNotifier::class);
     $services->alias(PendingApprovalNotifierInterface::class, QueuedPendingApprovalNotifier::class);
-    $services->get(TellUserOfPendingApprovalHandler::class)->args([
-        '$channels' => inline_service(SwitchedServices::class)->args([
-            tagged_iterator(WebPushSection::CHANNEL_TAG),
-            service(WebPushSection::ROLE),
-            iterator([service(WebPushApprovalChannel::class)]),
+    // The channels of the deployment, then web push, mail and SMS, each while its role is on.
+    $services->set('beffroi.pending_approval_channels', SwitchedServices::class)->args([
+        inline_service(SwitchedServices::class)->args([
+            inline_service(SwitchedServices::class)->args([
+                tagged_iterator(WebPushSection::CHANNEL_TAG),
+                service(WebPushSection::ROLE),
+                iterator([service(WebPushApprovalChannel::class)]),
+            ]),
+            service(MailSection::ROLE),
+            iterator([service(MailApprovalChannel::class)]),
         ]),
+        service(SmsSection::ROLE),
+        iterator([service(SmsApprovalChannel::class)]),
+    ]);
+    $services->get(TellUserOfPendingApprovalHandler::class)->args([
+        '$channels' => service('beffroi.pending_approval_channels'),
     ]);
     // WebPushSection::CREDENTIAL_CHANGE_CHANNEL_TAG is for a deployment's own channels; the provider tags none.
     $services->set(QueuedCredentialChangeNotifier::class);

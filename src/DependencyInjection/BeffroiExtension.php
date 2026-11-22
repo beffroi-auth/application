@@ -42,6 +42,7 @@ use App\Configuration\KeysSection;
 use App\Configuration\HistorySection;
 use App\Configuration\JournalSection;
 use App\Configuration\LoadSection;
+use App\Configuration\MailSection;
 use App\Configuration\MutualTlsSection;
 use App\Configuration\PasswordsSection;
 use App\Configuration\RequestObjectsSection;
@@ -49,6 +50,7 @@ use App\Configuration\TenantSection;
 use App\Configuration\TokensSection;
 use App\Configuration\SamlSection;
 use App\Configuration\SelfClientSection;
+use App\Configuration\SmsSection;
 use App\Configuration\TrustedIssuersSection;
 use App\Configuration\WebauthnSection;
 use App\Configuration\WebPushSection;
@@ -320,6 +322,8 @@ final class BeffroiExtension extends AbstractExtension
             new BackChannelLogoutSection(),
             new BackchannelAuthenticationSection(),
             new WebPushSection(),
+            new MailSection(),
+            new SmsSection(),
             new ClientAuthenticationSection(),
             new RequestObjectsSection(),
             new DpopSection(),

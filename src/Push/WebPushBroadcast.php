@@ -31,9 +31,11 @@ final readonly class WebPushBroadcast
     }
 
     /**
+     * @return bool false when the person has no browser left to push to, and was told nothing
+     *
      * @throws NotificationNotDeliveredException when no browser was reached and a later attempt may reach one
      */
-    public function toEveryBrowserOf(User $user, PushMessage $message): void
+    public function toEveryBrowserOf(User $user, PushMessage $message): bool
     {
         $reached = false;
         $failures = [];
@@ -61,6 +63,8 @@ final readonly class WebPushBroadcast
                 implode('; ', $failures),
             ));
         }
+
+        return $reached;
     }
 
     /**

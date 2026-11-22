@@ -1001,16 +1001,20 @@
         <source>account.notifications.state</source>
         <target>{count, plural, =0 {No browser told} one {One browser told} other {# browsers told}}</target>
       </trans-unit>
-      <trans-unit id="ac987c5e1e" resname="push.approval.title">
-        <source>push.approval.title</source>
+      <trans-unit id="8929e85d47" resname="approval.notice.title">
+        <source>approval.notice.title</source>
         <target>{provider}</target>
       </trans-unit>
-      <trans-unit id="cfcb9f29bb" resname="push.approval.body">
-        <source>push.approval.body</source>
+      <trans-unit id="1b482fd722" resname="approval.notice.subject">
+        <source>approval.notice.subject</source>
+        <target>{provider}: a sign-in is waiting for your approval</target>
+      </trans-unit>
+      <trans-unit id="95c419025b" resname="approval.notice.body">
+        <source>approval.notice.body</source>
         <target>{client} is asking you to approve a sign-in. Open your account to answer.</target>
       </trans-unit>
-      <trans-unit id="23fcbc70a0" resname="push.approval.body_with_message">
-        <source>push.approval.body_with_message</source>
+      <trans-unit id="4399d9d6d6" resname="approval.notice.body_with_message">
+        <source>approval.notice.body_with_message</source>
         <target>{client} is asking you to approve: {message}. Open your account to answer.</target>
       </trans-unit>
       <trans-unit id="credential_change.title" resname="credential_change.title">

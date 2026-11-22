@@ -1358,6 +1358,42 @@
                         },
                         "description": "Reaching a user through the push service of a browser they signed in with (RFC 8030, architecture §5.6). Absent, web push is off: no push leaves this deployment and the page where a browser would subscribe says so."
                     },
+                    "mail": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "dsn": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "The transport of symfony/mailer a mail leaves through: \"smtp://user:password@host:port\", which the component carries, or the scheme of a bridge the application installs. Naming one is what turns mail on, and none turns it off; it may be an environment variable, read when the container builds what mail changes, which \"default::\" makes none when it is empty."
+                            },
+                            "sender": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "The address a mail is written from, alone or behind a name (\"Acme <no-reply@acme.example>\"), which a DSN cannot go without."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "dsn": null,
+                            "sender": null
+                        },
+                        "description": "Reaching a person at the email address they verified, through symfony/mailer (decision 0048, architecture §5.6). Absent, mail is off: no mail leaves this deployment."
+                    },
+                    "sms": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "dsn": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "The texter transport of symfony/notifier a text leaves through, the scheme of a bridge the application installs, the number or name it is sent from among its options. Naming one is what turns SMS on, and none turns it off; it may be an environment variable, read when the container builds what SMS changes, which \"default::\" makes none when it is empty."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "dsn": null
+                        },
+                        "description": "Reaching a person at the phone number they verified, through the texter of symfony/notifier (decision 0048, architecture §5.6). Absent, SMS is off: no text leaves this deployment."
+                    },
                     "client_authentication": {
                         "$ref": "#/$defs/types/object_null",
                         "properties": {
@@ -4608,10 +4644,10 @@
                         "$ref": "#/$defs/nodes/http_client"
                     },
                     "mailer": {
-                        "$ref": "#/$defs/types/variable"
+                        "$ref": "#/$defs/nodes/mailer"
                     },
                     "notifier": {
-                        "$ref": "#/$defs/types/variable"
+                        "$ref": "#/$defs/nodes/notifier"
                     },
                     "rate_limiter": {
                         "$ref": "#/$defs/nodes/rate_limiter"
@@ -5922,6 +5958,621 @@
                     "enabled": true,
                     "default_client": null,
                     "clients": []
+                }
+            },
+            "mailer": {
+                "anyOf": [
+                    {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "enabled": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true
+                            },
+                            "message_bus": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "The message bus to use. Defaults to the default bus if the Messenger component is installed."
+                            },
+                            "dsn": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null
+                            },
+                            "transports": {
+                                "$ref": "#/$defs/types/object_null",
+                                "additionalProperties": {
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/$defs/types/object_null",
+                                            "properties": {
+                                                "dsn": {
+                                                    "$ref": "#/$defs/types/scalar"
+                                                },
+                                                "rate_limiter": {
+                                                    "$ref": "#/$defs/types/scalar",
+                                                    "default": null,
+                                                    "description": "Rate limiter name used to limit the number of messages sent through this transport; when the limit is exceeded, sending fails with a RateLimitExceededException."
+                                                }
+                                            },
+                                            "additionalProperties": false
+                                        },
+                                        {
+                                            "type": [
+                                                "string"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            },
+                            "envelope": {
+                                "$ref": "#/$defs/types/object_null",
+                                "properties": {
+                                    "sender": {
+                                        "$ref": "#/$defs/types/scalar"
+                                    },
+                                    "recipients": {
+                                        "anyOf": [
+                                            {
+                                                "$ref": "#/$defs/types/array_null",
+                                                "items": {
+                                                    "$ref": "#/$defs/types/scalar"
+                                                }
+                                            },
+                                            {
+                                                "type": [
+                                                    "string"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "allowed_recipients": {
+                                        "anyOf": [
+                                            {
+                                                "$ref": "#/$defs/types/array_null",
+                                                "items": {
+                                                    "$ref": "#/$defs/types/scalar"
+                                                }
+                                            },
+                                            {
+                                                "type": [
+                                                    "string"
+                                                ]
+                                            }
+                                        ],
+                                        "description": "A list of regular expressions that allow recipients when \"recipients\" option is defined.",
+                                        "examples": [
+                                            [
+                                                ".*@example\\.com"
+                                            ]
+                                        ]
+                                    }
+                                },
+                                "patternProperties": {
+                                    "^recipient$": {
+                                        "anyOf": [
+                                            {
+                                                "$ref": "#/$defs/types/scalar"
+                                            },
+                                            {
+                                                "anyOf": [
+                                                    {
+                                                        "$ref": "#/$defs/types/array_null",
+                                                        "items": {
+                                                            "$ref": "#/$defs/types/scalar"
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": [
+                                                            "string"
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "^allowed_recipient$": {
+                                        "anyOf": [
+                                            {
+                                                "$ref": "#/$defs/types/scalar"
+                                            },
+                                            {
+                                                "anyOf": [
+                                                    {
+                                                        "$ref": "#/$defs/types/array_null",
+                                                        "items": {
+                                                            "$ref": "#/$defs/types/scalar"
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": [
+                                                            "string"
+                                                        ]
+                                                    }
+                                                ],
+                                                "description": "A list of regular expressions that allow recipients when \"recipients\" option is defined.",
+                                                "examples": [
+                                                    [
+                                                        ".*@example\\.com"
+                                                    ]
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                "additionalProperties": false,
+                                "description": "Mailer Envelope configuration"
+                            },
+                            "headers": {
+                                "$ref": "#/$defs/types/object_null",
+                                "additionalProperties": {
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/$defs/types/object_null",
+                                            "properties": {
+                                                "value": {
+                                                    "$ref": "#/$defs/types/variable"
+                                                }
+                                            },
+                                            "additionalProperties": false
+                                        },
+                                        {
+                                            "type": [
+                                                "string"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            },
+                            "tracking": {
+                                "$ref": "#/$defs/types/object_null",
+                                "properties": {
+                                    "opens": {
+                                        "anyOf": [
+                                            {
+                                                "enum": [
+                                                    true,
+                                                    false,
+                                                    null
+                                                ]
+                                            },
+                                            {
+                                                "$ref": "#/$defs/types/param"
+                                            }
+                                        ],
+                                        "default": null
+                                    },
+                                    "clicks": {
+                                        "anyOf": [
+                                            {
+                                                "enum": [
+                                                    true,
+                                                    false,
+                                                    null
+                                                ]
+                                            },
+                                            {
+                                                "$ref": "#/$defs/types/param"
+                                            }
+                                        ],
+                                        "default": null
+                                    }
+                                },
+                                "additionalProperties": false,
+                                "default": {
+                                    "opens": null,
+                                    "clicks": null
+                                },
+                                "description": "Default open/click tracking for every message that does not carry an explicit \"X-Track\" header; null keeps each provider's default. An \"X-Track\" entry in the \"headers\" option wins over this one."
+                            },
+                            "dkim_signer": {
+                                "anyOf": [
+                                    {
+                                        "$ref": "#/$defs/types/object_null",
+                                        "properties": {
+                                            "enabled": {
+                                                "$ref": "#/$defs/types/boolean",
+                                                "default": false
+                                            },
+                                            "key": {
+                                                "$ref": "#/$defs/types/scalar",
+                                                "default": "",
+                                                "description": "Key content, or path to key (in PEM format with the `file://` prefix)"
+                                            },
+                                            "domain": {
+                                                "$ref": "#/$defs/types/scalar",
+                                                "default": ""
+                                            },
+                                            "select": {
+                                                "$ref": "#/$defs/types/scalar",
+                                                "default": ""
+                                            },
+                                            "passphrase": {
+                                                "$ref": "#/$defs/types/scalar",
+                                                "default": "",
+                                                "description": "The private key passphrase"
+                                            },
+                                            "options": {
+                                                "$ref": "#/$defs/types/object_null",
+                                                "additionalProperties": {
+                                                    "$ref": "#/$defs/types/variable"
+                                                }
+                                            }
+                                        },
+                                        "patternProperties": {
+                                            "^option$": {
+                                                "$ref": "#/$defs/types/variable"
+                                            }
+                                        },
+                                        "additionalProperties": false
+                                    },
+                                    {
+                                        "type": [
+                                            "boolean"
+                                        ]
+                                    }
+                                ],
+                                "default": {
+                                    "enabled": false,
+                                    "key": "",
+                                    "domain": "",
+                                    "select": "",
+                                    "passphrase": "",
+                                    "options": []
+                                },
+                                "description": "DKIM signer configuration"
+                            },
+                            "smime_signer": {
+                                "anyOf": [
+                                    {
+                                        "$ref": "#/$defs/types/object_null",
+                                        "properties": {
+                                            "enabled": {
+                                                "$ref": "#/$defs/types/boolean",
+                                                "default": false
+                                            },
+                                            "key": {
+                                                "$ref": "#/$defs/types/scalar",
+                                                "default": "",
+                                                "description": "Path to key (in PEM format)"
+                                            },
+                                            "certificate": {
+                                                "$ref": "#/$defs/types/scalar",
+                                                "default": "",
+                                                "description": "Path to certificate (in PEM format without the `file://` prefix)"
+                                            },
+                                            "passphrase": {
+                                                "$ref": "#/$defs/types/scalar",
+                                                "default": null,
+                                                "description": "The private key passphrase"
+                                            },
+                                            "extra_certificates": {
+                                                "$ref": "#/$defs/types/scalar",
+                                                "default": null
+                                            },
+                                            "sign_options": {
+                                                "$ref": "#/$defs/types/integer_null",
+                                                "default": null
+                                            }
+                                        },
+                                        "additionalProperties": false
+                                    },
+                                    {
+                                        "type": [
+                                            "boolean"
+                                        ]
+                                    }
+                                ],
+                                "default": {
+                                    "enabled": false,
+                                    "key": "",
+                                    "certificate": "",
+                                    "passphrase": null,
+                                    "extra_certificates": null,
+                                    "sign_options": null
+                                },
+                                "description": "S/MIME signer configuration"
+                            },
+                            "smime_encrypter": {
+                                "anyOf": [
+                                    {
+                                        "$ref": "#/$defs/types/object_null",
+                                        "properties": {
+                                            "enabled": {
+                                                "$ref": "#/$defs/types/boolean",
+                                                "default": false
+                                            },
+                                            "repository": {
+                                                "$ref": "#/$defs/types/scalar",
+                                                "default": "",
+                                                "description": "S/MIME certificate repository service. This service shall implement the `Symfony\\Component\\Mailer\\EventListener\\SmimeCertificateRepositoryInterface`."
+                                            },
+                                            "certificates": {
+                                                "$ref": "#/$defs/types/object_null",
+                                                "additionalProperties": {
+                                                    "$ref": "#/$defs/types/scalar"
+                                                },
+                                                "description": "Recipient S/MIME certificates, as a map of email address to certificate file path. Cannot be used together with \"repository\"."
+                                            },
+                                            "on_missing_certificate": {
+                                                "anyOf": [
+                                                    {
+                                                        "enum": [
+                                                            "send_unencrypted",
+                                                            "fail",
+                                                            "encrypt",
+                                                            "skip"
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$ref": "#/$defs/types/param"
+                                                    }
+                                                ],
+                                                "default": "send_unencrypted",
+                                                "description": "Default behavior when a recipient has no S/MIME certificate: \"send_unencrypted\" (send the message unencrypted, deprecated since 8.2), \"fail\" (throw an exception), \"encrypt\" (encrypt for the recipients that have a certificate, the others receive an unreadable message), \"skip\" (encrypt for the recipients that have a certificate and drop the others from the envelope; note that \"mailer.envelope.recipients\" is applied afterwards and overrides that list). Can be overridden per message by setting the \"X-SMime-Encrypt\" header to one of these values."
+                                            },
+                                            "encrypt_for_sender": {
+                                                "$ref": "#/$defs/types/boolean",
+                                                "default": false,
+                                                "description": "Also encrypt for the sender, when a certificate is available for its address, so that the sender can read the messages it sent."
+                                            },
+                                            "cipher": {
+                                                "$ref": "#/$defs/types/integer_null",
+                                                "default": null,
+                                                "description": "A set of algorithms used to encrypt the message"
+                                            }
+                                        },
+                                        "additionalProperties": false
+                                    },
+                                    {
+                                        "type": [
+                                            "boolean"
+                                        ]
+                                    }
+                                ],
+                                "default": {
+                                    "enabled": false,
+                                    "repository": "",
+                                    "certificates": [],
+                                    "on_missing_certificate": "send_unencrypted",
+                                    "encrypt_for_sender": false,
+                                    "cipher": null
+                                },
+                                "description": "S/MIME encrypter configuration"
+                            },
+                            "pgp_signer": {
+                                "anyOf": [
+                                    {
+                                        "$ref": "#/$defs/types/object_null",
+                                        "properties": {
+                                            "enabled": {
+                                                "$ref": "#/$defs/types/boolean",
+                                                "default": false
+                                            },
+                                            "secret_key": {
+                                                "$ref": "#/$defs/types/scalar",
+                                                "default": "",
+                                                "description": "Path to the secret key (ASCII armored format without the `file://` prefix)"
+                                            },
+                                            "public_key": {
+                                                "$ref": "#/$defs/types/scalar",
+                                                "default": null,
+                                                "description": "Path to the public key (ASCII armored format without the `file://` prefix)"
+                                            },
+                                            "passphrase": {
+                                                "$ref": "#/$defs/types/scalar",
+                                                "default": null,
+                                                "description": "The secret key passphrase"
+                                            },
+                                            "binary": {
+                                                "$ref": "#/$defs/types/scalar",
+                                                "default": "gpg",
+                                                "description": "Path to the GnuPG binary"
+                                            },
+                                            "digest_algorithm": {
+                                                "anyOf": [
+                                                    {
+                                                        "enum": [
+                                                            "SHA224",
+                                                            "SHA256",
+                                                            "SHA384",
+                                                            "SHA512"
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$ref": "#/$defs/types/param"
+                                                    }
+                                                ],
+                                                "default": "SHA512",
+                                                "description": "The digest algorithm used to sign the message"
+                                            }
+                                        },
+                                        "additionalProperties": false
+                                    },
+                                    {
+                                        "type": [
+                                            "boolean"
+                                        ]
+                                    }
+                                ],
+                                "default": {
+                                    "enabled": false,
+                                    "secret_key": "",
+                                    "public_key": null,
+                                    "passphrase": null,
+                                    "binary": "gpg",
+                                    "digest_algorithm": "SHA512"
+                                },
+                                "description": "PGP/MIME signer configuration"
+                            },
+                            "pgp_encrypter": {
+                                "anyOf": [
+                                    {
+                                        "$ref": "#/$defs/types/object_null",
+                                        "properties": {
+                                            "enabled": {
+                                                "$ref": "#/$defs/types/boolean",
+                                                "default": false
+                                            },
+                                            "repository": {
+                                                "$ref": "#/$defs/types/scalar",
+                                                "default": "",
+                                                "description": "Service or class implementing `Symfony\\Component\\Mailer\\EventListener\\PgpPublicKeyRepositoryInterface` to provide recipient PGP public keys."
+                                            },
+                                            "keys": {
+                                                "$ref": "#/$defs/types/object_null",
+                                                "additionalProperties": {
+                                                    "$ref": "#/$defs/types/scalar"
+                                                },
+                                                "description": "Recipient PGP public keys, as a map of email address to public key file path. Cannot be used together with \"repository\"."
+                                            },
+                                            "binary": {
+                                                "$ref": "#/$defs/types/scalar",
+                                                "default": "gpg",
+                                                "description": "Path to the GnuPG binary"
+                                            },
+                                            "cipher_algorithm": {
+                                                "anyOf": [
+                                                    {
+                                                        "enum": [
+                                                            "AES",
+                                                            "AES192",
+                                                            "AES256",
+                                                            "TWOFISH",
+                                                            "CAMELLIA128",
+                                                            "CAMELLIA192",
+                                                            "CAMELLIA256"
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$ref": "#/$defs/types/param"
+                                                    }
+                                                ],
+                                                "default": "AES256",
+                                                "description": "The cipher algorithm used to encrypt the message"
+                                            },
+                                            "timeout": {
+                                                "$ref": "#/$defs/types/number",
+                                                "default": 60,
+                                                "description": "Timeout in seconds for the GPG process (null for no timeout)"
+                                            },
+                                            "hide_recipients": {
+                                                "$ref": "#/$defs/types/boolean",
+                                                "default": false,
+                                                "description": "Hide every recipient's key ID in the encrypted message (gpg --hidden-recipient). Recipients listed in the Bcc header are always hidden regardless of this option; set it to true to also hide To and Cc recipients."
+                                            },
+                                            "on_missing_key": {
+                                                "anyOf": [
+                                                    {
+                                                        "enum": [
+                                                            "fail",
+                                                            "encrypt",
+                                                            "skip"
+                                                        ]
+                                                    },
+                                                    {
+                                                        "$ref": "#/$defs/types/param"
+                                                    }
+                                                ],
+                                                "default": "fail",
+                                                "description": "Default behavior when a recipient has no PGP public key: \"fail\" (throw an exception), \"encrypt\" (encrypt for the recipients that have a key, the others receive an unreadable message), \"skip\" (encrypt for the recipients that have a key and drop the others from the envelope; note that \"mailer.envelope.recipients\" is applied afterwards and overrides that list). The message is never sent unencrypted. Can be overridden per message by setting the \"X-Pgp-Encrypt\" header to one of these values."
+                                            },
+                                            "encrypt_for_sender": {
+                                                "$ref": "#/$defs/types/boolean",
+                                                "default": false,
+                                                "description": "Also encrypt for the sender, when a public key is available for its address, so that the sender can read the messages it sent."
+                                            }
+                                        },
+                                        "additionalProperties": false
+                                    },
+                                    {
+                                        "type": [
+                                            "boolean"
+                                        ]
+                                    }
+                                ],
+                                "default": {
+                                    "enabled": false,
+                                    "repository": "",
+                                    "keys": [],
+                                    "binary": "gpg",
+                                    "cipher_algorithm": "AES256",
+                                    "timeout": 60,
+                                    "hide_recipients": false,
+                                    "on_missing_key": "fail",
+                                    "encrypt_for_sender": false
+                                },
+                                "description": "PGP/MIME encrypter configuration"
+                            }
+                        },
+                        "patternProperties": {
+                            "^transport$": {
+                                "$ref": "#/$defs/types/variable"
+                            },
+                            "^header$": {
+                                "$ref": "#/$defs/types/variable"
+                            }
+                        },
+                        "additionalProperties": false
+                    },
+                    {
+                        "type": [
+                            "boolean"
+                        ]
+                    }
+                ],
+                "default": {
+                    "enabled": true,
+                    "message_bus": null,
+                    "dsn": null,
+                    "transports": [],
+                    "headers": [],
+                    "tracking": {
+                        "opens": null,
+                        "clicks": null
+                    },
+                    "dkim_signer": {
+                        "enabled": false,
+                        "key": "",
+                        "domain": "",
+                        "select": "",
+                        "passphrase": "",
+                        "options": []
+                    },
+                    "smime_signer": {
+                        "enabled": false,
+                        "key": "",
+                        "certificate": "",
+                        "passphrase": null,
+                        "extra_certificates": null,
+                        "sign_options": null
+                    },
+                    "smime_encrypter": {
+                        "enabled": false,
+                        "repository": "",
+                        "certificates": [],
+                        "on_missing_certificate": "send_unencrypted",
+                        "encrypt_for_sender": false,
+                        "cipher": null
+                    },
+                    "pgp_signer": {
+                        "enabled": false,
+                        "secret_key": "",
+                        "public_key": null,
+                        "passphrase": null,
+                        "binary": "gpg",
+                        "digest_algorithm": "SHA512"
+                    },
+                    "pgp_encrypter": {
+                        "enabled": false,
+                        "repository": "",
+                        "keys": [],
+                        "binary": "gpg",
+                        "cipher_algorithm": "AES256",
+                        "timeout": 60,
+                        "hide_recipients": false,
+                        "on_missing_key": "fail",
+                        "encrypt_for_sender": false
+                    }
                 }
             },
             "messenger": {
@@ -8523,6 +9174,130 @@
                     }
                 },
                 "additionalProperties": false
+            },
+            "notifier": {
+                "anyOf": [
+                    {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "enabled": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": true
+                            },
+                            "message_bus": {
+                                "$ref": "#/$defs/types/scalar",
+                                "default": null,
+                                "description": "The message bus to use. Defaults to the default bus if the Messenger component is installed."
+                            },
+                            "chatter_transports": {
+                                "$ref": "#/$defs/types/object_null",
+                                "additionalProperties": {
+                                    "$ref": "#/$defs/types/scalar"
+                                }
+                            },
+                            "texter_transports": {
+                                "$ref": "#/$defs/types/object_null",
+                                "additionalProperties": {
+                                    "$ref": "#/$defs/types/scalar"
+                                }
+                            },
+                            "notification_on_failed_messages": {
+                                "$ref": "#/$defs/types/boolean",
+                                "default": false
+                            },
+                            "channel_policy": {
+                                "$ref": "#/$defs/types/object_null",
+                                "additionalProperties": {
+                                    "anyOf": [
+                                        {
+                                            "$ref": "#/$defs/types/array_null",
+                                            "items": {
+                                                "$ref": "#/$defs/types/scalar"
+                                            }
+                                        },
+                                        {
+                                            "type": [
+                                                "string"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            },
+                            "admin_recipients": {
+                                "$ref": "#/$defs/types/array_null",
+                                "items": {
+                                    "$ref": "#/$defs/types/object_null",
+                                    "properties": {
+                                        "email": {
+                                            "$ref": "#/$defs/types/scalar"
+                                        },
+                                        "phone": {
+                                            "$ref": "#/$defs/types/scalar",
+                                            "default": ""
+                                        }
+                                    },
+                                    "additionalProperties": false
+                                }
+                            }
+                        },
+                        "patternProperties": {
+                            "^chatter_transport$": {
+                                "$ref": "#/$defs/types/variable"
+                            },
+                            "^texter_transport$": {
+                                "$ref": "#/$defs/types/variable"
+                            },
+                            "^admin_recipient$": {
+                                "anyOf": [
+                                    {
+                                        "$ref": "#/$defs/types/object_null",
+                                        "properties": {
+                                            "email": {
+                                                "$ref": "#/$defs/types/scalar"
+                                            },
+                                            "phone": {
+                                                "$ref": "#/$defs/types/scalar",
+                                                "default": ""
+                                            }
+                                        },
+                                        "additionalProperties": false
+                                    },
+                                    {
+                                        "$ref": "#/$defs/types/array_null",
+                                        "items": {
+                                            "$ref": "#/$defs/types/object_null",
+                                            "properties": {
+                                                "email": {
+                                                    "$ref": "#/$defs/types/scalar"
+                                                },
+                                                "phone": {
+                                                    "$ref": "#/$defs/types/scalar",
+                                                    "default": ""
+                                                }
+                                            },
+                                            "additionalProperties": false
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        "additionalProperties": false
+                    },
+                    {
+                        "type": [
+                            "boolean"
+                        ]
+                    }
+                ],
+                "default": {
+                    "enabled": true,
+                    "message_bus": null,
+                    "chatter_transports": [],
+                    "texter_transports": [],
+                    "notification_on_failed_messages": false,
+                    "channel_policy": [],
+                    "admin_recipients": []
+                }
             },
             "property_access": {
                 "anyOf": [
@@ -13437,6 +14212,9 @@
         "key_management": {
             "$ref": "#/$defs/nodes/key_management"
         },
+        "mailer": {
+            "$ref": "#/$defs/nodes/mailer"
+        },
         "messenger": {
             "$ref": "#/$defs/nodes/messenger"
         },
@@ -13448,6 +14226,9 @@
         },
         "nelmio_security": {
             "$ref": "#/$defs/nodes/nelmio_security"
+        },
+        "notifier": {
+            "$ref": "#/$defs/nodes/notifier"
         },
         "property_access": {
             "$ref": "#/$defs/nodes/property_access"
@@ -13522,6 +14303,9 @@
                 "key_management": {
                     "$ref": "#/$defs/nodes/key_management"
                 },
+                "mailer": {
+                    "$ref": "#/$defs/nodes/mailer"
+                },
                 "messenger": {
                     "$ref": "#/$defs/nodes/messenger"
                 },
@@ -13533,6 +14317,9 @@
                 },
                 "nelmio_security": {
                     "$ref": "#/$defs/nodes/nelmio_security"
+                },
+                "notifier": {
+                    "$ref": "#/$defs/nodes/notifier"
                 },
                 "parameters": true,
                 "property_access": {
@@ -13612,6 +14399,9 @@
                 "key_management": {
                     "$ref": "#/$defs/nodes/key_management"
                 },
+                "mailer": {
+                    "$ref": "#/$defs/nodes/mailer"
+                },
                 "messenger": {
                     "$ref": "#/$defs/nodes/messenger"
                 },
@@ -13623,6 +14413,9 @@
                 },
                 "nelmio_security": {
                     "$ref": "#/$defs/nodes/nelmio_security"
+                },
+                "notifier": {
+                    "$ref": "#/$defs/nodes/notifier"
                 },
                 "parameters": true,
                 "property_access": {
@@ -13703,6 +14496,9 @@
                 "key_management": {
                     "$ref": "#/$defs/nodes/key_management"
                 },
+                "mailer": {
+                    "$ref": "#/$defs/nodes/mailer"
+                },
                 "messenger": {
                     "$ref": "#/$defs/nodes/messenger"
                 },
@@ -13714,6 +14510,9 @@
                 },
                 "nelmio_security": {
                     "$ref": "#/$defs/nodes/nelmio_security"
+                },
+                "notifier": {
+                    "$ref": "#/$defs/nodes/notifier"
                 },
                 "property_access": {
                     "$ref": "#/$defs/nodes/property_access"
