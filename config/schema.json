@@ -1712,12 +1712,12 @@
                                 "id_token_encrypted_response_alg": {
                                     "$ref": "#/$defs/types/scalar",
                                     "default": null,
-                                    "description": "The JWE key management algorithm the ID tokens of this client are encrypted to one of its keys with, once signed (OIDC Core §3.1.3.7), among those the provider is wired with. It comes with id_token_encrypted_response_enc, never alone, and the client publishes a key it can be addressed to; left out, the ID token travels signed and in clear, which is what every client does today."
+                                    "description": "The JWE key management algorithm the ID tokens and the logout tokens of this client are encrypted to one of its keys with, once signed (OIDC Core §3.1.3.7, Back-Channel Logout 1.0 §2.4), among those the provider is wired with. It comes with id_token_encrypted_response_enc, never alone, and the client publishes a key it can be addressed to; left out, both travel signed and in clear, which is what every client does today."
                                 },
                                 "id_token_encrypted_response_enc": {
                                     "$ref": "#/$defs/types/scalar",
                                     "default": null,
-                                    "description": "The JWE content encryption algorithm the payload of that ID token is encrypted with (OIDC Core §3.1.3.7), among those the provider is wired with. OIDC Registration §2 defaults it to a value this provider is not wired with, so it is named or it is refused at boot."
+                                    "description": "The JWE content encryption algorithm the payload of those tokens is encrypted with (OIDC Core §3.1.3.7, Back-Channel Logout 1.0 §2.4), among those the provider is wired with. OIDC Registration §2 defaults it to a value this provider is not wired with, so it is named or it is refused at boot."
                                 },
                                 "userinfo_signed_response_alg": {
                                     "$ref": "#/$defs/types/scalar",

@@ -9,7 +9,7 @@ use Beffroi\Core\Domain\Session\RequestContext;
 use Beffroi\Core\Domain\Tenant\Tenant;
 use Symfony\Component\Uid\Uuid;
 
-final readonly class SendLogoutToken implements Notification
+final readonly class SendLogoutToken implements LogoutTokenNotification
 {
     public function __construct(
         public Tenant $tenant,

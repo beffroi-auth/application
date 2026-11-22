@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Messenger;
 
-use App\Message\SendLogoutToken;
+use App\Message\LogoutTokenNotification;
 use Beffroi\Core\Exception\ExceptionTrail;
 use Beffroi\Oidc\Domain\Event\LogoutTokenGivenUp;
 use Psr\Clock\ClockInterface;
@@ -27,7 +27,7 @@ final readonly class LogoutTokenGivenUpListener
             return;
         }
         $message = $event->getEnvelope()->getMessage();
-        if (! $message instanceof SendLogoutToken) {
+        if (! $message instanceof LogoutTokenNotification) {
             return;
         }
         $this->events->dispatch(
