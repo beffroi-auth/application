@@ -16,8 +16,8 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * Choosing a channel neither adds nor takes away a way in, and a change of the credentials reaches every channel
- * whatever is chosen here: the session is enough.
+ * Choosing a channel neither adds nor takes away a way in, and nothing chosen here narrows a change of the credentials:
+ * the session is enough.
  */
 #[AsController]
 final readonly class AccountNotificationChannelsController implements ReachedOnTheSessionAloneInterface

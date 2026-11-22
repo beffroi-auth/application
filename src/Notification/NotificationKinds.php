@@ -38,7 +38,7 @@ final readonly class NotificationKinds
     }
 
     /**
-     * @return list<NotificationKindInterface> the kinds that reach every channel, whatever the person chose
+     * @return list<NotificationKindInterface> the kinds no choice narrows, told by every channel that carries them
      */
     public function reachingEveryChannel(): array
     {

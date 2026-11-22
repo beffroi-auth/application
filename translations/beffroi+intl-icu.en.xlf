@@ -2135,7 +2135,7 @@
       </trans-unit>
       <trans-unit id="notifications.channels.every_channel" resname="notifications.channels.every_channel">
         <source>notifications.channels.every_channel</source>
-        <target>Reaches you by every channel, whatever you choose.</target>
+        <target>Your choice does not apply: every channel that carries this notice tells you.</target>
       </trans-unit>
       <trans-unit id="notifications.channels.save" resname="notifications.channels.save">
         <source>notifications.channels.save</source>

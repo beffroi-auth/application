@@ -2135,7 +2135,7 @@
       </trans-unit>
       <trans-unit id="notifications.channels.every_channel" resname="notifications.channels.every_channel">
         <source>notifications.channels.every_channel</source>
-        <target>Vous joint par chaque canal, quoi que vous choisissiez.</target>
+        <target>Votre choix ne s'y applique pas : chaque canal qui porte cet avis vous prévient.</target>
       </trans-unit>
       <trans-unit id="notifications.channels.save" resname="notifications.channels.save">
         <source>notifications.channels.save</source>
