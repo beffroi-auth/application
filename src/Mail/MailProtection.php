@@ -55,6 +55,19 @@ final readonly class MailProtection
     }
 
     /**
+     * NIST SP 800-63B-4 §4.2.1.2, decision 0051: the confirmation of an address, signed as every mail of the tenant and
+     * encrypted to no one, since what the person gave names their verified address and not the one it establishes.
+     *
+     * @return Message|null null when the mail is written to nobody: the tenant signs and cannot sign this one
+     *
+     * @throws NotificationNotDeliveredException when the KMS does not open the signing key, which a later attempt may
+     */
+    public function ofAConfirmation(User $user, EmailAddress $sender, Email $mail): ?Message
+    {
+        return $this->signed($user, $sender, $mail);
+    }
+
+    /**
      * @throws NotificationNotDeliveredException
      */
     private function signed(User $user, EmailAddress $sender, Email $mail): ?Message

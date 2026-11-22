@@ -18,6 +18,7 @@ use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Exception\ExceptionInterface as MimeException;
+use Symfony\Component\Mime\Message;
 
 /**
  * Writes to the address of a person once it is verified, and to no other, but for the confirmation that establishes
@@ -54,17 +55,20 @@ final readonly class MailSender
             return false;
         }
 
-        return $this->write($user, $verified, $subject, $text);
+        return $this->write($user, $verified, $subject, $text, $this->protection->of(...));
     }
 
     /**
      * NIST SP 800-63B-4 §4.2.1.2: the confirmation goes to the address it establishes while the person holds it,
      * verified or not, and to no other.
      *
-     * @return bool false for a person who no longer holds that address, or when the deployment cannot write a mail at
-     *              all, and who is sent nothing
+     * It is signed as every mail of the tenant, and encrypted to no one (`MailProtection::ofAConfirmation()`).
      *
-     * @throws NotificationNotDeliveredException when the transport did not take the mail
+     * @return bool false for a person who no longer holds that address, when the deployment cannot write a mail at
+     *              all, or when the tenant signs and cannot sign it, and who is sent nothing
+     *
+     * @throws NotificationNotDeliveredException when the transport did not take the mail, or the KMS did not open the
+     *                                           key it is signed with
      */
     public function sendTheConfirmation(User $user, string $address, string $subject, #[SensitiveParameter] string $text): bool
     {
@@ -73,13 +77,16 @@ final readonly class MailSender
             return false;
         }
 
-        return $this->write($user, $held, $subject, $text);
+        return $this->write($user, $held, $subject, $text, $this->protection->ofAConfirmation(...));
     }
 
     /**
+     * @param Closure(User, EmailAddress, Email): ?Message $protect what the mail becomes before it leaves, from the
+     *                                                         person and the sender, or null for a mail written to nobody
+     *
      * @throws NotificationNotDeliveredException
      */
-    private function write(User $user, EmailAddress $to, string $subject, #[SensitiveParameter] string $text): bool
+    private function write(User $user, EmailAddress $to, string $subject, #[SensitiveParameter] string $text, Closure $protect): bool
     {
         try {
             $recipient = new Address($to->value);
@@ -110,7 +117,7 @@ final readonly class MailSender
             ->text($text);
         // RFC 3834 §5.2, §2: a process wrote it, and an automatic responder that reads it answers nothing back.
         $mail->getHeaders()->addTextHeader('Auto-Submitted', 'auto-generated');
-        $protected = $this->protection->of($user, $from, $mail);
+        $protected = $protect($user, $from, $mail);
         if ($protected === null) {
             return false;
         }
