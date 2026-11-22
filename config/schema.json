@@ -1364,12 +1364,12 @@
                             "dsn": {
                                 "$ref": "#/$defs/types/scalar",
                                 "default": null,
-                                "description": "The transport of symfony/mailer a mail leaves through: \"smtp://user:password@host:port\", which the component carries, or the scheme of a bridge the application installs. Naming one is what turns mail on, and none turns it off; it may be an environment variable, read when the container builds what mail changes, which \"default::\" makes none when it is empty."
+                                "description": "The transport of symfony/mailer a mail leaves through: \"smtp://user:password@host:port\", which the component carries, or the scheme of a bridge the application installs. Naming one is what turns mail on, and none turns it off; it may be an environment variable, read when the container builds what mail changes, which \"default::\" makes none when it is empty. A DSN that no installed factory reads writes no mail, and the log says why at each one."
                             },
                             "sender": {
                                 "$ref": "#/$defs/types/scalar",
                                 "default": null,
-                                "description": "The address a mail is written from, alone or behind a name (\"Acme <no-reply@acme.example>\"), which a DSN cannot go without."
+                                "description": "The address a mail is written from, alone or behind a name (\"Acme <no-reply@acme.example>\"). A DSN without a sender, or with a sender that is no address, writes no mail, and the log says why at each one."
                             }
                         },
                         "additionalProperties": false,
@@ -1377,7 +1377,7 @@
                             "dsn": null,
                             "sender": null
                         },
-                        "description": "Reaching a person at the email address they verified, through symfony/mailer (decision 0048, architecture §5.6). Absent, mail is off: no mail leaves this deployment."
+                        "description": "Reaching a person at the email address marked verified, through symfony/mailer (decision 0048, architecture §5.6). Absent, mail is off: no mail leaves this deployment."
                     },
                     "sms": {
                         "$ref": "#/$defs/types/object_null",
@@ -1385,14 +1385,14 @@
                             "dsn": {
                                 "$ref": "#/$defs/types/scalar",
                                 "default": null,
-                                "description": "The texter transport of symfony/notifier a text leaves through, the scheme of a bridge the application installs, the number or name it is sent from among its options. Naming one is what turns SMS on, and none turns it off; it may be an environment variable, read when the container builds what SMS changes, which \"default::\" makes none when it is empty."
+                                "description": "The texter transport of symfony/notifier a text leaves through, the scheme of a bridge the application installs, the number or name it is sent from among its options. Naming one is what turns SMS on, and none turns it off; it may be an environment variable, read when the container builds what SMS changes, which \"default::\" makes none when it is empty. A DSN that no installed bridge reads sends no text, and the log says why at each one."
                             }
                         },
                         "additionalProperties": false,
                         "default": {
                             "dsn": null
                         },
-                        "description": "Reaching a person at the phone number they verified, through the texter of symfony/notifier (decision 0048, architecture §5.6). Absent, SMS is off: no text leaves this deployment."
+                        "description": "Reaching a person at the phone number marked verified, through the texter of symfony/notifier (decision 0048, architecture §5.6). Absent, SMS is off: no text leaves this deployment."
                     },
                     "client_authentication": {
                         "$ref": "#/$defs/types/object_null",

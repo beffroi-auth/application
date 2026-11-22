@@ -82,10 +82,10 @@ beffroi:
     web_push:
         subject: '%env(default::BEFFROI_WEB_PUSH_SUBJECT)%'
         timeout: '%env(float:BEFFROI_WEB_PUSH_TIMEOUT)%'
-    # Reaching a person at the email address and the phone number they verified (decision 0048, architecture §5.6), by
-    # mail through symfony/mailer and by SMS through the texter of symfony/notifier. Naming a DSN is what turns each on,
-    # and the DSN is the deployment's: an empty variable, which "default::" makes no DSN at all, leaves it off, and no
-    # mail or text leaves the deployment. A mail is written from the sender named beside its DSN.
+    # Reaching a person at the email address and the phone number marked verified (decision 0048, architecture §5.6),
+    # by mail through symfony/mailer and by SMS through the texter of symfony/notifier. Naming a DSN is what turns each
+    # on, and the DSN is the deployment's: an empty variable, which "default::" makes no DSN at all, leaves it off, and
+    # no mail or text leaves the deployment. A mail is written from the sender named beside its DSN.
     mail:
         dsn: '%env(default::BEFFROI_MAIL_DSN)%'
         sender: '%env(default::BEFFROI_MAIL_SENDER)%'
