@@ -591,6 +591,12 @@
         @apply whitespace-nowrap;
     }
 
+    /* The button that takes a line back stands apart from the one of the next line, so that a hand going
+       for one never lands on the other. */
+    main[data-page="account"] tbody button[name="revoke"] {
+        @apply my-2;
+    }
+
     /*
      * What a table is narrowed to, read above it: two days and the way back to the whole of it. It is a
      * row and not a panel, because it belongs to the table under it as the control of the pages does.
