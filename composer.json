@@ -58,6 +58,7 @@
         "symfony/security-core": "8.2.*",
         "symfony/security-csrf": "8.2.*",
         "symfony/security-http": "8.2.*",
+        "symfony/sweego-notifier": "8.2.*",
         "symfony/translation": "8.2.*",
         "symfony/twig-bridge": "8.2.*",
         "symfony/twig-bundle": "8.2.*",

@@ -252,6 +252,15 @@
             "config/packages/csrf_protection.yaml"
         ]
     },
+    "symfony/sweego-notifier": {
+        "version": "8.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "8.2",
+            "ref": "7f70dc8cf588cdb029fc1dfa06811d529d4d3366"
+        }
+    },
     "symfony/translation": {
         "version": "8.2",
         "recipe": {

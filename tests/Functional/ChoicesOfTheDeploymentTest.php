@@ -14,6 +14,8 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Notifier\Bridge\Sweego\SweegoTransport;
+use Symfony\Component\Notifier\Transport\TransportInterface;
 use function trim;
 
 final class ChoicesOfTheDeploymentTest extends BrowserTestCase
@@ -28,6 +30,7 @@ final class ChoicesOfTheDeploymentTest extends BrowserTestCase
         'BEFFROI_TENANT_SCOPES' => '["invoices.read","invoices.pay"]',
         'BEFFROI_SAML_IDENTITY_PROVIDER' => 'false',
         'BEFFROI_INTERACTION_LOGIN_HINT' => 'username',
+        'BEFFROI_SMS_DSN' => 'sweego://an-api-key@default?region=FR&campaign_type=transac&shorten_urls=false',
     ];
 
     /**
@@ -198,6 +201,19 @@ final class ChoicesOfTheDeploymentTest extends BrowserTestCase
 
         // Then
         static::assertSame(Command::FAILURE, $keys->getStatusCode());
+    }
+
+    /**
+     * Decision 0048
+     */
+    #[Test]
+    public function aDeploymentTextsThroughTheSweegoBridgeByTheDsnItNames(): void
+    {
+        // When
+        $transport = self::service('beffroi.sms.transport', TransportInterface::class);
+
+        // Then
+        static::assertInstanceOf(SweegoTransport::class, $transport);
     }
 
     /**
