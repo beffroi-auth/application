@@ -74,4 +74,26 @@
             {% endfor %}
         </ul>
     </section>
+
+    {# An address of the person that nobody verified, offered its confirmation (NIST SP 800-63B-4 §4.2.1.2):
+       the code and the link go to it, the one message that does before it is verified (decision 0048), and
+       it is verified once one of them comes back. #}
+    {% if awaited is not empty %}
+        <section data-panel="confirmations">
+            <h2>{{ 'confirmation.offer'|trans }}</h2>
+            <p>{{ 'confirmation.offer_explanation'|trans }}</p>
+            <ul data-confirmations="{{ awaited|length }}">
+                {% for claim, address in awaited %}
+                    <li data-confirmation="{{ claim }}">
+                        <span data-label>{{ ('profile.' ~ claim)|trans }}</span>
+                        <span data-detail="{{ claim }}">{{ address }}</span>
+                        <form method="post" action="{{ path('beffroi_interaction_account_address_confirmation_send', {claim: claim}) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token('beffroi_address_confirmation_send') }}">
+                            <button type="submit">{{ 'confirmation.send'|trans }}</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    {% endif %}
 {% endblock %}

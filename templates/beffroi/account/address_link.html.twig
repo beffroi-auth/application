@@ -1,0 +1,16 @@
+{# The page the link of a confirmation opens (NIST SP 800-63B-4 §4.2.1.2), written by
+   AccountAddressLinkController: opening it established nothing, so that a scanner that fetches the links
+   of a message confirms no address, and the person it was sent for confirms by the one form it holds,
+   posted to AccountAddressLinkConfirmationController. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ ('confirmation.' ~ claim ~ '.title')|trans }}{% endblock %}
+
+{% block content %}
+    <p>{{ 'confirmation.link_prompt'|trans }}</p>
+    <form method="post" action="{{ path('beffroi_interaction_account_address_link_confirm', {claim: claim, confirmation: confirmation, value: value}) }}" data-confirmation="link">
+        <input type="hidden" name="_token" value="{{ csrf_token('beffroi_address_link') }}">
+        <button type="submit">{{ 'confirmation.link_submit'|trans }}</button>
+    </form>
+{% endblock %}

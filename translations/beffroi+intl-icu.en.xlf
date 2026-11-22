@@ -2181,6 +2181,78 @@
         <source>act.notification_channels.chosen</source>
         <target>Notification channels chosen</target>
       </trans-unit>
+      <trans-unit id="confirmation.offer" resname="confirmation.offer">
+        <source>confirmation.offer</source>
+        <target>Addresses to confirm</target>
+      </trans-unit>
+      <trans-unit id="confirmation.offer_explanation" resname="confirmation.offer_explanation">
+        <source>confirmation.offer_explanation</source>
+        <target>An address is confirmed once the code sent there comes back. Until then, nothing is sent to it but that code.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.send" resname="confirmation.send">
+        <source>confirmation.send</source>
+        <target>Send a code</target>
+      </trans-unit>
+      <trans-unit id="confirmation.email.title" resname="confirmation.email.title">
+        <source>confirmation.email.title</source>
+        <target>Confirm your email address</target>
+      </trans-unit>
+      <trans-unit id="confirmation.phone_number.title" resname="confirmation.phone_number.title">
+        <source>confirmation.phone_number.title</source>
+        <target>Confirm your phone number</target>
+      </trans-unit>
+      <trans-unit id="confirmation.sent" resname="confirmation.sent">
+        <source>confirmation.sent</source>
+        <target>A code was sent to {address}. Type it here, or open the link that came with it.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.code" resname="confirmation.code">
+        <source>confirmation.code</source>
+        <target>Code</target>
+      </trans-unit>
+      <trans-unit id="confirmation.submit" resname="confirmation.submit">
+        <source>confirmation.submit</source>
+        <target>Confirm</target>
+      </trans-unit>
+      <trans-unit id="confirmation.again" resname="confirmation.again">
+        <source>confirmation.again</source>
+        <target>Send another code</target>
+      </trans-unit>
+      <trans-unit id="confirmation.refused" resname="confirmation.refused">
+        <source>confirmation.refused</source>
+        <target>This code confirms nothing. Check it, or send another code.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.link_prompt" resname="confirmation.link_prompt">
+        <source>confirmation.link_prompt</source>
+        <target>Opening this link confirmed nothing. Confirm here that the address it was sent to is yours.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.link_submit" resname="confirmation.link_submit">
+        <source>confirmation.link_submit</source>
+        <target>Confirm this address</target>
+      </trans-unit>
+      <trans-unit id="confirmation.notice.title" resname="confirmation.notice.title">
+        <source>confirmation.notice.title</source>
+        <target>{provider}</target>
+      </trans-unit>
+      <trans-unit id="confirmation.notice.subject" resname="confirmation.notice.subject">
+        <source>confirmation.notice.subject</source>
+        <target>{provider}: your confirmation code</target>
+      </trans-unit>
+      <trans-unit id="confirmation.notice.body" resname="confirmation.notice.body">
+        <source>confirmation.notice.body</source>
+        <target>Your confirmation code is {code}, valid until {until}. Type it on the page of your account, or confirm at the link below. If you did not ask for it, ignore this message.</target>
+      </trans-unit>
+      <trans-unit id="error.address_confirmation_refused" resname="error.address_confirmation_refused">
+        <source>error.address_confirmation_refused</source>
+        <target>This link confirms nothing. It was used already, ran out of time or was replaced by a newer code; send another code from your account.</target>
+      </trans-unit>
+      <trans-unit id="act.address.confirmation_sent" resname="act.address.confirmation_sent">
+        <source>act.address.confirmation_sent</source>
+        <target>A confirmation code was sent to one of your addresses</target>
+      </trans-unit>
+      <trans-unit id="act.address.established" resname="act.address.established">
+        <source>act.address.established</source>
+        <target>One of your addresses was confirmed</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

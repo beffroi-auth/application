@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Confirmation\WiredAddressConfirmations;
 use App\Form\ClaimForms;
 use App\Http\AccountAccess;
 use App\Http\Account\ReachedOnTheSessionAloneInterface;
@@ -34,6 +35,7 @@ final readonly class AccountProfileController implements ReachedOnTheSessionAlon
         private WhatWasRefused $refusals,
         private TranslatorInterface $translator,
         private InteractionPages $pages,
+        private WiredAddressConfirmations $confirmations,
     ) {
     }
 
@@ -61,6 +63,7 @@ final readonly class AccountProfileController implements ReachedOnTheSessionAlon
             'claims' => RecordedInformation::everyClaimOf($user),
             'held' => count(RecordedInformation::claimsOf($user)),
             'forms' => $forms,
+            'awaited' => $this->confirmations->awaitedOf($user),
         ]);
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <!-- What establishes the email address of one person once; its columns are those of every confirmation (Confirmation.AddressConfirmation.orm.xml). -->
+    <entity name="Beffroi\Core\Domain\Confirmation\EmailConfirmation" table="beffroi_email_confirmation">
+        <indexes>
+            <!-- What the sweep of the dead rows reads, oldest first, and what a code typed or a new confirmation reads of a person. -->
+            <index name="beffroi_email_confirmation_expiry" columns="tenant_id,expires_at"/>
+            <index name="beffroi_email_confirmation_user" columns="user_id"/>
+        </indexes>
+    </entity>
+</doctrine-mapping>

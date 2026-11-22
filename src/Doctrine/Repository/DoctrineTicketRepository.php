@@ -11,8 +11,6 @@ use Beffroi\Core\Domain\Ticket\Ticket;
 use Beffroi\Core\Port\DeadRecordsInterface;
 use Beffroi\Core\Port\TicketRepositoryInterface;
 use DateTimeImmutable;
-use Doctrine\DBAL\Types\Types;
-use function sprintf;
 use Symfony\Component\Uid\Uuid;
 
 /**
@@ -66,21 +64,6 @@ abstract readonly class DoctrineTicketRepository extends DoctrineRepository impl
 
     public function forgetWhatIsDead(Tenant $tenant, DateTimeImmutable $now, int $limit): int
     {
-        $expiry = $this->sweep->column($this->class, 'expiresAt');
-        $spent = $this->sweep->column($this->class, 'spentAt');
-
-        return $this->sweep->from(
-            $this->class,
-            $tenant,
-            sprintf('(%s <= :dead OR %s IS NOT NULL)', $expiry, $spent),
-            $expiry,
-            [
-                'dead' => $now,
-            ],
-            [
-                'dead' => Types::DATETIME_IMMUTABLE,
-            ],
-            $limit,
-        );
+        return $this->sweep->spentOrOutOfTime($this->class, $tenant, $now, $limit);
     }
 }

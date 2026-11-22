@@ -28,7 +28,7 @@ final readonly class MailSection extends ConfigurationSection
     {
         $children
             ->arrayNode('mail')
-            ->info('Reaching a person at the email address marked verified, through symfony/mailer (decision 0048, architecture §5.6). Absent, mail is off: no mail leaves this deployment.')
+            ->info('Reaching a person at the email address marked verified, and at the one a confirmation establishes, through symfony/mailer (decision 0048, architecture §5.6). Absent, mail is off: no mail leaves this deployment, and no email address is confirmed.')
             ->addDefaultsIfNotSet()
             ->children()
             ->scalarNode('dsn')

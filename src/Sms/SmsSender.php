@@ -8,6 +8,7 @@ use App\Messenger\NotificationNotDeliveredException;
 use Beffroi\Core\Domain\Identity\User;
 use Closure;
 use Psr\Log\LoggerInterface;
+use SensitiveParameter;
 use function sprintf;
 use Symfony\Component\Notifier\Exception\ExceptionInterface as NotifierException;
 use Symfony\Component\Notifier\Exception\TransportExceptionInterface;
@@ -15,7 +16,8 @@ use Symfony\Component\Notifier\Message\SmsMessage;
 use Symfony\Component\Notifier\Transport\TransportInterface;
 
 /**
- * Texts the number of a person once it is verified, and no other.
+ * Texts the number of a person once it is verified, and no other, but for the confirmation that establishes a
+ * number, which goes to that number before it is verified (decision 0048).
  */
 final readonly class SmsSender
 {
@@ -43,6 +45,33 @@ final readonly class SmsSender
         if ($verified === null) {
             return false;
         }
+
+        return $this->text($user, $verified, $text);
+    }
+
+    /**
+     * NIST SP 800-63B-4 §4.2.1.2: the confirmation goes to the number it establishes while the person holds it,
+     * verified or not, and to no other.
+     *
+     * @return bool false for a person who no longer holds that number, or when the deployment cannot send a text at
+     *              all, and who is sent nothing
+     *
+     * @throws NotificationNotDeliveredException when the transport did not take the text
+     */
+    public function sendTheConfirmation(User $user, string $number, #[SensitiveParameter] string $text): bool
+    {
+        if ($user->phoneNumber !== $number) {
+            return false;
+        }
+
+        return $this->text($user, $number, $text);
+    }
+
+    /**
+     * @throws NotificationNotDeliveredException
+     */
+    private function text(User $user, string $number, #[SensitiveParameter] string $text): bool
+    {
         try {
             $transport = ($this->transport)();
         } catch (NotifierException $fault) {
@@ -54,7 +83,7 @@ final readonly class SmsSender
             return false;
         }
         try {
-            $transport->send(new SmsMessage($verified, $text));
+            $transport->send(new SmsMessage($number, $text));
         } catch (TransportExceptionInterface $refusal) {
             // Never what the provider said: it may write back the number it refused, which the lane keeps in clear.
             throw new NotificationNotDeliveredException(sprintf('The SMS transport did not take the message (%s).', $refusal::class));

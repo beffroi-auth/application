@@ -877,6 +877,20 @@ use App\Http\AskedChannels;
 use Beffroi\Core\Application\Notification\ChannelChoice;
 use Beffroi\Core\Domain\Credential\CredentialChangeKind;
 use Beffroi\Oidc\Domain\Ciba\PendingApprovalKind;
+use App\Confirmation\AddressConfirmationWording;
+use App\Confirmation\MailAddressConfirmationChannel;
+use App\Confirmation\QueuedAddressConfirmationSender;
+use App\Confirmation\SmsAddressConfirmationChannel;
+use App\Confirmation\WiredAddressConfirmations;
+use App\Doctrine\Repository\DoctrineEmailConfirmationRepository;
+use App\Doctrine\Repository\DoctrinePhoneNumberConfirmationRepository;
+use App\MessageHandler\SendAddressConfirmationHandler;
+use Beffroi\Core\Application\Confirmation\AddressConfirmationIssuing;
+use Beffroi\Core\Application\Confirmation\AddressConfirmationRedeeming;
+use Beffroi\Core\Application\Confirmation\AddressEstablishment;
+use Beffroi\Core\Domain\Confirmation\ConfirmableEmail;
+use Beffroi\Core\Domain\Confirmation\ConfirmablePhoneNumber;
+use Beffroi\Core\Port\AddressConfirmationSenderInterface;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
@@ -1200,6 +1214,49 @@ return static function (ContainerConfigurator $container): void {
     ]);
     $services->set(QueuedCredentialChangeNotifier::class);
     $services->alias(CredentialChangeNotifierInterface::class, QueuedCredentialChangeNotifier::class);
+    // An address is established by the code and the link sent there (NIST SP 800-63B-4 §4.2.1.2): each kind while the
+    // channel that reaches it is on, the email address by mail and the phone number by SMS.
+    $services->set(DoctrineEmailConfirmationRepository::class)->tag('beffroi.dead_records');
+    $services->set(DoctrinePhoneNumberConfirmationRepository::class)->tag('beffroi.dead_records');
+    $services->set(ConfirmableEmail::class);
+    $services->set(ConfirmablePhoneNumber::class);
+    $services->set(AddressConfirmationIssuing::class);
+    $services->set(AddressConfirmationRedeeming::class);
+    $services->set(QueuedAddressConfirmationSender::class);
+    $services->alias(AddressConfirmationSenderInterface::class, QueuedAddressConfirmationSender::class);
+    $services->set('beffroi.address_establishment.email', AddressEstablishment::class)->args([
+        '$kind' => service(ConfirmableEmail::class),
+        '$confirmations' => service(DoctrineEmailConfirmationRepository::class),
+    ]);
+    $services->set('beffroi.address_establishment.phone_number', AddressEstablishment::class)->args([
+        '$kind' => service(ConfirmablePhoneNumber::class),
+        '$confirmations' => service(DoctrinePhoneNumberConfirmationRepository::class),
+    ]);
+    $services->set(WiredAddressConfirmations::class)->args([
+        inline_service(SwitchedServices::class)->args([
+            inline_service(SwitchedServices::class)->args([
+                [],
+                service(MailSection::ROLE),
+                iterator([service('beffroi.address_establishment.email')]),
+            ]),
+            service(SmsSection::ROLE),
+            iterator([service('beffroi.address_establishment.phone_number')]),
+        ]),
+    ]);
+    $services->set(AddressConfirmationWording::class)->arg('$router', service(ProviderRoutes::URL_GENERATOR));
+    $services->set(MailAddressConfirmationChannel::class)->arg('$kind', service(ConfirmableEmail::class));
+    $services->set(SmsAddressConfirmationChannel::class)->arg('$kind', service(ConfirmablePhoneNumber::class));
+    $services->get(SendAddressConfirmationHandler::class)->args([
+        '$channels' => inline_service(SwitchedServices::class)->args([
+            inline_service(SwitchedServices::class)->args([
+                [],
+                service(MailSection::ROLE),
+                iterator([service(MailAddressConfirmationChannel::class)]),
+            ]),
+            service(SmsSection::ROLE),
+            iterator([service(SmsAddressConfirmationChannel::class)]),
+        ]),
+    ]);
     $services->set(LogoutTokenSender::class);
     $services->set(ClientNotificationSender::class);
     $services->set(LogoutTokenGivenUpListener::class);

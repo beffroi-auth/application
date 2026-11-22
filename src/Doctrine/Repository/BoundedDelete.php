@@ -6,7 +6,9 @@ namespace App\Doctrine\Repository;
 
 use App\Doctrine\EntityManagers;
 use Beffroi\Core\Domain\Tenant\Tenant;
+use DateTimeImmutable;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Types\Types;
 use function sprintf;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 
@@ -63,6 +65,30 @@ final readonly class BoundedDelete
                 ...$types,
                 self::TENANT => UuidType::NAME,
             ],
+        );
+    }
+
+    /**
+     * The rows of what is spendable once, whose "expiresAt" and "spentAt" say they can open nothing any more.
+     *
+     * @param class-string $class
+     */
+    public function spentOrOutOfTime(string $class, Tenant $tenant, DateTimeImmutable $now, int $limit): int
+    {
+        $expiry = $this->column($class, 'expiresAt');
+
+        return $this->from(
+            $class,
+            $tenant,
+            sprintf('(%s <= :dead OR %s IS NOT NULL)', $expiry, $this->column($class, 'spentAt')),
+            $expiry,
+            [
+                'dead' => $now,
+            ],
+            [
+                'dead' => Types::DATETIME_IMMUTABLE,
+            ],
+            $limit,
         );
     }
 

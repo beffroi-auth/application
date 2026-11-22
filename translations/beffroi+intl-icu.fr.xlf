@@ -2181,6 +2181,78 @@
         <source>act.notification_channels.chosen</source>
         <target>Canaux des notifications choisis</target>
       </trans-unit>
+      <trans-unit id="confirmation.offer" resname="confirmation.offer">
+        <source>confirmation.offer</source>
+        <target>Adresses à confirmer</target>
+      </trans-unit>
+      <trans-unit id="confirmation.offer_explanation" resname="confirmation.offer_explanation">
+        <source>confirmation.offer_explanation</source>
+        <target>Une adresse est confirmée une fois revenu le code envoyé là. D'ici là, rien d'autre que ce code ne lui est envoyé.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.send" resname="confirmation.send">
+        <source>confirmation.send</source>
+        <target>Envoyer un code</target>
+      </trans-unit>
+      <trans-unit id="confirmation.email.title" resname="confirmation.email.title">
+        <source>confirmation.email.title</source>
+        <target>Confirmer votre adresse électronique</target>
+      </trans-unit>
+      <trans-unit id="confirmation.phone_number.title" resname="confirmation.phone_number.title">
+        <source>confirmation.phone_number.title</source>
+        <target>Confirmer votre numéro de téléphone</target>
+      </trans-unit>
+      <trans-unit id="confirmation.sent" resname="confirmation.sent">
+        <source>confirmation.sent</source>
+        <target>Un code a été envoyé à {address}. Saisissez-le ici, ou ouvrez le lien qui l'accompagne.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.code" resname="confirmation.code">
+        <source>confirmation.code</source>
+        <target>Code</target>
+      </trans-unit>
+      <trans-unit id="confirmation.submit" resname="confirmation.submit">
+        <source>confirmation.submit</source>
+        <target>Confirmer</target>
+      </trans-unit>
+      <trans-unit id="confirmation.again" resname="confirmation.again">
+        <source>confirmation.again</source>
+        <target>Envoyer un autre code</target>
+      </trans-unit>
+      <trans-unit id="confirmation.refused" resname="confirmation.refused">
+        <source>confirmation.refused</source>
+        <target>Ce code ne confirme rien. Vérifiez-le, ou envoyez-vous un autre code.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.link_prompt" resname="confirmation.link_prompt">
+        <source>confirmation.link_prompt</source>
+        <target>Ouvrir ce lien n'a rien confirmé. Confirmez ici que l'adresse à laquelle il a été envoyé est la vôtre.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.link_submit" resname="confirmation.link_submit">
+        <source>confirmation.link_submit</source>
+        <target>Confirmer cette adresse</target>
+      </trans-unit>
+      <trans-unit id="confirmation.notice.title" resname="confirmation.notice.title">
+        <source>confirmation.notice.title</source>
+        <target>{provider}</target>
+      </trans-unit>
+      <trans-unit id="confirmation.notice.subject" resname="confirmation.notice.subject">
+        <source>confirmation.notice.subject</source>
+        <target>{provider} : votre code de confirmation</target>
+      </trans-unit>
+      <trans-unit id="confirmation.notice.body" resname="confirmation.notice.body">
+        <source>confirmation.notice.body</source>
+        <target>Votre code de confirmation est {code}, valable jusqu'au {until}. Saisissez-le sur la page de votre compte, ou confirmez par le lien ci-dessous. Si vous ne l'avez pas demandé, ignorez ce message.</target>
+      </trans-unit>
+      <trans-unit id="error.address_confirmation_refused" resname="error.address_confirmation_refused">
+        <source>error.address_confirmation_refused</source>
+        <target>Ce lien ne confirme rien. Il a déjà servi, il a expiré ou un code plus récent l'a remplacé ; envoyez-vous un autre code depuis votre compte.</target>
+      </trans-unit>
+      <trans-unit id="act.address.confirmation_sent" resname="act.address.confirmation_sent">
+        <source>act.address.confirmation_sent</source>
+        <target>Un code de confirmation a été envoyé à l'une de vos adresses</target>
+      </trans-unit>
+      <trans-unit id="act.address.established" resname="act.address.established">
+        <source>act.address.established</source>
+        <target>L'une de vos adresses a été confirmée</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

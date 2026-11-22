@@ -10,6 +10,7 @@ use Beffroi\Core\Domain\Identity\User;
 use Beffroi\Core\Exception\InvalidArgumentException;
 use Closure;
 use Psr\Log\LoggerInterface;
+use SensitiveParameter;
 use function sprintf;
 use Symfony\Component\Mailer\Exception\ExceptionInterface as MailerException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -19,7 +20,8 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Exception\ExceptionInterface as MimeException;
 
 /**
- * Writes to the address of a person once it is verified, and to no other.
+ * Writes to the address of a person once it is verified, and to no other, but for the confirmation that establishes
+ * an address, which goes to that address before it is verified (decision 0048).
  */
 final readonly class MailSender
 {
@@ -51,8 +53,36 @@ final readonly class MailSender
         if ($verified === null) {
             return false;
         }
+
+        return $this->write($user, $verified, $subject, $text);
+    }
+
+    /**
+     * NIST SP 800-63B-4 §4.2.1.2: the confirmation goes to the address it establishes while the person holds it,
+     * verified or not, and to no other.
+     *
+     * @return bool false for a person who no longer holds that address, or when the deployment cannot write a mail at
+     *              all, and who is sent nothing
+     *
+     * @throws NotificationNotDeliveredException when the transport did not take the mail
+     */
+    public function sendTheConfirmation(User $user, string $address, string $subject, #[SensitiveParameter] string $text): bool
+    {
+        $held = $user->email;
+        if ($held === null || $held->value !== $address) {
+            return false;
+        }
+
+        return $this->write($user, $held, $subject, $text);
+    }
+
+    /**
+     * @throws NotificationNotDeliveredException
+     */
+    private function write(User $user, EmailAddress $to, string $subject, #[SensitiveParameter] string $text): bool
+    {
         try {
-            $recipient = new Address($verified->value);
+            $recipient = new Address($to->value);
         } catch (MimeException $refusal) {
             $this->logger->warning('A verified address is not one a mail can carry.', [
                 'tenant' => $user->tenant->slug,

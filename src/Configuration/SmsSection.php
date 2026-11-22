@@ -27,7 +27,7 @@ final readonly class SmsSection extends ConfigurationSection
     {
         $children
             ->arrayNode('sms')
-            ->info('Reaching a person at the phone number marked verified, through the texter of symfony/notifier (decision 0048, architecture §5.6). Absent, SMS is off: no text leaves this deployment.')
+            ->info('Reaching a person at the phone number marked verified, and at the one a confirmation establishes, through the texter of symfony/notifier (decision 0048, architecture §5.6). Absent, SMS is off: no text leaves this deployment, and no phone number is confirmed.')
             ->addDefaultsIfNotSet()
             ->children()
             ->scalarNode('dsn')

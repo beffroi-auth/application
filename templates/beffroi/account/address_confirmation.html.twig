@@ -1,0 +1,25 @@
+{# The page where a person types the code sent to an address of theirs (NIST SP 800-63B-4 §4.2.1.2),
+   written by AccountAddressConfirmationController and posted to AccountAddressCodeController. A refusal
+   says one sentence whatever refused the code (decision 0006). #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ ('confirmation.' ~ claim ~ '.title')|trans }}{% endblock %}
+
+{% block content %}
+    {{ include('@Beffroi/account/back.html.twig') }}
+    <p>{{ 'confirmation.sent'|trans({address: address}) }}</p>
+    {% if refusal is not null %}
+        <p role="alert" data-refusal="{{ refusal }}">{{ 'confirmation.refused'|trans }}</p>
+    {% endif %}
+    <form method="post" action="{{ path('beffroi_interaction_account_address_confirmation_code', {claim: claim}) }}" data-confirmation="code">
+        <input type="hidden" name="_token" value="{{ csrf_token('beffroi_address_confirmation_code') }}">
+        <label for="confirmation-code">{{ 'confirmation.code'|trans }}</label>
+        <input id="confirmation-code" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="{{ digits + 4 }}" required>
+        <button type="submit">{{ 'confirmation.submit'|trans }}</button>
+    </form>
+    <form method="post" action="{{ path('beffroi_interaction_account_address_confirmation_send', {claim: claim}) }}" data-confirmation="again">
+        <input type="hidden" name="_token" value="{{ csrf_token('beffroi_address_confirmation_send') }}">
+        <button type="submit">{{ 'confirmation.again'|trans }}</button>
+    </form>
+{% endblock %}
