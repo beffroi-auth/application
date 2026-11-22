@@ -15,8 +15,6 @@ use Beffroi\Core\Domain\Identity\User;
  */
 final readonly class WebPushCredentialChangeChannel implements CredentialChangeChannelInterface
 {
-    public const string NAME = 'web_push';
-
     public function __construct(
         private CredentialChangeNotices $notices,
         private WebPushBroadcast $broadcast,
@@ -26,7 +24,7 @@ final readonly class WebPushCredentialChangeChannel implements CredentialChangeC
 
     public function name(): string
     {
-        return self::NAME;
+        return WebPushBroadcast::CHANNEL;
     }
 
     public function tell(User $user, CredentialChange $change): void

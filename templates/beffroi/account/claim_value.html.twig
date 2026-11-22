@@ -1,7 +1,15 @@
-{# A value of the history of a record: the two verifications of OIDC Core §5.1 said in words, every other
-   value as it was written. #}
+{# A value of the history of a record: the two verifications of OIDC Core §5.1 and the channels a person
+   chose said in words, every other value as it was written. #}
 {% trans_default_domain 'beffroi' %}
-{%- if value is null -%}
+{%- if claim starts with 'notification_channels' -%}
+    {%- if value is null -%}
+        {{ 'notifications.channels.not_chosen'|trans }}
+    {%- elseif value == '' -%}
+        {{ 'notifications.channels.no_channel'|trans }}
+    {%- else -%}
+        {{ value|split(' ')|map(channel => ('notifications.channel.' ~ channel)|trans)|join(', ') }}
+    {%- endif -%}
+{%- elseif value is null -%}
     {{ 'profile.nothing'|trans }}
 {%- elseif claim ends with '_verified' -%}
     {{ (value == 'true' ? 'profile.verified' : 'profile.unverified')|trans }}

@@ -22,6 +22,11 @@ final readonly class MailApprovalChannel implements PendingApprovalChannelInterf
     ) {
     }
 
+    public function name(): string
+    {
+        return MailSender::CHANNEL;
+    }
+
     public function tell(User $user, PendingApproval $approval): bool
     {
         $locale = $this->locales->of($user);

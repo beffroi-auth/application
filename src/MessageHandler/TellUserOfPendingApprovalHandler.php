@@ -8,12 +8,13 @@ use App\Ciba\PendingApprovalChannelInterface;
 use App\Message\TellUserOfPendingApproval;
 use App\Messenger\NotificationNotDeliveredException;
 use Beffroi\Core\Port\UserRepositoryInterface;
+use Beffroi\Oidc\Domain\Ciba\PendingApprovalKind;
 use function implode;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 /**
- * Every channel tells the user, and the lane comes back only while none of them reached the user: a later attempt
- * tells again every channel, which would write twice to whoever was reached.
+ * Every channel the user chose tells them, and the lane comes back only while none of them reached the user: a later
+ * attempt tells again every such channel, which would write twice to whoever was reached.
  */
 #[AsMessageHandler(bus: 'command.bus')]
 final readonly class TellUserOfPendingApprovalHandler
@@ -24,6 +25,7 @@ final readonly class TellUserOfPendingApprovalHandler
     public function __construct(
         private UserRepositoryInterface $users,
         private iterable $channels,
+        private PendingApprovalKind $kind,
     ) {
     }
 
@@ -40,6 +42,9 @@ final readonly class TellUserOfPendingApprovalHandler
         $reached = false;
         $failures = [];
         foreach ($this->channels as $channel) {
+            if (! $user->notificationChannels->reaches($this->kind, $channel->name())) {
+                continue;
+            }
             try {
                 $reached = $channel->tell($user, $approval) || $reached;
             } catch (NotificationNotDeliveredException $failure) {

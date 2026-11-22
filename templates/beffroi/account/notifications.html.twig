@@ -10,7 +10,13 @@
 
    "application_server_key" is the public half of that key (RFC 8292 §3.2), and null when this deployment
    reaches nobody this way; "error" is a code of PushSubscriptionController or of
-   PushSubscriptionNameController. #}
+   PushSubscriptionNameController.
+
+   Under the browsers, the channels that tell the user of each kind of notification (decision 0050):
+   "channels" those the deployment turns on, the only ones offered; "chosen_kinds" the kinds whose channels
+   the user chooses, each of them following the choice for every kind unless they set it apart;
+   "every_channel_kinds" those that reach every channel whatever is chosen; "chosen" what the user chose,
+   a box checked for every channel while they chose nothing. #}
 {% extends '@Beffroi/layout.html.twig' %}
 {% trans_default_domain 'beffroi' %}
 
@@ -86,4 +92,53 @@
     {{ include('@Beffroi/account/pager.html.twig', {listing: subscriptions}) }}
     <p data-push-error hidden>{{ 'notifications.error.browser'|trans }}</p>
     <p data-push-unsupported {% if application_server_key is not null %}hidden{% endif %}>{{ application_server_key is null ? 'notifications.not_served'|trans : 'notifications.unsupported'|trans }}</p>
+    <h2>{{ 'notifications.channels.title'|trans }}</h2>
+    {% if channels is empty %}
+        <p data-channels="none">{{ 'notifications.channels.none'|trans }}</p>
+    {% else %}
+        <p>{{ 'notifications.channels.explanation'|trans }}</p>
+        <form method="post" action="{{ path('beffroi_interaction_account_notifications_channels') }}" data-channels="choose">
+            <input type="hidden" name="_token" value="{{ csrf_token('beffroi_notification_channels') }}">
+            <table data-channels="{{ channels|length }}">
+                <thead>
+                    <tr>
+                        <th>{{ 'notifications.channels.kind'|trans }}</th>
+                        <th>{{ 'notifications.channels.apart'|trans }}</th>
+                        {% for channel in channels %}
+                            <th data-channel="{{ channel }}">{{ ('notifications.channel.' ~ channel)|trans }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% set every_kind = 'notifications.channels.every_kind'|trans %}
+                    <tr data-kind="every">
+                        <td>{{ every_kind }}</td>
+                        <td></td>
+                        {% for channel in channels %}
+                            <td><input type="checkbox" name="every[]" value="{{ channel }}" aria-label="{{ 'notifications.channels.by'|trans({kind: every_kind, channel: ('notifications.channel.' ~ channel)|trans}) }}" {% if chosen.forEveryKind is null or channel in chosen.forEveryKind %}checked{% endif %}></td>
+                        {% endfor %}
+                    </tr>
+                    {% for kind in chosen_kinds %}
+                        {% set named = ('notifications.kind.' ~ kind.name)|trans %}
+                        {% set apart = chosen.setApart[kind.name] ?? null %}
+                        {% set reaching = apart ?? chosen.forEveryKind %}
+                        <tr data-kind="{{ kind.name }}">
+                            <td>{{ named }}</td>
+                            <td><input type="checkbox" name="apart[]" value="{{ kind.name }}" aria-label="{{ 'notifications.channels.apart_label'|trans({kind: named}) }}" {% if apart is not null %}checked{% endif %}></td>
+                            {% for channel in channels %}
+                                <td><input type="checkbox" name="channels[{{ kind.name }}][]" value="{{ channel }}" aria-label="{{ 'notifications.channels.by'|trans({kind: named, channel: ('notifications.channel.' ~ channel)|trans}) }}" {% if reaching is null or channel in reaching %}checked{% endif %}></td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    {% for kind in every_channel_kinds %}
+                        <tr data-kind="{{ kind.name }}" data-every-channel>
+                            <td>{{ ('notifications.kind.' ~ kind.name)|trans }}</td>
+                            <td colspan="{{ channels|length + 1 }}">{{ 'notifications.channels.every_channel'|trans }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit">{{ 'notifications.channels.save'|trans }}</button>
+        </form>
+    {% endif %}
 {% endblock %}

@@ -871,6 +871,12 @@ use Beffroi\Core\Application\Identity\MailEncryptionChoice;
 use Beffroi\Core\Application\Key\MailSigningKeyAdoption;
 use Beffroi\Core\Port\MailSigningKeyRepositoryInterface;
 use App\Sms\SmsSender;
+use App\Notification\NotificationKinds;
+use App\Notification\OfferedChannels;
+use App\Http\AskedChannels;
+use Beffroi\Core\Application\Notification\ChannelChoice;
+use Beffroi\Core\Domain\Credential\CredentialChangeKind;
+use Beffroi\Oidc\Domain\Ciba\PendingApprovalKind;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
@@ -914,6 +920,13 @@ return static function (ContainerConfigurator $container): void {
     $services->set(PushSubscriptionNaming::class);
     $services->set(PushSubscriptionRevocation::class);
     $services->set(NotificationsPage::class);
+    $services->set(CredentialChangeKind::class)->tag(NotificationKinds::TAG);
+    $services->set(PendingApprovalKind::class)->tag(NotificationKinds::TAG);
+    $services->set(NotificationKinds::class)->args([tagged_iterator(NotificationKinds::TAG)]);
+    // A person chooses among the channels of a pending approval, the one kind whose channels they choose.
+    $services->set(OfferedChannels::class)->args([service('beffroi.pending_approval_channels')]);
+    $services->set(AskedChannels::class);
+    $services->set(ChannelChoice::class);
     $services->set(WebPushSender::class);
     $services->set(WebPushBroadcast::class);
     $services->set(MailSender::class);

@@ -19,6 +19,8 @@ use Symfony\Component\Notifier\Transport\TransportInterface;
  */
 final readonly class SmsSender
 {
+    public const string CHANNEL = 'sms';
+
     /**
      * @param Closure(): TransportInterface $transport built at the first text, so that a DSN no installed bridge reads
      *                                                 fails the text alone and never the channels beside it

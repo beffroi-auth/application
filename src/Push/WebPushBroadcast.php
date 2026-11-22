@@ -21,6 +21,8 @@ use function sprintf;
  */
 final readonly class WebPushBroadcast
 {
+    public const string CHANNEL = 'web_push';
+
     public function __construct(
         private PushSubscriptionRepositoryInterface $subscriptions,
         private PushSubscriptionRevocation $revocation,
