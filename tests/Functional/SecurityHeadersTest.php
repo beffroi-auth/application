@@ -135,6 +135,19 @@ final class SecurityHeadersTest extends BrowserTestCase
      * CSP Level 3 §6.1
      */
     #[Test]
+    public function itLoadsTheFontOfThePagesFromItsOwnOriginAlone(): void
+    {
+        // When
+        $this->browser->request('GET', '/login');
+
+        // Then
+        static::assertCspHeader(requiredDirectives: ['font-src'], contains: ["font-src 'self';"]);
+    }
+
+    /**
+     * CSP Level 3 §6.1
+     */
+    #[Test]
     #[DataProvider('provideAnswersTheDeploymentWritesThePolicyOf')]
     public function itRefusesEverythingItDoesNotName(string $path): void
     {
