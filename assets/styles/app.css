@@ -317,6 +317,12 @@
         --btn-border: var(--color-link);
     }
 
+    /* The two answers of one form stand twice the gap of the form apart, so that a hand going for one never
+       lands on the other. */
+    main form button[type="submit"]:is([value="deny"], [value="no"]) {
+        @apply mt-4;
+    }
+
     /* Another address goes back to the first question and answers nothing on this page: a link under the
        answers, the third choice. */
     main form[data-step="another-address"] button[type="submit"] {
@@ -513,6 +519,12 @@
        them all and not inside one of them (BCP 10027 §5.2). */
     main[data-page="account"] section[data-approval] {
         @apply flex flex-col gap-2 rounded-box border border-base-300 bg-base-100 p-5;
+    }
+
+    /* Its answers are the question of the page, the size of those of the consent, and not the small button
+       of a line of the account. */
+    main[data-page="account"] section[data-approval] form button[type="submit"] {
+        @apply btn-md;
     }
 
     main[data-page="account"] > p[data-warning] {
