@@ -71,7 +71,7 @@ beffroi:
         age: '%env(int:BEFFROI_KEY_AGE)%'
     mutual_tls:
         # The host whose TLS listener asks for a client certificate (issue #157, architecture §5.1),
-        # announced in "mtls_endpoint_aliases" (RFC 8705 §5). Empty for a deployment that serves one host.
+        # announced in "mtls_endpoint_aliases" (RFC 8705 §5). Empty, the provider serves no mutual TLS.
         origin: '%env(BEFFROI_MTLS_ORIGIN)%'
     # Reaching a user through the push service of a browser they signed in with (RFC 8030, architecture
     # §5.6). Naming a subject is what turns it on, and the subject is the deployment's: the "mailto:" or
