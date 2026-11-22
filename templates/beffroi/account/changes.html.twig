@@ -13,31 +13,33 @@
     {{ include('@Beffroi/account/back.html.twig') }}
     <p>{{ 'changes.explanation'|trans }}</p>
     {{ include('@Beffroi/account/period.html.twig', {period: period}) }}
-    <table data-changes="{{ changes|length }}">
-        <thead>
-            <tr>
-                <th>{{ 'profile.changed_what'|trans }}</th>
-                <th>{{ 'profile.changed_from'|trans }}</th>
-                <th>{{ 'profile.changed_to'|trans }}</th>
-                <th>{{ 'profile.changed_when'|trans }}</th>
-                <th>{{ 'profile.changed_by'|trans }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for change in changes %}
-                <tr data-change="{{ change.claim }}">
-                    <td>{{ ('profile.' ~ change.claim)|trans }}</td>
-                    <td>{{ include('@Beffroi/account/claim_value.html.twig', {claim: change.claim, value: change.was}) }}</td>
-                    <td>{{ include('@Beffroi/account/claim_value.html.twig', {claim: change.claim, value: change.became}) }}</td>
-                    <td><time datetime="{{ change.changedAt|date('c') }}">{{ change.changedAt|beffroi_moment(user) }}</time></td>
-                    <td data-author="{{ change.author is null ? 'person' : 'administrator' }}">{{ (change.author is null ? 'changes.by_you' : 'acts.by_an_administrator')|trans }}</td>
+    <div data-table>
+        <table data-changes="{{ changes|length }}">
+            <thead>
+                <tr>
+                    <th>{{ 'profile.changed_what'|trans }}</th>
+                    <th>{{ 'profile.changed_from'|trans }}</th>
+                    <th>{{ 'profile.changed_to'|trans }}</th>
+                    <th>{{ 'profile.changed_when'|trans }}</th>
+                    <th>{{ 'profile.changed_by'|trans }}</th>
                 </tr>
-            {% else %}
-                {# A table that holds nothing keeps its head and says so in one row of its own, which is
-                   how every table of this plane says it. #}
-                <tr data-empty><td colspan="5">{{ (period is null ? 'profile.changed_nothing' : 'changes.none_in_period')|trans }}</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for change in changes %}
+                    <tr data-change="{{ change.claim }}">
+                        <td>{{ ('profile.' ~ change.claim)|trans }}</td>
+                        <td>{{ include('@Beffroi/account/claim_value.html.twig', {claim: change.claim, value: change.was}) }}</td>
+                        <td>{{ include('@Beffroi/account/claim_value.html.twig', {claim: change.claim, value: change.became}) }}</td>
+                        <td><time datetime="{{ change.changedAt|date('c') }}">{{ change.changedAt|beffroi_moment(user) }}</time></td>
+                        <td data-author="{{ change.author is null ? 'person' : 'administrator' }}">{{ (change.author is null ? 'changes.by_you' : 'acts.by_an_administrator')|trans }}</td>
+                    </tr>
+                {% else %}
+                    {# A table that holds nothing keeps its head and says so in one row of its own, which is
+                       how every table of this plane says it. #}
+                    <tr data-empty><td colspan="5">{{ (period is null ? 'profile.changed_nothing' : 'changes.none_in_period')|trans }}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     {{ include('@Beffroi/account/pager.html.twig', {listing: changes}) }}
 {% endblock %}

@@ -365,7 +365,7 @@
      * The pages of the account. The skeleton is a column with a gap of its own, so what the rules above
      * space by a margin is spaced by that gap here, and the margin goes.
      */
-    main[data-page="account"] > :is(p, ul, ol, dl, table, form, figure, nav, section) {
+    main[data-page="account"] > :is(p, ul, ol, dl, div[data-table], form, figure, nav, section) {
         @apply mt-0;
     }
 
@@ -559,9 +559,14 @@
         @apply border-0 bg-transparent p-0;
     }
 
-    /* One line per thing the account holds: the table is the panel, and a revoked line is spent. */
+    /* One line per thing the account holds: the frame of the table is the panel, and a revoked line is spent.
+       A table wider than the screen is read across inside its frame, and the page never scrolls sideways. */
+    main[data-page="account"] div[data-table] {
+        @apply overflow-x-auto rounded-box border border-base-300 bg-base-100;
+    }
+
     main[data-page="account"] table {
-        @apply table rounded-box border border-base-300 bg-base-100;
+        @apply table;
     }
 
     main[data-page="account"] thead th {
@@ -631,10 +636,10 @@
 
     /*
      * The control under a table that is read in pages belongs to that table: it is the foot of its card,
-     * which is why the table above it loses its bottom corners and its bottom border and the control
-     * closes the box. Which rows of the whole list are shown on the left, the pages on the right.
+     * which is why the frame of the table above it loses its bottom corners and its bottom border and the
+     * control closes the box. Which rows of the whole list are shown on the left, the pages on the right.
      */
-    main[data-page="account"] table:has(+ nav[data-pager]) {
+    main[data-page="account"] div[data-table]:has(+ nav[data-pager]) {
         @apply rounded-b-none border-b-0;
     }
 

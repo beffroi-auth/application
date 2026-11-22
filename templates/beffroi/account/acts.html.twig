@@ -16,33 +16,35 @@
     {{ include('@Beffroi/account/back.html.twig') }}
     <p>{{ 'acts.explanation'|trans }}</p>
     {{ include('@Beffroi/account/period.html.twig', {period: period}) }}
-    <table data-acts="{{ acts|length }}">
-        <thead>
-            <tr>
-                <th>{{ 'acts.what'|trans }}</th>
-                <th>{{ 'acts.when'|trans }}</th>
-                <th>{{ 'acts.from'|trans }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for act in acts %}
-                <tr data-act="{{ act.act }}">
-                    <td>{{ ('act.' ~ act.act)|trans }}</td>
-                    <td><time datetime="{{ act.occurredAt|date('c') }}">{{ act.occurredAt|beffroi_moment(user) }}</time></td>
-                    <td>
-                        {%- if act.author is not null -%}
-                            <span data-author>{{ 'acts.by_an_administrator'|trans }}</span>
-                        {%- else -%}
-                            {{ include('@Beffroi/account/provenance.html.twig', {provenance: act.context}) }}
-                        {%- endif -%}
-                    </td>
+    <div data-table>
+        <table data-acts="{{ acts|length }}">
+            <thead>
+                <tr>
+                    <th>{{ 'acts.what'|trans }}</th>
+                    <th>{{ 'acts.when'|trans }}</th>
+                    <th>{{ 'acts.from'|trans }}</th>
                 </tr>
-            {% else %}
-                {# A table that holds nothing keeps its head and says so in one row of its own, which is
-                   how every table of this plane says it. #}
-                <tr data-empty><td colspan="3">{{ (period is null ? 'acts.none' : 'acts.none_in_period')|trans }}</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for act in acts %}
+                    <tr data-act="{{ act.act }}">
+                        <td>{{ ('act.' ~ act.act)|trans }}</td>
+                        <td><time datetime="{{ act.occurredAt|date('c') }}">{{ act.occurredAt|beffroi_moment(user) }}</time></td>
+                        <td>
+                            {%- if act.author is not null -%}
+                                <span data-author>{{ 'acts.by_an_administrator'|trans }}</span>
+                            {%- else -%}
+                                {{ include('@Beffroi/account/provenance.html.twig', {provenance: act.context}) }}
+                            {%- endif -%}
+                        </td>
+                    </tr>
+                {% else %}
+                    {# A table that holds nothing keeps its head and says so in one row of its own, which is
+                       how every table of this plane says it. #}
+                    <tr data-empty><td colspan="3">{{ (period is null ? 'acts.none' : 'acts.none_in_period')|trans }}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     {{ include('@Beffroi/account/pager.html.twig', {listing: acts}) }}
 {% endblock %}
