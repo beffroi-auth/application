@@ -1,0 +1,46 @@
+{# Whether the mail of the provider is encrypted to the signed-in person (decision 0051), in the language of the
+   browser: to what, until when, and the form that gives a certificate or a key in its place or takes it back.
+   Beside the address it is for, which is the one a certificate or a key must name: a person with no verified
+   address has nothing to encrypt to. Reached with a recent proof only (RecentLogin), since what is given here
+   decides who reads what the provider tells the person. "refusal" is a value of MailEncryptionRefusal. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'mail_encryption.title'|trans }}{% endblock %}
+
+{% block content %}
+    {{ include('@Beffroi/account/back.html.twig') }}
+    {% if refusal is not null %}
+        <p data-error="{{ refusal }}">{{ ('mail_encryption.error.' ~ refusal)|trans }}</p>
+    {% endif %}
+    {% if address is null %}
+        <p data-mail-encryption="no-address">{{ 'mail_encryption.no_address'|trans }}</p>
+    {% else %}
+        <p>{{ 'mail_encryption.explanation'|trans({address: address.value}) }}</p>
+        {% if key is null %}
+            <p data-mail-encryption="none">{{ 'mail_encryption.none'|trans }}</p>
+        {% else %}
+            <p data-mail-encryption="{{ key.kind }}" data-fingerprint="{{ key.fingerprint }}">{{ 'mail_encryption.held'|trans({format: ('mail_encryption.kind.' ~ key.kind)|trans, fingerprint: key.fingerprint}) }}</p>
+            {% if key.notAfter is not null %}
+                <p><time datetime="{{ key.notAfter|date('c') }}">{{ 'mail_encryption.valid_until'|trans({date: key.notAfter|beffroi_moment(user)}) }}</time></p>
+            {% endif %}
+            <form method="post" action="{{ path('beffroi_interaction_account_mail_encryption_remove') }}" data-mail-encryption="remove">
+                <input type="hidden" name="_token" value="{{ csrf_token('beffroi_mail_encryption') }}">
+                <button type="submit">{{ 'mail_encryption.remove'|trans }}</button>
+            </form>
+        {% endif %}
+        <form method="post" action="{{ path('beffroi_interaction_account_mail_encryption_give') }}" data-mail-encryption="give">
+            <input type="hidden" name="_token" value="{{ csrf_token('beffroi_mail_encryption') }}">
+            <fieldset>
+                <legend>{{ 'mail_encryption.format'|trans }}</legend>
+                {% for format in formats %}
+                    <label><input type="radio" name="format" value="{{ format }}" required{% if loop.first %} checked{% endif %}> {{ ('mail_encryption.kind.' ~ format)|trans }}</label>
+                {% endfor %}
+            </fieldset>
+            <label for="mail-encryption-material">{{ 'mail_encryption.material'|trans }}</label>
+            <textarea id="mail-encryption-material" name="material" rows="12" spellcheck="false" required></textarea>
+            <p>{{ 'mail_encryption.material_help'|trans }}</p>
+            <button type="submit">{{ 'mail_encryption.give'|trans }}</button>
+        </form>
+    {% endif %}
+{% endblock %}

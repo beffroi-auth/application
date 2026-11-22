@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Configuration;
 
 use App\Mail\MailSender;
+use App\Mail\MailSenderAddress;
 use function is_string;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
@@ -63,5 +64,6 @@ final readonly class MailSection extends ConfigurationSection
             ->factory([service('mailer.transport_factory'), 'fromString'])
             ->args([$dsn ?? '']);
         $services->get(MailSender::class)->arg('$transport', service_closure(self::TRANSPORT))->arg('$sender', $sender);
+        $services->get(MailSenderAddress::class)->arg('$sender', $sender);
     }
 }

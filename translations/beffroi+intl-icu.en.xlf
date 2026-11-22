@@ -2025,6 +2025,82 @@
         <source>navigation.description.acts</source>
         <target>Everything that happened to your account, and how somebody got in.</target>
       </trans-unit>
+      <trans-unit id="mail_encryption.title" resname="mail_encryption.title">
+        <source>mail_encryption.title</source>
+        <target>Encrypted mail</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.explanation" resname="mail_encryption.explanation">
+        <source>mail_encryption.explanation</source>
+        <target>The mail this provider writes to {address} can be encrypted to a certificate (S/MIME) or a public key (OpenPGP) you give, which must name this address: only your mail client then reads it. Its sender, its recipient, its date and its subject stay readable on its way.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.no_address" resname="mail_encryption.no_address">
+        <source>mail_encryption.no_address</source>
+        <target>Mail is encrypted to a verified address, and your account has none.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.none" resname="mail_encryption.none">
+        <source>mail_encryption.none</source>
+        <target>The mail written to you is not encrypted.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.held" resname="mail_encryption.held">
+        <source>mail_encryption.held</source>
+        <target>The mail written to you is encrypted with {format} to the key {fingerprint}. If it cannot be, nothing is written to you.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.valid_until" resname="mail_encryption.valid_until">
+        <source>mail_encryption.valid_until</source>
+        <target>Valid until {date}.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.remove" resname="mail_encryption.remove">
+        <source>mail_encryption.remove</source>
+        <target>Stop encrypting my mail</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.format" resname="mail_encryption.format">
+        <source>mail_encryption.format</source>
+        <target>Format</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.material" resname="mail_encryption.material">
+        <source>mail_encryption.material</source>
+        <target>Certificate or public key</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.material_help" resname="mail_encryption.material_help">
+        <source>mail_encryption.material_help</source>
+        <target>S/MIME: your certificate alone, in PEM. OpenPGP: your public key alone, ASCII-armored. It replaces the one you gave before.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.give" resname="mail_encryption.give">
+        <source>mail_encryption.give</source>
+        <target>Encrypt my mail to it</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.kind.smime" resname="mail_encryption.kind.smime">
+        <source>mail_encryption.kind.smime</source>
+        <target>S/MIME</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.kind.pgp" resname="mail_encryption.kind.pgp">
+        <source>mail_encryption.kind.pgp</source>
+        <target>OpenPGP</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.unreadable" resname="mail_encryption.error.unreadable">
+        <source>mail_encryption.error.unreadable</source>
+        <target>This is not one certificate or one public key this provider reads.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.not_for_encryption" resname="mail_encryption.error.not_for_encryption">
+        <source>mail_encryption.error.not_for_encryption</source>
+        <target>This certificate or this key cannot encrypt mail: an S/MIME certificate carries an RSA key of 2048 bits at least, an OpenPGP key a subkey that encrypts.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.not_valid_now" resname="mail_encryption.error.not_valid_now">
+        <source>mail_encryption.error.not_valid_now</source>
+        <target>This certificate or this key has expired, is revoked, or is not valid yet.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.another_address" resname="mail_encryption.error.another_address">
+        <source>mail_encryption.error.another_address</source>
+        <target>This certificate or this key does not name your verified address.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.no_verified_address" resname="mail_encryption.error.no_verified_address">
+        <source>mail_encryption.error.no_verified_address</source>
+        <target>Mail is encrypted to a verified address, and your account has none.</target>
+      </trans-unit>
+      <trans-unit id="profile.mail_encryption" resname="profile.mail_encryption">
+        <source>profile.mail_encryption</source>
+        <target>Encrypted mail</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

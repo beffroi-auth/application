@@ -23,6 +23,7 @@ use App\Doctrine\Type\PasswordAlgorithmType;
 use App\Doctrine\Type\PasswordHashType;
 use App\Doctrine\Type\ProfileType;
 use App\Doctrine\Type\UserSourceType;
+use App\Doctrine\Type\MailEncryptionKeyType;
 use App\Doctrine\Type\AuthenticationSnapshotType;
 use App\Doctrine\Type\ClaimNamesType;
 use App\Doctrine\Type\ClaimsRequestType;
@@ -124,6 +125,7 @@ final class BeffroiExtension extends AbstractExtension
         PasswordHashType::NAME => PasswordHashType::class,
         ProfileType::NAME => ProfileType::class,
         UserSourceType::NAME => UserSourceType::class,
+        MailEncryptionKeyType::NAME => MailEncryptionKeyType::class,
         PasskeyUserHandleType::NAME => PasskeyUserHandleType::class,
         AuthenticationContextPolicyType::NAME => AuthenticationContextPolicyType::class,
         AuthenticationPredicateType::NAME => AuthenticationPredicateType::class,
