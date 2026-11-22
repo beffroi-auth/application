@@ -13,11 +13,20 @@ final readonly class QueuedCredentialChangeNotifier implements CredentialChangeN
 {
     public function __construct(
         private MessageBusInterface $commandBus,
+        private CredentialChangeChannels $channels,
     ) {
     }
 
+    /**
+     * NIST SP 800-63B-4 §4.6
+     *
+     * A notice per channel: the lane brings a failed message back whole, so a channel that failed is tried again on
+     * its own and one that reached the person is not.
+     */
     public function tell(CredentialChange $change): void
     {
-        $this->commandBus->dispatch(new TellUserOfCredentialChange($change));
+        foreach ($this->channels->names() as $channel) {
+            $this->commandBus->dispatch(new TellUserOfCredentialChange($change, $channel));
+        }
     }
 }

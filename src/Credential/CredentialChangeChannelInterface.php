@@ -14,6 +14,12 @@ use Beffroi\Core\Domain\Identity\User;
 interface CredentialChangeChannelInterface
 {
     /**
+     * @return string unique among the channels wired and kept from one release to the next: a notice waiting on the
+     *                lane finds its channel by it
+     */
+    public function name(): string;
+
+    /**
      * @throws NotificationNotDeliveredException when a later attempt may reach the person
      */
     public function tell(User $user, CredentialChange $change): void;

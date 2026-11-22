@@ -44,9 +44,12 @@ use Beffroi\Core\Port\RandomnessInterface;
 use Beffroi\Core\Bridge\Random\PlatformRandomness;
 use App\Account\ApplicationHoldings;
 use App\Ciba\QueuedPendingApprovalNotifier;
+use App\Credential\CredentialChangeChannels;
 use App\Credential\CredentialChangeNotices;
 use App\Credential\QueuedCredentialChangeNotifier;
 use App\Credential\WebPushCredentialChangeChannel;
+use App\Credential\MailCredentialChangeChannel;
+use App\Credential\SmsCredentialChangeChannel;
 use Beffroi\Core\Port\CredentialChangeNotifierInterface;
 use App\Cache\SeenOnce;
 use App\Client\ClientAssertionReplayGuard;
@@ -214,7 +217,6 @@ use App\Load\LoadRefusalListener;
 use App\Load\OriginLoadListener;
 use App\Load\RateLimitedClientLoad;
 use App\MessageHandler\TellUserOfPendingApprovalHandler;
-use App\MessageHandler\TellUserOfCredentialChangeHandler;
 use App\MessageHandler\QueueLogoutTokenHandler;
 use App\Messenger\EventBusDispatcher;
 use App\Messenger\KeysOpenedAtWorkerStart;
@@ -906,6 +908,8 @@ return static function (ContainerConfigurator $container): void {
     $services->set(SmsApprovalChannel::class);
     $services->set(CredentialChangeNotices::class)->arg('$router', service(ProviderRoutes::URL_GENERATOR));
     $services->set(WebPushCredentialChangeChannel::class);
+    $services->set(MailCredentialChangeChannel::class);
+    $services->set(SmsCredentialChangeChannel::class);
     $services->set(AccountAccess::class);
     $services->set(ProviderScript::class);
     // The home of the account shows these sections in the order they are wired.
@@ -1129,15 +1133,24 @@ return static function (ContainerConfigurator $container): void {
         '$channels' => service('beffroi.pending_approval_channels'),
     ]);
     // WebPushSection::CREDENTIAL_CHANGE_CHANNEL_TAG is for a deployment's own channels; the provider tags none.
-    $services->set(QueuedCredentialChangeNotifier::class);
-    $services->alias(CredentialChangeNotifierInterface::class, QueuedCredentialChangeNotifier::class);
-    $services->get(TellUserOfCredentialChangeHandler::class)->args([
-        '$channels' => inline_service(SwitchedServices::class)->args([
-            tagged_iterator(WebPushSection::CREDENTIAL_CHANGE_CHANNEL_TAG),
-            service(WebPushSection::ROLE),
-            iterator([service(WebPushCredentialChangeChannel::class)]),
+    // The channels of the deployment, then web push, mail and SMS, each while its role is on.
+    $services->set(CredentialChangeChannels::class)->args([
+        inline_service(SwitchedServices::class)->args([
+            inline_service(SwitchedServices::class)->args([
+                inline_service(SwitchedServices::class)->args([
+                    tagged_iterator(WebPushSection::CREDENTIAL_CHANGE_CHANNEL_TAG),
+                    service(WebPushSection::ROLE),
+                    iterator([service(WebPushCredentialChangeChannel::class)]),
+                ]),
+                service(MailSection::ROLE),
+                iterator([service(MailCredentialChangeChannel::class)]),
+            ]),
+            service(SmsSection::ROLE),
+            iterator([service(SmsCredentialChangeChannel::class)]),
         ]),
     ]);
+    $services->set(QueuedCredentialChangeNotifier::class);
+    $services->alias(CredentialChangeNotifierInterface::class, QueuedCredentialChangeNotifier::class);
     $services->set(LogoutTokenSender::class);
     $services->set(ClientNotificationSender::class);
     $services->set(LogoutTokenGivenUpListener::class);

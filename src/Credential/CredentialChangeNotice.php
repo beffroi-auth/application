@@ -14,6 +14,7 @@ final readonly class CredentialChangeNotice
      */
     public function __construct(
         public string $title,
+        public string $subject,
         public string $body,
         public string $accountPage,
     ) {
