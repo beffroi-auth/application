@@ -1021,6 +1021,10 @@
         <source>credential_change.title</source>
         <target>{provider}</target>
       </trans-unit>
+      <trans-unit id="credential_change.subject" resname="credential_change.subject">
+        <source>credential_change.subject</source>
+        <target>{provider} : un changement de vos moyens de connexion</target>
+      </trans-unit>
       <trans-unit id="credential_change.body" resname="credential_change.body">
         <source>credential_change.body</source>
         <target>{what} Si ce n'était pas vous, ouvrez votre compte.</target>

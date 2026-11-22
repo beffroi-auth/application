@@ -47,6 +47,7 @@ final readonly class CredentialChangeNotices
 
         return new CredentialChangeNotice(
             $this->translator->trans('credential_change.title', ['provider' => $tenant->name], self::TRANSLATION_DOMAIN, $locale),
+            $this->translator->trans('credential_change.subject', ['provider' => $tenant->name], self::TRANSLATION_DOMAIN, $locale),
             $contact === null
                 ? $this->translator->trans('credential_change.body', ['what' => $what], self::TRANSLATION_DOMAIN, $locale)
                 : $this->translator->trans(
