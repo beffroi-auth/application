@@ -84,7 +84,7 @@ final readonly class MailSender
         try {
             $recipient = new Address($to->value);
         } catch (MimeException $refusal) {
-            $this->logger->warning('A verified address is not one a mail can carry.', [
+            $this->logger->warning('An address of the person is not one a mail can carry.', [
                 'tenant' => $user->tenant->slug,
                 'reason' => $refusal::class,
             ]);
