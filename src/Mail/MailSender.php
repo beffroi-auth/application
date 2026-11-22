@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Mail;
 
 use App\Messenger\NotificationNotDeliveredException;
+use Beffroi\Core\Domain\Identity\EmailAddress;
 use Beffroi\Core\Domain\Identity\User;
+use Beffroi\Core\Exception\InvalidArgumentException;
 use Closure;
 use Psr\Log\LoggerInterface;
 use function sprintf;
@@ -29,15 +31,17 @@ final readonly class MailSender
     public function __construct(
         private Closure $transport,
         private ?string $sender,
+        private MailProtection $protection,
         private LoggerInterface $logger,
     ) {
     }
 
     /**
-     * @return bool false for a person who has no address this sender may write to, or when the deployment cannot
-     *              write a mail at all, and who is sent nothing
+     * @return bool false for a person who has no address this sender may write to, when the deployment cannot write
+     *              a mail at all, or when the mail cannot be signed or encrypted as it must be, and who is sent nothing
      *
-     * @throws NotificationNotDeliveredException when the transport did not take the mail
+     * @throws NotificationNotDeliveredException when the transport did not take the mail, or the KMS did not open the
+     *                                           key it is signed with
      */
     public function send(User $user, string $subject, string $text): bool
     {
@@ -58,7 +62,8 @@ final readonly class MailSender
         try {
             $transport = ($this->transport)();
             $sender = Address::create($this->sender ?? '');
-        } catch (MailerException|MimeException $fault) {
+            $from = new EmailAddress($sender->getAddress());
+        } catch (MailerException|MimeException|InvalidArgumentException $fault) {
             // No later attempt would write it: the deployment names a transport or a sender that cannot be.
             $this->logger->error('This deployment writes no mail: {reason}', [
                 'reason' => $fault->getMessage(),
@@ -73,8 +78,12 @@ final readonly class MailSender
             ->text($text);
         // RFC 3834 §5.2, §2: a process wrote it, and an automatic responder that reads it answers nothing back.
         $mail->getHeaders()->addTextHeader('Auto-Submitted', 'auto-generated');
+        $protected = $this->protection->of($user, $from, $mail);
+        if ($protected === null) {
+            return false;
+        }
         try {
-            $transport->send($mail);
+            $transport->send($protected);
         } catch (TransportExceptionInterface $refusal) {
             // Never what the server said: it may write back the address it refused, which the lane keeps in clear.
             throw new NotificationNotDeliveredException(sprintf(

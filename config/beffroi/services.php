@@ -854,6 +854,22 @@ use App\Ciba\PendingApprovalWording;
 use App\Configuration\MailSection;
 use App\Configuration\SmsSection;
 use App\Mail\MailSender;
+use App\Administration\Controller\MailSigningKeysController;
+use App\Key\FileMailSigningKeyRepository;
+use App\Mail\Gnupg;
+use App\Mail\MailKeyReaders;
+use App\Mail\MailProtection;
+use App\Mail\MailSenderAddress;
+use App\Mail\OpenedMailSigningKeys;
+use App\Mail\PgpMailSigner;
+use App\Mail\PgpMime;
+use App\Mail\PgpSigningKeys;
+use App\Mail\Smime;
+use App\Mail\SmimeMailSigner;
+use App\Mail\SmimeSigningKeys;
+use Beffroi\Core\Application\Identity\MailEncryptionChoice;
+use Beffroi\Core\Application\Key\MailSigningKeyAdoption;
+use Beffroi\Core\Port\MailSigningKeyRepositoryInterface;
 use App\Sms\SmsSender;
 
 return static function (ContainerConfigurator $container): void {
@@ -901,6 +917,26 @@ return static function (ContainerConfigurator $container): void {
     $services->set(WebPushSender::class);
     $services->set(WebPushBroadcast::class);
     $services->set(MailSender::class);
+    $services->set(MailSenderAddress::class);
+    // The order of the signers is the order a format signs in when the person gave no key of their own (decision 0051).
+    $services->set(SmimeMailSigner::class)->tag('beffroi.mail_signer');
+    $services->set(PgpMailSigner::class)->tag('beffroi.mail_signer');
+    $services->set(Gnupg::class);
+    $services->set(Smime::class)->tag('beffroi.mail_key_reader')->tag('beffroi.mail_encrypter');
+    $services->set(PgpMime::class)->tag('beffroi.mail_key_reader')->tag('beffroi.mail_encrypter');
+    $services->set(MailKeyReaders::class)->args([tagged_iterator('beffroi.mail_key_reader')]);
+    $services->set(MailProtection::class)->args([
+        '$signers' => tagged_iterator('beffroi.mail_signer'),
+        '$encrypters' => tagged_iterator('beffroi.mail_encrypter'),
+    ]);
+    $services->set(OpenedMailSigningKeys::class)->arg('$signers', tagged_iterator('beffroi.mail_signer'));
+    $services->set(SmimeSigningKeys::class);
+    $services->set(PgpSigningKeys::class)->arg('$bits', service(RsaKeyBits::class));
+    $services->set(FileMailSigningKeyRepository::class);
+    $services->alias(MailSigningKeyRepositoryInterface::class, FileMailSigningKeyRepository::class);
+    $services->set(MailSigningKeyAdoption::class);
+    $services->set(MailEncryptionChoice::class);
+    $services->get(MailSigningKeysController::class)->arg('$signers', tagged_iterator('beffroi.mail_signer'));
     $services->set(SmsSender::class);
     $services->set(PendingApprovalWording::class);
     $services->set(WebPushApprovalChannel::class);
@@ -1331,6 +1367,7 @@ return static function (ContainerConfigurator $container): void {
             service(MessageKeysInService::class),
             service(ActiveSigningKeys::class),
             service(ApplicationServerKeysInService::class),
+            service(OpenedMailSigningKeys::class),
             service(DataKeysOfTheTenant::class),
         ]),
     ]);

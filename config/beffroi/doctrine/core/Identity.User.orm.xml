@@ -7,7 +7,7 @@
       An identity of a tenant (decision 0002, architecture §3.1). The subject and the username are unique
       within the tenant.
 
-      Six of its columns carry a personal datum and are sealed under the data key of their tenant
+      Seven of its columns carry a personal datum and are sealed under the data key of their tenant
       (decisions 0011 and 0018): the type of each is the type it had, decorated, which is what the "user"
       family of EncryptedColumnTypes declares. Three things stop being true of a sealed column, and they
       are written where that class declares them: the column becomes unbounded binary, so the "length"
@@ -67,5 +67,8 @@
              "provider" of a linked identity does. A local source holds nothing and is a null column, which is
              what every person the table held before the column came is. -->
         <field name="source" type="beffroi_encrypted_user_user_source" column="source" nullable="true"/>
+        <!-- The certificate or the public key the mail of the provider is encrypted to (decision 0051), sealed with the
+             rest: it names the person's address, and often their name. Null for whoever asked for nothing. -->
+        <field name="mailEncryption" type="beffroi_encrypted_user_mail_encryption_key" column="mail_encryption" nullable="true"/>
     </entity>
 </doctrine-mapping>

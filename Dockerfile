@@ -16,6 +16,14 @@ RUN install-php-extensions \
     sodium \
     uuid
 
+# gpg reads the OpenPGP key a person gives and encrypts the mail written to them (decision 0051); it starts no agent,
+# which would hold a key in a process of its own and that the provider never needs, a public key being all it hands gpg.
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends gpg; \
+    rm -rf /var/lib/apt/lists/*
+COPY --link apps/beffroi/frankenphp/gnupg/gpg.conf /etc/gnupg/gpg.conf
+
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV PHP_INI_SCAN_DIR=":$PHP_INI_DIR/app.conf.d"
 
@@ -110,6 +118,15 @@ COPY --link --from=frankenphp_prod_builder /tmp/libs /usr/lib/
 COPY --link --from=frankenphp_prod_builder /etc/frankenphp /etc/frankenphp
 COPY --link --from=frankenphp_prod_builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --link --from=frankenphp_prod_builder /etc/ssl/openssl.cnf /etc/ssl/
+COPY --link --from=frankenphp_prod_builder /etc/gnupg/gpg.conf /etc/gnupg/gpg.conf
+
+# gpg and the libraries it loads, the one program of Debian the application runs (decision 0051), installed from the
+# archive of the release the image is built on and nothing else with it.
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends gpg; \
+    rm -rf /var/lib/apt/lists/* /var/cache/debconf/*-old /var/log/apt /var/log/dpkg.log; \
+    gpg --version > /dev/null
 COPY --link --from=frankenphp_prod_builder /src /src
 COPY --link --exclude=var --from=frankenphp_prod_builder /app /app
 # Without --link, which would give www-data the /app this layer creates: it writes in var/ and nowhere above.

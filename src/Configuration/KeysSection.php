@@ -20,6 +20,7 @@ use App\Doctrine\PersonalData\TenantDataKeyStores;
 use App\Doctrine\PersonalData\TenantScopedEncrypter;
 use App\Doctrine\TenantProvider;
 use App\Key\FilePairwiseSalt;
+use App\Key\FileMailSigningKeyRepository;
 use App\Key\FileTenantKeyRepository;
 use App\Key\KeyAge;
 use App\Key\StagingDelay;
@@ -219,6 +220,7 @@ final readonly class KeysSection extends ConfigurationSection
         $services->get(EnvelopeSecretSealer::class)->arg('$envelopes', service('beffroi.kms.envelopes'))->arg('$kmsKeyId', self::string($keys, 'key_id'));
         $services->get(FileTenantKeyRepository::class)->arg('$directory', self::string($keys, 'storage'));
         $services->get(FilePairwiseSalt::class)->arg('$directory', self::string($keys, 'storage'));
+        $services->get(FileMailSigningKeyRepository::class)->arg('$directory', self::string($keys, 'storage'));
         if ($debug) {
             $services->get(KmsClient::class)->arg('$name', self::string($keys, 'kms'));
         }
