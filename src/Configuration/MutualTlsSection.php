@@ -27,7 +27,7 @@ final readonly class MutualTlsSection extends ConfigurationSection
             ->addDefaultsIfNotSet()
             ->children()
             ->scalarNode('origin')
-            ->info('Scheme and authority of that host, without a path ("https://mtls.op.example"). The endpoints are announced under it in "mtls_endpoint_aliases", with the paths they are served at. Absent, the provider serves no mutual TLS: tls_client_auth, self_signed_tls_client_auth and the tokens bound to a certificate are neither announced nor registered. A deployment whose edge hands the certificate to the host of the issuer names that host.')
+            ->info('Scheme and authority of that host, without a path ("https://mtls.op.example"). The endpoints are announced under it in "mtls_endpoint_aliases", with the paths they are served at. Absent, the provider serves no mutual TLS: tls_client_auth, self_signed_tls_client_auth and the tokens bound to a certificate are neither announced nor registered. A deployment whose listener sets SSL_CLIENT_CERT on the host of the issuer itself, which the site of SERVER_NAME never does, names that host.')
             ->defaultNull()
             ->end()
             ->end()
