@@ -113,6 +113,10 @@
         "symfony/symfony": "*"
     },
     "extra": {
+        "bamarni-bin": {
+            "bin-links": false,
+            "forward-command": false
+        },
         "runtime": {
             "class": "App\\Runtime\\Runtime"
         },
