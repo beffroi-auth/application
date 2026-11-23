@@ -20,7 +20,11 @@ framework:
     # a provider that does not know the visitor and ask them to sign in again. "lax" sends it on that
     # navigation and on no cross-site POST, which is where the form post response mode and the walk that
     # plays it twice read what a browser makes of it ("castor demo --form-post").
+    #
+    # The session lives in the database every process of a deployment shares (decision 0053), so that several
+    # servers serve one browser and a redeployment signs nobody out.
     session:
+        handler_id: App\Http\DatabaseSessions
         name: '__Host-beffroi_session'
         cookie_secure: true
         cookie_httponly: true
