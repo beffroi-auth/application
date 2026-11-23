@@ -29,6 +29,7 @@ ENV PHP_INI_SCAN_DIR=":$PHP_INI_DIR/app.conf.d"
 
 COPY --link apps/beffroi/frankenphp/conf.d/10-app.ini $PHP_INI_DIR/app.conf.d/
 COPY --link --chmod=755 apps/beffroi/frankenphp/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+COPY --link --chmod=755 apps/beffroi/frankenphp/docker-healthcheck.php /usr/local/bin/docker-healthcheck
 COPY --link apps/beffroi/frankenphp/Caddyfile /etc/frankenphp/Caddyfile
 COPY --link apps/beffroi/frankenphp/worker.Caddyfile /etc/frankenphp/worker.Caddyfile
 COPY --link apps/beffroi/frankenphp/mtls.Caddyfile /etc/frankenphp/mtls.Caddyfile
@@ -111,7 +112,7 @@ ENV PHP_INI_SCAN_DIR=":/usr/local/etc/php/app.conf.d"
 ENV XDG_CONFIG_HOME=/config XDG_DATA_HOME=/data GODEBUG=cgocheck=0
 ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt OPENSSL_CONF=/etc/ssl/openssl.cnf
 
-COPY --link --from=frankenphp_prod_builder /usr/local/bin/frankenphp /usr/local/bin/php /usr/local/bin/docker-php-entrypoint /usr/local/bin/docker-entrypoint /usr/local/bin/
+COPY --link --from=frankenphp_prod_builder /usr/local/bin/frankenphp /usr/local/bin/php /usr/local/bin/docker-php-entrypoint /usr/local/bin/docker-entrypoint /usr/local/bin/docker-healthcheck /usr/local/bin/
 COPY --link --from=frankenphp_prod_builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
 COPY --link --from=frankenphp_prod_builder /usr/local/etc/php /usr/local/etc/php
 COPY --link --from=frankenphp_prod_builder /tmp/libs /usr/lib/
@@ -166,6 +167,7 @@ WORKDIR /app
 
 ENTRYPOINT ["docker-entrypoint"]
 
-# The image carries no curl: PHP asks the admin endpoint of Caddy.
-HEALTHCHECK --start-period=60s CMD ["php", "-r", "exit(false === @file_get_contents('http://localhost:2019/metrics', context: stream_context_create(['http' => ['timeout' => 5]])) ? 1 : 0);"]
+# Healthy when the provider answers through the site of SERVER_NAME, and not when Caddy alone does: a configuration the
+# kernel refuses leaves every worker ready and fails each request (issue #1192).
+HEALTHCHECK --start-period=60s CMD ["docker-healthcheck"]
 CMD [ "frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile" ]
