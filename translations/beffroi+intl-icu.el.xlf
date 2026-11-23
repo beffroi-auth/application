@@ -1777,6 +1777,10 @@
         <source>archive.nothing_to_drop</source>
         <target>Δεν απομένει τίποτα για διαγραφή.</target>
       </trans-unit>
+      <trans-unit id="archive.too_many_requests" resname="archive.too_many_requests">
+        <source>archive.too_many_requests</source>
+        <target>Πάρα πολλές προσπάθειες. Περιμένετε λίγο και δοκιμάστε ξανά.</target>
+      </trans-unit>
       <trans-unit id="sessions.end_others" resname="sessions.end_others">
         <source>sessions.end_others</source>
         <target>Τερματισμός όλων των άλλων συνεδριών</target>

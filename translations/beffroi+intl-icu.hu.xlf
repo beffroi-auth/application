@@ -1777,6 +1777,10 @@
         <source>archive.nothing_to_drop</source>
         <target>Már nincs mit törölni.</target>
       </trans-unit>
+      <trans-unit id="archive.too_many_requests" resname="archive.too_many_requests">
+        <source>archive.too_many_requests</source>
+        <target>Túl sok próbálkozás. Várjon egy kicsit, majd próbálja újra.</target>
+      </trans-unit>
       <trans-unit id="sessions.end_others" resname="sessions.end_others">
         <source>sessions.end_others</source>
         <target>Minden más munkamenet befejezése</target>

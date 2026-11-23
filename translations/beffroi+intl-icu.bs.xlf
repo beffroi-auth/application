@@ -1777,6 +1777,10 @@
         <source>archive.nothing_to_drop</source>
         <target>Nema više ničega za brisanje.</target>
       </trans-unit>
+      <trans-unit id="archive.too_many_requests" resname="archive.too_many_requests">
+        <source>archive.too_many_requests</source>
+        <target>Previše pokušaja. Sačekajte trenutak, a zatim pokušajte ponovo.</target>
+      </trans-unit>
       <trans-unit id="sessions.end_others" resname="sessions.end_others">
         <source>sessions.end_others</source>
         <target>Završi sve ostale sesije</target>

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\DependencyInjection;
 
 use function dirname;
+use App\Controller\AccountArchiveRequestController;
 use App\Doctrine\Type\ActorType;
 use App\Messenger\MessengerContract;
 use App\Doctrine\Type\AddressType;
@@ -224,6 +225,11 @@ final class BeffroiExtension extends AbstractExtension
                     'lock_factory' => 'lock.factory',
                 ];
             }
+            $limiters[AccountArchiveRequestController::LIMITER] = [
+                'policy' => 'sliding_window',
+                'limit' => AccountArchiveRequestController::LIMIT,
+                'interval' => AccountArchiveRequestController::INTERVAL,
+            ];
             $builder->prependExtensionConfig('rate_limiter', [
                 'limiters' => $limiters,
             ]);

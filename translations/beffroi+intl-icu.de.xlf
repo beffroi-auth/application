@@ -1777,6 +1777,10 @@
         <source>archive.nothing_to_drop</source>
         <target>Es gibt nichts mehr zu löschen.</target>
       </trans-unit>
+      <trans-unit id="archive.too_many_requests" resname="archive.too_many_requests">
+        <source>archive.too_many_requests</source>
+        <target>Zu viele Versuche. Warten Sie einen Moment und versuchen Sie es dann erneut.</target>
+      </trans-unit>
       <trans-unit id="sessions.end_others" resname="sessions.end_others">
         <source>sessions.end_others</source>
         <target>Alle anderen Sitzungen beenden</target>
