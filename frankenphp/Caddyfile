@@ -9,7 +9,13 @@
 # Caddy refuses a second "servers" block for the same listeners: the options a deployment gives them all,
 # "trusted_proxies" and "client_ip_headers" behind a proxy, are CADDY_SERVER_OPTIONS, inside this block, never a
 # "servers" block of CADDY_GLOBAL_OPTIONS.
+#
+# The administration API of Caddy answers whoever reaches its address, with no credential, and can stop or reconfigure
+# the server: the image runs without it, and a deployment that wants it names its address in CADDY_ADMIN. The
+# development image names localhost:2019.
 {
+	admin {$CADDY_ADMIN:off}
+
 	{$CADDY_GLOBAL_OPTIONS}
 
 	servers {
