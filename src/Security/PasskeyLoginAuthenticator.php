@@ -17,7 +17,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\InteractiveAuthenticatorInterface;
-use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken;
@@ -28,10 +27,6 @@ use Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken;
  */
 final readonly class PasskeyLoginAuthenticator implements AuthenticatorInterface, InteractiveAuthenticatorInterface
 {
-    public const string CSRF_TOKEN_ID = PasswordLoginAuthenticator::CSRF_TOKEN_ID;
-
-    public const string CSRF_TOKEN_PARAMETER = '_csrf_token';
-
     public const string ASSERTION_PARAMETER = '_passkey';
 
     public function __construct(
@@ -40,6 +35,7 @@ final readonly class PasskeyLoginAuthenticator implements AuthenticatorInterface
         private PasskeyAuthenticatorInterface $ceremony,
         private InteractionLoginHandler $handler,
         private FederatedDomains $federated,
+        private LoginFormToken $formToken,
     ) {
     }
 
@@ -50,8 +46,8 @@ final readonly class PasskeyLoginAuthenticator implements AuthenticatorInterface
 
     public function authenticate(Request $request): Passport
     {
+        $this->formToken->check($request);
         $assertion = $request->request->getString(self::ASSERTION_PARAMETER);
-        $token = $request->request->getString(self::CSRF_TOKEN_PARAMETER);
         if ($assertion === '') {
             throw new AuthenticationException('The login carries no assertion.');
         }
@@ -81,7 +77,6 @@ final readonly class PasskeyLoginAuthenticator implements AuthenticatorInterface
         return new Passport(
             new UserBadge($credential->user->username),
             new PasskeyCredentials($verified),
-            [new CsrfTokenBadge(self::CSRF_TOKEN_ID, $token)],
         );
     }
 

@@ -18,7 +18,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\InteractiveAuthenticatorInterface;
-use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken;
@@ -26,10 +25,6 @@ use Symfony\Component\Security\Http\SecurityRequestAttributes;
 
 final readonly class TotpLoginAuthenticator implements AuthenticatorInterface, InteractiveAuthenticatorInterface
 {
-    public const string CSRF_TOKEN_ID = PasswordLoginAuthenticator::CSRF_TOKEN_ID;
-
-    public const string CSRF_TOKEN_PARAMETER = '_csrf_token';
-
     public const string CODE_PARAMETER = '_code';
 
     public function __construct(
@@ -40,6 +35,7 @@ final readonly class TotpLoginAuthenticator implements AuthenticatorInterface, I
         private RequestContextFactory $contexts,
         private InteractionLoginHandler $handler,
         private InteractionPages $pages,
+        private LoginFormToken $formToken,
     ) {
     }
 
@@ -50,8 +46,8 @@ final readonly class TotpLoginAuthenticator implements AuthenticatorInterface, I
 
     public function authenticate(Request $request): Passport
     {
+        $this->formToken->check($request);
         $code = $request->request->getString(self::CODE_PARAMETER);
-        $token = $request->request->getString(self::CSRF_TOKEN_PARAMETER);
         if ($code === '') {
             throw new AuthenticationException('The login carries no code.');
         }
@@ -67,7 +63,6 @@ final readonly class TotpLoginAuthenticator implements AuthenticatorInterface, I
         return new Passport(
             new UserBadge($user->username),
             new TotpCredentials($login, $method),
-            [new CsrfTokenBadge(self::CSRF_TOKEN_ID, $token)],
         );
     }
 
