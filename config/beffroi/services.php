@@ -43,6 +43,8 @@ use Beffroi\Oidc\Application\Secret\SecretDrawer;
 use Beffroi\Oidc\Application\Secret\UserCodeDrawer;
 use Beffroi\Core\Port\RandomnessInterface;
 use Beffroi\Core\Bridge\Random\PlatformRandomness;
+use Beffroi\Core\Bridge\Clock\PlatformMonotonicClock;
+use Beffroi\Core\Port\MonotonicClockInterface;
 use App\Account\ApplicationHoldings;
 use App\Ciba\QueuedPendingApprovalNotifier;
 use App\Credential\CredentialChangeChannels;
@@ -1636,6 +1638,8 @@ return static function (ContainerConfigurator $container): void {
     $services->alias(UuidGeneratorInterface::class, SymfonyUuidGenerator::class);
     $services->set(PlatformRandomness::class);
     $services->alias(RandomnessInterface::class, PlatformRandomness::class);
+    $services->set(PlatformMonotonicClock::class);
+    $services->alias(MonotonicClockInterface::class, PlatformMonotonicClock::class);
 
     $services->set(PasswordVerification::class);
     $services->set(PasswordAuthenticator::class);
