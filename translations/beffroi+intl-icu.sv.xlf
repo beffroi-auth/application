@@ -1833,6 +1833,10 @@
         <source>password.error.no_password_held</source>
         <target>Du har inget lösenord att byta.</target>
       </trans-unit>
+      <trans-unit id="password.error.too_many_attempts" resname="password.error.too_many_attempts">
+        <source>password.error.too_many_attempts</source>
+        <target>För många försök. Vänta en stund och försök sedan igen.</target>
+      </trans-unit>
       <trans-unit id="password.again" resname="password.again">
         <source>password.again</source>
         <target>Bekräfta det nya lösenordet</target>

@@ -1833,6 +1833,10 @@
         <source>password.error.no_password_held</source>
         <target>Nemáte žádné heslo, které by šlo změnit.</target>
       </trans-unit>
+      <trans-unit id="password.error.too_many_attempts" resname="password.error.too_many_attempts">
+        <source>password.error.too_many_attempts</source>
+        <target>Příliš mnoho pokusů. Chvíli počkejte a zkuste to znovu.</target>
+      </trans-unit>
       <trans-unit id="password.again" resname="password.again">
         <source>password.again</source>
         <target>Potvrzení nového hesla</target>

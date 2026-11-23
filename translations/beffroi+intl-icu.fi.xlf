@@ -1833,6 +1833,10 @@
         <source>password.error.no_password_held</source>
         <target>Sinulla ei ole vaihdettavaa salasanaa.</target>
       </trans-unit>
+      <trans-unit id="password.error.too_many_attempts" resname="password.error.too_many_attempts">
+        <source>password.error.too_many_attempts</source>
+        <target>Liian monta yritystä. Odota hetki ja yritä sitten uudelleen.</target>
+      </trans-unit>
       <trans-unit id="password.again" resname="password.again">
         <source>password.again</source>
         <target>Vahvista uusi salasana</target>

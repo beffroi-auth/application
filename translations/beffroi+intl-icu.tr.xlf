@@ -1833,6 +1833,10 @@
         <source>password.error.no_password_held</source>
         <target>Değiştirilecek bir şifreniz yok.</target>
       </trans-unit>
+      <trans-unit id="password.error.too_many_attempts" resname="password.error.too_many_attempts">
+        <source>password.error.too_many_attempts</source>
+        <target>Çok fazla deneme. Biraz bekleyin, ardından tekrar deneyin.</target>
+      </trans-unit>
       <trans-unit id="password.again" resname="password.again">
         <source>password.again</source>
         <target>Yeni şifreyi onaylayın</target>

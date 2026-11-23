@@ -1833,6 +1833,10 @@
         <source>password.error.no_password_held</source>
         <target>Du har ingen adgangskode at skifte.</target>
       </trans-unit>
+      <trans-unit id="password.error.too_many_attempts" resname="password.error.too_many_attempts">
+        <source>password.error.too_many_attempts</source>
+        <target>For mange forsøg. Vent lidt, og prøv så igen.</target>
+      </trans-unit>
       <trans-unit id="password.again" resname="password.again">
         <source>password.again</source>
         <target>Bekræft den nye adgangskode</target>

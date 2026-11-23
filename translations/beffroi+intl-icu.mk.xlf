@@ -1833,6 +1833,10 @@
         <source>password.error.no_password_held</source>
         <target>Немате лозинка што може да се смени.</target>
       </trans-unit>
+      <trans-unit id="password.error.too_many_attempts" resname="password.error.too_many_attempts">
+        <source>password.error.too_many_attempts</source>
+        <target>Премногу обиди. Почекајте малку, па обидете се повторно.</target>
+      </trans-unit>
       <trans-unit id="password.again" resname="password.again">
         <source>password.again</source>
         <target>Потврдете ја новата лозинка</target>

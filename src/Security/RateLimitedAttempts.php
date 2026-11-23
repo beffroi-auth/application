@@ -15,10 +15,12 @@ final readonly class RateLimitedAttempts implements CodeAttemptLimiterInterface,
 
     public const string PASSWORD_LIMITER = 'beffroi_password_attempts';
 
+    public const string PASSWORD_CHANGE_LIMITER = 'beffroi_password_change_attempts';
+
     /**
      * @var list<string>
      */
-    public const array LIMITERS = [self::CODE_LIMITER, self::PASSWORD_LIMITER];
+    public const array LIMITERS = [self::CODE_LIMITER, self::PASSWORD_LIMITER, self::PASSWORD_CHANGE_LIMITER];
 
     public const int LIMIT = 5;
 

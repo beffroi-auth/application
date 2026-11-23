@@ -1833,6 +1833,10 @@
         <source>password.error.no_password_held</source>
         <target>No té cap contrasenya per canviar.</target>
       </trans-unit>
+      <trans-unit id="password.error.too_many_attempts" resname="password.error.too_many_attempts">
+        <source>password.error.too_many_attempts</source>
+        <target>Massa intents. Esperi un moment i torni-ho a provar.</target>
+      </trans-unit>
       <trans-unit id="password.again" resname="password.again">
         <source>password.again</source>
         <target>Confirmi la contrasenya nova</target>

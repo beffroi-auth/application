@@ -1833,6 +1833,10 @@
         <source>password.error.no_password_held</source>
         <target>У вас немає пароля, який можна змінити.</target>
       </trans-unit>
+      <trans-unit id="password.error.too_many_attempts" resname="password.error.too_many_attempts">
+        <source>password.error.too_many_attempts</source>
+        <target>Забагато спроб. Зачекайте трохи, а потім спробуйте ще раз.</target>
+      </trans-unit>
       <trans-unit id="password.again" resname="password.again">
         <source>password.again</source>
         <target>Підтвердьте новий пароль</target>

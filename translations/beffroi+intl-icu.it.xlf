@@ -1833,6 +1833,10 @@
         <source>password.error.no_password_held</source>
         <target>Non ha una password da modificare.</target>
       </trans-unit>
+      <trans-unit id="password.error.too_many_attempts" resname="password.error.too_many_attempts">
+        <source>password.error.too_many_attempts</source>
+        <target>Troppi tentativi. Attendere un momento, poi riprovare.</target>
+      </trans-unit>
       <trans-unit id="password.again" resname="password.again">
         <source>password.again</source>
         <target>Conferma la nuova password</target>
