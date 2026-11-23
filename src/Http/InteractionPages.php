@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Environment;
 
 /**
- * The pages and redirections of the interaction plane, with the headers it needs: no framing (RFC 9700 §4.15), no
+ * The pages and redirections of the interaction plane, with the headers it needs: no framing (RFC 9700 §4.16), no
  * referrer, no caching.
  */
 final readonly class InteractionPages

@@ -31,7 +31,7 @@ final class SecurityHeadersTest extends BrowserTestCase
     private const string BROWSER_ORIGIN = 'https://client.example.com';
 
     /**
-     * RFC 9700 §4.15
+     * RFC 9700 §4.16
      */
     #[Test]
     #[DataProvider('provideAnswersOfEveryPlane')]
@@ -267,7 +267,7 @@ final class SecurityHeadersTest extends BrowserTestCase
     }
 
     /**
-     * RFC 9700 §6.3
+     * RFC 9700 §2.6
      */
     #[Test]
     #[DataProvider('provideEndpointsABrowserBasedClientCalls')]

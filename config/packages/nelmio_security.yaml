@@ -34,7 +34,7 @@
 # browser to a URI a client registered, which is an outbound redirect by definition and the one thing
 # decision 0006 keeps bounded by the exact match of that URI rather than by a host list.
 nelmio_security:
-    # RFC 9700 §4.15: nothing frames a page of this provider, whatever plane answers. The interaction pages
+    # RFC 9700 §4.16: nothing frames a page of this provider, whatever plane answers. The interaction pages
     # already say it for themselves, which is what a deployment that installs nothing else still gets; this
     # covers the rest, the protocol endpoints and the scripts of the provider among them.
     clickjacking:
@@ -220,7 +220,7 @@ nelmio_security:
                 enabled: false
             default-src: ['none']
             base-uri: ['none']
-            # RFC 9700 §4.15 again, said the modern way, and the directive that wins over X-Frame-Options
+            # RFC 9700 §4.16 again, said the modern way, and the directive that wins over X-Frame-Options
             # everywhere both are read.
             frame-ancestors: ['none']
             # The only page of this provider that opens a frame is the front channel logout, and it carries
