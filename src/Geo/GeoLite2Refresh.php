@@ -39,10 +39,17 @@ final readonly class GeoLite2Refresh
      */
     public const string MAXMIND_STORAGE = 'https://mm-prod-geoip-databases.a2649acb697e2c09b632799562c076f2.r2.cloudflarestorage.com/';
 
+    /**
+     * Octets of an archive downloaded and of the database unpacked from it, far above the City edition, about 35 MiB
+     * gzipped and 60 MiB unpacked: a source that does not stop fills no disk.
+     */
+    public const int LIMIT = 536_870_912;
+
     public function __construct(
         private HttpClientInterface $http,
         private GeoLite2Databases $databases,
         private string $licenseKey = '',
+        private int $limit = self::LIMIT,
     ) {
     }
 
@@ -76,7 +83,7 @@ final readonly class GeoLite2Refresh
                 return GeoLite2Refreshment::unchanged($named);
             }
             [$archive, $version] = $fetched;
-            GeoLite2Archive::unpack($archive, $database);
+            GeoLite2Archive::unpack($archive, $database, $this->limit);
             [$declared, $builtOn, $nodes] = self::read($database);
             $this->databases->write($declared, $database, $version);
 
@@ -201,8 +208,15 @@ final readonly class GeoLite2Refresh
             throw new InvalidArgumentException('the archive cannot be written where it is downloaded');
         }
         try {
+            $written = 0;
             foreach ($this->http->stream($response) as $chunk) {
                 $content = $chunk->getContent();
+                $written += strlen($content);
+                if ($written > $this->limit) {
+                    $response->cancel();
+
+                    throw new InvalidArgumentException(sprintf('the archive is larger than %d octets', $this->limit));
+                }
                 if (@fwrite($file, $content) !== strlen($content)) {
                     throw new InvalidArgumentException('the archive cannot be written where it is downloaded');
                 }
