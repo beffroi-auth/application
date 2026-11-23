@@ -7,6 +7,7 @@ namespace App\Configuration;
 use App\Client\RequestObjectFetcher;
 use App\Http\Timeout;
 use Beffroi\Oidc\Application\Authorization\RequestObjectValidator;
+use Beffroi\Oidc\Application\Ciba\SignedBackchannelRequest;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
 
@@ -67,6 +68,7 @@ final readonly class RequestObjectsSection extends ConfigurationSection
             'max_lifetime',
             named: 'request_objects.max_lifetime',
         ))->arg('$leeway', self::bounded($requestObjects, 'leeway', named: 'request_objects.leeway', minimum: 0));
+        $services->get(SignedBackchannelRequest::class)->arg('$leeway', self::bounded($requestObjects, 'leeway', named: 'request_objects.leeway', minimum: 0));
         $services->get(RequestObjectFetcher::class)->arg('$timeout', self::timeout(
             $requestObjects,
             'timeout',
