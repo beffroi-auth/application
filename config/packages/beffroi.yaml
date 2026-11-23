@@ -209,6 +209,13 @@ beffroi:
         retry_delay: '%env(int:BEFFROI_BACK_CHANNEL_LOGOUT_RETRY_DELAY)%'
         retry_multiplier: '%env(int:BEFFROI_BACK_CHANNEL_LOGOUT_RETRY_MULTIPLIER)%'
         retry_max_delay: '%env(int:BEFFROI_BACK_CHANNEL_LOGOUT_RETRY_MAX_DELAY)%'
+    # How long a notice of a change to the credentials of an account comes back to a channel that did not take it
+    # (decision 0049).
+    notices:
+        retries: '%env(int:BEFFROI_NOTICE_RETRIES)%'
+        retry_delay: '%env(int:BEFFROI_NOTICE_RETRY_DELAY)%'
+        retry_multiplier: '%env(int:BEFFROI_NOTICE_RETRY_MULTIPLIER)%'
+        retry_max_delay: '%env(int:BEFFROI_NOTICE_RETRY_MAX_DELAY)%'
     # The window of an assertion a client signs (RFC 7523 §3) and of a request object (RFC 9101 §4), and what one read
     # of a URL a client or a trusted issuer hosts may cost.
     client_authentication:

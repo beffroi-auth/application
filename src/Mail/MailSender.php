@@ -42,11 +42,11 @@ final readonly class MailSender
     }
 
     /**
-     * @return bool false for a person who has no address this sender may write to, when the deployment cannot write
-     *              a mail at all, or when the mail cannot be signed or encrypted as it must be, and who is sent nothing
+     * @return bool false for a person who has no address this sender may write to, or when the deployment cannot write
+     *              a mail at all, and who is sent nothing
      *
-     * @throws NotificationNotDeliveredException when the transport did not take the mail, or the KMS did not open the
-     *                                           key it is signed with
+     * @throws NotificationNotDeliveredException when the transport did not take the mail, or when the mail cannot be
+     *                                           signed or encrypted as it must be
      */
     public function send(User $user, string $subject, string $text): bool
     {
@@ -64,11 +64,11 @@ final readonly class MailSender
      *
      * It is signed as every mail of the tenant, and encrypted to no one (`MailProtection::ofAConfirmation()`).
      *
-     * @return bool false for a person who no longer holds that address, when the deployment cannot write a mail at
-     *              all, or when the tenant signs and cannot sign it, and who is sent nothing
+     * @return bool false for a person who no longer holds that address, or when the deployment cannot write a mail at
+     *              all, and who is sent nothing
      *
-     * @throws NotificationNotDeliveredException when the transport did not take the mail, or the KMS did not open the
-     *                                           key it is signed with
+     * @throws NotificationNotDeliveredException when the transport did not take the mail, or when the mail cannot be
+     *                                           signed as it must be
      */
     public function sendTheConfirmation(User $user, string $address, string $subject, #[SensitiveParameter] string $text): bool
     {
@@ -81,8 +81,8 @@ final readonly class MailSender
     }
 
     /**
-     * @param Closure(User, EmailAddress, Email): ?Message $protect what the mail becomes before it leaves, from the
-     *                                                         person and the sender, or null for a mail written to nobody
+     * @param Closure(User, EmailAddress, Email): Message $protect what the mail becomes before it leaves, from the
+     *                                                        person and the sender
      *
      * @throws NotificationNotDeliveredException
      */
@@ -118,9 +118,6 @@ final readonly class MailSender
         // RFC 3834 §5.2, §2: a process wrote it, and an automatic responder that reads it answers nothing back.
         $mail->getHeaders()->addTextHeader('Auto-Submitted', 'auto-generated');
         $protected = $protect($user, $from, $mail);
-        if ($protected === null) {
-            return false;
-        }
         try {
             $transport->send($protected);
         } catch (TransportExceptionInterface $refusal) {

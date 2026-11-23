@@ -1409,6 +1409,10 @@
         <source>act.backup_codes.renewed</source>
         <target>Codes de secours renouvelés</target>
       </trans-unit>
+      <trans-unit id="act.credential_change.not_told" resname="act.credential_change.not_told">
+        <source>act.credential_change.not_told</source>
+        <target>Notification d'un changement non remise</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Compte créé</target>

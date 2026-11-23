@@ -1409,6 +1409,10 @@
         <source>act.backup_codes.renewed</source>
         <target>Rezerves kodi atjaunoti</target>
       </trans-unit>
+      <trans-unit id="act.credential_change.not_told" resname="act.credential_change.not_told">
+        <source>act.credential_change.not_told</source>
+        <target>Paziņojums par izmaiņām nav piegādāts</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Konts izveidots</target>

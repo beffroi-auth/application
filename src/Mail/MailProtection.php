@@ -12,7 +12,7 @@ use Beffroi\Core\Exception\KmsUnavailableException;
 use Beffroi\Core\Exception\RuntimeException as CoreRuntimeException;
 use Beffroi\Core\Port\MailSigningKeyRepositoryInterface;
 use Psr\Clock\ClockInterface;
-use Psr\Log\LoggerInterface;
+use function sprintf;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Exception\ExceptionInterface as MimeException;
 use Symfony\Component\Mime\Message;
@@ -34,35 +34,27 @@ final readonly class MailProtection
         private MailSigningKeyRepositoryInterface $keys,
         private OpenedMailSigningKeys $opened,
         private ClockInterface $clock,
-        private LoggerInterface $logger,
     ) {
     }
 
     /**
-     * @return Message|null null when the mail is written to nobody: the tenant signs and cannot sign this one, or the
-     *                      person asked for it encrypted and it cannot be
-     *
-     * @throws NotificationNotDeliveredException when the KMS does not open the signing key, which a later attempt may
+     * @throws NotificationNotDeliveredException when the tenant signs and cannot sign this mail, when the person asked
+     *                                           for it encrypted and it cannot be, or when the KMS does not open the
+     *                                           signing key
      */
-    public function of(User $user, EmailAddress $sender, Email $mail): ?Message
+    public function of(User $user, EmailAddress $sender, Email $mail): Message
     {
-        $signed = $this->signed($user, $sender, $mail);
-        if ($signed === null) {
-            return null;
-        }
-
-        return $this->encrypted($user, $signed);
+        return $this->encrypted($user, $this->signed($user, $sender, $mail));
     }
 
     /**
      * NIST SP 800-63B-4 §4.2.1.2, decision 0051: the confirmation of an address, signed as every mail of the tenant and
      * encrypted to no one, since what the person gave names their verified address and not the one it establishes.
      *
-     * @return Message|null null when the mail is written to nobody: the tenant signs and cannot sign this one
-     *
-     * @throws NotificationNotDeliveredException when the KMS does not open the signing key, which a later attempt may
+     * @throws NotificationNotDeliveredException when the tenant signs and cannot sign this mail, or when the KMS does
+     *                                           not open the signing key
      */
-    public function ofAConfirmation(User $user, EmailAddress $sender, Email $mail): ?Message
+    public function ofAConfirmation(User $user, EmailAddress $sender, Email $mail): Message
     {
         return $this->signed($user, $sender, $mail);
     }
@@ -70,7 +62,7 @@ final readonly class MailProtection
     /**
      * @throws NotificationNotDeliveredException
      */
-    private function signed(User $user, EmailAddress $sender, Email $mail): ?Message
+    private function signed(User $user, EmailAddress $sender, Email $mail): Message
     {
         [$signer, $key] = $this->signingKey($user);
         if ($signer === null || $key === null) {
@@ -78,26 +70,24 @@ final readonly class MailProtection
         }
         // A tenant that signs never writes unsigned: a mail of it without its signature is what someone else would write.
         if (! $key->signsFor($sender, $this->clock->now())) {
-            $this->logger->error('This tenant signs its mail and its key cannot sign this one: it is past its certificate, or it was set for another sender.', [
-                'tenant' => $user->tenant->slug,
-                'format' => $key->kind,
-                'fingerprint' => $key->fingerprint,
-            ]);
-
-            return null;
+            throw new NotificationNotDeliveredException(sprintf(
+                'The tenant "%s" signs its mail and its %s key %s cannot sign this one: it is past its certificate, or it was set for another sender.',
+                $user->tenant->slug,
+                $key->kind,
+                $key->fingerprint,
+            ));
         }
         try {
             return $signer->sign($mail, $key, $this->opened->privateHalfOf($key));
         } catch (KmsUnavailableException $outage) {
             throw new NotificationNotDeliveredException('The KMS did not open the key the mail is signed with (' . $outage::class . ').');
         } catch (CoreRuntimeException|MimeException $refusal) {
-            $this->logger->error('This tenant signs its mail and could not sign this one.', [
-                'tenant' => $user->tenant->slug,
-                'format' => $key->kind,
-                'reason' => $refusal->getMessage(),
-            ]);
-
-            return null;
+            throw new NotificationNotDeliveredException(sprintf(
+                'The tenant "%s" signs its mail and its %s key could not sign this one (%s).',
+                $user->tenant->slug,
+                $key->kind,
+                $refusal::class,
+            ));
         }
     }
 
@@ -124,20 +114,22 @@ final readonly class MailProtection
         return $first;
     }
 
-    private function encrypted(User $user, Message $mail): ?Message
+    /**
+     * @throws NotificationNotDeliveredException
+     */
+    private function encrypted(User $user, Message $mail): Message
     {
         $key = $user->mailEncryption;
         if ($key === null) {
             return $mail;
         }
-        // Never in clear to a person who asked otherwise: what cannot be encrypted to them is written to nobody.
+        // Never in clear to a person who asked otherwise: what cannot be encrypted to them is not sent.
         if (! $key->isValidAt($this->clock->now())) {
-            $this->logger->warning('A person asked for their mail encrypted, and the certificate or the key they gave is not valid now.', [
-                'tenant' => $user->tenant->slug,
-                'format' => $key->kind,
-            ]);
-
-            return null;
+            throw new NotificationNotDeliveredException(sprintf(
+                'A person of the tenant "%s" asked for their mail encrypted, and the %s certificate or key they gave is not valid now.',
+                $user->tenant->slug,
+                $key->kind,
+            ));
         }
         foreach ($this->encrypters as $encrypter) {
             if ($encrypter->kind() !== $key->kind) {
@@ -146,20 +138,19 @@ final readonly class MailProtection
             try {
                 return $encrypter->encrypt($mail, $key);
             } catch (MimeException $refusal) {
-                $this->logger->warning('A person asked for their mail encrypted, and it could not be encrypted to what they gave.', [
-                    'tenant' => $user->tenant->slug,
-                    'format' => $key->kind,
-                    'reason' => $refusal->getMessage(),
-                ]);
-
-                return null;
+                throw new NotificationNotDeliveredException(sprintf(
+                    'A person of the tenant "%s" asked for their mail encrypted, and it could not be encrypted to the %s certificate or key they gave (%s).',
+                    $user->tenant->slug,
+                    $key->kind,
+                    $refusal::class,
+                ));
             }
         }
-        $this->logger->warning('A person asked for their mail encrypted in a format this deployment does not write.', [
-            'tenant' => $user->tenant->slug,
-            'format' => $key->kind,
-        ]);
 
-        return null;
+        throw new NotificationNotDeliveredException(sprintf(
+            'A person of the tenant "%s" asked for their mail encrypted in the format %s, which this deployment does not write.',
+            $user->tenant->slug,
+            $key->kind,
+        ));
     }
 }

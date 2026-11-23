@@ -1409,6 +1409,10 @@
         <source>act.backup_codes.renewed</source>
         <target>Kode rezervë të rinovuara</target>
       </trans-unit>
+      <trans-unit id="act.credential_change.not_told" resname="act.credential_change.not_told">
+        <source>act.credential_change.not_told</source>
+        <target>Njoftimi për një ndryshim nuk u dorëzua</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Llogari e krijuar</target>

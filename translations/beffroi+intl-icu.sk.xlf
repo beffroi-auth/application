@@ -1409,6 +1409,10 @@
         <source>act.backup_codes.renewed</source>
         <target>Záložné kódy obnovené</target>
       </trans-unit>
+      <trans-unit id="act.credential_change.not_told" resname="act.credential_change.not_told">
+        <source>act.credential_change.not_told</source>
+        <target>Upozornenie na zmenu nedoručené</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Účet vytvorený</target>

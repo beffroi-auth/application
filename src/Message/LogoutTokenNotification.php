@@ -12,7 +12,7 @@ use Symfony\Component\Uid\Uuid;
 /**
  * The logout token a client is owed for a session, issued or still to issue: a lane that runs out on it gives it up.
  */
-interface LogoutTokenNotification extends Notification
+interface LogoutTokenNotification extends Notification, GivenUpAsAnAct
 {
     public Tenant $tenant { get; }
 

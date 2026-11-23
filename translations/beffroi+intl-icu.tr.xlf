@@ -1409,6 +1409,10 @@
         <source>act.backup_codes.renewed</source>
         <target>Yedek kodlar yenilendi</target>
       </trans-unit>
+      <trans-unit id="act.credential_change.not_told" resname="act.credential_change.not_told">
+        <source>act.credential_change.not_told</source>
+        <target>Değişiklik bildirimi iletilemedi</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Hesap oluşturuldu</target>

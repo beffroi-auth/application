@@ -48,6 +48,7 @@ use App\Configuration\JournalSection;
 use App\Configuration\LoadSection;
 use App\Configuration\MailSection;
 use App\Configuration\MutualTlsSection;
+use App\Configuration\NoticesSection;
 use App\Configuration\OutboundSection;
 use App\Configuration\PasswordsSection;
 use App\Configuration\RequestObjectsSection;
@@ -343,6 +344,7 @@ final class BeffroiExtension extends AbstractExtension
             new WebPushSection(),
             new MailSection(),
             new SmsSection(),
+            new NoticesSection(),
             new ClientAuthenticationSection(),
             new RequestObjectsSection(),
             new DpopSection(),

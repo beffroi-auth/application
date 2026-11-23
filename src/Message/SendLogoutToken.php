@@ -11,6 +11,8 @@ use Symfony\Component\Uid\Uuid;
 
 final readonly class SendLogoutToken implements LogoutTokenNotification
 {
+    use LogoutTokenGivenUpTrait;
+
     public function __construct(
         public Tenant $tenant,
         public string $clientId,

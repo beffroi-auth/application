@@ -228,7 +228,7 @@ use App\MessageHandler\QueueLogoutTokenHandler;
 use App\Messenger\EventBusDispatcher;
 use App\Messenger\KeysOpenedAtWorkerStart;
 use App\Messenger\LaneDsn;
-use App\Messenger\LogoutTokenGivenUpListener;
+use App\Messenger\GivenUpListener;
 use App\Messenger\MessengerContract;
 use App\Messenger\NotificationRetryPolicy;
 use App\Messenger\SealedBodySerializer;
@@ -1277,7 +1277,7 @@ return static function (ContainerConfigurator $container): void {
     ]);
     $services->set(LogoutTokenSender::class)->tag(ThirdPartyRequestsPass::TAG);
     $services->set(ClientNotificationSender::class)->tag(ThirdPartyRequestsPass::TAG);
-    $services->set(LogoutTokenGivenUpListener::class);
+    $services->set(GivenUpListener::class);
     $services->set(KeysOpenedAtWorkerStart::class)->args([service(KeysOpenedAtStart::BY_THE_CONSUMER)]);
     $services->set(NotificationRetryPolicy::class);
     $services->set(LaneDsn::class);

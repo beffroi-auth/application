@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Messenger;
 
-use App\Message\LogoutTokenNotification;
+use App\Message\GivenUpAsAnAct;
 use Beffroi\Core\Exception\ExceptionTrail;
-use Beffroi\Oidc\Domain\Event\LogoutTokenGivenUp;
 use Psr\Clock\ClockInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Messenger\Event\WorkerMessageFailedEvent;
 
-final readonly class LogoutTokenGivenUpListener
+final readonly class GivenUpListener
 {
     public function __construct(
         private EventDispatcherInterface $events,
@@ -27,20 +26,9 @@ final readonly class LogoutTokenGivenUpListener
             return;
         }
         $message = $event->getEnvelope()->getMessage();
-        if (! $message instanceof LogoutTokenNotification) {
+        if (! $message instanceof GivenUpAsAnAct) {
             return;
         }
-        $this->events->dispatch(
-            new LogoutTokenGivenUp(
-                $this->clock->now(),
-                $message->tenant,
-                $message->context,
-                $message->clientId,
-                $message->subject,
-                $message->sessionId,
-                ExceptionTrail::of($event->getThrowable()),
-                $message->administrator,
-            ),
-        );
+        $this->events->dispatch($message->givenUp($this->clock->now(), ExceptionTrail::of($event->getThrowable())));
     }
 }

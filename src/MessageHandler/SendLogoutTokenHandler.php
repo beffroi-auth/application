@@ -7,7 +7,6 @@ namespace App\MessageHandler;
 use App\Http\LogoutTokenSender;
 use App\Message\SendLogoutToken;
 use App\Messenger\NotificationNotDeliveredException;
-use Beffroi\Oidc\Domain\Event\LogoutTokenGivenUp;
 use Psr\Clock\ClockInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -34,17 +33,6 @@ final readonly class SendLogoutTokenHandler
         if (! $delivery->final) {
             throw new NotificationNotDeliveredException($delivery->detail);
         }
-        $this->events->dispatch(
-            new LogoutTokenGivenUp(
-                $this->clock->now(),
-                $message->tenant,
-                $message->context,
-                $message->clientId,
-                $message->subject,
-                $message->sessionId,
-                $delivery->detail,
-                $message->administrator,
-            ),
-        );
+        $this->events->dispatch($message->givenUp($this->clock->now(), $delivery->detail));
     }
 }

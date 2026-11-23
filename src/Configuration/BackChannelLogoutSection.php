@@ -31,7 +31,7 @@ final readonly class BackChannelLogoutSection extends ConfigurationSection
     {
         $children
             ->arrayNode('back_channel_logout')
-            ->info('How a logout token reaches a client that registered a backchannel_logout_uri (Back-Channel Logout 1.0 §2.5), and for how long. These values are what the transport of the notifications does with a send that failed, the application giving that transport the policy of the provider, and what a signing key is held back for while a logout token it signed may still be on its way (issue #155).')
+            ->info('How a logout token reaches a client that registered a backchannel_logout_uri (Back-Channel Logout 1.0 §2.5), and for how long. These values are what the transport of the notifications does with a send that failed, a notice to a person aside (notices), the application giving that transport the policy of the provider, and what a signing key is held back for while a logout token it signed may still be on its way (issue #155).')
             ->addDefaultsIfNotSet()
             ->children()
             ->floatNode('timeout')

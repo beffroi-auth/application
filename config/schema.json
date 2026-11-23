@@ -1334,7 +1334,7 @@
                             "retry_multiplier": 3,
                             "retry_max_delay": 60
                         },
-                        "description": "How a logout token reaches a client that registered a backchannel_logout_uri (Back-Channel Logout 1.0 §2.5), and for how long. These values are what the transport of the notifications does with a send that failed, the application giving that transport the policy of the provider, and what a signing key is held back for while a logout token it signed may still be on its way (issue #155)."
+                        "description": "How a logout token reaches a client that registered a backchannel_logout_uri (Back-Channel Logout 1.0 §2.5), and for how long. These values are what the transport of the notifications does with a send that failed, a notice to a person aside (notices), the application giving that transport the policy of the provider, and what a signing key is held back for while a logout token it signed may still be on its way (issue #155)."
                     },
                     "backchannel_authentication": {
                         "$ref": "#/$defs/types/object_null",
@@ -1426,6 +1426,43 @@
                             "dsn": null
                         },
                         "description": "Reaching a person at the phone number marked verified, and at the one a confirmation establishes, through the texter of symfony/notifier (decision 0048, architecture §5.6). Absent, SMS is off: no text leaves this deployment, and no phone number is confirmed."
+                    },
+                    "notices": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "retries": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 0,
+                                "default": 30,
+                                "description": "How many times a notice that did not reach the person comes back."
+                            },
+                            "retry_delay": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 60,
+                                "description": "Seconds before the first retry."
+                            },
+                            "retry_multiplier": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 2,
+                                "description": "What each wait is multiplied by to give the next one."
+                            },
+                            "retry_max_delay": {
+                                "$ref": "#/$defs/types/integer",
+                                "minimum": 1,
+                                "default": 3600,
+                                "description": "Seconds a wait never exceeds, whatever the multiplier makes of it."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "retries": 30,
+                            "retry_delay": 60,
+                            "retry_multiplier": 2,
+                            "retry_max_delay": 3600
+                        },
+                        "description": "How long a notice of a change to the credentials of an account is tried again on a channel that did not take it (decision 0049): a mail server or an SMS provider that is down for hours. Once the schedule is spent, the notice not delivered is an act of the person. By default, 31 attempts over 25 hours."
                     },
                     "client_authentication": {
                         "$ref": "#/$defs/types/object_null",
