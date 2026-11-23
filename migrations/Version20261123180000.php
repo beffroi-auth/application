@@ -12,7 +12,7 @@ final class Version20261123180000 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'The sessions of the browsers, each under an HMAC of its identifier (decision 0053, issue #1185).';
+        return 'The sessions of the browsers, each under the SHA-256 of its identifier, its data sealed under a data key of the tenant (decision 0053, issue #1185).';
     }
 
     public function up(Schema $schema): void
