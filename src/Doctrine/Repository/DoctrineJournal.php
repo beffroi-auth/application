@@ -18,11 +18,11 @@ use Beffroi\Core\Port\CanCountActsInterface;
 use Beffroi\Core\Port\CanPageActsOfAPersonInterface;
 use Beffroi\Core\Exception\RuntimeException;
 use Beffroi\Core\Port\JournalInterface;
-use function count;
 use SortDirection;
 use Symfony\Component\Uid\Uuid;
 use function sprintf;
 use DateTimeImmutable;
+use Throwable;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 
 /**
@@ -34,18 +34,35 @@ final readonly class DoctrineJournal extends DoctrineRepository implements
     CanPageActsOfAPersonInterface,
     CanCountActsInterface
 {
-    public const int FORGOTTEN_AT_ONCE = 1000;
-
     public function __construct(
         EntityManagers $managers,
         private PageOfRows $rows,
+        private DoctrineChainOfActs $chain,
     ) {
         parent::__construct($managers, JournalEntry::class);
     }
 
+    /**
+     * The act, its link and the head it moves are one transaction, taken under the lock of the head: two writers at
+     * once take two positions that follow each other.
+     */
     public function record(JournalEntry $entry): void
     {
-        $this->store($this->namingTheRowOfItsTenant($entry));
+        $entry = $this->namingTheRowOfItsTenant($entry);
+        $manager = $this->manager();
+        try {
+            $manager
+                ->getConnection()
+                ->transactional(function () use ($entry): void {
+                    $head = $this->chain->lockedHead($entry->tenant);
+                    $this->store($entry);
+                    $this->chain->append($entry, $head);
+                });
+        } catch (Throwable $failure) {
+            $manager->detach($entry);
+
+            throw $failure;
+        }
     }
 
     /**
@@ -65,28 +82,25 @@ final readonly class DoctrineJournal extends DoctrineRepository implements
         return new JournalEntry($entry->id, $tenant, $entry->act, $entry->occurredAt, $entry->context, $entry->subject, $entry->client, $entry->author);
     }
 
-    public function forgetBefore(Tenant $tenant, DateTimeImmutable $moment): int
+    public function forgetUpTo(Tenant $tenant, int $position): int
     {
-        /** @var list<JournalEntry> $past */
-        $past = $this->queryBuilder('a')
-            ->where('a.tenant = :tenant')
-            ->andWhere('a.occurredAt < :moment')
-            ->orderBy('a.occurredAt', SortDirection::Ascending)
-            ->setMaxResults(self::FORGOTTEN_AT_ONCE)
-            ->setParameter('tenant', $tenant->id, UuidType::NAME)
-            ->setParameter('moment', $moment)
-            ->getQuery()
-            ->getResult();
-        if ($past === []) {
-            return 0;
-        }
-        $manager = $this->manager();
-        foreach ($past as $entry) {
-            $manager->remove($entry);
-        }
-        $manager->flush();
+        $connection = $this->manager()->getConnection();
+        $forgotten = $connection->executeStatement(
+            sprintf(
+                'DELETE FROM beffroi_journal WHERE id IN (SELECT act_id FROM %s WHERE tenant_id = :tenant AND position <= :position)',
+                DoctrineChainOfActs::LINKS,
+            ),
+            ['tenant' => $tenant->id, 'position' => $position],
+            ['tenant' => UuidType::NAME],
+        );
+        // PostgreSQL cascades to the links; SQLite, which the suite of the packages runs on, enforces no foreign key.
+        $connection->executeStatement(
+            sprintf('DELETE FROM %s WHERE tenant_id = :tenant AND position <= :position', DoctrineChainOfActs::LINKS),
+            ['tenant' => $tenant->id, 'position' => $position],
+            ['tenant' => UuidType::NAME],
+        );
 
-        return count($past);
+        return (int) $forgotten;
     }
 
     public function countActsSince(Tenant $tenant, DateTimeImmutable $since): array
