@@ -1833,6 +1833,10 @@
         <source>password.error.no_password_held</source>
         <target>Neturite slaptažodžio, kurį būtų galima pakeisti.</target>
       </trans-unit>
+      <trans-unit id="password.error.too_many_attempts" resname="password.error.too_many_attempts">
+        <source>password.error.too_many_attempts</source>
+        <target>Per daug bandymų. Šiek tiek palaukite ir bandykite dar kartą.</target>
+      </trans-unit>
       <trans-unit id="password.again" resname="password.again">
         <source>password.again</source>
         <target>Patvirtinkite naują slaptažodį</target>

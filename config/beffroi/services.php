@@ -1314,6 +1314,9 @@ return static function (ContainerConfigurator $container): void {
     $services->alias(CodeAttemptLimiterInterface::class, 'beffroi.security.code_attempts');
     $services->set('beffroi.security.password_attempts', RateLimitedAttempts::class)->args([service('limiter.' . RateLimitedAttempts::PASSWORD_LIMITER)]);
     $services->alias(PasswordAttemptLimiterInterface::class, 'beffroi.security.password_attempts');
+    $services->set('beffroi.security.password_change_attempts', RateLimitedAttempts::class)->args([
+        service('limiter.' . RateLimitedAttempts::PASSWORD_CHANGE_LIMITER),
+    ]);
     // PasswordsSection fills the endpoint in; a deployment that names none asks nobody.
     $services->set(PwnedPasswords::class)->args([
         '$endpoint' => '',
@@ -1645,7 +1648,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(EnrolmentRefusal::class);
     $services->set(TenantHardening::class);
     $services->set(TenantContactAdoption::class);
-    $services->set(PasswordChange::class);
+    $services->set(PasswordChange::class)->arg('$attempts', service('beffroi.security.password_change_attempts'));
     $services->set(BreachedPasswordRefusal::class);
     $services->set(BreachedPasswordLookup::class);
     $services->set(CredentialRenaming::class);

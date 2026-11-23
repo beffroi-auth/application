@@ -1833,6 +1833,10 @@
         <source>password.error.no_password_held</source>
         <target>Nie masz hasła do zmiany.</target>
       </trans-unit>
+      <trans-unit id="password.error.too_many_attempts" resname="password.error.too_many_attempts">
+        <source>password.error.too_many_attempts</source>
+        <target>Zbyt wiele prób. Poczekaj chwilę i spróbuj ponownie.</target>
+      </trans-unit>
       <trans-unit id="password.again" resname="password.again">
         <source>password.again</source>
         <target>Potwierdź nowe hasło</target>

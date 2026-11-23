@@ -1833,6 +1833,10 @@
         <source>password.error.no_password_held</source>
         <target>Nuk keni fjalëkalim për të ndryshuar.</target>
       </trans-unit>
+      <trans-unit id="password.error.too_many_attempts" resname="password.error.too_many_attempts">
+        <source>password.error.too_many_attempts</source>
+        <target>Shumë përpjekje. Prisni pak, pastaj provoni sërish.</target>
+      </trans-unit>
       <trans-unit id="password.again" resname="password.again">
         <source>password.again</source>
         <target>Konfirmoni fjalëkalimin e ri</target>

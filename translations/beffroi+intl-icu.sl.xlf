@@ -1833,6 +1833,10 @@
         <source>password.error.no_password_held</source>
         <target>Nimate gesla, ki bi ga lahko spremenili.</target>
       </trans-unit>
+      <trans-unit id="password.error.too_many_attempts" resname="password.error.too_many_attempts">
+        <source>password.error.too_many_attempts</source>
+        <target>Preveč poskusov. Počakajte trenutek in poskusite znova.</target>
+      </trans-unit>
       <trans-unit id="password.again" resname="password.again">
         <source>password.again</source>
         <target>Potrditev novega gesla</target>
