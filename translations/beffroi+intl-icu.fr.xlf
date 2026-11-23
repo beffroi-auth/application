@@ -103,7 +103,7 @@
       </trans-unit>
       <trans-unit id="c5ee1b4219" resname="scope.email">
         <source>scope.email</source>
-        <target>Votre adresse e-mail</target>
+        <target>Votre adresse électronique</target>
       </trans-unit>
       <trans-unit id="d7c77b8f51" resname="scope.address">
         <source>scope.address</source>
@@ -207,7 +207,7 @@
       </trans-unit>
       <trans-unit id="login.address" resname="login.address">
         <source>login.address</source>
-        <target>Adresse e-mail</target>
+        <target>Adresse électronique</target>
       </trans-unit>
       <trans-unit id="login.continue" resname="login.continue">
         <source>login.continue</source>
@@ -315,11 +315,11 @@
       </trans-unit>
       <trans-unit id="43b26cec8d" resname="profile.email">
         <source>profile.email</source>
-        <target>Adresse e-mail</target>
+        <target>Adresse électronique</target>
       </trans-unit>
       <trans-unit id="4f812be1b4" resname="profile.email_verified">
         <source>profile.email_verified</source>
-        <target>Adresse e-mail vérifiée</target>
+        <target>Adresse électronique vérifiée</target>
       </trans-unit>
       <trans-unit id="d2921f1caa" resname="profile.phone_number">
         <source>profile.phone_number</source>
@@ -2067,23 +2067,23 @@
       </trans-unit>
       <trans-unit id="mail_encryption.title" resname="mail_encryption.title">
         <source>mail_encryption.title</source>
-        <target>E-mails chiffrés</target>
+        <target>Courriels chiffrés</target>
       </trans-unit>
       <trans-unit id="mail_encryption.explanation" resname="mail_encryption.explanation">
         <source>mail_encryption.explanation</source>
-        <target>Les e-mails envoyés à {address} peuvent être chiffrés pour votre certificat S/MIME ou votre clé OpenPGP, qui doit porter cette adresse. L'expéditeur, le destinataire, la date et l'objet restent lisibles.</target>
+        <target>Les courriels envoyés à {address} peuvent être chiffrés pour votre certificat S/MIME ou votre clé OpenPGP, qui doit porter cette adresse. L'expéditeur, le destinataire, la date et l'objet restent lisibles.</target>
       </trans-unit>
       <trans-unit id="mail_encryption.no_address" resname="mail_encryption.no_address">
         <source>mail_encryption.no_address</source>
-        <target>Le chiffrement demande une adresse e-mail vérifiée, et votre compte n'en a pas.</target>
+        <target>Le chiffrement demande une adresse électronique vérifiée, et votre compte n'en a pas.</target>
       </trans-unit>
       <trans-unit id="mail_encryption.none" resname="mail_encryption.none">
         <source>mail_encryption.none</source>
-        <target>Vos e-mails ne sont pas chiffrés.</target>
+        <target>Vos courriels ne sont pas chiffrés.</target>
       </trans-unit>
       <trans-unit id="mail_encryption.held" resname="mail_encryption.held">
         <source>mail_encryption.held</source>
-        <target>Vos e-mails sont chiffrés en {format} pour la clé {fingerprint}. Un e-mail qui ne peut pas être chiffré n'est pas envoyé.</target>
+        <target>Vos courriels sont chiffrés en {format} pour la clé {fingerprint}. Un courriel qui ne peut pas être chiffré n'est pas envoyé.</target>
       </trans-unit>
       <trans-unit id="mail_encryption.valid_until" resname="mail_encryption.valid_until">
         <source>mail_encryption.valid_until</source>
@@ -2091,7 +2091,7 @@
       </trans-unit>
       <trans-unit id="mail_encryption.remove" resname="mail_encryption.remove">
         <source>mail_encryption.remove</source>
-        <target>Ne plus chiffrer mes e-mails</target>
+        <target>Ne plus chiffrer mes courriels</target>
       </trans-unit>
       <trans-unit id="mail_encryption.format" resname="mail_encryption.format">
         <source>mail_encryption.format</source>
@@ -2107,7 +2107,7 @@
       </trans-unit>
       <trans-unit id="mail_encryption.give" resname="mail_encryption.give">
         <source>mail_encryption.give</source>
-        <target>Chiffrer mes e-mails</target>
+        <target>Chiffrer mes courriels</target>
       </trans-unit>
       <trans-unit id="mail_encryption.kind.smime" resname="mail_encryption.kind.smime">
         <source>mail_encryption.kind.smime</source>
@@ -2135,11 +2135,11 @@
       </trans-unit>
       <trans-unit id="mail_encryption.error.no_verified_address" resname="mail_encryption.error.no_verified_address">
         <source>mail_encryption.error.no_verified_address</source>
-        <target>Le chiffrement demande une adresse e-mail vérifiée, et votre compte n'en a pas.</target>
+        <target>Le chiffrement demande une adresse électronique vérifiée, et votre compte n'en a pas.</target>
       </trans-unit>
       <trans-unit id="profile.mail_encryption" resname="profile.mail_encryption">
         <source>profile.mail_encryption</source>
-        <target>E-mails chiffrés</target>
+        <target>Courriels chiffrés</target>
       </trans-unit>
       <trans-unit id="notifications.channels.title" resname="notifications.channels.title">
         <source>notifications.channels.title</source>
@@ -2147,7 +2147,7 @@
       </trans-unit>
       <trans-unit id="notifications.channels.explanation" resname="notifications.channels.explanation">
         <source>notifications.channels.explanation</source>
-        <target>Choisissez les canaux par défaut, ou personnalisez-les pour une notification. Un e-mail ou un SMS ne part que vers une adresse ou un numéro vérifié.</target>
+        <target>Choisissez les canaux par défaut, ou personnalisez-les pour une notification. Un courriel ou un SMS ne part que vers une adresse ou un numéro vérifié.</target>
       </trans-unit>
       <trans-unit id="notifications.channels.none" resname="notifications.channels.none">
         <source>notifications.channels.none</source>
@@ -2195,7 +2195,7 @@
       </trans-unit>
       <trans-unit id="notifications.channel.mail" resname="notifications.channel.mail">
         <source>notifications.channel.mail</source>
-        <target>E-mail</target>
+        <target>Courriel</target>
       </trans-unit>
       <trans-unit id="notifications.channel.sms" resname="notifications.channel.sms">
         <source>notifications.channel.sms</source>
@@ -2235,7 +2235,7 @@
       </trans-unit>
       <trans-unit id="confirmation.email.title" resname="confirmation.email.title">
         <source>confirmation.email.title</source>
-        <target>Confirmer votre adresse e-mail</target>
+        <target>Confirmer votre adresse électronique</target>
       </trans-unit>
       <trans-unit id="confirmation.phone_number.title" resname="confirmation.phone_number.title">
         <source>confirmation.phone_number.title</source>
