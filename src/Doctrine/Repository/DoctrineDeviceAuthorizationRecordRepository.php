@@ -78,6 +78,13 @@ final readonly class DoctrineDeviceAuthorizationRecordRepository extends Doctrin
         ]));
     }
 
+    public function holdsUserCode(string $userCodeHash): bool
+    {
+        return $this->repository()->count([
+            'userCodeHash' => $userCodeHash,
+        ]) > 0;
+    }
+
     public function findByGrantId(Uuid $grantId): ?DeviceAuthorizationRecord
     {
         return $this->resolved($this->repository()->findOneBy([
