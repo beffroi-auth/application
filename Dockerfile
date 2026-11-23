@@ -141,7 +141,8 @@ COPY --chown=33:0 --from=frankenphp_prod_builder /app/var /app/var
 # must carry the directives a deployment gives it (CADDY_ADMINISTRATION_EXTRA_DIRECTIVES, issue #1042); each
 # listener carries the options a deployment gives them all (CADDY_SERVER_OPTIONS) and bounds the headers of a
 # request, and each site its body (issue #1191); docker-request-bounds passes a size of 1B and one of 7EiB, and
-# stops on a size of each of their variables that bounds nothing (issue #1198).
+# stops on a size of each of their variables that bounds nothing (issue #1198). The access log of each site keeps the
+# value of no parameter and of no ticket.
 # The configuration is adapted and not validated: validating provisions it, which draws the key of the internal
 # CA of Caddy into /data, and every deployment of the image would start with the same one.
 RUN set -eux; \
@@ -162,6 +163,7 @@ RUN set -eux; \
     test "$(echo "${behind_a_proxy}" | grep -o '"max_header_bytes":16384' | wc -l)" -eq 2; \
     echo "${behind_a_proxy}" | grep -q '"max_size":2097152'; \
     echo "${behind_a_proxy}" | grep -q '"max_size":262144'; \
+    test "$(echo "${behind_a_proxy}" | grep -o '"filter":"multi_regexp"' | wc -l)" -eq 2; \
     CADDY_MAX_HEADER_SIZE=1B CADDY_REQUEST_BODY_MAX_SIZE=7EiB docker-request-bounds; \
     for nothing in CADDY_MAX_HEADER_SIZE=0KiB CADDY_REQUEST_BODY_MAX_SIZE=0.4B CADDY_ADMINISTRATION_REQUEST_BODY_MAX_SIZE=8EiB; do \
         if env "${nothing}" docker-request-bounds; then exit 1; fi; \

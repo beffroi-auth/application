@@ -12,9 +12,7 @@
 # of the client. Each site has its own, since a directive of one may not fit the other, such as a "tls" line on a site
 # a proxy reaches in plain HTTP.
 {$ADMINISTRATION_SERVER_NAME} {
-	log {
-		{$CADDY_SERVER_LOG_OPTIONS}
-	}
+	import access_log
 
 	request_body {
 		max_size {$CADDY_ADMINISTRATION_REQUEST_BODY_MAX_SIZE:256KiB}

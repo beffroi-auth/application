@@ -47,17 +47,26 @@
 	ciphers TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 }
 
-# What the site of SERVER_NAME serves, whoever terminates its TLS.
-(provider) {
+# The access log of a site, which every site of the image imports. It keeps the path and the names of the parameters of
+# a request, never a value: not the value of a ticket or of the confirmation of an address, which follows their
+# identifier in the path (decision 0026), and not the value of a parameter, which may be a login_hint, an id_token_hint,
+# a request object or a username. AccessLogKeepsNoValueTest holds the first two to the routes that carry a value.
+(access_log) {
 	log {
 		{$CADDY_SERVER_LOG_OPTIONS}
-		# Redact the authorization query parameter that can be set by Mercure
 		format filter {
-			request>uri query {
-				replace authorization REDACTED
+			request>uri multi_regexp {
+				regexp "^(/(?:password|enrol|two-factor)/[^/?]+/)[^/?]+" "${1}REDACTED"
+				regexp "^(/account/addresses/[^/?]+/[^/?]+/)[^/?]+" "${1}REDACTED"
+				regexp "([?&][^=&]*)=[^&]*" "${1}=REDACTED"
 			}
 		}
 	}
+}
+
+# What the site of SERVER_NAME serves, whoever terminates its TLS.
+(provider) {
+	import access_log
 
 	request_body {
 		max_size {$CADDY_REQUEST_BODY_MAX_SIZE:2MiB}

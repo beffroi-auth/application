@@ -22,9 +22,7 @@
 # calls the token endpoint on, and the host it reads the resource of, which is where it runs the TLS
 # checks of the profile.
 {$MTLS_SERVER_NAME} {
-	log {
-		{$CADDY_SERVER_LOG_OPTIONS}
-	}
+	import access_log
 
 	tls {
 		import fapi_tls
