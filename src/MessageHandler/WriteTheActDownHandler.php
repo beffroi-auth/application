@@ -8,7 +8,8 @@ use Beffroi\Core\Application\Journal\ActRecording;
 use Beffroi\Core\Domain\Event\ConcernsAPersonInterface;
 use Beffroi\Core\Domain\Event\DomainEventInterface;
 use Beffroi\Core\Domain\Event\NamesItsAuthorInterface;
-use Beffroi\Oidc\Domain\Event\ConcernsAClientInterface;
+use Beffroi\Core\Domain\Event\SaysWhyItWasRefusedInterface;
+use Beffroi\Oidc\Domain\Event\MayConcernAClientInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler(bus: 'event.bus')]
@@ -27,8 +28,10 @@ final readonly class WriteTheActDownHandler
             $event->occurredAt,
             $event->context,
             $event instanceof ConcernsAPersonInterface ? $event->subject() : null,
-            $event instanceof ConcernsAClientInterface ? $event->clientId : null,
+            $event instanceof MayConcernAClientInterface ? $event->clientId : null,
             $event instanceof NamesItsAuthorInterface ? $event->author() : null,
+            $event instanceof SaysWhyItWasRefusedInterface ? $event->refusalReason() : null,
+            $event instanceof SaysWhyItWasRefusedInterface ? $event->refusedMethod() : null,
         );
     }
 }

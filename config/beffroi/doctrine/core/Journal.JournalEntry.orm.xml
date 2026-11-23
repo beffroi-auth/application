@@ -22,5 +22,8 @@
         <field name="client" type="string" column="client" length="255" nullable="true"/>
         <!-- Who did the act to that person when it was somebody else, by the subject of their own account: the administrator who read them through the administration API (decision 0038). In the clear, as the subject is. -->
         <field name="author" type="beffroi_subject" column="author" length="255" nullable="true"/>
+        <!-- Why a refusal refused and the method it refused, words this provider gives them (decision 0062). In the clear: they say nothing of a person. -->
+        <field name="reason" type="string" column="reason" length="64" nullable="true"/>
+        <field name="method" type="string" column="method" length="64" nullable="true"/>
     </entity>
 </doctrine-mapping>
