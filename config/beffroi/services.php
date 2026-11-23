@@ -805,6 +805,7 @@ use Beffroi\Oidc\Port\ServedDeliveryModesInterface;
 use Beffroi\Oidc\Port\DeviceAuthorizationRecordRepositoryInterface;
 use Beffroi\Oidc\Port\PushedAuthorizationRequirementInterface;
 use Beffroi\Oidc\Port\RefreshTokenRepositoryInterface;
+use Beffroi\Oidc\Port\RefreshTokenRotationInterface;
 use Beffroi\Oidc\Port\RequestObjectFetcherInterface;
 use Beffroi\Oidc\Port\LogoutTokenDeliveryInterface;
 use Beffroi\Oidc\Port\LogoutTokenRetriesInterface;
@@ -1402,6 +1403,7 @@ return static function (ContainerConfigurator $container): void {
     $services->alias(BackchannelAuthenticationRecordRepositoryInterface::class, DoctrineBackchannelAuthenticationRecordRepository::class);
     $services->set(DoctrineRefreshTokenRepository::class)->tag('beffroi.dead_records');
     $services->alias(RefreshTokenRepositoryInterface::class, DoctrineRefreshTokenRepository::class);
+    $services->alias(RefreshTokenRotationInterface::class, DoctrineRefreshTokenRepository::class);
     $services->alias(RefreshTokensOfAConsentInterface::class, DoctrineRefreshTokenRepository::class);
     $services->set(DoctrineAccessTokenRepository::class)->tag('beffroi.dead_records');
     $services->alias(AccessTokenRepositoryInterface::class, DoctrineAccessTokenRepository::class);
