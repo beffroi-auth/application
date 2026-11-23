@@ -1338,8 +1338,9 @@
         @apply alert alert-warning alert-soft text-base;
     }
 
-    /* A button on a page is the width of its words; a form of an interaction fills the box it is in. */
-    main[data-page="account"] form:not([hidden]) {
+    /* A button on a page is the width of its words; a form of an interaction fills the box it is in. A line
+       of the profile is not such a form: its label, its field and its button share the middle of the line. */
+    main[data-page="account"] form:not([hidden], [data-editable]) {
         @apply items-start;
     }
 
