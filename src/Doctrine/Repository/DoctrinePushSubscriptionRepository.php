@@ -6,9 +6,9 @@ namespace App\Doctrine\Repository;
 
 use function array_values;
 use function array_filter;
-use Beffroi\Core\Domain\Listing\Period;
 use App\Doctrine\EntityManagers;
 use Beffroi\Core\Domain\Identity\PushSubscription;
+use Beffroi\Core\Domain\Identity\PushSubscriptionQuestion;
 use Beffroi\Core\Domain\Identity\User;
 use Beffroi\Core\Domain\Listing\Listing;
 use Beffroi\Core\Domain\Listing\Pagination;
@@ -31,15 +31,9 @@ final readonly class DoctrinePushSubscriptionRepository extends DoctrineReposito
     /**
      * @return Listing<PushSubscription>
      */
-    public function pageOfActiveSubscriptions(User $user, Pagination $pagination, ?Period $period = null): Listing
+    public function pageOfActiveSubscriptions(User $user, PushSubscriptionQuestion $question, Pagination $pagination): Listing
     {
-        return Listing::of(
-            array_values(array_filter(
-                $this->findActiveByUser($user),
-                static fn (PushSubscription $subscription): bool => $period?->holds($subscription->createdAt) !== false,
-            )),
-            $pagination,
-        );
+        return Listing::of(array_values(array_filter($this->findActiveByUser($user), $question->admits(...))), $pagination);
     }
 
     public function findActiveByUser(User $user): array

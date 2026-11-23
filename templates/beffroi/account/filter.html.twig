@@ -1,0 +1,25 @@
+{# The form above a table of the account (architecture §5.2): what the table is narrowed to, in a form a
+   browser sends with no script, and the way back to the table as it opens. Each table names what narrows
+   it in the block "fields", the days of a period (account/filter_period) and the choices of a word
+   (account/filter_choice), and passes "narrowed", whether it is read otherwise than it opens.
+
+   The page is not carried over: a filter that changed is a table read from its first page, which is why
+   the form posts to the route alone and the control under the table is the only thing that names a page.
+   What the fields hold is what was read and not what the request said: a period that ends before it
+   starts, or a word the table does not offer, is read as none.
+
+   The provider ships the shape and the words, never a class: "data-filter" is what a stylesheet reads. #}
+{% trans_default_domain 'beffroi' %}
+{% set route = app.request.attributes.get('_route') %}
+{% set own = app.request.attributes.get('_route_params') ?? {} %}
+<form method="get" action="{{ path(route, own) }}" data-filter="table" aria-label="{{ 'filter.label'|trans }}">
+    <div data-filter="fields">
+        {% block fields %}{% endblock %}
+    </div>
+    <div data-filter="actions">
+        <button type="submit" data-filter="apply">{{ 'filter.apply'|trans }}</button>
+        {% if narrowed %}
+            <a href="{{ path(route, own) }}" data-filter="clear">{{ 'filter.clear'|trans }}</a>
+        {% endif %}
+    </div>
+</form>

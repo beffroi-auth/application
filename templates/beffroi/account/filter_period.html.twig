@@ -1,0 +1,11 @@
+{# The days of one period a table is narrowed to (AskedPeriod), on the clock of the reader: "legend" names
+   the date the table is read by, the head of its column, "from" and "to" are the words of the query
+   string, and "period" is what was read of them. #}
+{% trans_default_domain 'beffroi' %}
+<fieldset data-filter-period="{{ from }}">
+    <legend>{{ legend|trans }}</legend>
+    <label for="filter-{{ from }}">{{ 'filter.from'|trans }}</label>
+    <input type="date" id="filter-{{ from }}" name="{{ from }}" value="{{ period is not null and period.from is not null ? period.from|date('Y-m-d', false) : '' }}">
+    <label for="filter-{{ to }}">{{ 'filter.to'|trans }}</label>
+    <input type="date" id="filter-{{ to }}" name="{{ to }}" value="{{ period is not null and period.to is not null ? period.to|date('Y-m-d', false) : '' }}">
+</fieldset>

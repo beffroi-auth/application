@@ -1,0 +1,5 @@
+{# One claim in the language of the reader: the claims of OIDC Core §5.1 in the words the page of the
+   account says them in, any other by its name. The one place a claim asked by name is said, by the lists of
+   a consent (claims) and by the filter of the consents of the account. #}
+{% trans_default_domain 'beffroi' %}
+{{- claim in ['name', 'given_name', 'family_name', 'middle_name', 'nickname', 'preferred_username', 'profile', 'picture', 'website', 'email', 'email_verified', 'gender', 'birthdate', 'zoneinfo', 'locale', 'phone_number', 'phone_number_verified', 'address', 'updated_at'] ? ('profile.' ~ claim)|trans : claim -}}

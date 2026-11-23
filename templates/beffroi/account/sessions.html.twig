@@ -1,7 +1,11 @@
 {# Where the signed-in user is signed in (architecture §5.2), in the language of the browser: one line per
    session open in their name, what each one proved, when it was opened, when it was last seen and from
    where, and the button that ends one. The session of the browser reading the page says so, because
-   ending it signs the reader out. #}
+   ending it signs the reader out.
+
+   The list is narrowed by what SessionsPage reads ("question", a SessionQuestion): the days it was opened,
+   the days it was last seen, and a method it proved, "methods" being those the sessions of the person
+   proved. #}
 {% extends '@Beffroi/layout.html.twig' %}
 {% trans_default_domain 'beffroi' %}
 
@@ -22,7 +26,20 @@
 {% block content %}
     {{ include('@Beffroi/account/back.html.twig') }}
     <p>{{ 'sessions.explanation'|trans }}</p>
-    {{ include('@Beffroi/account/period.html.twig', {period: period}) }}
+    {% embed '@Beffroi/account/filter.html.twig' %}
+        {% trans_default_domain 'beffroi' %}
+        {% block fields %}
+            {{ include('@Beffroi/account/filter_choice.html.twig', {
+                name: 'proof',
+                label: 'sessions.proved',
+                any: 'sessions.filter.every_proof',
+                options: methods|map(method => {value: method, label: method}),
+                chosen: question.provedWith,
+            }) }}
+            {{ include('@Beffroi/account/filter_period.html.twig', {legend: 'sessions.opened_at', from: 'from', to: 'to', period: question.opened}) }}
+            {{ include('@Beffroi/account/filter_period.html.twig', {legend: 'sessions.last_seen', from: 'seen_from', to: 'seen_to', period: question.seen}) }}
+        {% endblock %}
+    {% endembed %}
     <div data-table>
         <table data-sessions="{{ sessions|length }}">
             <thead>
@@ -56,8 +73,8 @@
                 {% else %}
                     {# A table that holds nothing keeps its head and says so in one row of its own, which is
                        how every table of this plane says it. The page of somebody reading it holds their own
-                       session, so the row they see here is the one they asked for days that hold none. #}
-                    <tr data-empty><td colspan="5">{{ (period is null ? 'sessions.none' : 'sessions.none_in_period')|trans }}</td></tr>
+                       session, so the row they see here is the one they narrowed to sessions there are none of. #}
+                    <tr data-empty><td colspan="5">{{ (narrowed ? 'sessions.none_matching' : 'sessions.none')|trans }}</td></tr>
                 {% endfor %}
             </tbody>
         </table>

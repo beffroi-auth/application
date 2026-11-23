@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Doctrine\Repository;
 
-use Beffroi\Core\Domain\Listing\Period;
 use function array_filter;
 use function array_merge;
 use function array_values;
 use Doctrine\ORM\Mapping\ClassMetadata as OrmClassMetadata;
 use App\Doctrine\EntityManagers;
 use Beffroi\Core\Domain\Credential\Credential;
+use Beffroi\Core\Domain\Credential\CredentialQuestion;
 use Beffroi\Core\Domain\Credential\ExternallyIdentifiedCredentialInterface;
 use Beffroi\Core\Domain\Identity\User;
 use Beffroi\Core\Domain\Tenant\Tenant;
@@ -45,15 +45,9 @@ final class DoctrineCredentialRepository implements CanForgetCredentialsInterfac
      *
      * @return Listing<Credential>
      */
-    public function pageOfCredentials(User $user, string $kind, Pagination $pagination, ?Period $period = null): Listing
+    public function pageOfCredentials(User $user, string $kind, CredentialQuestion $question, Pagination $pagination): Listing
     {
-        return Listing::of(
-            array_values(array_filter(
-                $this->findByUser($user, $kind),
-                static fn (Credential $credential): bool => $period?->holds($credential->createdAt) !== false,
-            )),
-            $pagination,
-        );
+        return Listing::of($question->narrow($this->findByUser($user, $kind)), $pagination);
     }
 
     /**

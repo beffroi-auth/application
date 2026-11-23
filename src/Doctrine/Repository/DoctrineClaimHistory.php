@@ -8,11 +8,11 @@ use App\Doctrine\EntityManagers;
 use App\Doctrine\PageOfRows;
 use App\Doctrine\SelectionWithinAPeriod;
 use Beffroi\Core\Domain\Identity\ClaimChange;
+use Beffroi\Core\Domain\Identity\ClaimChangeQuestion;
 use Beffroi\Core\Domain\Identity\User;
 use Beffroi\Core\Domain\Tenant\Tenant;
 use Beffroi\Core\Domain\Listing\Listing;
 use Beffroi\Core\Domain\Listing\Pagination;
-use Beffroi\Core\Domain\Listing\Period;
 use Beffroi\Core\Port\CanPageChangesOfAPersonInterface;
 use Beffroi\Core\Port\ChangesOfAPersonInterface;
 use Beffroi\Core\Port\ClaimHistoryInterface;
@@ -71,11 +71,30 @@ final readonly class DoctrineClaimHistory extends DoctrineRepository implements
     /**
      * @return Listing<ClaimChange>
      */
-    public function pageOfChanges(User $user, Pagination $pagination, ?Period $period = null): Listing
+    public function pageOfChanges(User $user, ClaimChangeQuestion $question, Pagination $pagination): Listing
     {
         $changes = $this->queryBuilder('c')->where('c.user = :user')->setParameter('user', $user->id, UuidType::NAME);
+        if ($question->claim !== null) {
+            $changes->andWhere('c.claim = :claim')->setParameter('claim', $question->claim);
+        }
+        if ($question->byAnAdministrator !== null) {
+            $changes->andWhere($question->byAnAdministrator ? 'c.author IS NOT NULL' : 'c.author IS NULL');
+        }
 
-        return $this->rows->of(ClaimChange::class, SelectionWithinAPeriod::narrow($changes, 'c.changedAt', $period), 'c.id', $pagination);
+        return $this->rows->of(ClaimChange::class, SelectionWithinAPeriod::narrow($changes, 'c.changedAt', $question->period), 'c.id', $pagination);
+    }
+
+    public function claimsChangedOf(User $user): array
+    {
+        /** @var list<string> */
+        return $this->queryBuilder('c')
+            ->select('c.claim')
+            ->distinct()
+            ->where('c.user = :user')
+            ->orderBy('c.claim', SortDirection::Ascending)
+            ->setParameter('user', $user->id, UuidType::NAME)
+            ->getQuery()
+            ->getSingleColumnResult();
     }
 
     public function lastOf(User $user, int $howMany): array

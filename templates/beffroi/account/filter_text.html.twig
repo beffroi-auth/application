@@ -1,0 +1,7 @@
+{# What a table is narrowed to by a few words typed (AskedWord::text()): "name" is the word of the query
+   string, "label" what it searches, the head of its column, and "typed" what was read of it. #}
+{% trans_default_domain 'beffroi' %}
+<div data-filter-text="{{ name }}">
+    <label for="filter-{{ name }}">{{ label|trans }}</label>
+    <input type="search" id="filter-{{ name }}" name="{{ name }}" value="{{ typed ?? '' }}" maxlength="255">
+</div>

@@ -6,7 +6,6 @@ namespace App\Doctrine\Repository;
 
 use function array_values;
 use function array_filter;
-use Beffroi\Core\Domain\Listing\Period;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\QueryBuilder;
@@ -15,6 +14,7 @@ use Beffroi\Core\Domain\Identity\Subject;
 use Beffroi\Core\Domain\Identity\User;
 use Beffroi\Core\Domain\Record\WhatATokenStillNeeds;
 use Beffroi\Core\Domain\Session\AuthenticationSession;
+use Beffroi\Core\Domain\Session\SessionQuestion;
 use Beffroi\Core\Domain\Tenant\Tenant;
 use Beffroi\Core\Domain\Listing\Listing;
 use Beffroi\Core\Domain\Listing\Pagination;
@@ -104,15 +104,9 @@ final readonly class DoctrineAuthenticationSessionRepository extends DoctrineRep
      *
      * @return Listing<AuthenticationSession>
      */
-    public function pageOfActiveSessions(User $user, DateTimeImmutable $now, Pagination $pagination, ?Period $period = null): Listing
+    public function pageOfActiveSessions(User $user, DateTimeImmutable $now, SessionQuestion $question, Pagination $pagination): Listing
     {
-        return Listing::of(
-            array_values(array_filter(
-                $this->findActiveByUser($user, $now),
-                static fn (AuthenticationSession $session): bool => $period?->holds($session->establishedAt) !== false,
-            )),
-            $pagination,
-        );
+        return Listing::of(array_values(array_filter($this->findActiveByUser($user, $now), $question->admits(...))), $pagination);
     }
 
     public function findActiveByUser(User $user, DateTimeImmutable $now): array

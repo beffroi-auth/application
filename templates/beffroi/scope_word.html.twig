@@ -1,0 +1,5 @@
+{# One scope in the language of the reader: the standard scopes of OIDC Core §5.4 in words, any other by its
+   value. The one place a scope is said, by the lists of a consent (scopes) and by the filter of the consents
+   of the account, so that it reads the same wherever it is read. #}
+{% trans_default_domain 'beffroi' %}
+{{- scope in ['openid', 'profile', 'email', 'address', 'phone', 'offline_access'] ? ('scope.' ~ scope)|trans : scope -}}

@@ -415,7 +415,7 @@
       </trans-unit>
       <trans-unit id="81402f59a0" resname="passkeys.none">
         <source>passkeys.none</source>
-        <target>Vous n'avez pas encore de passkey.</target>
+        <target>Aucune passkey active.</target>
       </trans-unit>
       <trans-unit id="ef84f1b8d3" resname="passkeys.name">
         <source>passkeys.name</source>
@@ -480,6 +480,62 @@
       <trans-unit id="02820b7d95" resname="passkeys.authenticator.unknown">
         <source>passkeys.authenticator.unknown</source>
         <target>Authentificateur inconnu</target>
+      </trans-unit>
+      <trans-unit id="passkeys.features" resname="passkeys.features">
+        <source>passkeys.features</source>
+        <target>Fonctionnalités</target>
+      </trans-unit>
+      <trans-unit id="passkeys.aaguid" resname="passkeys.aaguid">
+        <source>passkeys.aaguid</source>
+        <target>AAGUID {aaguid}</target>
+      </trans-unit>
+      <trans-unit id="passkeys.none_matching" resname="passkeys.none_matching">
+        <source>passkeys.none_matching</source>
+        <target>Aucune passkey ne correspond aux filtres.</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.active" resname="passkeys.filter.active">
+        <source>passkeys.filter.active</source>
+        <target>Actives</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.revoked" resname="passkeys.filter.revoked">
+        <source>passkeys.filter.revoked</source>
+        <target>Révoquées</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.every_state" resname="passkeys.filter.every_state">
+        <source>passkeys.filter.every_state</source>
+        <target>Toutes</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.every_authenticator" resname="passkeys.filter.every_authenticator">
+        <source>passkeys.filter.every_authenticator</source>
+        <target>Tous</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.unknown_authenticator" resname="passkeys.filter.unknown_authenticator">
+        <source>passkeys.filter.unknown_authenticator</source>
+        <target>Inconnu ({aaguid})</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.sync" resname="passkeys.filter.sync">
+        <source>passkeys.filter.sync</source>
+        <target>Synchronisation</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.synced_or_not" resname="passkeys.filter.synced_or_not">
+        <source>passkeys.filter.synced_or_not</source>
+        <target>Toutes</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.synced" resname="passkeys.filter.synced">
+        <source>passkeys.filter.synced</source>
+        <target>Synchronisées</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.device_bound" resname="passkeys.filter.device_bound">
+        <source>passkeys.filter.device_bound</source>
+        <target>Liées à un appareil</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.transport" resname="passkeys.filter.transport">
+        <source>passkeys.filter.transport</source>
+        <target>Transport</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.every_transport" resname="passkeys.filter.every_transport">
+        <source>passkeys.filter.every_transport</source>
+        <target>Tous</target>
       </trans-unit>
       <trans-unit id="passkeys.model_proof.declared" resname="passkeys.model_proof.declared">
         <source>passkeys.model_proof.declared</source>
@@ -628,6 +684,14 @@
       <trans-unit id="b40383a420" resname="consents.none">
         <source>consents.none</source>
         <target>Aucune application autorisée.</target>
+      </trans-unit>
+      <trans-unit id="consents.none_matching" resname="consents.none_matching">
+        <source>consents.none_matching</source>
+        <target>Aucune application ne correspond aux filtres.</target>
+      </trans-unit>
+      <trans-unit id="consents.filter.every_access" resname="consents.filter.every_access">
+        <source>consents.filter.every_access</source>
+        <target>Tous</target>
       </trans-unit>
       <trans-unit id="792b29ed69" resname="consents.explanation">
         <source>consents.explanation</source>
@@ -929,6 +993,10 @@
         <source>notifications.none</source>
         <target>Aucun navigateur ajouté.</target>
       </trans-unit>
+      <trans-unit id="notifications.none_matching" resname="notifications.none_matching">
+        <source>notifications.none_matching</source>
+        <target>Aucun navigateur ne correspond aux filtres.</target>
+      </trans-unit>
       <trans-unit id="6bee5ae6f1" resname="notifications.label">
         <source>notifications.label</source>
         <target>Navigateur</target>
@@ -1156,6 +1224,22 @@
       <trans-unit id="acts.none" resname="acts.none">
         <source>acts.none</source>
         <target>Rien n'a encore été enregistré.</target>
+      </trans-unit>
+      <trans-unit id="acts.none_matching" resname="acts.none_matching">
+        <source>acts.none_matching</source>
+        <target>Rien ne correspond aux filtres.</target>
+      </trans-unit>
+      <trans-unit id="acts.filter.every_act" resname="acts.filter.every_act">
+        <source>acts.filter.every_act</source>
+        <target>Tous</target>
+      </trans-unit>
+      <trans-unit id="acts.filter.from_anywhere" resname="acts.filter.from_anywhere">
+        <source>acts.filter.from_anywhere</source>
+        <target>Toutes</target>
+      </trans-unit>
+      <trans-unit id="acts.filter.from_a_request" resname="acts.filter.from_a_request">
+        <source>acts.filter.from_a_request</source>
+        <target>Un navigateur ou une application</target>
       </trans-unit>
       <trans-unit id="account.acts.state" resname="account.acts.state">
         <source>account.acts.state</source>
@@ -1505,21 +1589,29 @@
         <source>changes.title</source>
         <target>Historique des modifications</target>
       </trans-unit>
-      <trans-unit id="changes.none_in_period" resname="changes.none_in_period">
-        <source>changes.none_in_period</source>
-        <target>Aucune modification sur cette période.</target>
-      </trans-unit>
       <trans-unit id="changes.by_you" resname="changes.by_you">
         <source>changes.by_you</source>
         <target>Vous</target>
       </trans-unit>
-      <trans-unit id="filter.period" resname="filter.period">
-        <source>filter.period</source>
-        <target>Période</target>
+      <trans-unit id="changes.none_matching" resname="changes.none_matching">
+        <source>changes.none_matching</source>
+        <target>Aucune modification ne correspond aux filtres.</target>
+      </trans-unit>
+      <trans-unit id="changes.filter.every_claim" resname="changes.filter.every_claim">
+        <source>changes.filter.every_claim</source>
+        <target>Tout</target>
+      </trans-unit>
+      <trans-unit id="changes.filter.by_anyone" resname="changes.filter.by_anyone">
+        <source>changes.filter.by_anyone</source>
+        <target>Tous</target>
       </trans-unit>
       <trans-unit id="filter.from" resname="filter.from">
         <source>filter.from</source>
         <target>Du</target>
+      </trans-unit>
+      <trans-unit id="filter.label" resname="filter.label">
+        <source>filter.label</source>
+        <target>Filtres</target>
       </trans-unit>
       <trans-unit id="filter.to" resname="filter.to">
         <source>filter.to</source>
@@ -1531,7 +1623,7 @@
       </trans-unit>
       <trans-unit id="filter.clear" resname="filter.clear">
         <source>filter.clear</source>
-        <target>Tout afficher</target>
+        <target>Réinitialiser</target>
       </trans-unit>
       <trans-unit id="passkeys.new_default" resname="passkeys.new_default">
         <source>passkeys.new_default</source>
@@ -1581,25 +1673,13 @@
         <source>sessions.none</source>
         <target>Aucune session ouverte.</target>
       </trans-unit>
-      <trans-unit id="sessions.none_in_period" resname="sessions.none_in_period">
-        <source>sessions.none_in_period</source>
-        <target>Aucune session ouverte sur cette période.</target>
+      <trans-unit id="sessions.none_matching" resname="sessions.none_matching">
+        <source>sessions.none_matching</source>
+        <target>Aucune session ne correspond aux filtres.</target>
       </trans-unit>
-      <trans-unit id="consents.none_in_period" resname="consents.none_in_period">
-        <source>consents.none_in_period</source>
-        <target>Aucune application autorisée sur cette période.</target>
-      </trans-unit>
-      <trans-unit id="acts.none_in_period" resname="acts.none_in_period">
-        <source>acts.none_in_period</source>
-        <target>Rien sur cette période.</target>
-      </trans-unit>
-      <trans-unit id="notifications.none_in_period" resname="notifications.none_in_period">
-        <source>notifications.none_in_period</source>
-        <target>Aucun navigateur ajouté sur cette période.</target>
-      </trans-unit>
-      <trans-unit id="passkeys.none_in_period" resname="passkeys.none_in_period">
-        <source>passkeys.none_in_period</source>
-        <target>Aucune passkey ajoutée sur cette période.</target>
+      <trans-unit id="sessions.filter.every_proof" resname="sessions.filter.every_proof">
+        <source>sessions.filter.every_proof</source>
+        <target>Toutes</target>
       </trans-unit>
       <trans-unit id="password.title" resname="password.title">
         <source>password.title</source>

@@ -25,7 +25,11 @@ final readonly class AskedPeriod
     ) {
     }
 
-    public function asked(?User $reader = null): ?Period
+    /**
+     * @param string $from the word of the query string that names the first day
+     * @param string $to the word that names the last one
+     */
+    public function asked(?User $reader = null, string $from = self::FROM, string $to = self::TO): ?Period
     {
         $request = $this->requests->getCurrentRequest();
         if ($request === null) {
@@ -34,8 +38,8 @@ final readonly class AskedPeriod
 
         try {
             return Period::ofDays(
-                $this->day($request, self::FROM, $reader),
-                $this->day($request, self::TO, $reader),
+                $this->day($request, $from, $reader),
+                $this->day($request, $to, $reader),
             );
         } catch (InvalidArgumentException) {
             return null;

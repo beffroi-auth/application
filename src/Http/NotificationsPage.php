@@ -7,6 +7,7 @@ namespace App\Http;
 use App\Notification\NotificationKinds;
 use App\Notification\OfferedChannels;
 use App\Push\ApplicationServerKey;
+use Beffroi\Core\Domain\Identity\PushSubscriptionQuestion;
 use Beffroi\Core\Domain\Identity\User;
 use Beffroi\Core\Exception\KeyNotFoundException;
 use Beffroi\Core\Port\ApplicationServerAlgorithmsInterface;
@@ -16,6 +17,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 final readonly class NotificationsPage
 {
+    public const string PUSHED_FROM = 'told_from';
+
+    public const string PUSHED_TO = 'told_to';
+
     public function __construct(
         private CanPageActiveSubscriptionsInterface $subscriptions,
         private ApplicationServerAlgorithmsInterface $algorithms,
@@ -30,14 +35,18 @@ final readonly class NotificationsPage
 
     public function render(User $user, ?string $error = null, int $status = Response::HTTP_OK): Response
     {
-        $period = $this->period->asked($user);
+        $question = new PushSubscriptionQuestion(
+            subscribed: $this->period->asked($user),
+            pushed: $this->period->asked($user, self::PUSHED_FROM, self::PUSHED_TO),
+        );
 
         return $this->pages->render(
             'account/notifications.html.twig',
             [
                 'user' => $user,
-                'subscriptions' => $this->subscriptions->pageOfActiveSubscriptions($user, $this->asked->asked(), $period),
-                'period' => $period,
+                'subscriptions' => $this->subscriptions->pageOfActiveSubscriptions($user, $question, $this->asked->asked()),
+                'question' => $question,
+                'narrowed' => $question->subscribed !== null || $question->pushed !== null,
                 'application_server_key' => $this->applicationServerKey($user)?->publicKey,
                 'channels' => $this->channels->names(),
                 'chosen_kinds' => $this->kinds->choosable(),

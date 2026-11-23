@@ -133,6 +133,9 @@ final readonly class DoctrineJournal extends DoctrineRepository implements
                 $question->unlessTheirOwn,
             );
         }
+        if ($question->byAnAdministrator !== null) {
+            $theirs->andWhere($question->byAnAdministrator ? 'a.author IS NOT NULL' : 'a.author IS NULL');
+        }
 
         return $this->rows->of(
             JournalEntry::class,

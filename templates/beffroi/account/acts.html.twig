@@ -6,7 +6,10 @@
    found nothing. An act an administrator of the tenant did says so in place of where it came from, and
    nothing else of them: who they are, where they were and the client they acted through are theirs. An
    act is named from the catalogue, so an act this provider comes to write down is named here by being
-   translated and this page is not edited. #}
+   translated and this page is not edited.
+
+   The list is narrowed by what ActsPage reads ("question", a JournalQuestion): the days of the act, one
+   act of those "offered" ("act", the one read), and whether an administrator did it. #}
 {% extends '@Beffroi/layout.html.twig' %}
 {% trans_default_domain 'beffroi' %}
 
@@ -15,7 +18,29 @@
 {% block content %}
     {{ include('@Beffroi/account/back.html.twig') }}
     <p>{{ 'acts.explanation'|trans }}</p>
-    {{ include('@Beffroi/account/period.html.twig', {period: period}) }}
+    {% embed '@Beffroi/account/filter.html.twig' %}
+        {% trans_default_domain 'beffroi' %}
+        {% block fields %}
+            {{ include('@Beffroi/account/filter_choice.html.twig', {
+                name: 'act',
+                label: 'acts.what',
+                any: 'acts.filter.every_act',
+                options: offered|map(name => {value: name, label: ('act.' ~ name)|trans})|sort((a, b) => a.label <=> b.label),
+                chosen: act,
+            }) }}
+            {{ include('@Beffroi/account/filter_choice.html.twig', {
+                name: 'by',
+                label: 'acts.from',
+                any: 'acts.filter.from_anywhere',
+                options: [
+                    {value: 'request', label: 'acts.filter.from_a_request'|trans},
+                    {value: 'administrator', label: 'acts.by_an_administrator'|trans},
+                ],
+                chosen: question.byAnAdministrator is null ? null : (question.byAnAdministrator ? 'administrator' : 'request'),
+            }) }}
+            {{ include('@Beffroi/account/filter_period.html.twig', {legend: 'acts.when', from: 'from', to: 'to', period: question.period}) }}
+        {% endblock %}
+    {% endembed %}
     <div data-table>
         <table data-acts="{{ acts|length }}">
             <thead>
@@ -41,7 +66,7 @@
                 {% else %}
                     {# A table that holds nothing keeps its head and says so in one row of its own, which is
                        how every table of this plane says it. #}
-                    <tr data-empty><td colspan="3">{{ (period is null ? 'acts.none' : 'acts.none_in_period')|trans }}</td></tr>
+                    <tr data-empty><td colspan="3">{{ (narrowed ? 'acts.none_matching' : 'acts.none')|trans }}</td></tr>
                 {% endfor %}
             </tbody>
         </table>

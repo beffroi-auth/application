@@ -1,8 +1,13 @@
 {# The passkeys of the signed-in user (architecture §5.2), in the language of the browser: the list with
-   the name, the authenticator, the dates and the state of each one, a button that revokes one, and the
-   form that enrols a new one, hidden until the script of the provider finds a browser that can create a
-   passkey. "error" is a code of PasskeyEnrolmentController, shown after a failed enrolment. A person of a
-   federated domain ("federated", decision 0029) is offered no enrolment, and told why. #}
+   the name, the authenticator, what its flags say, the dates and the state of each one, a button that
+   revokes one, and the form that enrols a new one, hidden until the script of the provider finds a browser
+   that can create a passkey. "error" is a code of PasskeyEnrolmentController, shown after a failed
+   enrolment. A person of a federated domain ("federated", decision 0029) is offered no enrolment, and told
+   why.
+
+   The list is narrowed by what PasskeysPage reads ("question", a CredentialQuestion): the revoked ones are
+   left out until the state asked for brings them, after the others; "models" are the AAGUIDs the passkeys
+   of the person declare, "transports" the ways a passkey is reached. #}
 {% extends '@Beffroi/layout.html.twig' %}
 {% trans_default_domain 'beffroi' %}
 
@@ -35,13 +40,63 @@
     {% if error is not null %}
         <p data-error="{{ error }}">{{ ('passkeys.error.' ~ error)|trans }}</p>
     {% endif %}
-    {{ include('@Beffroi/account/period.html.twig', {period: period}) }}
+    {% embed '@Beffroi/account/filter.html.twig' %}
+        {% trans_default_domain 'beffroi' %}
+        {% block fields %}
+            {{ include('@Beffroi/account/filter_choice.html.twig', {
+                name: 'state',
+                label: 'passkeys.state',
+                any: 'passkeys.filter.active',
+                options: [
+                    {value: 'revoked', label: 'passkeys.filter.revoked'|trans},
+                    {value: 'all', label: 'passkeys.filter.every_state'|trans},
+                ],
+                chosen: question.revoked is same as(true) ? 'revoked' : (question.revoked is null ? 'all' : null),
+            }) }}
+            {# A model is named as its column names it; two models of the same name are told apart by their
+               AAGUID, and an unknown one is always named by it. #}
+            {% set named = models|map(aaguid => {value: aaguid.toRfc4122, name: (aaguid|beffroi_authenticator).name ?? null}) %}
+            {% set names = named|map(model => model.name) %}
+            {{ include('@Beffroi/account/filter_choice.html.twig', {
+                name: 'authenticator',
+                label: 'passkeys.held_by',
+                any: 'passkeys.filter.every_authenticator',
+                options: named|map(model => {
+                    value: model.value,
+                    label: model.name is null
+                        ? 'passkeys.filter.unknown_authenticator'|trans({aaguid: model.value})
+                        : (names|filter(name => name == model.name)|length > 1 ? model.name ~ ' (' ~ model.value ~ ')' : model.name),
+                }),
+                chosen: question.model is null ? null : question.model.toRfc4122,
+            }) }}
+            {{ include('@Beffroi/account/filter_choice.html.twig', {
+                name: 'sync',
+                label: 'passkeys.filter.sync',
+                any: 'passkeys.filter.synced_or_not',
+                options: [
+                    {value: 'synced', label: 'passkeys.filter.synced'|trans},
+                    {value: 'device_bound', label: 'passkeys.filter.device_bound'|trans},
+                ],
+                chosen: question.synced is null ? null : (question.synced ? 'synced' : 'device_bound'),
+            }) }}
+            {{ include('@Beffroi/account/filter_choice.html.twig', {
+                name: 'transport',
+                label: 'passkeys.filter.transport',
+                any: 'passkeys.filter.every_transport',
+                options: transports|map(transport => {value: transport.value, label: ('passkeys.transport.' ~ transport.value)|trans}),
+                chosen: question.reachedThrough is null ? null : question.reachedThrough.value,
+            }) }}
+            {{ include('@Beffroi/account/filter_period.html.twig', {legend: 'passkeys.created_at', from: 'from', to: 'to', period: question.enrolled}) }}
+            {{ include('@Beffroi/account/filter_period.html.twig', {legend: 'passkeys.last_used_at', from: 'used_from', to: 'used_to', period: question.used}) }}
+        {% endblock %}
+    {% endembed %}
     <div data-table>
         <table data-passkeys="{{ passkeys|length }}">
             <thead>
                 <tr>
                     <th>{{ 'passkeys.name'|trans }}</th>
                     <th>{{ 'passkeys.held_by'|trans }}</th>
+                    <th>{{ 'passkeys.features'|trans }}</th>
                     <th>{{ 'passkeys.created_at'|trans }}</th>
                     <th>{{ 'passkeys.last_used_at'|trans }}</th>
                     <th>{{ 'passkeys.state'|trans }}</th>
@@ -70,9 +125,8 @@
                            theme of the page and the FIDO certification of the model; or an unknown authenticator.
                            Then what the enrolment proved of that model under the policy of the tenant (decision
                            0046): declared, verified by its attestation, or attested for the organisation with the
-                           serial number of the device, and whether the model was under a security alert the tenant
-                           still admitted. Then what the flags of the passkey say, synced or bound to its device
-                           (WebAuthn Level 3 §6.1.3), and how it is reached (§5.8.4). The logos are data: URLs read
+                           serial number of the device, whether the model was under a security alert the tenant
+                           still admitted, and the AAGUID the list is narrowed by. The logos are data: URLs read
                            from what the console stored, so the page fetches nothing; both variants are written when
                            they differ, and the stylesheet of the application shows the one of its theme. #}
                         {% set model = passkey|beffroi_authenticator %}
@@ -93,13 +147,18 @@
                                     <span data-certification="{{ model.certification.value }}">{{ ('passkeys.certification.' ~ model.certification.value)|trans }}</span>
                                 {% endif %}
                             {% endif %}
+                            {% if passkey.underSecurityAlert %}
+                                <span data-under-security-alert>{{ 'passkeys.under_security_alert'|trans }}</span>
+                            {% endif %}
                             <span data-model-proof="{{ passkey.modelProof.value }}">{{ ('passkeys.model_proof.' ~ passkey.modelProof.value)|trans }}</span>
                             {% if passkey.serialNumber is not null %}
                                 <span data-serial-number="{{ passkey.serialNumber }}">{{ 'passkeys.serial_number'|trans({serial: passkey.serialNumber}) }}</span>
                             {% endif %}
-                            {% if passkey.underSecurityAlert %}
-                                <span data-under-security-alert>{{ 'passkeys.under_security_alert'|trans }}</span>
-                            {% endif %}
+                            <span data-aaguid="{{ passkey.aaguid.toRfc4122 }}">{{ 'passkeys.aaguid'|trans({aaguid: passkey.aaguid.toRfc4122}) }}</span>
+                        </td>
+                        {# What the flags of the passkey say, synced or bound to its device (WebAuthn Level 3
+                           §6.1.3), and how it is reached (§5.8.4). #}
+                        <td data-features>
                             <span data-backup="{{ backup }}">{{ ('passkeys.backup.' ~ backup)|trans }}</span>
                             {% if transports is not empty %}
                                 <span data-transports="{{ transports|map(transport => transport.value)|join(' ') }}">
@@ -122,7 +181,7 @@
                 {% else %}
                     {# A table that holds nothing keeps its head and says so in one row of its own, which is
                        how every table of this plane says it. #}
-                    <tr data-empty><td colspan="6">{{ (period is null ? 'passkeys.none' : 'passkeys.none_in_period')|trans }}</td></tr>
+                    <tr data-empty><td colspan="7">{{ (narrowed ? 'passkeys.none_matching' : 'passkeys.none')|trans }}</td></tr>
                 {% endfor %}
             </tbody>
         </table>

@@ -677,34 +677,64 @@
     }
 
     /*
-     * What a table is narrowed to, read above it: two days and the way back to the whole of it. It is a
-     * row and not a panel, because it belongs to the table under it as the control of the pages does.
+     * What a table is narrowed to, read above it: the choices and the periods side by side, going on to
+     * the next line on a screen too narrow for them, then the button that reads them and the way back to
+     * the table as it opens. It is a card of its own above the card of the table, because it narrows the
+     * whole of it and not one page.
      */
-    main[data-page="account"] form[data-filter="period"] {
-        @apply mt-0 flex flex-row flex-wrap items-center gap-2;
+    main[data-page="account"] form[data-filter="table"] {
+        @apply gap-3 rounded-box border border-base-300 bg-base-100 p-4;
     }
 
-    /* The word belongs to the field beside it and sits on its line, not under it and not above: what this
-       row says is read as a sentence, "from this day to that one". */
-    main[data-page="account"] form[data-filter="period"] label {
+    main[data-page="account"] form[data-filter="table"] div[data-filter="fields"] {
+        @apply mt-0 flex flex-row flex-wrap items-end gap-x-6 gap-y-3;
+    }
+
+    /* A choice and a period are named above their fields, in the words and the shape of the head of the
+       column they narrow, so that the eye goes from the one to the other. */
+    main[data-page="account"] form[data-filter="table"] div[data-filter-choice] {
+        @apply mt-0 flex flex-col gap-1;
+    }
+
+    main[data-page="account"] form[data-filter="table"] div[data-filter-choice] label,
+    main[data-page="account"] form[data-filter="table"] fieldset[data-filter-period] legend {
+        @apply mb-1 p-0 text-xs font-medium uppercase tracking-wide text-base-content/50;
+    }
+
+    main[data-page="account"] form[data-filter="table"] div[data-filter-choice] select {
+        @apply select select-sm w-auto min-w-44;
+    }
+
+    /* A legend that floats is laid out as a child of its fieldset, on a line of its own, and not over the
+       border a fieldset draws: it then sits where the label of a choice sits. */
+    main[data-page="account"] form[data-filter="table"] fieldset[data-filter-period] {
+        @apply m-0 flex flex-row flex-wrap items-center gap-x-2 gap-y-1 border-0 p-0;
+    }
+
+    main[data-page="account"] form[data-filter="table"] fieldset[data-filter-period] legend {
+        @apply float-left w-full;
+    }
+
+    /* The words of a period belong to the field beside them and sit on its line: what the period says is
+       read as a sentence, "from this day to that one". */
+    main[data-page="account"] form[data-filter="table"] fieldset[data-filter-period] label {
         @apply p-0 text-sm text-base-content/60;
     }
 
     /* A day is as wide as a day: the field a library gives is made for a sentence. */
-    main[data-page="account"] form[data-filter="period"] input[type="date"] {
-        @apply input input-sm w-44;
+    main[data-page="account"] form[data-filter="table"] fieldset[data-filter-period] input[type="date"] {
+        @apply input input-sm w-40;
     }
 
-    main[data-page="account"] form[data-filter="period"] button[data-filter="apply"],
-    main[data-page="account"] form[data-filter="period"] a[data-filter="clear"] {
-        @apply ms-1;
+    main[data-page="account"] form[data-filter="table"] div[data-filter="actions"] {
+        @apply mt-0 flex flex-row items-center gap-2;
     }
 
-    main[data-page="account"] form[data-filter="period"] button[data-filter="apply"] {
+    main[data-page="account"] form[data-filter="table"] button[data-filter="apply"] {
         @apply btn btn-sm btn-neutral;
     }
 
-    main[data-page="account"] form[data-filter="period"] a[data-filter="clear"] {
+    main[data-page="account"] form[data-filter="table"] a[data-filter="clear"] {
         @apply btn btn-sm btn-ghost font-normal no-underline;
     }
 
@@ -856,11 +886,12 @@
 
     /*
      * What holds a passkey (issue beffroi-auth/beffroi#983): the logo and the name of the model on one line,
-     * its certification as a state of it, then what the flags of the passkey say and how it is reached, in
-     * smaller words under them. An authenticator no source names says so, dimmer than a name, as a place
-     * nothing could find does. A logo with a variant for each theme is written twice, and the page shows the
-     * one of its theme: the dark one when the document says "dark", or when it names no theme and the browser
-     * prefers a dark scheme, which is when DaisyUI draws the dark theme; the light one otherwise.
+     * its certification as a state of it, then what the enrolment proved of it in smaller words under them;
+     * what the flags of the passkey say is the column beside it. An authenticator no source names says so,
+     * dimmer than a name, as a place nothing could find does. A logo with a variant for each theme is
+     * written twice, and the page shows the one of its theme: the dark one when the document says "dark", or
+     * when it names no theme and the browser prefers a dark scheme, which is when DaisyUI draws the dark
+     * theme; the light one otherwise.
      */
     main[data-page="account"] td[data-authenticator] img[data-logo] {
         @apply me-2 inline-block size-5 object-contain align-middle;
@@ -897,7 +928,26 @@
         @apply badge badge-sm badge-soft ms-2 align-middle font-normal;
     }
 
-    main[data-page="account"] td[data-authenticator] :is(span[data-backup], span[data-transports]) {
+    /* What the enrolment proved of the model, the serial number and the AAGUID are read under the name, in
+       smaller words; an alert on the model is a warning and not small print. */
+    main[data-page="account"] td[data-authenticator] :is(span[data-model-proof], span[data-serial-number], span[data-aaguid]) {
+        @apply block text-xs opacity-60;
+    }
+
+    main[data-page="account"] td[data-authenticator] span[data-aaguid] {
+        @apply font-mono;
+    }
+
+    main[data-page="account"] td[data-authenticator] span[data-under-security-alert] {
+        @apply badge badge-sm badge-soft badge-warning ms-2 align-middle font-normal;
+    }
+
+    /* What the flags of a passkey say and how it is reached, one line each. */
+    main[data-page="account"] td[data-features] span[data-backup] {
+        @apply block text-sm;
+    }
+
+    main[data-page="account"] td[data-features] span[data-transports] {
         @apply block text-xs opacity-60;
     }
 

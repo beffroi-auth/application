@@ -1,11 +1,8 @@
-{# The scopes of a request or of a consent, in the language of the reader: the standard scopes of OIDC
-   Core §5.4 in words, any other by its value. Included by the consent page of an interaction and by the
-   page of the account that lists what is in force, so that a scope is said the same way wherever it is
-   read. #}
-{% trans_default_domain 'beffroi' %}
-{% set described_scopes = ['openid', 'profile', 'email', 'address', 'phone', 'offline_access'] %}
+{# The scopes of a request or of a consent, in the language of the reader, each said by scope_word.
+   Included by the consent page of an interaction and by the page of the account that lists what is in
+   force, so that a scope is said the same way wherever it is read. #}
 <ul>
     {% for scope in scopes %}
-        <li data-scope="{{ scope.value }}">{{ scope.value in described_scopes ? ('scope.' ~ scope.value)|trans : scope.value }}</li>
+        <li data-scope="{{ scope.value }}">{{ include('@Beffroi/scope_word.html.twig', {scope: scope.value}) }}</li>
     {% endfor %}
 </ul>

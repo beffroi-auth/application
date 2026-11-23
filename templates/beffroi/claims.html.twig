@@ -1,11 +1,9 @@
 {# The claims a request asks for one by one, or that a consent holds by name (OIDC Core §5.5), in the
-   language of the reader: the claims of OIDC Core §5.1 in the words the page of the account says them in,
-   any other by its name. Included by the consent page of an interaction and by the pages of the account that
-   list what is in force, so that a claim is said the same way wherever it is read. #}
-{% trans_default_domain 'beffroi' %}
-{% set described_claims = ['name', 'given_name', 'family_name', 'middle_name', 'nickname', 'preferred_username', 'profile', 'picture', 'website', 'email', 'email_verified', 'gender', 'birthdate', 'zoneinfo', 'locale', 'phone_number', 'phone_number_verified', 'address', 'updated_at'] %}
+   language of the reader, each said by claim_word. Included by the consent page of an interaction and by
+   the pages of the account that list what is in force, so that a claim is said the same way wherever it is
+   read. #}
 <ul>
     {% for claim in claims %}
-        <li data-claim="{{ claim }}">{{ claim in described_claims ? ('profile.' ~ claim)|trans : claim }}</li>
+        <li data-claim="{{ claim }}">{{ include('@Beffroi/claim_word.html.twig', {claim: claim}) }}</li>
     {% endfor %}
 </ul>

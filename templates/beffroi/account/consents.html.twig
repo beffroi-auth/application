@@ -1,6 +1,8 @@
 {# What the signed-in user has agreed to (architecture §5.2), in the language of the browser: one line
    per client that may obtain something about them, what each was granted and when, and the button that
-   takes one back. #}
+   takes one back. The list is narrowed by what ConsentsPage reads ("question", a ConsentQuestion): what
+   the name of the application contains, one access of those the consents of the person grant ("granted",
+   "access" the one read), and the days it was granted. #}
 {% extends '@Beffroi/layout.html.twig' %}
 {% trans_default_domain 'beffroi' %}
 
@@ -9,7 +11,23 @@
 {% block content %}
     {{ include('@Beffroi/account/back.html.twig') }}
     <p>{{ 'consents.explanation'|trans }}</p>
-    {{ include('@Beffroi/account/period.html.twig', {period: period}) }}
+    {% embed '@Beffroi/account/filter.html.twig' %}
+        {% trans_default_domain 'beffroi' %}
+        {% block fields %}
+            {{ include('@Beffroi/account/filter_text.html.twig', {name: 'application', label: 'consents.application', typed: question.applicationName}) }}
+            {# An access is named as the column names it, a type of authorization details by its name. #}
+            {{ include('@Beffroi/account/filter_choice.html.twig', {
+                name: 'access',
+                label: 'consents.access',
+                any: 'consents.filter.every_access',
+                options: granted.scopes|map(scope => {value: 'scope:' ~ scope.value, label: include('@Beffroi/scope_word.html.twig', {scope: scope.value})})
+                    |merge(granted.claims|map(claim => {value: 'claim:' ~ claim, label: include('@Beffroi/claim_word.html.twig', {claim: claim})}))
+                    |merge(granted.types|map(type => {value: 'type:' ~ type, label: type})),
+                chosen: access,
+            }) }}
+            {{ include('@Beffroi/account/filter_period.html.twig', {legend: 'consents.granted_at', from: 'from', to: 'to', period: question.granted}) }}
+        {% endblock %}
+    {% endembed %}
     <div data-table>
         <table data-consents="{{ consents|length }}">
             <thead>
@@ -44,7 +62,7 @@
                 {% else %}
                     {# A table that holds nothing keeps its head and says so in one row of its own, which is
                        how every table of this plane says it. #}
-                    <tr data-empty><td colspan="4">{{ (period is null ? 'consents.none' : 'consents.none_in_period')|trans }}</td></tr>
+                    <tr data-empty><td colspan="4">{{ (narrowed ? 'consents.none_matching' : 'consents.none')|trans }}</td></tr>
                 {% endfor %}
             </tbody>
         </table>

@@ -2,8 +2,9 @@
    the browser: one line per change, the claim it is about, what it said before, what it says now, when
    it was made and whether they made it or an administrator of their organisation did, who is never
    named (decision 0038). A page of its own, under the page of the information, because it is the one
-   thing of that record that grows without end: it is read in pages and over the stretch of time asked
-   for. #}
+   thing of that record that grows without end: it is read in pages, narrowed by what ClaimChangesPage
+   reads ("question", a ClaimChangeQuestion): the days of the change, one claim of those the changes of the
+   person are about ("claims"), and who made it. #}
 {% extends '@Beffroi/layout.html.twig' %}
 {% trans_default_domain 'beffroi' %}
 
@@ -11,7 +12,29 @@
 
 {% block content %}
     {{ include('@Beffroi/account/back.html.twig') }}
-    {{ include('@Beffroi/account/period.html.twig', {period: period}) }}
+    {% embed '@Beffroi/account/filter.html.twig' %}
+        {% trans_default_domain 'beffroi' %}
+        {% block fields %}
+            {{ include('@Beffroi/account/filter_choice.html.twig', {
+                name: 'claim',
+                label: 'profile.changed_what',
+                any: 'changes.filter.every_claim',
+                options: claims|map(claim => {value: claim, label: ('profile.' ~ claim)|trans}),
+                chosen: question.claim,
+            }) }}
+            {{ include('@Beffroi/account/filter_choice.html.twig', {
+                name: 'by',
+                label: 'profile.changed_by',
+                any: 'changes.filter.by_anyone',
+                options: [
+                    {value: 'you', label: 'changes.by_you'|trans},
+                    {value: 'administrator', label: 'acts.by_an_administrator'|trans},
+                ],
+                chosen: question.byAnAdministrator is null ? null : (question.byAnAdministrator ? 'administrator' : 'you'),
+            }) }}
+            {{ include('@Beffroi/account/filter_period.html.twig', {legend: 'profile.changed_when', from: 'from', to: 'to', period: question.period}) }}
+        {% endblock %}
+    {% endembed %}
     <div data-table>
         <table data-changes="{{ changes|length }}">
             <thead>
@@ -35,7 +58,7 @@
                 {% else %}
                     {# A table that holds nothing keeps its head and says so in one row of its own, which is
                        how every table of this plane says it. #}
-                    <tr data-empty><td colspan="5">{{ (period is null ? 'profile.changed_nothing' : 'changes.none_in_period')|trans }}</td></tr>
+                    <tr data-empty><td colspan="5">{{ (narrowed ? 'changes.none_matching' : 'profile.changed_nothing')|trans }}</td></tr>
                 {% endfor %}
             </tbody>
         </table>

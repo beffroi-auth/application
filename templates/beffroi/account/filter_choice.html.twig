@@ -1,0 +1,13 @@
+{# One word a table is narrowed by (AskedWord): "name" is the word of the query string, "label" what it
+   chooses, the head of its column, "any" the first choice, the table as it opens, "options" the words the
+   table offers, each with what it reads ({value, label}), and "chosen" the word that was read. #}
+{% trans_default_domain 'beffroi' %}
+<div data-filter-choice="{{ name }}">
+    <label for="filter-{{ name }}">{{ label|trans }}</label>
+    <select id="filter-{{ name }}" name="{{ name }}">
+        <option value="">{{ any|trans }}</option>
+        {% for option in options %}
+            <option value="{{ option.value }}"{% if chosen is not null and option.value == chosen %} selected{% endif %}>{{ option.label }}</option>
+        {% endfor %}
+    </select>
+</div>

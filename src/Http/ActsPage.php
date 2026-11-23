@@ -24,26 +24,40 @@ final readonly class ActsPage
      */
     public const array ACTS = [...ActsOfAnAccount::NAMES, ...ConsentActs::NAMES, ...ReadsByAnAdministrator::NAMES];
 
+    public const string ACT = 'act';
+
+    public const string AUTHOR = 'by';
+
+    public const string BY_A_REQUEST = 'request';
+
+    public const string BY_AN_ADMINISTRATOR = 'administrator';
+
     public function __construct(
         private CanPageActsOfAPersonInterface $acts,
         private AskedPage $asked,
         private AskedPeriod $period,
+        private AskedWord $word,
         private InteractionPages $pages,
     ) {
     }
 
     public function render(User $user): Response
     {
-        $period = $this->period->asked($user);
+        $act = $this->word->among(self::ACT, self::ACTS);
+        $question = new JournalQuestion(
+            $act === null ? self::ACTS : [$act],
+            period: $this->period->asked($user),
+            unlessTheirOwn: ReadsByAnAdministrator::NAMES,
+            byAnAdministrator: $this->word->either(self::AUTHOR, self::BY_AN_ADMINISTRATOR, self::BY_A_REQUEST),
+        );
 
         return $this->pages->render('account/acts.html.twig', [
             'user' => $user,
-            'acts' => $this->acts->pageOfActs(
-                $user,
-                new JournalQuestion(self::ACTS, period: $period, unlessTheirOwn: ReadsByAnAdministrator::NAMES),
-                $this->asked->asked(),
-            ),
-            'period' => $period,
+            'acts' => $this->acts->pageOfActs($user, $question, $this->asked->asked()),
+            'question' => $question,
+            'act' => $act,
+            'narrowed' => $act !== null || $question->period !== null || $question->byAnAdministrator !== null,
+            'offered' => self::ACTS,
         ]);
     }
 }
