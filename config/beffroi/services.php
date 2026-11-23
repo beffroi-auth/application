@@ -59,6 +59,7 @@ use App\Trust\IssuerAssertionReplayGuard;
 use App\Client\RequestObjectReplayGuard;
 use App\Client\ClientJwksCache;
 use App\Client\ClientJwksFetcher;
+use App\Client\RegistrationsReadOncePerRequest;
 use App\Client\RequestObjectFetcher;
 use App\Client\SectorIdentifierDocumentFetcher;
 use App\Doctrine\Listener\ClientResolver;
@@ -1704,11 +1705,13 @@ return static function (ContainerConfigurator $container): void {
 
     $services->set(ConfigurationClientRepository::class)->tag('beffroi.oidc.client_source')->tag('beffroi.oidc.client_inventory');
     // Only stored clients are tagged for the removal of unused ones: a declared client is never deleted.
+    $services->set(DoctrineClientRepository::class)->tag('beffroi.oidc.client_inventory')->tag('beffroi.oidc.unused_clients');
     $services
-        ->set(DoctrineClientRepository::class)
-        ->tag('beffroi.oidc.client_source')
-        ->tag('beffroi.oidc.client_inventory')
-        ->tag('beffroi.oidc.unused_clients');
+        ->set(RegistrationsReadOncePerRequest::class)
+        ->args([service(DoctrineClientRepository::class)])
+        ->tag('beffroi.oidc.client_source')->tag('kernel.reset', [
+        'method' => 'reset',
+    ]);
     $services->set(RegisteredClients::class)->args([tagged_iterator('beffroi.oidc.client_source')]);
     $services->alias(ClientRepositoryInterface::class, RegisteredClients::class);
     $services->alias(PushedAuthorizationRequirementInterface::class, RegisteredClients::class);
