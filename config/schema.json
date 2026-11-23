@@ -2048,6 +2048,32 @@
                         },
                         "description": "How a client that nobody declared comes to exist here (RFC 7591, decision 0009). Absent, the tenant registers nobody, which is the default and what a deployment that writes nothing gets."
                     },
+                    "outbound": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "reachable_private_networks": {
+                                "anyOf": [
+                                    {
+                                        "$ref": "#/$defs/types/array_null",
+                                        "items": {
+                                            "$ref": "#/$defs/types/scalar"
+                                        }
+                                    },
+                                    {
+                                        "type": [
+                                            "string"
+                                        ]
+                                    }
+                                ],
+                                "description": "The networks of the deployment such a request may reach, IP addresses or networks in CIDR notation. Every other private, loopback, link-local or reserved address is refused, checked once the name is resolved and on every address the request connects to (decision 0006). Empty, the default, reaches none: a deployment whose clients answer on its own networks names those networks and no wider."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "reachable_private_networks": []
+                        },
+                        "description": "The requests whose URL a client, a registrant or a person chooses: a jwks_uri, a sector_identifier_uri, a request_uri, a back-channel logout URI, a CIBA notification endpoint, the endpoint of a push subscription."
+                    },
                     "saml": {
                         "$ref": "#/$defs/types/object_null",
                         "properties": {

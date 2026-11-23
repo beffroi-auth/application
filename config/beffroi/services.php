@@ -189,6 +189,7 @@ use App\Http\InteractionPages;
 use App\Http\ClientNotificationSender;
 use App\Http\PendingApprovalsPage;
 use App\Http\LogoutTokenSender;
+use App\Http\ThirdPartyRequestsPass;
 use App\Http\PasskeyOptionsStore;
 use App\Http\ClaimChangesPage;
 use App\Http\ProfilePage;
@@ -955,7 +956,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(OfferedChannels::class)->args([service('beffroi.pending_approval_channels')]);
     $services->set(AskedChannels::class);
     $services->set(ChannelChoice::class);
-    $services->set(WebPushSender::class);
+    $services->set(WebPushSender::class)->tag(ThirdPartyRequestsPass::TAG);
     $services->set(WebPushBroadcast::class);
     $services->set(MailSender::class);
     $services->set(MailSenderAddress::class);
@@ -1268,8 +1269,8 @@ return static function (ContainerConfigurator $container): void {
             iterator([service(SmsAddressConfirmationChannel::class)]),
         ]),
     ]);
-    $services->set(LogoutTokenSender::class);
-    $services->set(ClientNotificationSender::class);
+    $services->set(LogoutTokenSender::class)->tag(ThirdPartyRequestsPass::TAG);
+    $services->set(ClientNotificationSender::class)->tag(ThirdPartyRequestsPass::TAG);
     $services->set(LogoutTokenGivenUpListener::class);
     $services->set(KeysOpenedAtWorkerStart::class)->args([service(KeysOpenedAtStart::BY_THE_CONSUMER)]);
     $services->set(NotificationRetryPolicy::class);
@@ -1729,7 +1730,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(RegistrationAuthorizations::class)->args([tagged_iterator('beffroi.oidc.registration_mode')]);
     $services->set(RegistrationHeldToTheTenant::class);
     $services->set(RegistrationSignedWithHeldKeys::class);
-    $services->set(SectorIdentifierDocumentFetcher::class);
+    $services->set(SectorIdentifierDocumentFetcher::class)->tag(ThirdPartyRequestsPass::TAG);
     $services->alias(SectorIdentifierDocumentFetcherInterface::class, SectorIdentifierDocumentFetcher::class);
     $services->set(RegistrationHeldToItsSector::class);
     $services->set(RegistrationUnderThePolicy::class);
@@ -1786,7 +1787,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(ClientAssertionValidator::class);
     $services->set(AcceptedAssertionAudiences::class);
     $services->set(ClientKeySetProvider::class)->args([service('beffroi.oidc.client_keys.provider')]);
-    $services->set(ClientJwksFetcher::class);
+    $services->set(ClientJwksFetcher::class)->tag(ThirdPartyRequestsPass::TAG);
     $services->alias(ClientJwksFetcherInterface::class, ClientJwksFetcher::class);
     $services->set('beffroi.oidc.client_keys.cache', ClientJwksCache::class)->args([
         '$cache' => service('beffroi.client_keys'),
@@ -1895,7 +1896,7 @@ return static function (ContainerConfigurator $container): void {
         inline_service(SeenOnce::class)->args([service('beffroi.request_objects')]),
     ]);
     $services->alias(RequestObjectReplayGuardInterface::class, RequestObjectReplayGuard::class);
-    $services->set(RequestObjectFetcher::class);
+    $services->set(RequestObjectFetcher::class)->tag(ThirdPartyRequestsPass::TAG);
     $services->alias(RequestObjectFetcherInterface::class, RequestObjectFetcher::class);
     $services->set(PushedAuthorizationHandler::class);
     $services->set(DeviceAuthorizationHandler::class);
