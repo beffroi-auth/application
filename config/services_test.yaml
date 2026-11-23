@@ -39,6 +39,12 @@ services:
     test.beffroi.browser_session:
         alias: App\Http\BrowserSession
         public: true
+    test.beffroi.clients:
+        alias: Beffroi\Oidc\Port\ClientRepositoryInterface
+        public: true
+    test.beffroi.consents:
+        alias: Beffroi\Oidc\Port\ConsentRepositoryInterface
+        public: true
     # The client the demonstration takes a hop with, which a test hands the answers of
     # (MockHttpClient::setResponseFactory()).
     test.app.demonstration_http_client:

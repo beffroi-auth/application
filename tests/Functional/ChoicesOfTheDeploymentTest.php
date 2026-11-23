@@ -9,17 +9,28 @@ use function explode;
 use function json_decode;
 use function json_encode;
 use const JSON_THROW_ON_ERROR;
+use Beffroi\Core\Domain\Identity\User;
+use Beffroi\Oidc\Domain\Consent\Consent;
+use Beffroi\Oidc\Domain\Scope\Scope;
+use Beffroi\Oidc\Domain\Scope\Scopes;
+use Beffroi\Oidc\Port\ClientRepositoryInterface;
+use Beffroi\Oidc\Port\ConsentRepositoryInterface;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Notifier\Bridge\Sweego\SweegoTransport;
 use Symfony\Component\Notifier\Transport\TransportInterface;
+use function sprintf;
 use function trim;
+use Symfony\Component\Uid\Uuid;
 
 final class ChoicesOfTheDeploymentTest extends BrowserTestCase
 {
+    private const string ASKING_CLIENT = 'consent-app';
+
     private const array CHOICES = [
         'BEFFROI_REGISTRATION_MODE' => 'initial_access_token',
         'BEFFROI_TENANT_NAME' => 'Example Corporation',
@@ -223,9 +234,35 @@ final class ChoicesOfTheDeploymentTest extends BrowserTestCase
     public function theLoginPageOffersTheUserTheHintNamesTheWayTheDeploymentReadsIt(): void
     {
         // Given
+        self::agree(self::user(), self::ASKING_CLIENT);
+
+        // When
+        $page = $this->loginPageHinting('alice');
+
+        // Then
+        static::assertSame('alice', $page->filter('input#username')->attr('value'));
+    }
+
+    /**
+     * OIDC Core §8, decision 0006
+     */
+    #[Test]
+    public function theLoginPageOffersNothingOfAPersonWhoGaveTheClientNoConsent(): void
+    {
+        // Given
         self::user();
+
+        // When
+        $page = $this->loginPageHinting('alice');
+
+        // Then
+        static::assertSame('', $page->filter('input#username')->attr('value'));
+    }
+
+    private function loginPageHinting(string $hint): Crawler
+    {
         $this->browser->request('GET', '/authorize', [
-            'client_id' => 'consent-app',
+            'client_id' => self::ASKING_CLIENT,
             'redirect_uri' => 'https://consent.test/callback',
             'response_type' => 'code',
             'scope' => 'openid profile',
@@ -233,14 +270,20 @@ final class ChoicesOfTheDeploymentTest extends BrowserTestCase
             'nonce' => 'nonce-of-the-client',
             'code_challenge' => 'E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM',
             'code_challenge_method' => 'S256',
-            'login_hint' => 'alice',
+            'login_hint' => $hint,
         ]);
 
-        // When
-        $page = $this->browser->followRedirect();
+        return $this->browser->followRedirect();
+    }
 
-        // Then
-        static::assertSame('alice', $page->filter('input#username')->attr('value'));
+    private static function agree(User $user, string $clientId): void
+    {
+        $client = self::service('test.beffroi.clients', ClientRepositoryInterface::class)->findByClientId(self::tenant(), $clientId) ?? static::fail(sprintf(
+            'The client "%s" is not declared.',
+            $clientId,
+        ));
+        self::service('test.beffroi.consents', ConsentRepositoryInterface::class)
+            ->save(new Consent(Uuid::v7(), $user, $client, new Scopes([Scope::openid()]), self::now()));
     }
 
     /**
