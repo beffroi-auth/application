@@ -8,11 +8,11 @@ use App\Http\Account\ReachedOnTheSessionAloneInterface;
 use App\Http\AccountAccess;
 use App\Http\InteractionPages;
 use App\Http\WhatWasRefused;
+use Beffroi\Core\Domain\Encoding\PlainText;
 use Beffroi\Core\Application\Push\PushSubscriptionEnrolment;
 use Beffroi\Core\Exception\InvalidArgumentException;
 use Beffroi\Core\Exception\KeyNotFoundException;
 use Beffroi\Core\Port\ApplicationServerAlgorithmsInterface;
-use function mb_strlen;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -72,7 +72,7 @@ final readonly class PushSubscriptionController implements ReachedOnTheSessionAl
                 $request->request->getString(self::ENDPOINT_PARAMETER),
                 $request->request->getString(self::PUBLIC_KEY_PARAMETER),
                 $request->request->getString(self::AUTH_SECRET_PARAMETER),
-                $label === '' || mb_strlen($label) > self::LABEL_MAX_LENGTH ? null : $label,
+                $label === '' || ! PlainText::holds($label, self::LABEL_MAX_LENGTH) ? null : $label,
             );
         } catch (InvalidArgumentException) {
             return $this->refused($request, self::REFUSED);
