@@ -67,7 +67,7 @@
             <tbody>
                 {% for subscription in subscriptions %}
                     <tr data-subscription="{{ subscription.id }}" data-endpoint="{{ subscription.endpointHash }}">
-                        <td>
+                        <td data-label="{{ 'notifications.label'|trans }}">
                             {# The name is the holder's and theirs to correct, in the line where they read it.
                                The row of the browser showing the page says so, which only that browser knows:
                                the word is here and the script of the provider uncovers it. #}
@@ -79,8 +79,8 @@
                             </form>
                             <span data-subscription-current hidden>{{ 'notifications.this_browser'|trans }}</span>
                         </td>
-                        <td><time datetime="{{ subscription.createdAt|date('c') }}">{{ subscription.createdAt|beffroi_moment(user) }}</time></td>
-                        <td>{% if subscription.lastPushedAt is not null %}<time datetime="{{ subscription.lastPushedAt|date('c') }}">{{ subscription.lastPushedAt|beffroi_moment(user) }}</time>{% else %}{{ 'notifications.never_pushed'|trans }}{% endif %}</td>
+                        <td data-label="{{ 'notifications.created_at'|trans }}"><time datetime="{{ subscription.createdAt|date('c') }}">{{ subscription.createdAt|beffroi_moment(user) }}</time></td>
+                        <td data-label="{{ 'notifications.last_pushed_at'|trans }}">{% if subscription.lastPushedAt is not null %}<time datetime="{{ subscription.lastPushedAt|date('c') }}">{{ subscription.lastPushedAt|beffroi_moment(user) }}</time>{% else %}{{ 'notifications.never_pushed'|trans }}{% endif %}</td>
                         <td>
                             <form method="post" action="{{ path('beffroi_interaction_account_notifications_revoke', {id: subscription.id}) }}" data-subscription="revoke">
                                 <input type="hidden" name="_token" value="{{ csrf_token('beffroi_push_revoke') }}">

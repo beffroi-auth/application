@@ -55,13 +55,13 @@
                 {% for session in sessions %}
                     {% set is_current = session.id.toString == current %}
                     <tr data-session="{{ session.id }}" data-current="{{ is_current ? 'yes' : 'no' }}">
-                        <td>
+                        <td data-label="{{ 'sessions.proved'|trans }}">
                             <span data-acr="{{ session.authenticationContextClass.value }}">{{ session.authenticationContextClass.value }}</span>
                             <span data-amr="{{ session.proofs.methodReferences|join(' ') }}">{{ session.proofs.methodReferences|join(', ') }}</span>
                         </td>
-                        <td><time datetime="{{ session.establishedAt|date('c') }}">{{ session.establishedAt|beffroi_moment(user) }}</time></td>
-                        <td><time datetime="{{ session.lastSeenAt|date('c') }}">{{ session.lastSeenAt|beffroi_moment(user) }}</time></td>
-                        <td>{{ include('@Beffroi/account/provenance.html.twig', {provenance: session.lastSeenFrom}) }}</td>
+                        <td data-label="{{ 'sessions.opened_at'|trans }}"><time datetime="{{ session.establishedAt|date('c') }}">{{ session.establishedAt|beffroi_moment(user) }}</time></td>
+                        <td data-label="{{ 'sessions.last_seen'|trans }}"><time datetime="{{ session.lastSeenAt|date('c') }}">{{ session.lastSeenAt|beffroi_moment(user) }}</time></td>
+                        <td data-label="{{ 'sessions.from'|trans }}">{{ include('@Beffroi/account/provenance.html.twig', {provenance: session.lastSeenFrom}) }}</td>
                         <td>
                             {% if is_current %}<span data-session-current>{{ 'sessions.this_browser'|trans }}</span>{% endif %}
                             <form method="post" action="{{ path('beffroi_interaction_account_sessions_revoke', {id: session.id}) }}">

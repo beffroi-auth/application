@@ -49,11 +49,11 @@
             <tbody>
                 {% for change in changes %}
                     <tr data-change="{{ change.claim }}">
-                        <td>{{ ('profile.' ~ change.claim)|trans }}</td>
-                        <td>{{ include('@Beffroi/account/claim_value.html.twig', {claim: change.claim, value: change.was}) }}</td>
-                        <td>{{ include('@Beffroi/account/claim_value.html.twig', {claim: change.claim, value: change.became}) }}</td>
-                        <td><time datetime="{{ change.changedAt|date('c') }}">{{ change.changedAt|beffroi_moment(user) }}</time></td>
-                        <td data-author="{{ change.author is null ? 'person' : 'administrator' }}">{{ (change.author is null ? 'changes.by_you' : 'acts.by_an_administrator')|trans }}</td>
+                        <td data-label="{{ 'profile.changed_what'|trans }}">{{ ('profile.' ~ change.claim)|trans }}</td>
+                        <td data-label="{{ 'profile.changed_from'|trans }}">{{ include('@Beffroi/account/claim_value.html.twig', {claim: change.claim, value: change.was}) }}</td>
+                        <td data-label="{{ 'profile.changed_to'|trans }}">{{ include('@Beffroi/account/claim_value.html.twig', {claim: change.claim, value: change.became}) }}</td>
+                        <td data-label="{{ 'profile.changed_when'|trans }}"><time datetime="{{ change.changedAt|date('c') }}">{{ change.changedAt|beffroi_moment(user) }}</time></td>
+                        <td data-label="{{ 'profile.changed_by'|trans }}" data-author="{{ change.author is null ? 'person' : 'administrator' }}">{{ (change.author is null ? 'changes.by_you' : 'acts.by_an_administrator')|trans }}</td>
                     </tr>
                 {% else %}
                     {# A table that holds nothing keeps its head and says so in one row of its own, which is

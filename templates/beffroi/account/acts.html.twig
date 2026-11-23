@@ -53,9 +53,9 @@
             <tbody>
                 {% for act in acts %}
                     <tr data-act="{{ act.act }}">
-                        <td>{{ ('act.' ~ act.act)|trans }}</td>
-                        <td><time datetime="{{ act.occurredAt|date('c') }}">{{ act.occurredAt|beffroi_moment(user) }}</time></td>
-                        <td>
+                        <td data-label="{{ 'acts.what'|trans }}">{{ ('act.' ~ act.act)|trans }}</td>
+                        <td data-label="{{ 'acts.when'|trans }}"><time datetime="{{ act.occurredAt|date('c') }}">{{ act.occurredAt|beffroi_moment(user) }}</time></td>
+                        <td data-label="{{ 'acts.from'|trans }}">
                             {%- if act.author is not null -%}
                                 <span data-author>{{ 'acts.by_an_administrator'|trans }}</span>
                             {%- else -%}

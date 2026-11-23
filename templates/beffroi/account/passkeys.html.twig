@@ -106,7 +106,7 @@
             <tbody>
                 {% for passkey in passkeys %}
                     <tr data-passkey="{{ passkey.id }}" data-revoked="{{ passkey.revoked ? 'yes' : 'no' }}">
-                        <td>
+                        <td data-label="{{ 'passkeys.name'|trans }}">
                             {# The name is the holder's and theirs to correct, in the line where they read it;
                                a revoked passkey is a record of what was and is not renamed. #}
                             {% if passkey.revoked %}
@@ -132,7 +132,7 @@
                         {% set model = passkey|beffroi_authenticator %}
                         {% set backup = not passkey.backupEligible ? 'single_device' : (passkey.backedUp ? 'backed_up' : 'not_backed_up') %}
                         {% set transports = passkey.reachedThrough %}
-                        <td data-authenticator="{{ model is null ? 'unknown' : model.source }}">
+                        <td data-label="{{ 'passkeys.held_by'|trans }}" data-authenticator="{{ model is null ? 'unknown' : model.source }}">
                             {% if model is null %}
                                 <span data-model>{{ 'passkeys.authenticator.unknown'|trans }}</span>
                             {% else %}
@@ -158,7 +158,7 @@
                         </td>
                         {# What the flags of the passkey say, synced or bound to its device (WebAuthn Level 3
                            §6.1.3), and how it is reached (§5.8.4). #}
-                        <td data-features>
+                        <td data-label="{{ 'passkeys.features'|trans }}" data-features>
                             <span data-backup="{{ backup }}">{{ ('passkeys.backup.' ~ backup)|trans }}</span>
                             {% if transports is not empty %}
                                 <span data-transports="{{ transports|map(transport => transport.value)|join(' ') }}">
@@ -166,9 +166,9 @@
                                 </span>
                             {% endif %}
                         </td>
-                        <td><time datetime="{{ passkey.createdAt|date('c') }}">{{ passkey.createdAt|beffroi_moment(user) }}</time></td>
-                        <td>{% if passkey.lastUsedAt is not null %}<time datetime="{{ passkey.lastUsedAt|date('c') }}">{{ passkey.lastUsedAt|beffroi_moment(user) }}</time>{% else %}{{ 'passkeys.never_used'|trans }}{% endif %}</td>
-                        <td>{% if passkey.revoked %}{{ 'passkeys.revoked_at'|trans({date: passkey.revokedAt|beffroi_moment(user)}) }}{% else %}{{ 'passkeys.active'|trans }}{% endif %}</td>
+                        <td data-label="{{ 'passkeys.created_at'|trans }}"><time datetime="{{ passkey.createdAt|date('c') }}">{{ passkey.createdAt|beffroi_moment(user) }}</time></td>
+                        <td data-label="{{ 'passkeys.last_used_at'|trans }}">{% if passkey.lastUsedAt is not null %}<time datetime="{{ passkey.lastUsedAt|date('c') }}">{{ passkey.lastUsedAt|beffroi_moment(user) }}</time>{% else %}{{ 'passkeys.never_used'|trans }}{% endif %}</td>
+                        <td data-label="{{ 'passkeys.state'|trans }}">{% if passkey.revoked %}{{ 'passkeys.revoked_at'|trans({date: passkey.revokedAt|beffroi_moment(user)}) }}{% else %}{{ 'passkeys.active'|trans }}{% endif %}</td>
                         <td>
                             {% if not passkey.revoked %}
                                 <form method="post" action="{{ path('beffroi_interaction_account_passkeys_revoke', {id: passkey.id}) }}" data-passkey="revoke">

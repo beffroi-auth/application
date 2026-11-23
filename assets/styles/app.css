@@ -191,15 +191,17 @@
         }
     }
 
+    /* A column out of sight is out of reach too: hidden, the keyboard does not walk through ten links nobody
+       sees, and it is shown again before it slides in. */
     @media (width < 64rem) {
         #layout-sidebar {
-            @apply fixed top-0 bottom-0 z-30 transition-[margin] duration-200;
+            @apply invisible fixed top-0 bottom-0 z-30 transition-[margin,visibility] duration-200;
 
             margin-inline-start: -16rem;
         }
 
         #layout-pages-switch:checked ~ #layout-sidebar {
-            @apply shadow-xl;
+            @apply visible shadow-xl;
 
             margin-inline-start: 0;
         }
@@ -408,8 +410,9 @@
         @apply mt-4 flex flex-wrap gap-2;
     }
 
+    /* A scope described in a sentence goes on to a second line inside its badge, never out of it. */
     main li[data-scope] {
-        @apply badge badge-outline badge-lg;
+        @apply badge badge-outline badge-lg h-auto min-h-(--size) max-w-full py-0.5;
     }
 
     /*
@@ -629,7 +632,8 @@
     }
 
     /* One line per thing the account holds: the frame of the table is the panel, and a revoked line is spent.
-       A table wider than the screen is read across inside its frame, and the page never scrolls sideways. */
+       A table wider than the screen is read across inside its frame, and the page never scrolls sideways;
+       on a phone it is a card per line (below). */
     main[data-page="account"] div[data-table] {
         @apply overflow-x-auto rounded-box border border-base-300 bg-base-100;
     }
@@ -1291,5 +1295,203 @@
        and is read in the letters of code so that the block keeps its shape. */
     main[data-page="account"] form[data-mail-encryption="give"] textarea {
         @apply font-mono text-sm;
+    }
+
+    /*
+     * The pages of the account on a phone. Nothing is wider than the screen: a value too long for its line
+     * breaks, a line of the profile puts its label above its field, and a table is read one card per line,
+     * each value under the name of its column (the data-label of its cell). A button that waits for the
+     * pointer is shown where there is no pointer to wait for.
+     */
+    main[data-page="account"] :is(dd, span[data-detail], code[data-two-factor="key"]) {
+        @apply min-w-0;
+
+        overflow-wrap: anywhere;
+    }
+
+    main[data-page="account"] code[data-two-factor="key"] {
+        @apply h-auto max-w-full whitespace-normal;
+    }
+
+    @media (hover: none) {
+        main[data-page="account"] form[data-editable] button[data-save],
+        main[data-page="account"] form:is([data-passkey="rename"], [data-subscription="rename"]) button[data-save] {
+            @apply visible;
+        }
+    }
+
+    /* A finger is wider than a pointer: what is pressed on a page of the account is the size of a button
+       of the page and not of a line of a table. */
+    @media (pointer: coarse) {
+        main[data-page="account"] form button[type="submit"],
+        main[data-page="account"] form[data-editable] button[data-save],
+        main[data-page="account"] form[data-filter="table"] button[data-filter="apply"],
+        main[data-page="account"] form[data-filter="table"] a[data-filter="clear"],
+        main[data-page="account"] div[data-heading-row] :is(a, button),
+        main[data-page="account"] nav[data-pager] :is(a, span)[data-pager] {
+            @apply btn-md;
+        }
+
+        main[data-page="account"] form:is([data-passkey="rename"], [data-subscription="rename"]) button[data-save] {
+            @apply btn-sm;
+        }
+    }
+
+    @media (width < 40rem) {
+        main[data-page="account"] section[data-panel] {
+            @apply p-4;
+        }
+
+        main[data-page="account"] dl {
+            @apply grid-cols-1 gap-y-0.5 p-4;
+        }
+
+        main[data-page="account"] dd:not(:first-of-type) {
+            @apply border-t-0 pt-0;
+        }
+
+        main[data-page="account"] dt:not(:first-of-type) {
+            @apply mt-2;
+        }
+
+        main[data-page="account"] li[data-claim]:has(> span[data-label]),
+        main[data-page="account"] form[data-editable] {
+            @apply grid-cols-[minmax(0,1fr)_auto] gap-x-2 gap-y-0.5 px-2;
+        }
+
+        main[data-page="account"] li[data-claim] > span[data-label],
+        main[data-page="account"] li[data-claim] > span[data-detail],
+        main[data-page="account"] form[data-editable] label {
+            @apply col-span-2;
+        }
+
+        main[data-page="account"] li[data-claim] span[data-detail],
+        main[data-page="account"] form[data-editable] :is(input, select) {
+            @apply px-0;
+        }
+
+        main[data-page="account"] form[data-editable] :is(input, select):focus {
+            @apply px-2;
+        }
+
+        main[data-page="account"] form[data-editable] :is(ul li, p) {
+            @apply col-span-2 col-start-1;
+        }
+
+        /* What narrows a table is a column of its own fields, each as wide as the card, a day beside the
+           word that says which end of the period it is. */
+        main[data-page="account"] form[data-filter="table"] div[data-filter="fields"] {
+            @apply flex-col items-stretch;
+        }
+
+        main[data-page="account"] form[data-filter="table"] :is(div[data-filter-choice] select, div[data-filter-text] input) {
+            @apply w-full min-w-0;
+        }
+
+        main[data-page="account"] form[data-filter="table"] fieldset[data-filter-period] label {
+            @apply w-10 shrink-0;
+        }
+
+        main[data-page="account"] form[data-filter="table"] fieldset[data-filter-period] input[type="date"] {
+            @apply w-[calc(100%-3rem)];
+        }
+
+        main[data-page="account"] form[data-filter="table"] div[data-filter="actions"] {
+            @apply w-full;
+        }
+
+        main[data-page="account"] form[data-filter="table"] :is(button[data-filter="apply"], a[data-filter="clear"]) {
+            @apply flex-1;
+        }
+
+        main[data-page="account"] ol[data-two-factor="enrol-steps"] > li[data-step] {
+            @apply p-4 ps-14;
+        }
+
+        main[data-page="account"] ol[data-two-factor="enrol-steps"] > li[data-step]::before {
+            @apply start-4 top-4;
+        }
+    }
+
+    @media (width < 48rem) {
+        main[data-page="account"] div[data-table] {
+            @apply overflow-visible rounded-none border-0 bg-transparent;
+        }
+
+        main[data-page="account"] div[data-table] :is(table, tbody, tr, td) {
+            @apply block;
+        }
+
+        main[data-page="account"] div[data-table] thead {
+            @apply sr-only;
+        }
+
+        main[data-page="account"] div[data-table] tbody {
+            @apply flex flex-col gap-3;
+        }
+
+        main[data-page="account"] div[data-table] tbody tr {
+            @apply flex flex-col gap-2 rounded-box border border-base-300 bg-base-100 p-4;
+        }
+
+        main[data-page="account"] div[data-table] tbody tr:hover {
+            @apply bg-base-100;
+        }
+
+        main[data-page="account"] div[data-table] tbody td {
+            @apply min-w-0 border-0 p-0 text-start;
+
+            overflow-wrap: anywhere;
+        }
+
+        main[data-page="account"] div[data-table] tbody td[data-label]::before {
+            @apply block pb-0.5 text-xs font-medium uppercase tracking-wide text-base-content/50;
+
+            content: attr(data-label);
+        }
+
+        /* What a line lets somebody do closes its card, on a line of its own and the width of a thumb. */
+        main[data-page="account"] div[data-table] tbody tr:not([data-empty]) td:not([data-label]):last-child {
+            @apply flex flex-wrap items-center gap-2 border-t border-base-200 pt-3;
+        }
+
+        main[data-page="account"] div[data-table] tbody tr:not([data-empty]) td:not([data-label]):last-child:not(:has(*)) {
+            @apply hidden;
+        }
+
+        main[data-page="account"] div[data-table] tbody button[name="revoke"] {
+            @apply my-0;
+        }
+
+        main[data-page="account"] div[data-table] form:is([data-passkey="rename"], [data-subscription="rename"]) input {
+            @apply w-full min-w-0 flex-1;
+        }
+
+        /* The control of the pages is a card of its own under the cards of the lines. */
+        main[data-page="account"] div[data-table]:has(+ nav[data-pager]) {
+            @apply rounded-box;
+        }
+
+        main[data-page="account"] nav[data-pager] {
+            @apply mt-0 rounded-box border-t;
+        }
+
+        /* The channels of each kind are a grid of boxes and stay one, its cells closer together and its
+           headings in the case of the words, which leaves the width of the screen to it. */
+        main[data-page="account"] form[data-channels] table {
+            @apply table-sm;
+        }
+
+        main[data-page="account"] form[data-channels] :is(th, td) {
+            @apply px-2;
+        }
+
+        main[data-page="account"] form[data-channels] thead th {
+            @apply normal-case tracking-normal;
+        }
+
+        main[data-page="account"] form[data-channels] thead th:first-child {
+            @apply whitespace-normal;
+        }
     }
 }

@@ -41,8 +41,8 @@
             <tbody>
                 {% for consent in consents %}
                     <tr data-consent="{{ consent.id }}" data-client="{{ consent.clientId }}">
-                        <td><a href="{{ path('beffroi_interaction_account_application', {id: consent.id}) }}">{{ consent.client.registration.presentation.name }}</a></td>
-                        <td>
+                        <td data-label="{{ 'consents.application'|trans }}"><a href="{{ path('beffroi_interaction_account_application', {id: consent.id}) }}">{{ consent.client.registration.presentation.name }}</a></td>
+                        <td data-label="{{ 'consents.access'|trans }}">
                             {{ include('@Beffroi/scopes.html.twig', {scopes: consent.scopes}) }}
                             {% if consent.claims is not empty %}
                                 {{ include('@Beffroi/claims.html.twig', {claims: consent.claims}) }}
@@ -51,7 +51,7 @@
                                 {{ include('@Beffroi/authorization_details.html.twig', {details: consent.authorizationDetails}) }}
                             {% endif %}
                         </td>
-                        <td><time datetime="{{ consent.grantedAt|date('c') }}">{{ consent.grantedAt|beffroi_moment(user) }}</time></td>
+                        <td data-label="{{ 'consents.granted_at'|trans }}"><time datetime="{{ consent.grantedAt|date('c') }}">{{ consent.grantedAt|beffroi_moment(user) }}</time></td>
                         <td>
                             <form method="post" action="{{ path('beffroi_interaction_account_consents_revoke', {id: consent.id}) }}">
                                 <input type="hidden" name="_token" value="{{ csrf_token('beffroi_consent_revoke') }}">
