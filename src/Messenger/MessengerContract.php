@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Messenger;
 
+use App\Configuration\SecretFile;
 use App\Message\Command;
 use App\Message\Event;
 use App\Message\Notification;
@@ -84,7 +85,7 @@ final readonly class MessengerContract
         $transports = ['sync' => 'sync://'];
         foreach (self::LANES as $lane) {
             $transports[$lane] = [
-                'dsn' => LaneDsn::of($lane, self::DSN_ENVIRONMENT_VARIABLE),
+                'dsn' => LaneDsn::of($lane, SecretFile::PREFIX . ':' . self::DSN_ENVIRONMENT_VARIABLE),
                 // The retirement of a signing key reads the same policy for how long a logout token travels.
                 'retry_strategy' => $lane === 'async_notifications'
                     ? ['service' => NotificationRetryPolicy::class]
