@@ -1,0 +1,2418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="sl" datatype="plaintext" original="beffroi">
+    <header>
+      <note>Every string a user reads on the pages of the provider (architecture §5.7), and the words of what the application draws around them: the theme, the controls of the bar, the headings the pages of the account are arranged under and the line each of them is read by. It wires no type of authorization detail and so says none: the type of the lab is said in src/Lab/translations/, with the lab. ICU message format: {client} is the name of the client, {username} the name of the user.</note>
+    </header>
+    <body>
+      <trans-unit id="b3bb2f3a07" resname="login.title">
+        <source>login.title</source>
+        <target>Prijava</target>
+      </trans-unit>
+      <trans-unit id="456091ca2c" resname="login.prompt">
+        <source>login.prompt</source>
+        <target>Za nadaljevanje v aplikacijo {client} se prijavite.</target>
+      </trans-unit>
+      <trans-unit id="80fbd248a3" resname="login.reauthentication">
+        <source>login.reauthentication</source>
+        <target>Za nadaljevanje se znova prijavite.</target>
+      </trans-unit>
+      <trans-unit id="d3cdf3d871" resname="login.step_up">
+        <source>login.step_up</source>
+        <target>Aplikacija {client} zahteva močnejšo prijavo.</target>
+      </trans-unit>
+      <trans-unit id="bc176883bc" resname="login.step_up_alone">
+        <source>login.step_up_alone</source>
+        <target>Zahtevana je močnejša prijava.</target>
+      </trans-unit>
+      <trans-unit id="6282806c35" resname="login.step_up.passkey">
+        <source>login.step_up.passkey</source>
+        <target>Zadostuje ključ za dostop.</target>
+      </trans-unit>
+      <trans-unit id="2063082125" resname="login.step_up.password">
+        <source>login.step_up.password</source>
+        <target>Zadostuje vaše geslo.</target>
+      </trans-unit>
+      <trans-unit id="9702602430" resname="login.step_up.totp">
+        <source>login.step_up.totp</source>
+        <target>Zadostuje vaše geslo, ki mu sledi koda iz aplikacije za preverjanje pristnosti.</target>
+      </trans-unit>
+      <trans-unit id="55b0f4b87b" resname="login.failed">
+        <source>login.failed</source>
+        <target>Napačno uporabniško ime ali geslo.</target>
+      </trans-unit>
+      <trans-unit id="04690da6d3" resname="login.username">
+        <source>login.username</source>
+        <target>Uporabniško ime</target>
+      </trans-unit>
+      <trans-unit id="f65ca78fed" resname="login.password">
+        <source>login.password</source>
+        <target>Geslo</target>
+      </trans-unit>
+      <trans-unit id="4fea9c0c55" resname="login.submit">
+        <source>login.submit</source>
+        <target>Prijava</target>
+      </trans-unit>
+      <trans-unit id="27c34297f7" resname="consent.title">
+        <source>consent.title</source>
+        <target>Dovoljenje za aplikacijo {client}</target>
+      </trans-unit>
+      <trans-unit id="732d4a5e7a" resname="consent.logo">
+        <source>consent.logo</source>
+        <target>Logotip aplikacije {client}</target>
+      </trans-unit>
+      <trans-unit id="db56775db9" resname="consent.signed_in_as">
+        <source>consent.signed_in_as</source>
+        <target>Prijavljeni ste kot {username}.</target>
+      </trans-unit>
+      <trans-unit id="55eb317d06" resname="consent.request">
+        <source>consent.request</source>
+        <target>Aplikacija {client} prosi za dostop do:</target>
+      </trans-unit>
+      <trans-unit id="57188e00f3" resname="consent.authorization_details">
+        <source>consent.authorization_details</source>
+        <target>Aplikacija {client} prosi tudi za dovoljenje za:</target>
+      </trans-unit>
+      <trans-unit id="dd97b47622" resname="consent.policy_uri">
+        <source>consent.policy_uri</source>
+        <target>Kako aplikacija {client} uporablja vaše podatke</target>
+      </trans-unit>
+      <trans-unit id="c7a5045153" resname="consent.tos_uri">
+        <source>consent.tos_uri</source>
+        <target>Pogoji uporabe aplikacije {client}</target>
+      </trans-unit>
+      <trans-unit id="8043c439f3" resname="consent.client_uri">
+        <source>consent.client_uri</source>
+        <target>Spletno mesto aplikacije {client}</target>
+      </trans-unit>
+      <trans-unit id="271b1bd84f" resname="consent.allow">
+        <source>consent.allow</source>
+        <target>Dovoli</target>
+      </trans-unit>
+      <trans-unit id="f2fab12b37" resname="consent.deny">
+        <source>consent.deny</source>
+        <target>Zavrni</target>
+      </trans-unit>
+      <trans-unit id="bbb000871f" resname="scope.openid">
+        <source>scope.openid</source>
+        <target>Vaš identifikator</target>
+      </trans-unit>
+      <trans-unit id="2e384f832b" resname="scope.profile">
+        <source>scope.profile</source>
+        <target>Vaš profil: ime, slika, jezik</target>
+      </trans-unit>
+      <trans-unit id="c5ee1b4219" resname="scope.email">
+        <source>scope.email</source>
+        <target>Vaš e-poštni naslov</target>
+      </trans-unit>
+      <trans-unit id="d7c77b8f51" resname="scope.address">
+        <source>scope.address</source>
+        <target>Vaš poštni naslov</target>
+      </trans-unit>
+      <trans-unit id="ef5674b605" resname="scope.phone">
+        <source>scope.phone</source>
+        <target>Vaša telefonska številka</target>
+      </trans-unit>
+      <trans-unit id="33607b30f0" resname="scope.offline_access">
+        <source>scope.offline_access</source>
+        <target>Dostop tudi v vaši odsotnosti, dokler ga ne prekličete</target>
+      </trans-unit>
+      <trans-unit id="aac9493a9a" resname="logout.title">
+        <source>logout.title</source>
+        <target>Odjava</target>
+      </trans-unit>
+      <trans-unit id="b62f1870d8" resname="logout.prompt.client">
+        <source>logout.prompt.client</source>
+        <target>Aplikacija {client} prosi za vašo odjavo.</target>
+      </trans-unit>
+      <trans-unit id="5c9a3f6527" resname="logout.prompt.anonymous">
+        <source>logout.prompt.anonymous</source>
+        <target>Aplikacija prosi za vašo odjavo.</target>
+      </trans-unit>
+      <trans-unit id="beb2b22fa9" resname="logout.signed_in_as">
+        <source>logout.signed_in_as</source>
+        <target>Prijavljeni ste kot {username}. Se želite odjaviti?</target>
+      </trans-unit>
+      <trans-unit id="e6a1f46cff" resname="logout.confirm">
+        <source>logout.confirm</source>
+        <target>Odjava</target>
+      </trans-unit>
+      <trans-unit id="879d52571c" resname="logout.stay">
+        <source>logout.stay</source>
+        <target>Ohrani sejo</target>
+      </trans-unit>
+      <trans-unit id="9e91e50535" resname="logged_out.title">
+        <source>logged_out.title</source>
+        <target>Odjavljeni ste</target>
+      </trans-unit>
+      <trans-unit id="b1cdee136f" resname="logged_out.close">
+        <source>logged_out.close</source>
+        <target>To okno lahko zaprete.</target>
+      </trans-unit>
+      <trans-unit id="dc96b2d115" resname="still_signed_in.title">
+        <source>still_signed_in.title</source>
+        <target>Še vedno ste prijavljeni</target>
+      </trans-unit>
+      <trans-unit id="66be09af33" resname="still_signed_in.unchanged">
+        <source>still_signed_in.unchanged</source>
+        <target>Nič ni bilo spremenjeno.</target>
+      </trans-unit>
+      <trans-unit id="49a8c3fb96" resname="error.title">
+        <source>error.title</source>
+        <target>Ni mogoče nadaljevati</target>
+      </trans-unit>
+      <trans-unit id="3d21b51c86" resname="error.default">
+        <source>error.default</source>
+        <target>Te zahteve ni mogoče dokončati. Začnite znova v aplikaciji.</target>
+      </trans-unit>
+      <trans-unit id="607d0dc2ff" resname="error.unknown_interaction">
+        <source>error.unknown_interaction</source>
+        <target>Te zahteve ni mogoče najti. Začnite znova v aplikaciji.</target>
+      </trans-unit>
+      <trans-unit id="feaea8469d" resname="error.interaction_expired">
+        <source>error.interaction_expired</source>
+        <target>Ta zahteva je potekla. Začnite znova v aplikaciji.</target>
+      </trans-unit>
+      <trans-unit id="35d471521d" resname="error.interaction_completed">
+        <source>error.interaction_completed</source>
+        <target>Ta zahteva je že dokončana. Začnite znova v aplikaciji.</target>
+      </trans-unit>
+      <trans-unit id="7a2863564f" resname="error.invalid_csrf_token">
+        <source>error.invalid_csrf_token</source>
+        <target>Obrazec ni več veljaven. Začnite znova v aplikaciji.</target>
+      </trans-unit>
+      <trans-unit id="9b1e13b67f" resname="error.invalid_request">
+        <source>error.invalid_request</source>
+        <target>Aplikacija je poslala neveljavno zahtevo. Začnite znova v aplikaciji.</target>
+      </trans-unit>
+      <trans-unit id="7afc04115d" resname="error.too_many_requests">
+        <source>error.too_many_requests</source>
+        <target>Preveč zahtev. Počakajte trenutek in nato začnite znova v aplikaciji.</target>
+      </trans-unit>
+      <trans-unit id="0357cea9c3" resname="error.no_login_to_begin">
+        <source>error.no_login_to_begin</source>
+        <target>Ta povezava ne vodi do nobene aplikacije. Začnite znova v aplikaciji.</target>
+      </trans-unit>
+      <trans-unit id="276b888c75" resname="login.passkey">
+        <source>login.passkey</source>
+        <target>Uporabi ključ za dostop</target>
+      </trans-unit>
+      <trans-unit id="d88f3b782b" resname="login.passkey_failed">
+        <source>login.passkey_failed</source>
+        <target>Ključ za dostop ni deloval. Poskusite znova.</target>
+      </trans-unit>
+      <trans-unit id="login.passkey_only" resname="login.passkey_only">
+        <source>login.passkey_only</source>
+        <target>Prijavite se s ključem za dostop.</target>
+      </trans-unit>
+      <trans-unit id="login.address" resname="login.address">
+        <source>login.address</source>
+        <target>E-poštni naslov</target>
+      </trans-unit>
+      <trans-unit id="login.continue" resname="login.continue">
+        <source>login.continue</source>
+        <target>Nadaljuj</target>
+      </trans-unit>
+      <trans-unit id="login.address_unreadable" resname="login.address_unreadable">
+        <source>login.address_unreadable</source>
+        <target>Ta naslov ni veljaven.</target>
+      </trans-unit>
+      <trans-unit id="login.other_address" resname="login.other_address">
+        <source>login.other_address</source>
+        <target>Uporabi drug naslov</target>
+      </trans-unit>
+      <trans-unit id="account.federated_domain" resname="account.federated_domain">
+        <source>account.federated_domain</source>
+        <target>Prijavljate se prek svoje organizacije: tukaj ni treba ničesar nastaviti.</target>
+      </trans-unit>
+      <trans-unit id="passkeys.error.federated_domain" resname="passkeys.error.federated_domain">
+        <source>passkeys.error.federated_domain</source>
+        <target>Prijavljate se prek svoje organizacije: ključa za dostop ni mogoče dodati.</target>
+      </trans-unit>
+      <trans-unit id="two_factor.error.federated_domain" resname="two_factor.error.federated_domain">
+        <source>two_factor.error.federated_domain</source>
+        <target>Prijavljate se prek svoje organizacije: aplikacije za preverjanje pristnosti ni mogoče nastaviti.</target>
+      </trans-unit>
+      <trans-unit id="password.error.federated_domain" resname="password.error.federated_domain">
+        <source>password.error.federated_domain</source>
+        <target>Prijavljate se prek svoje organizacije: gesla ni mogoče nastaviti.</target>
+      </trans-unit>
+      <trans-unit id="a71d2a8f04" resname="account.title">
+        <source>account.title</source>
+        <target>Vaš račun</target>
+      </trans-unit>
+      <trans-unit id="949a77ae23" resname="account.signed_in_as">
+        <source>account.signed_in_as</source>
+        <target>Prijavljeni kot {username}.</target>
+      </trans-unit>
+      <trans-unit id="1a530079a8" resname="account.signed_in_since">
+        <source>account.signed_in_since</source>
+        <target>Prijavljeni od {date}.</target>
+      </trans-unit>
+      <trans-unit id="65154335f6" resname="account.profile.state">
+        <source>account.profile.state</source>
+        <target>{count, plural, =0 {Nič ni izpolnjeno} =1 {En podatek} one {# podatek} two {# podatka} few {# podatki} other {# podatkov}}</target>
+      </trans-unit>
+      <trans-unit id="f89c3f6e13" resname="account.passkeys.state">
+        <source>account.passkeys.state</source>
+        <target>{count, plural, =0 {Noben ključ za dostop} =1 {En ključ za dostop} one {# ključ za dostop} two {# ključa za dostop} few {# ključi za dostop} other {# ključev za dostop}}</target>
+      </trans-unit>
+      <trans-unit id="788ce7e79c" resname="account.consents.state">
+        <source>account.consents.state</source>
+        <target>{count, plural, =0 {Nobena aplikacija} =1 {Ena aplikacija} one {# aplikacija} two {# aplikaciji} few {# aplikacije} other {# aplikacij}}</target>
+      </trans-unit>
+      <trans-unit id="0fe4f1a644" resname="account.two_factor.state.none">
+        <source>account.two_factor.state.none</source>
+        <target>Nobena aplikacija za preverjanje pristnosti</target>
+      </trans-unit>
+      <trans-unit id="ab8c5a2fff" resname="account.two_factor.state.active">
+        <source>account.two_factor.state.active</source>
+        <target>Ena aplikacija za preverjanje pristnosti</target>
+      </trans-unit>
+      <trans-unit id="ee464a5f53" resname="account.back">
+        <source>account.back</source>
+        <target>Nazaj na vaš račun</target>
+      </trans-unit>
+      <trans-unit id="5cb4722c04" resname="account.sign_out">
+        <source>account.sign_out</source>
+        <target>Odjava</target>
+      </trans-unit>
+      <trans-unit id="35245e14b0" resname="profile.title">
+        <source>profile.title</source>
+        <target>Vaši podatki</target>
+      </trans-unit>
+      <trans-unit id="76abe8899b" resname="profile.account">
+        <source>profile.account</source>
+        <target>Vaš račun</target>
+      </trans-unit>
+      <trans-unit id="5b974a26e1" resname="profile.about_you">
+        <source>profile.about_you</source>
+        <target>O vas</target>
+      </trans-unit>
+      <trans-unit id="eaa27dc1d2" resname="profile.none">
+        <source>profile.none</source>
+        <target>Zaenkrat nič.</target>
+      </trans-unit>
+      <trans-unit id="b0e678f0e9" resname="profile.verified">
+        <source>profile.verified</source>
+        <target>preverjeno</target>
+      </trans-unit>
+      <trans-unit id="b636667ab7" resname="profile.unverified">
+        <source>profile.unverified</source>
+        <target>ni preverjeno</target>
+      </trans-unit>
+      <trans-unit id="9cdc497348" resname="profile.username">
+        <source>profile.username</source>
+        <target>Uporabniško ime</target>
+      </trans-unit>
+      <trans-unit id="a49dd70115" resname="profile.created_at">
+        <source>profile.created_at</source>
+        <target>Račun ustvarjen</target>
+      </trans-unit>
+      <trans-unit id="23ba2362e6" resname="profile.updated_at">
+        <source>profile.updated_at</source>
+        <target>Zadnja sprememba</target>
+      </trans-unit>
+      <trans-unit id="43b26cec8d" resname="profile.email">
+        <source>profile.email</source>
+        <target>E-poštni naslov</target>
+      </trans-unit>
+      <trans-unit id="4f812be1b4" resname="profile.email_verified">
+        <source>profile.email_verified</source>
+        <target>E-poštni naslov preverjen</target>
+      </trans-unit>
+      <trans-unit id="d2921f1caa" resname="profile.phone_number">
+        <source>profile.phone_number</source>
+        <target>Telefonska številka</target>
+      </trans-unit>
+      <trans-unit id="860cda4c62" resname="profile.phone_number_verified">
+        <source>profile.phone_number_verified</source>
+        <target>Telefonska številka preverjena</target>
+      </trans-unit>
+      <trans-unit id="7c02d4292c" resname="profile.name">
+        <source>profile.name</source>
+        <target>Polno ime</target>
+      </trans-unit>
+      <trans-unit id="25b09e30e8" resname="profile.given_name">
+        <source>profile.given_name</source>
+        <target>Ime</target>
+      </trans-unit>
+      <trans-unit id="ff2feb233e" resname="profile.family_name">
+        <source>profile.family_name</source>
+        <target>Priimek</target>
+      </trans-unit>
+      <trans-unit id="25813757bf" resname="profile.middle_name">
+        <source>profile.middle_name</source>
+        <target>Srednje ime</target>
+      </trans-unit>
+      <trans-unit id="05218d9e6f" resname="profile.nickname">
+        <source>profile.nickname</source>
+        <target>Vzdevek</target>
+      </trans-unit>
+      <trans-unit id="24482f4bbc" resname="profile.preferred_username">
+        <source>profile.preferred_username</source>
+        <target>Želeno uporabniško ime</target>
+      </trans-unit>
+      <trans-unit id="3a58b7a487" resname="profile.birthdate">
+        <source>profile.birthdate</source>
+        <target>Datum rojstva</target>
+      </trans-unit>
+      <trans-unit id="b70497d99e" resname="profile.gender">
+        <source>profile.gender</source>
+        <target>Spol</target>
+      </trans-unit>
+      <trans-unit id="ea722b79ef" resname="profile.locale">
+        <source>profile.locale</source>
+        <target>Jezik</target>
+      </trans-unit>
+      <trans-unit id="5e323fac89" resname="profile.zoneinfo">
+        <source>profile.zoneinfo</source>
+        <target>Časovni pas</target>
+      </trans-unit>
+      <trans-unit id="5deb5d46f9" resname="profile.profile">
+        <source>profile.profile</source>
+        <target>Stran profila</target>
+      </trans-unit>
+      <trans-unit id="117780da1e" resname="profile.picture">
+        <source>profile.picture</source>
+        <target>Slika</target>
+      </trans-unit>
+      <trans-unit id="96c81c25d2" resname="profile.website">
+        <source>profile.website</source>
+        <target>Spletno mesto</target>
+      </trans-unit>
+      <trans-unit id="ef830c2e9b" resname="profile.address">
+        <source>profile.address</source>
+        <target>Poštni naslov</target>
+      </trans-unit>
+      <trans-unit id="profile.address.formatted" resname="profile.address.formatted">
+        <source>profile.address.formatted</source>
+        <target>Celoten poštni naslov</target>
+      </trans-unit>
+      <trans-unit id="profile.address.street_address" resname="profile.address.street_address">
+        <source>profile.address.street_address</source>
+        <target>Ulica in hišna številka</target>
+      </trans-unit>
+      <trans-unit id="profile.address.locality" resname="profile.address.locality">
+        <source>profile.address.locality</source>
+        <target>Kraj</target>
+      </trans-unit>
+      <trans-unit id="profile.address.region" resname="profile.address.region">
+        <source>profile.address.region</source>
+        <target>Regija</target>
+      </trans-unit>
+      <trans-unit id="profile.address.postal_code" resname="profile.address.postal_code">
+        <source>profile.address.postal_code</source>
+        <target>Poštna številka</target>
+      </trans-unit>
+      <trans-unit id="profile.address.country" resname="profile.address.country">
+        <source>profile.address.country</source>
+        <target>Država</target>
+      </trans-unit>
+      <trans-unit id="465d5b10ab" resname="passkeys.title">
+        <source>passkeys.title</source>
+        <target>Vaši ključi za dostop</target>
+      </trans-unit>
+      <trans-unit id="81402f59a0" resname="passkeys.none">
+        <source>passkeys.none</source>
+        <target>Ni aktivnega ključa za dostop.</target>
+      </trans-unit>
+      <trans-unit id="ef84f1b8d3" resname="passkeys.name">
+        <source>passkeys.name</source>
+        <target>Ime</target>
+      </trans-unit>
+      <trans-unit id="1b6d07e1ac" resname="passkeys.created_at">
+        <source>passkeys.created_at</source>
+        <target>Ustvarjeno</target>
+      </trans-unit>
+      <trans-unit id="c5a67d1c58" resname="passkeys.last_used_at">
+        <source>passkeys.last_used_at</source>
+        <target>Zadnja uporaba</target>
+      </trans-unit>
+      <trans-unit id="09f630d338" resname="passkeys.never_used">
+        <source>passkeys.never_used</source>
+        <target>Nikoli</target>
+      </trans-unit>
+      <trans-unit id="af1fd41fc5" resname="passkeys.state">
+        <source>passkeys.state</source>
+        <target>Stanje</target>
+      </trans-unit>
+      <trans-unit id="63f5c7f0e8" resname="passkeys.active">
+        <source>passkeys.active</source>
+        <target>Aktiven</target>
+      </trans-unit>
+      <trans-unit id="71000a07e6" resname="passkeys.revoked_at">
+        <source>passkeys.revoked_at</source>
+        <target>Preklican: {date}</target>
+      </trans-unit>
+      <trans-unit id="2ce8b47f35" resname="passkeys.revoke">
+        <source>passkeys.revoke</source>
+        <target>Prekliči</target>
+      </trans-unit>
+      <trans-unit id="08af99ba89" resname="passkeys.enrol">
+        <source>passkeys.enrol</source>
+        <target>Dodaj ključ za dostop</target>
+      </trans-unit>
+      <trans-unit id="5b94e18bc6" resname="passkeys.unsupported">
+        <source>passkeys.unsupported</source>
+        <target>Ta brskalnik ne more ustvariti ključa za dostop.</target>
+      </trans-unit>
+      <trans-unit id="f86312f8a9" resname="passkeys.error.browser">
+        <source>passkeys.error.browser</source>
+        <target>Ključa za dostop ni bilo mogoče ustvariti. Poskusite znova.</target>
+      </trans-unit>
+      <trans-unit id="d3eb8fcaa3" resname="passkeys.error.invalid_name">
+        <source>passkeys.error.invalid_name</source>
+        <target>Ime ključa za dostop mora imeti od 1 do 255 znakov.</target>
+      </trans-unit>
+      <trans-unit id="769bbfbeaa" resname="passkeys.error.no_ceremony">
+        <source>passkeys.error.no_ceremony</source>
+        <target>Čas za dodajanje ključa za dostop je potekel. Poskusite znova.</target>
+      </trans-unit>
+      <trans-unit id="c5d11b8713" resname="passkeys.error.refused">
+        <source>passkeys.error.refused</source>
+        <target>Ta ključ za dostop je bil zavrnjen. Poskusite z drugim.</target>
+      </trans-unit>
+      <trans-unit id="750c174f43" resname="passkeys.held_by">
+        <source>passkeys.held_by</source>
+        <target>Avtentikator</target>
+      </trans-unit>
+      <trans-unit id="02820b7d95" resname="passkeys.authenticator.unknown">
+        <source>passkeys.authenticator.unknown</source>
+        <target>Neznan avtentikator</target>
+      </trans-unit>
+      <trans-unit id="passkeys.features" resname="passkeys.features">
+        <source>passkeys.features</source>
+        <target>Lastnosti</target>
+      </trans-unit>
+      <trans-unit id="passkeys.aaguid" resname="passkeys.aaguid">
+        <source>passkeys.aaguid</source>
+        <target>AAGUID {aaguid}</target>
+      </trans-unit>
+      <trans-unit id="passkeys.none_matching" resname="passkeys.none_matching">
+        <source>passkeys.none_matching</source>
+        <target>Noben ključ za dostop ne ustreza filtrom.</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.active" resname="passkeys.filter.active">
+        <source>passkeys.filter.active</source>
+        <target>Aktivni</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.revoked" resname="passkeys.filter.revoked">
+        <source>passkeys.filter.revoked</source>
+        <target>Preklicani</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.every_state" resname="passkeys.filter.every_state">
+        <source>passkeys.filter.every_state</source>
+        <target>Vse</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.every_authenticator" resname="passkeys.filter.every_authenticator">
+        <source>passkeys.filter.every_authenticator</source>
+        <target>Vse</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.unknown_authenticator" resname="passkeys.filter.unknown_authenticator">
+        <source>passkeys.filter.unknown_authenticator</source>
+        <target>Neznan ({aaguid})</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.sync" resname="passkeys.filter.sync">
+        <source>passkeys.filter.sync</source>
+        <target>Sinhronizacija</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.synced_or_not" resname="passkeys.filter.synced_or_not">
+        <source>passkeys.filter.synced_or_not</source>
+        <target>Vse</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.synced" resname="passkeys.filter.synced">
+        <source>passkeys.filter.synced</source>
+        <target>Sinhronizirani</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.device_bound" resname="passkeys.filter.device_bound">
+        <source>passkeys.filter.device_bound</source>
+        <target>Vezani na napravo</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.transport" resname="passkeys.filter.transport">
+        <source>passkeys.filter.transport</source>
+        <target>Povezava</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.every_transport" resname="passkeys.filter.every_transport">
+        <source>passkeys.filter.every_transport</source>
+        <target>Vse</target>
+      </trans-unit>
+      <trans-unit id="passkeys.model_proof.declared" resname="passkeys.model_proof.declared">
+        <source>passkeys.model_proof.declared</source>
+        <target>Navedeni model, ni preverjen</target>
+      </trans-unit>
+      <trans-unit id="passkeys.model_proof.verified" resname="passkeys.model_proof.verified">
+        <source>passkeys.model_proof.verified</source>
+        <target>Preverjen model</target>
+      </trans-unit>
+      <trans-unit id="passkeys.model_proof.enterprise" resname="passkeys.model_proof.enterprise">
+        <source>passkeys.model_proof.enterprise</source>
+        <target>Ključ vaše organizacije</target>
+      </trans-unit>
+      <trans-unit id="passkeys.serial_number" resname="passkeys.serial_number">
+        <source>passkeys.serial_number</source>
+        <target>Serijska številka {serial}</target>
+      </trans-unit>
+      <trans-unit id="passkeys.under_security_alert" resname="passkeys.under_security_alert">
+        <source>passkeys.under_security_alert</source>
+        <target>Model z varnostnim opozorilom</target>
+      </trans-unit>
+      <trans-unit id="passkeys.error.organisation_keys_only" resname="passkeys.error.organisation_keys_only">
+        <source>passkeys.error.organisation_keys_only</source>
+        <target>Sprejemajo se samo ključi, ki vam jih je dala vaša organizacija.</target>
+      </trans-unit>
+      <trans-unit id="passkeys.error.model_under_security_alert" resname="passkeys.error.model_under_security_alert">
+        <source>passkeys.error.model_under_security_alert</source>
+        <target>Za ta model velja varnostno opozorilo, zato ni več sprejet. Uporabite drugega.</target>
+      </trans-unit>
+      <trans-unit id="fd60213150" resname="passkeys.certification.NOT_FIDO_CERTIFIED">
+        <source>passkeys.certification.NOT_FIDO_CERTIFIED</source>
+        <target>Brez certifikata FIDO</target>
+      </trans-unit>
+      <trans-unit id="f08c853044" resname="passkeys.certification.SELF_ASSERTION_SUBMITTED">
+        <source>passkeys.certification.SELF_ASSERTION_SUBMITTED</source>
+        <target>Samoocena oddana organizaciji FIDO Alliance</target>
+      </trans-unit>
+      <trans-unit id="a08bf87175" resname="passkeys.certification.FIDO_CERTIFIED">
+        <source>passkeys.certification.FIDO_CERTIFIED</source>
+        <target>Certifikat FIDO</target>
+      </trans-unit>
+      <trans-unit id="195df5ec7e" resname="passkeys.certification.FIDO_CERTIFIED_L1">
+        <source>passkeys.certification.FIDO_CERTIFIED_L1</source>
+        <target>Certifikat FIDO, raven 1</target>
+      </trans-unit>
+      <trans-unit id="5202b427e6" resname="passkeys.certification.FIDO_CERTIFIED_L1plus">
+        <source>passkeys.certification.FIDO_CERTIFIED_L1plus</source>
+        <target>Certifikat FIDO, raven 1+</target>
+      </trans-unit>
+      <trans-unit id="73447fff7e" resname="passkeys.certification.FIDO_CERTIFIED_L2">
+        <source>passkeys.certification.FIDO_CERTIFIED_L2</source>
+        <target>Certifikat FIDO, raven 2</target>
+      </trans-unit>
+      <trans-unit id="c04f76a90b" resname="passkeys.certification.FIDO_CERTIFIED_L2plus">
+        <source>passkeys.certification.FIDO_CERTIFIED_L2plus</source>
+        <target>Certifikat FIDO, raven 2+</target>
+      </trans-unit>
+      <trans-unit id="05ff868652" resname="passkeys.certification.FIDO_CERTIFIED_L3">
+        <source>passkeys.certification.FIDO_CERTIFIED_L3</source>
+        <target>Certifikat FIDO, raven 3</target>
+      </trans-unit>
+      <trans-unit id="305ec3efe0" resname="passkeys.certification.FIDO_CERTIFIED_L3plus">
+        <source>passkeys.certification.FIDO_CERTIFIED_L3plus</source>
+        <target>Certifikat FIDO, raven 3+</target>
+      </trans-unit>
+      <trans-unit id="a2c38be2c2" resname="passkeys.certification.RETIRED">
+        <source>passkeys.certification.RETIRED</source>
+        <target>Proizvajalec ga je umaknil</target>
+      </trans-unit>
+      <trans-unit id="dfff2ff3c7" resname="passkeys.certification.REVOKED">
+        <source>passkeys.certification.REVOKED</source>
+        <target>Preklicala ga je organizacija FIDO Alliance</target>
+      </trans-unit>
+      <trans-unit id="9f5464da31" resname="passkeys.backup.single_device">
+        <source>passkeys.backup.single_device</source>
+        <target>Vezan na napravo</target>
+      </trans-unit>
+      <trans-unit id="8fdac8b403" resname="passkeys.backup.backed_up">
+        <source>passkeys.backup.backed_up</source>
+        <target>Sinhroniziran</target>
+      </trans-unit>
+      <trans-unit id="4150fe9928" resname="passkeys.backup.not_backed_up">
+        <source>passkeys.backup.not_backed_up</source>
+        <target>Mogoče sinhronizirati, brez varnostne kopije</target>
+      </trans-unit>
+      <trans-unit id="e0e39cd225" resname="passkeys.reached_through">
+        <source>passkeys.reached_through</source>
+        <target>Povezava: {ways}</target>
+      </trans-unit>
+      <trans-unit id="bacb48e58b" resname="passkeys.transport.internal">
+        <source>passkeys.transport.internal</source>
+        <target>naprava</target>
+      </trans-unit>
+      <trans-unit id="29728954a8" resname="passkeys.transport.hybrid">
+        <source>passkeys.transport.hybrid</source>
+        <target>telefon v bližini</target>
+      </trans-unit>
+      <trans-unit id="a6b962c0d4" resname="passkeys.transport.usb">
+        <source>passkeys.transport.usb</source>
+        <target>USB</target>
+      </trans-unit>
+      <trans-unit id="0ec9969fae" resname="passkeys.transport.nfc">
+        <source>passkeys.transport.nfc</source>
+        <target>NFC</target>
+      </trans-unit>
+      <trans-unit id="6b5407b258" resname="passkeys.transport.ble">
+        <source>passkeys.transport.ble</source>
+        <target>Bluetooth</target>
+      </trans-unit>
+      <trans-unit id="d93f9670bc" resname="passkeys.transport.smart-card">
+        <source>passkeys.transport.smart-card</source>
+        <target>pametna kartica</target>
+      </trans-unit>
+      <trans-unit id="5b10da251c" resname="code.title">
+        <source>code.title</source>
+        <target>Vnesite kodo</target>
+      </trans-unit>
+      <trans-unit id="7a2dedee21" resname="code.prompt">
+        <source>code.prompt</source>
+        <target>Vnesite kodo iz aplikacije za preverjanje pristnosti ali rezervno kodo.</target>
+      </trans-unit>
+      <trans-unit id="da69e8a447" resname="code.code">
+        <source>code.code</source>
+        <target>Koda</target>
+      </trans-unit>
+      <trans-unit id="b65d28a647" resname="code.submit">
+        <source>code.submit</source>
+        <target>Nadaljuj</target>
+      </trans-unit>
+      <trans-unit id="c609c5cc7e" resname="code.failed.code_refused">
+        <source>code.failed.code_refused</source>
+        <target>Napačna koda. Vnesite kodo, ki je prikazana zdaj.</target>
+      </trans-unit>
+      <trans-unit id="504d18ce7a" resname="code.failed.backup_code_refused">
+        <source>code.failed.backup_code_refused</source>
+        <target>Ta rezervna koda je napačna ali že uporabljena.</target>
+      </trans-unit>
+      <trans-unit id="af360d0c03" resname="code.failed.too_many_attempts">
+        <source>code.failed.too_many_attempts</source>
+        <target>Preveč poskusov. Počakajte trenutek in poskusite znova.</target>
+      </trans-unit>
+      <trans-unit id="8cdae7d238" resname="consents.title">
+        <source>consents.title</source>
+        <target>Dovoljene aplikacije</target>
+      </trans-unit>
+      <trans-unit id="b40383a420" resname="consents.none">
+        <source>consents.none</source>
+        <target>Nobena aplikacija ni dovoljena.</target>
+      </trans-unit>
+      <trans-unit id="consents.none_matching" resname="consents.none_matching">
+        <source>consents.none_matching</source>
+        <target>Nobena aplikacija ne ustreza filtrom.</target>
+      </trans-unit>
+      <trans-unit id="consents.filter.every_access" resname="consents.filter.every_access">
+        <source>consents.filter.every_access</source>
+        <target>Vse</target>
+      </trans-unit>
+      <trans-unit id="792b29ed69" resname="consents.explanation">
+        <source>consents.explanation</source>
+        <target>Ko aplikaciji prekličete dostop, vas bo znova prosila za dovoljenje.</target>
+      </trans-unit>
+      <trans-unit id="d697faa88f" resname="consents.application">
+        <source>consents.application</source>
+        <target>Aplikacija</target>
+      </trans-unit>
+      <trans-unit id="985a1ee4b8" resname="consents.access">
+        <source>consents.access</source>
+        <target>Dostop</target>
+      </trans-unit>
+      <trans-unit id="1cf8e20127" resname="consents.granted_at">
+        <source>consents.granted_at</source>
+        <target>Dovoljeno</target>
+      </trans-unit>
+      <trans-unit id="d729adbd9a" resname="consents.revoke">
+        <source>consents.revoke</source>
+        <target>Prekliči dostop</target>
+      </trans-unit>
+      <trans-unit id="68e780445d" resname="two_factor.title">
+        <source>two_factor.title</source>
+        <target>Dvostopenjsko preverjanje pristnosti</target>
+      </trans-unit>
+      <trans-unit id="two_factor.not_admitted" resname="two_factor.not_admitted">
+        <source>two_factor.not_admitted</source>
+        <target>Prijavljate se s ključem za dostop: aplikacija za preverjanje pristnosti ni potrebna.</target>
+      </trans-unit>
+      <trans-unit id="120102f7ce" resname="two_factor.none">
+        <source>two_factor.none</source>
+        <target>Ni aplikacije za preverjanje pristnosti. Ko jo nastavite, bo njena koda zahtevana po geslu.</target>
+      </trans-unit>
+      <trans-unit id="126fd373df" resname="two_factor.set_up">
+        <source>two_factor.set_up</source>
+        <target>Nastavi aplikacijo za preverjanje pristnosti</target>
+      </trans-unit>
+      <trans-unit id="f17b1d335e" resname="two_factor.active">
+        <source>two_factor.active</source>
+        <target>Aplikacija za preverjanje pristnosti nastavljena dne {date}.</target>
+      </trans-unit>
+      <trans-unit id="1642acc9b6" resname="two_factor.last_used_at">
+        <source>two_factor.last_used_at</source>
+        <target>Zadnja uporaba</target>
+      </trans-unit>
+      <trans-unit id="71cfff5c92" resname="two_factor.never_used">
+        <source>two_factor.never_used</source>
+        <target>Nikoli</target>
+      </trans-unit>
+      <trans-unit id="fe08ccc069" resname="two_factor.backup_codes">
+        <source>two_factor.backup_codes</source>
+        <target>Rezervne kode</target>
+      </trans-unit>
+      <trans-unit id="fa94375559" resname="two_factor.backup_codes_left">
+        <source>two_factor.backup_codes_left</source>
+        <target>{count, plural, =0 {Ni več rezervnih kod} one {Preostaja # rezervna koda} two {Preostajata # rezervni kodi} few {Preostajajo # rezervne kode} other {Preostaja # rezervnih kod}}</target>
+      </trans-unit>
+      <trans-unit id="42e65dc64c" resname="two_factor.revoke">
+        <source>two_factor.revoke</source>
+        <target>Odstrani aplikacijo za preverjanje pristnosti</target>
+      </trans-unit>
+      <trans-unit id="a29cc8ac2e" resname="two_factor.enrol.title">
+        <source>two_factor.enrol.title</source>
+        <target>Nastavitev aplikacije za preverjanje pristnosti</target>
+      </trans-unit>
+      <trans-unit id="e8b20ec1fd" resname="two_factor.enrol.scan">
+        <source>two_factor.enrol.scan</source>
+        <target>To kodo QR skenirajte z aplikacijo za preverjanje pristnosti.</target>
+      </trans-unit>
+      <trans-unit id="9a129eca30" resname="two_factor.enrol.manual">
+        <source>two_factor.enrol.manual</source>
+        <target>Ali pa ta ključ vnesite ročno:</target>
+      </trans-unit>
+      <trans-unit id="3fb9679842" resname="two_factor.enrol.code">
+        <source>two_factor.enrol.code</source>
+        <target>Koda, ki jo prikaže aplikacija</target>
+      </trans-unit>
+      <trans-unit id="1aba2d16d3" resname="two_factor.enrol.submit">
+        <source>two_factor.enrol.submit</source>
+        <target>Potrdi</target>
+      </trans-unit>
+      <trans-unit id="6b810babaa" resname="two_factor.enrolled.title">
+        <source>two_factor.enrolled.title</source>
+        <target>Vaše rezervne kode</target>
+      </trans-unit>
+      <trans-unit id="94905118d7" resname="two_factor.enrolled.done">
+        <source>two_factor.enrolled.done</source>
+        <target>Aplikacija za preverjanje pristnosti je nastavljena. Njena koda bo zahtevana po geslu.</target>
+      </trans-unit>
+      <trans-unit id="87b3bb2962" resname="two_factor.enrolled.codes">
+        <source>two_factor.enrolled.codes</source>
+        <target>Te kode shranite na varno mesto: ne bodo več prikazane. Če izgubite aplikacijo, vsaka od njih enkrat nadomesti kodo iz aplikacije.</target>
+      </trans-unit>
+      <trans-unit id="732a6b396d" resname="two_factor.error.refused">
+        <source>two_factor.error.refused</source>
+        <target>Napačna koda. Vnesite kodo, ki je prikazana zdaj.</target>
+      </trans-unit>
+      <trans-unit id="56a44ece6f" resname="two_factor.error.no_provisioning">
+        <source>two_factor.error.no_provisioning</source>
+        <target>Nastavitev je potekla. Začnite znova.</target>
+      </trans-unit>
+      <trans-unit id="71292a8b65" resname="two_factor.error.already_enrolled">
+        <source>two_factor.error.already_enrolled</source>
+        <target>Aplikacija za preverjanje pristnosti je že nastavljena. Preden nastavite drugo, jo odstranite.</target>
+      </trans-unit>
+      <trans-unit id="f614d3c6a6" resname="error.login_required">
+        <source>error.login_required</source>
+        <target>Prijavite se in nato znova odprite to stran.</target>
+      </trans-unit>
+      <trans-unit id="7f6da9700e" resname="error.sign_in">
+        <source>error.sign_in</source>
+        <target>Prijava</target>
+      </trans-unit>
+      <trans-unit id="884d5c03f9" resname="form_post.title">
+        <source>form_post.title</source>
+        <target>Vračanje v aplikacijo</target>
+      </trans-unit>
+      <trans-unit id="2965dcacbb" resname="form_post.explanation">
+        <source>form_post.explanation</source>
+        <target>Če se nič ne zgodi, uporabite gumb Nadaljuj.</target>
+      </trans-unit>
+      <trans-unit id="899a3c277e" resname="form_post.continue">
+        <source>form_post.continue</source>
+        <target>Nadaljuj</target>
+      </trans-unit>
+      <trans-unit id="2237eea428" resname="front_channel_logout.title">
+        <source>front_channel_logout.title</source>
+        <target>Odjavljanje iz vaših aplikacij</target>
+      </trans-unit>
+      <trans-unit id="155202e7b3" resname="front_channel_logout.asked">
+        <source>front_channel_logout.asked</source>
+        <target>Vaše aplikacije so bile pozvane, naj vas odjavijo. Tiste, ki jih vaš brskalnik blokira, vas bodo odjavile ob vašem naslednjem obisku.</target>
+      </trans-unit>
+      <trans-unit id="1e7bfc09fa" resname="front_channel_logout.continue">
+        <source>front_channel_logout.continue</source>
+        <target>Nadaljuj</target>
+      </trans-unit>
+      <trans-unit id="66ec4c8293" resname="front_channel_logout.frame">
+        <source>front_channel_logout.frame</source>
+        <target>Odjavljanje iz aplikacije</target>
+      </trans-unit>
+      <trans-unit id="2a09e75af2" resname="login.prompt_alone">
+        <source>login.prompt_alone</source>
+        <target>Za nadaljevanje se prijavite.</target>
+      </trans-unit>
+      <trans-unit id="dc02dea145" resname="device.title">
+        <source>device.title</source>
+        <target>Povezava naprave</target>
+      </trans-unit>
+      <trans-unit id="fdd74a6c56" resname="device.prompt">
+        <source>device.prompt</source>
+        <target>Vnesite kodo, ki jo prikazuje vaša naprava.</target>
+      </trans-unit>
+      <trans-unit id="fd47214568" resname="device.code">
+        <source>device.code</source>
+        <target>Koda</target>
+      </trans-unit>
+      <trans-unit id="0ebc2034f0" resname="device.submit">
+        <source>device.submit</source>
+        <target>Nadaljuj</target>
+      </trans-unit>
+      <trans-unit id="9795377dd9" resname="device.refused.unknown_code">
+        <source>device.refused.unknown_code</source>
+        <target>Neznana koda. Preverite kodo, ki jo prikazuje vaša naprava.</target>
+      </trans-unit>
+      <trans-unit id="f530b41973" resname="device.refused.too_many_attempts">
+        <source>device.refused.too_many_attempts</source>
+        <target>Preveč poskusov. Počakajte minuto in poskusite znova.</target>
+      </trans-unit>
+      <trans-unit id="99e6bfe694" resname="device.approval.title">
+        <source>device.approval.title</source>
+        <target>Dovolite aplikaciji {client}, da se poveže?</target>
+      </trans-unit>
+      <trans-unit id="37c90fe35d" resname="device.approval.signed_in_as">
+        <source>device.approval.signed_in_as</source>
+        <target>Prijavljeni ste kot {username}.</target>
+      </trans-unit>
+      <trans-unit id="a6aca898f1" resname="device.approval.request">
+        <source>device.approval.request</source>
+        <target>Aplikacija {client} prosi za povezavo z vašim računom s kodo {code}.</target>
+      </trans-unit>
+      <trans-unit id="453aa8634a" resname="device.approval.origin">
+        <source>device.approval.origin</source>
+        <target>Izvor zahteve: {address} ({agent}).</target>
+      </trans-unit>
+      <trans-unit id="a6f6ea1b9e" resname="device.approval.unknown_address">
+        <source>device.approval.unknown_address</source>
+        <target>neznan naslov</target>
+      </trans-unit>
+      <trans-unit id="e3833693f9" resname="device.approval.unknown_agent">
+        <source>device.approval.unknown_agent</source>
+        <target>neznana naprava</target>
+      </trans-unit>
+      <trans-unit id="2ac67d203a" resname="device.approval.unexpected">
+        <source>device.approval.unexpected</source>
+        <target>Če te zahteve niste začeli vi, jo zavrnite.</target>
+      </trans-unit>
+      <trans-unit id="f62ada85d7" resname="device.approval.allow">
+        <source>device.approval.allow</source>
+        <target>Dovoli</target>
+      </trans-unit>
+      <trans-unit id="9a1c11f83f" resname="device.approval.deny">
+        <source>device.approval.deny</source>
+        <target>Zavrni</target>
+      </trans-unit>
+      <trans-unit id="f3543cfd93" resname="device.answered.approved.title">
+        <source>device.answered.approved.title</source>
+        <target>Naprava povezana</target>
+      </trans-unit>
+      <trans-unit id="8515dd5522" resname="device.answered.denied.title">
+        <source>device.answered.denied.title</source>
+        <target>Zahteva zavrnjena</target>
+      </trans-unit>
+      <trans-unit id="3a6d124638" resname="device.answered.approved">
+        <source>device.answered.approved</source>
+        <target>Aplikacija {client} lahko zdaj uporablja vaš račun. Vrnite se na svojo napravo.</target>
+      </trans-unit>
+      <trans-unit id="b3cdc73ad3" resname="device.answered.denied">
+        <source>device.answered.denied</source>
+        <target>Aplikacija {client} nima dostopa do vašega računa. To stran lahko zaprete.</target>
+      </trans-unit>
+      <trans-unit id="7ea1ce200f" resname="device.approval.provider">
+        <source>device.approval.provider</source>
+        <target>Sprašuje {provider}.</target>
+      </trans-unit>
+      <trans-unit id="1fdfeca8b7" resname="approvals.title">
+        <source>approvals.title</source>
+        <target>Čakajoče zahteve</target>
+      </trans-unit>
+      <trans-unit id="a7cbe7f52a" resname="approvals.provider">
+        <source>approvals.provider</source>
+        <target>Sprašuje {provider}.</target>
+      </trans-unit>
+      <trans-unit id="3cbe156f9c" resname="approvals.nothing">
+        <source>approvals.nothing</source>
+        <target>Ni čakajočih zahtev.</target>
+      </trans-unit>
+      <trans-unit id="2f2cc83054" resname="approvals.request">
+        <source>approvals.request</source>
+        <target>Aplikacija {client} prosi za uporabo vašega računa.</target>
+      </trans-unit>
+      <trans-unit id="44ce1f2c66" resname="approvals.binding_message">
+        <source>approvals.binding_message</source>
+        <target>Aplikacija {client} sporoča: {message}</target>
+      </trans-unit>
+      <trans-unit id="7eccbd5d22" resname="approvals.origin">
+        <source>approvals.origin</source>
+        <target>Izvor zahteve: {address} ({agent}).</target>
+      </trans-unit>
+      <trans-unit id="42210e2c97" resname="approvals.unknown_address">
+        <source>approvals.unknown_address</source>
+        <target>neznan naslov</target>
+      </trans-unit>
+      <trans-unit id="5cb6f3dc54" resname="approvals.unknown_agent">
+        <source>approvals.unknown_agent</source>
+        <target>neznan odjemalec</target>
+      </trans-unit>
+      <trans-unit id="a6a9c0f2d8" resname="approvals.unexpected">
+        <source>approvals.unexpected</source>
+        <target>Če zahteve niste začeli vi, jo zavrnite.</target>
+      </trans-unit>
+      <trans-unit id="6ce56f5d12" resname="approvals.allow">
+        <source>approvals.allow</source>
+        <target>Dovoli</target>
+      </trans-unit>
+      <trans-unit id="5a7dfc49d3" resname="approvals.deny">
+        <source>approvals.deny</source>
+        <target>Zavrni</target>
+      </trans-unit>
+      <trans-unit id="afba73eebf" resname="approvals.refused.nothing_to_answer">
+        <source>approvals.refused.nothing_to_answer</source>
+        <target>Ta zahteva ne čaka več na odgovor.</target>
+      </trans-unit>
+      <trans-unit id="8e71b29d2d" resname="approvals.answered.approved.title">
+        <source>approvals.answered.approved.title</source>
+        <target>Zahteva dovoljena</target>
+      </trans-unit>
+      <trans-unit id="9eabc0605e" resname="approvals.answered.denied.title">
+        <source>approvals.answered.denied.title</source>
+        <target>Zahteva zavrnjena</target>
+      </trans-unit>
+      <trans-unit id="921a96cc05" resname="approvals.answered.approved">
+        <source>approvals.answered.approved</source>
+        <target>Aplikacija {client} lahko zdaj uporablja vaš račun. Vrnite se tja, kjer ste začeli.</target>
+      </trans-unit>
+      <trans-unit id="965ccbcb18" resname="approvals.answered.denied">
+        <source>approvals.answered.denied</source>
+        <target>Aplikacija {client} nima dostopa do vašega računa. To stran lahko zaprete.</target>
+      </trans-unit>
+      <trans-unit id="93dc1e5079" resname="notifications.title">
+        <source>notifications.title</source>
+        <target>Obvestila</target>
+      </trans-unit>
+      <trans-unit id="07e99afba9" resname="notifications.what_is_sent">
+        <source>notifications.what_is_sent</source>
+        <target>Brskalnik, dodan tukaj, prejme obvestilo, ko zahteva čaka na vaš odgovor. Odgovorite vedno tukaj.</target>
+      </trans-unit>
+      <trans-unit id="1a8a70cf10" resname="notifications.none">
+        <source>notifications.none</source>
+        <target>Ni dodanega brskalnika.</target>
+      </trans-unit>
+      <trans-unit id="notifications.none_matching" resname="notifications.none_matching">
+        <source>notifications.none_matching</source>
+        <target>Noben brskalnik ne ustreza filtrom.</target>
+      </trans-unit>
+      <trans-unit id="6bee5ae6f1" resname="notifications.label">
+        <source>notifications.label</source>
+        <target>Brskalnik</target>
+      </trans-unit>
+      <trans-unit id="9ccb115d7e" resname="notifications.unnamed">
+        <source>notifications.unnamed</source>
+        <target>Brez imena</target>
+      </trans-unit>
+      <trans-unit id="463cb30490" resname="notifications.created_at">
+        <source>notifications.created_at</source>
+        <target>Dodano</target>
+      </trans-unit>
+      <trans-unit id="87dc9c5a99" resname="notifications.last_pushed_at">
+        <source>notifications.last_pushed_at</source>
+        <target>Zadnje obvestilo</target>
+      </trans-unit>
+      <trans-unit id="cbcf139564" resname="notifications.never_pushed">
+        <source>notifications.never_pushed</source>
+        <target>Nikoli</target>
+      </trans-unit>
+      <trans-unit id="349298c2df" resname="notifications.revoke">
+        <source>notifications.revoke</source>
+        <target>Odstrani</target>
+      </trans-unit>
+      <trans-unit id="2fada520c3" resname="notifications.subscribe">
+        <source>notifications.subscribe</source>
+        <target>Dodaj ta brskalnik</target>
+      </trans-unit>
+      <trans-unit id="fb344c54e6" resname="notifications.unsupported">
+        <source>notifications.unsupported</source>
+        <target>Ta brskalnik ne podpira obvestil.</target>
+      </trans-unit>
+      <trans-unit id="092d481e7c" resname="notifications.not_served">
+        <source>notifications.not_served</source>
+        <target>Obvestila v brskalniku niso na voljo.</target>
+      </trans-unit>
+      <trans-unit id="b7d8776630" resname="notifications.error.browser">
+        <source>notifications.error.browser</source>
+        <target>Brskalnik ni bil dodan. Preverite, ali so obvestila dovoljena.</target>
+      </trans-unit>
+      <trans-unit id="e773e70d91" resname="notifications.error.refused">
+        <source>notifications.error.refused</source>
+        <target>Ta brskalnik je poslal neveljavno naročnino. Poskusite znova.</target>
+      </trans-unit>
+      <trans-unit id="99fed0616f" resname="notifications.error.not_served">
+        <source>notifications.error.not_served</source>
+        <target>Obvestila v brskalniku niso na voljo.</target>
+      </trans-unit>
+      <trans-unit id="a7c31de490" resname="account.approvals.state">
+        <source>account.approvals.state</source>
+        <target>{count, plural, =0 {Nič ne čaka} =1 {Ena čakajoča zahteva} one {# čakajoča zahteva} two {# čakajoči zahtevi} few {# čakajoče zahteve} other {# čakajočih zahtev}}</target>
+      </trans-unit>
+      <trans-unit id="e0bc57b68b" resname="account.notifications.state">
+        <source>account.notifications.state</source>
+        <target>{count, plural, =0 {Noben brskalnik} =1 {En brskalnik} one {# brskalnik} two {# brskalnika} few {# brskalniki} other {# brskalnikov}}</target>
+      </trans-unit>
+      <trans-unit id="8929e85d47" resname="approval.notice.title">
+        <source>approval.notice.title</source>
+        <target>{provider}</target>
+      </trans-unit>
+      <trans-unit id="1b482fd722" resname="approval.notice.subject">
+        <source>approval.notice.subject</source>
+        <target>{provider}: prijava čaka na vašo odobritev</target>
+      </trans-unit>
+      <trans-unit id="95c419025b" resname="approval.notice.body">
+        <source>approval.notice.body</source>
+        <target>Aplikacija {client} vas prosi, da odobrite prijavo. Za odgovor odprite svoj račun.</target>
+      </trans-unit>
+      <trans-unit id="4399d9d6d6" resname="approval.notice.body_with_message">
+        <source>approval.notice.body_with_message</source>
+        <target>Aplikacija {client} vas prosi, da odobrite: {message}. Za odgovor odprite svoj račun.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.title" resname="credential_change.title">
+        <source>credential_change.title</source>
+        <target>{provider}</target>
+      </trans-unit>
+      <trans-unit id="credential_change.subject" resname="credential_change.subject">
+        <source>credential_change.subject</source>
+        <target>{provider}: sprememba načinov prijave</target>
+      </trans-unit>
+      <trans-unit id="credential_change.body" resname="credential_change.body">
+        <source>credential_change.body</source>
+        <target>{what} Če to niste bili vi, odprite svoj račun.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.body_with_contact" resname="credential_change.body_with_contact">
+        <source>credential_change.body_with_contact</source>
+        <target>{what} Če to niste bili vi, odprite svoj račun in se obrnite na: {contact}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.credential.enrolled" resname="credential_change.credential.enrolled">
+        <source>credential_change.credential.enrolled</source>
+        <target>{kind, select, passkey {Ključ za dostop je bil dodan} totp {Aplikacija za preverjanje pristnosti je bila dodana} password {Geslo je bilo dodano} other {Način prijave je bil dodan}} v vaš račun dne {when}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.credential.revoked" resname="credential_change.credential.revoked">
+        <source>credential_change.credential.revoked</source>
+        <target>{kind, select, passkey {Ključ za dostop je bil odstranjen} totp {Aplikacija za preverjanje pristnosti je bila odstranjena} password {Geslo je bilo odstranjeno} other {Način prijave je bil odstranjen}} iz vašega računa dne {when}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.password.changed" resname="credential_change.password.changed">
+        <source>credential_change.password.changed</source>
+        <target>Geslo vašega računa je bilo spremenjeno dne {when}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.enrolment_ticket.issued" resname="credential_change.enrolment_ticket.issued">
+        <source>credential_change.enrolment_ticket.issued</source>
+        <target>Povezava za dodajanje ključa za dostop v vaš račun je bila izdana dne {when}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.backup_codes.renewed" resname="credential_change.backup_codes.renewed">
+        <source>credential_change.backup_codes.renewed</source>
+        <target>Rezervne kode vašega računa so bile obnovljene dne {when}.</target>
+      </trans-unit>
+      <trans-unit id="c7a1e4f9b3" resname="locale.choose">
+        <source>locale.choose</source>
+        <target>Jezik</target>
+      </trans-unit>
+      <trans-unit id="a4b8d2e6f1" resname="language.en">
+        <source>language.en</source>
+        <target>English</target>
+      </trans-unit>
+      <trans-unit id="f2c9a7b5e8" resname="language.fr">
+        <source>language.fr</source>
+        <target>Français</target>
+      </trans-unit>
+      <trans-unit id="language.de" resname="language.de">
+        <source>language.de</source>
+        <target>Deutsch</target>
+      </trans-unit>
+      <trans-unit id="language.es" resname="language.es">
+        <source>language.es</source>
+        <target>Español</target>
+      </trans-unit>
+      <trans-unit id="language.it" resname="language.it">
+        <source>language.it</source>
+        <target>Italiano</target>
+      </trans-unit>
+      <trans-unit id="language.nl" resname="language.nl">
+        <source>language.nl</source>
+        <target>Nederlands</target>
+      </trans-unit>
+      <trans-unit id="language.pl" resname="language.pl">
+        <source>language.pl</source>
+        <target>Polski</target>
+      </trans-unit>
+      <trans-unit id="language.bg" resname="language.bg">
+        <source>language.bg</source>
+        <target>Български</target>
+      </trans-unit>
+      <trans-unit id="language.bs" resname="language.bs">
+        <source>language.bs</source>
+        <target>Bosanski</target>
+      </trans-unit>
+      <trans-unit id="language.ca" resname="language.ca">
+        <source>language.ca</source>
+        <target>Català</target>
+      </trans-unit>
+      <trans-unit id="language.cs" resname="language.cs">
+        <source>language.cs</source>
+        <target>Čeština</target>
+      </trans-unit>
+      <trans-unit id="language.da" resname="language.da">
+        <source>language.da</source>
+        <target>Dansk</target>
+      </trans-unit>
+      <trans-unit id="language.el" resname="language.el">
+        <source>language.el</source>
+        <target>Ελληνικά</target>
+      </trans-unit>
+      <trans-unit id="language.et" resname="language.et">
+        <source>language.et</source>
+        <target>Eesti</target>
+      </trans-unit>
+      <trans-unit id="language.fi" resname="language.fi">
+        <source>language.fi</source>
+        <target>Suomi</target>
+      </trans-unit>
+      <trans-unit id="language.hr" resname="language.hr">
+        <source>language.hr</source>
+        <target>Hrvatski</target>
+      </trans-unit>
+      <trans-unit id="language.hu" resname="language.hu">
+        <source>language.hu</source>
+        <target>Magyar</target>
+      </trans-unit>
+      <trans-unit id="language.is" resname="language.is">
+        <source>language.is</source>
+        <target>Íslenska</target>
+      </trans-unit>
+      <trans-unit id="language.lt" resname="language.lt">
+        <source>language.lt</source>
+        <target>Lietuvių</target>
+      </trans-unit>
+      <trans-unit id="language.lv" resname="language.lv">
+        <source>language.lv</source>
+        <target>Latviešu</target>
+      </trans-unit>
+      <trans-unit id="language.mk" resname="language.mk">
+        <source>language.mk</source>
+        <target>Македонски</target>
+      </trans-unit>
+      <trans-unit id="language.nb" resname="language.nb">
+        <source>language.nb</source>
+        <target>Norsk bokmål</target>
+      </trans-unit>
+      <trans-unit id="language.pt" resname="language.pt">
+        <source>language.pt</source>
+        <target>Português</target>
+      </trans-unit>
+      <trans-unit id="language.ro" resname="language.ro">
+        <source>language.ro</source>
+        <target>Română</target>
+      </trans-unit>
+      <trans-unit id="language.sk" resname="language.sk">
+        <source>language.sk</source>
+        <target>Slovenčina</target>
+      </trans-unit>
+      <trans-unit id="language.sl" resname="language.sl">
+        <source>language.sl</source>
+        <target>Slovenščina</target>
+      </trans-unit>
+      <trans-unit id="language.sq" resname="language.sq">
+        <source>language.sq</source>
+        <target>Shqip</target>
+      </trans-unit>
+      <trans-unit id="language.sr" resname="language.sr">
+        <source>language.sr</source>
+        <target>Српски</target>
+      </trans-unit>
+      <trans-unit id="language.sv" resname="language.sv">
+        <source>language.sv</source>
+        <target>Svenska</target>
+      </trans-unit>
+      <trans-unit id="language.tr" resname="language.tr">
+        <source>language.tr</source>
+        <target>Türkçe</target>
+      </trans-unit>
+      <trans-unit id="language.uk" resname="language.uk">
+        <source>language.uk</source>
+        <target>Українська</target>
+      </trans-unit>
+      <trans-unit id="d1a7f3b9c2" resname="sessions.title">
+        <source>sessions.title</source>
+        <target>Odprte seje</target>
+      </trans-unit>
+      <trans-unit id="f7c2e9a4b1" resname="sessions.explanation">
+        <source>sessions.explanation</source>
+        <target>Končanje seje vas odjavi iz vseh aplikacij, v katerih je bila uporabljena.</target>
+      </trans-unit>
+      <trans-unit id="a9d4f1c7e3" resname="sessions.proved">
+        <source>sessions.proved</source>
+        <target>Metoda</target>
+      </trans-unit>
+      <trans-unit id="b2e7a3d9f4" resname="sessions.opened_at">
+        <source>sessions.opened_at</source>
+        <target>Odprto</target>
+      </trans-unit>
+      <trans-unit id="c5f1b8e2a7" resname="sessions.last_seen">
+        <source>sessions.last_seen</source>
+        <target>Zadnja dejavnost</target>
+      </trans-unit>
+      <trans-unit id="d8a2c7f3b1" resname="sessions.from">
+        <source>sessions.from</source>
+        <target>Izvor</target>
+      </trans-unit>
+      <trans-unit id="f3c8a1e7b2" resname="sessions.this_browser">
+        <source>sessions.this_browser</source>
+        <target>ta brskalnik</target>
+      </trans-unit>
+      <trans-unit id="a6d2f9b3c1" resname="sessions.end">
+        <source>sessions.end</source>
+        <target>Končaj</target>
+      </trans-unit>
+      <trans-unit id="b9e3a7d2f8" resname="sessions.end_this_one">
+        <source>sessions.end_this_one</source>
+        <target>Končaj in se odjavi</target>
+      </trans-unit>
+      <trans-unit id="c2f7b1e9a4" resname="account.sessions.state">
+        <source>account.sessions.state</source>
+        <target>{count, plural, =0 {ni odprte seje} =1 {ena odprta seja} one {# odprta seja} two {# odprti seji} few {# odprte seje} other {# odprtih sej}}</target>
+      </trans-unit>
+      <trans-unit id="a1c4e7f2b9" resname="application.granted">
+        <source>application.granted</source>
+        <target>S čim ste se strinjali</target>
+      </trans-unit>
+      <trans-unit id="b4f8a2c6e1" resname="application.holds">
+        <source>application.holds</source>
+        <target>Njen trenutni dostop</target>
+      </trans-unit>
+      <trans-unit id="c7a1d4f8b2" resname="application.renewable">
+        <source>application.renewable</source>
+        <target>{count, plural, =0 {Svojega dostopa ne more podaljšati.} one {Svoj dostop lahko podaljša brez vas.} two {Svoj dostop lahko podaljša brez vas.} few {Svoj dostop lahko podaljša brez vas.} other {Svoj dostop lahko podaljša brez vas.}}</target>
+      </trans-unit>
+      <trans-unit id="d2b8f1a7c4" resname="application.last_issued">
+        <source>application.last_issued</source>
+        <target>Zadnji izdani dostop:</target>
+      </trans-unit>
+      <trans-unit id="e5c1a8d2f7" resname="application.self_contained">
+        <source>application.self_contained</source>
+        <target>Že izdani dostop ostane veljaven do izteka, tudi če ga prekličete.</target>
+      </trans-unit>
+      <trans-unit id="f8d2b7a1c5" resname="application.pending">
+        <source>application.pending</source>
+        <target>Na kaj čaka</target>
+      </trans-unit>
+      <trans-unit id="a3e9c2f7b4" resname="application.nothing_pending">
+        <source>application.nothing_pending</source>
+        <target>Od vas ne čaka ničesar.</target>
+      </trans-unit>
+      <trans-unit id="b6f2d8a3c9" resname="application.answer_them">
+        <source>application.answer_them</source>
+        <target>Prikaži čakajoče zahteve</target>
+      </trans-unit>
+      <trans-unit id="c9a3e1f8b5" resname="application.take_it_back">
+        <source>application.take_it_back</source>
+        <target>Prekliči dostop</target>
+      </trans-unit>
+      <trans-unit id="d4b9f2a8c3" resname="application.take_it_back_means">
+        <source>application.take_it_back_means</source>
+        <target>Naslednjič vas bo znova prosila za dovoljenje.</target>
+      </trans-unit>
+      <trans-unit id="acts.title" resname="acts.title">
+        <source>acts.title</source>
+        <target>Dejavnost računa</target>
+      </trans-unit>
+      <trans-unit id="acts.explanation" resname="acts.explanation">
+        <source>acts.explanation</source>
+        <target>Če katerega od dogodkov ne prepoznate, spremenite geslo.</target>
+      </trans-unit>
+      <trans-unit id="acts.what" resname="acts.what">
+        <source>acts.what</source>
+        <target>Dogodek</target>
+      </trans-unit>
+      <trans-unit id="acts.when" resname="acts.when">
+        <source>acts.when</source>
+        <target>Datum</target>
+      </trans-unit>
+      <trans-unit id="acts.from" resname="acts.from">
+        <source>acts.from</source>
+        <target>Izvor</target>
+      </trans-unit>
+      <trans-unit id="acts.by_an_administrator" resname="acts.by_an_administrator">
+        <source>acts.by_an_administrator</source>
+        <target>Skrbnik vaše organizacije</target>
+      </trans-unit>
+      <trans-unit id="acts.none" resname="acts.none">
+        <source>acts.none</source>
+        <target>Zaenkrat ni bilo zabeleženo nič.</target>
+      </trans-unit>
+      <trans-unit id="acts.none_matching" resname="acts.none_matching">
+        <source>acts.none_matching</source>
+        <target>Nič ne ustreza filtrom.</target>
+      </trans-unit>
+      <trans-unit id="acts.filter.every_act" resname="acts.filter.every_act">
+        <source>acts.filter.every_act</source>
+        <target>Vse</target>
+      </trans-unit>
+      <trans-unit id="acts.filter.from_anywhere" resname="acts.filter.from_anywhere">
+        <source>acts.filter.from_anywhere</source>
+        <target>Vse</target>
+      </trans-unit>
+      <trans-unit id="acts.filter.from_a_request" resname="acts.filter.from_a_request">
+        <source>acts.filter.from_a_request</source>
+        <target>Brskalnik ali aplikacija</target>
+      </trans-unit>
+      <trans-unit id="account.acts.state" resname="account.acts.state">
+        <source>account.acts.state</source>
+        <target>{count, plural, =0 {noben zavrnjen poskus} one {# zavrnjen poskus} two {# zavrnjena poskusa} few {# zavrnjeni poskusi} other {# zavrnjenih poskusov}}</target>
+      </trans-unit>
+      <trans-unit id="act.user.authenticated" resname="act.user.authenticated">
+        <source>act.user.authenticated</source>
+        <target>Prijava</target>
+      </trans-unit>
+      <trans-unit id="act.authentication.failed" resname="act.authentication.failed">
+        <source>act.authentication.failed</source>
+        <target>Prijava zavrnjena</target>
+      </trans-unit>
+      <trans-unit id="act.password.used" resname="act.password.used">
+        <source>act.password.used</source>
+        <target>Geslo sprejeto</target>
+      </trans-unit>
+      <trans-unit id="act.passkey.used" resname="act.passkey.used">
+        <source>act.passkey.used</source>
+        <target>Ključ za dostop uporabljen</target>
+      </trans-unit>
+      <trans-unit id="act.totp.used" resname="act.totp.used">
+        <source>act.totp.used</source>
+        <target>Koda iz aplikacije za preverjanje pristnosti sprejeta</target>
+      </trans-unit>
+      <trans-unit id="act.backup_code.used" resname="act.backup_code.used">
+        <source>act.backup_code.used</source>
+        <target>Rezervna koda uporabljena</target>
+      </trans-unit>
+      <trans-unit id="act.session.ended" resname="act.session.ended">
+        <source>act.session.ended</source>
+        <target>Seja končana</target>
+      </trans-unit>
+      <trans-unit id="act.credential.enrolled" resname="act.credential.enrolled">
+        <source>act.credential.enrolled</source>
+        <target>Način prijave dodan</target>
+      </trans-unit>
+      <trans-unit id="act.credential.revoked" resname="act.credential.revoked">
+        <source>act.credential.revoked</source>
+        <target>Način prijave odstranjen</target>
+      </trans-unit>
+      <trans-unit id="act.credential.forgotten" resname="act.credential.forgotten">
+        <source>act.credential.forgotten</source>
+        <target>Način prijave izbrisan, ker ni več dovoljen</target>
+      </trans-unit>
+      <trans-unit id="act.credential.renamed" resname="act.credential.renamed">
+        <source>act.credential.renamed</source>
+        <target>Način prijave preimenovan</target>
+      </trans-unit>
+      <trans-unit id="act.password.changed" resname="act.password.changed">
+        <source>act.password.changed</source>
+        <target>Geslo spremenjeno</target>
+      </trans-unit>
+      <trans-unit id="act.backup_codes.renewed" resname="act.backup_codes.renewed">
+        <source>act.backup_codes.renewed</source>
+        <target>Rezervne kode obnovljene</target>
+      </trans-unit>
+      <trans-unit id="act.person.created" resname="act.person.created">
+        <source>act.person.created</source>
+        <target>Račun ustvarjen</target>
+      </trans-unit>
+      <trans-unit id="act.person.provisioned" resname="act.person.provisioned">
+        <source>act.person.provisioned</source>
+        <target>Račun ustvarjen prek vaše organizacije</target>
+      </trans-unit>
+      <trans-unit id="act.person.described_themselves" resname="act.person.described_themselves">
+        <source>act.person.described_themselves</source>
+        <target>Podatki spremenjeni</target>
+      </trans-unit>
+      <trans-unit id="act.person.described" resname="act.person.described">
+        <source>act.person.described</source>
+        <target>Podatki spremenjeni</target>
+      </trans-unit>
+      <trans-unit id="act.person.disabled" resname="act.person.disabled">
+        <source>act.person.disabled</source>
+        <target>Račun onemogočen</target>
+      </trans-unit>
+      <trans-unit id="act.person.enabled" resname="act.person.enabled">
+        <source>act.person.enabled</source>
+        <target>Račun znova omogočen</target>
+      </trans-unit>
+      <trans-unit id="act.group_membership.added" resname="act.group_membership.added">
+        <source>act.group_membership.added</source>
+        <target>Dodajanje v skupino</target>
+      </trans-unit>
+      <trans-unit id="act.group_membership.removed" resname="act.group_membership.removed">
+        <source>act.group_membership.removed</source>
+        <target>Odstranitev iz skupine</target>
+      </trans-unit>
+      <trans-unit id="act.consent.granted" resname="act.consent.granted">
+        <source>act.consent.granted</source>
+        <target>Aplikacija dovoljena</target>
+      </trans-unit>
+      <trans-unit id="act.consent.revoked" resname="act.consent.revoked">
+        <source>act.consent.revoked</source>
+        <target>Dostop aplikacije preklican</target>
+      </trans-unit>
+      <trans-unit id="act.archive.asked" resname="act.archive.asked">
+        <source>act.archive.asked</source>
+        <target>Kopija vaših podatkov zahtevana</target>
+      </trans-unit>
+      <trans-unit id="act.archive.taken" resname="act.archive.taken">
+        <source>act.archive.taken</source>
+        <target>Kopija vaših podatkov prenesena</target>
+      </trans-unit>
+      <trans-unit id="act.archive.dropped" resname="act.archive.dropped">
+        <source>act.archive.dropped</source>
+        <target>Kopija vaših podatkov izbrisana</target>
+      </trans-unit>
+      <trans-unit id="act.administration.person_read" resname="act.administration.person_read">
+        <source>act.administration.person_read</source>
+        <target>Račun pregledan</target>
+      </trans-unit>
+      <trans-unit id="act.administration.sessions_read" resname="act.administration.sessions_read">
+        <source>act.administration.sessions_read</source>
+        <target>Seje pregledane</target>
+      </trans-unit>
+      <trans-unit id="act.administration.membership_read" resname="act.administration.membership_read">
+        <source>act.administration.membership_read</source>
+        <target>Članstvo v skupinah pregledano</target>
+      </trans-unit>
+      <trans-unit id="act.administration.consents_read" resname="act.administration.consents_read">
+        <source>act.administration.consents_read</source>
+        <target>Dovoljene aplikacije pregledane</target>
+      </trans-unit>
+      <trans-unit id="act.administration.journal_read" resname="act.administration.journal_read">
+        <source>act.administration.journal_read</source>
+        <target>Dejavnost računa pregledana</target>
+      </trans-unit>
+      <trans-unit id="profile.change_explanation" resname="profile.change_explanation">
+        <source>profile.change_explanation</source>
+        <target>Izpraznite polje, da podatek odstranite.</target>
+      </trans-unit>
+      <trans-unit id="profile.change_nothing" resname="profile.change_nothing">
+        <source>profile.change_nothing</source>
+        <target>Teh podatkov tukaj ni mogoče spremeniti.</target>
+      </trans-unit>
+      <trans-unit id="profile.save" resname="profile.save">
+        <source>profile.save</source>
+        <target>Shrani</target>
+      </trans-unit>
+      <trans-unit id="profile.claim_not_open" resname="profile.claim_not_open">
+        <source>profile.claim_not_open</source>
+        <target>Tega podatka tukaj ni mogoče spremeniti.</target>
+      </trans-unit>
+      <trans-unit id="profile.claim_refused" resname="profile.claim_refused">
+        <source>profile.claim_refused</source>
+        <target>Ta vrednost ni veljavna.</target>
+      </trans-unit>
+      <trans-unit id="profile.nothing" resname="profile.nothing">
+        <source>profile.nothing</source>
+        <target>Nič</target>
+      </trans-unit>
+      <trans-unit id="profile.birthdate.example" resname="profile.birthdate.example">
+        <source>profile.birthdate.example</source>
+        <target>1815-12-10 ali 1815</target>
+      </trans-unit>
+      <trans-unit id="archive.title" resname="archive.title">
+        <source>archive.title</source>
+        <target>Kopija podatkov</target>
+      </trans-unit>
+      <trans-unit id="archive.explanation" resname="archive.explanation">
+        <source>archive.explanation</source>
+        <target>Vsi vaši podatki v eni datoteki, pripravljeni nekaj minut po vaši zahtevi.</target>
+      </trans-unit>
+      <trans-unit id="archive.what_it_holds" resname="archive.what_it_holds">
+        <source>archive.what_it_holds</source>
+        <target>Kaj vsebuje datoteka</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.profile" resname="archive.chapter.profile">
+        <source>archive.chapter.profile</source>
+        <target>Vaš račun in vaši podatki</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.credentials" resname="archive.chapter.credentials">
+        <source>archive.chapter.credentials</source>
+        <target>Vaši načini prijave, brez njihovih skrivnosti</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.linked_identities" resname="archive.chapter.linked_identities">
+        <source>archive.chapter.linked_identities</source>
+        <target>Vaši povezani računi in kaj so delili</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.groups" resname="archive.chapter.groups">
+        <source>archive.chapter.groups</source>
+        <target>Vaše skupine in izvor vsake od njih</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.consents" resname="archive.chapter.consents">
+        <source>archive.chapter.consents</source>
+        <target>Dovoljene aplikacije in kaj vsaka dobi</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.sessions" resname="archive.chapter.sessions">
+        <source>archive.chapter.sessions</source>
+        <target>Vaše odprte seje</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.journal" resname="archive.chapter.journal">
+        <source>archive.chapter.journal</source>
+        <target>Dejavnost vašega računa</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.changes" resname="archive.chapter.changes">
+        <source>archive.chapter.changes</source>
+        <target>Zgodovina sprememb vaših podatkov</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.disclosures" resname="archive.chapter.disclosures">
+        <source>archive.chapter.disclosures</source>
+        <target>Kaj je vsaka aplikacija dobila od vas in kdaj</target>
+      </trans-unit>
+      <trans-unit id="archive.your_request" resname="archive.your_request">
+        <source>archive.your_request</source>
+        <target>Vaša zahteva</target>
+      </trans-unit>
+      <trans-unit id="archive.never" resname="archive.never">
+        <source>archive.never</source>
+        <target>Svojih podatkov še niste zahtevali.</target>
+      </trans-unit>
+      <trans-unit id="archive.being_built" resname="archive.being_built">
+        <source>archive.being_built</source>
+        <target>Vaša datoteka se pripravlja. Vrnite se čez nekaj minut.</target>
+      </trans-unit>
+      <trans-unit id="archive.stalled" resname="archive.stalled">
+        <source>archive.stalled</source>
+        <target>Vaše datoteke ni bilo mogoče pripraviti. Zahtevajte novo.</target>
+      </trans-unit>
+      <trans-unit id="archive.ready" resname="archive.ready">
+        <source>archive.ready</source>
+        <target>Vaša datoteka je pripravljena.</target>
+      </trans-unit>
+      <trans-unit id="archive.expired" resname="archive.expired">
+        <source>archive.expired</source>
+        <target>Vaša datoteka je potekla. Zahtevajte novo.</target>
+      </trans-unit>
+      <trans-unit id="archive.asked_at" resname="archive.asked_at">
+        <source>archive.asked_at</source>
+        <target>Zahtevano: {moment}.</target>
+      </trans-unit>
+      <trans-unit id="archive.built_at" resname="archive.built_at">
+        <source>archive.built_at</source>
+        <target>Pripravljeno: {moment}.</target>
+      </trans-unit>
+      <trans-unit id="archive.expires_at" resname="archive.expires_at">
+        <source>archive.expires_at</source>
+        <target>Na voljo do {moment}.</target>
+      </trans-unit>
+      <trans-unit id="archive.download" resname="archive.download">
+        <source>archive.download</source>
+        <target>Prenesi svoje podatke</target>
+      </trans-unit>
+      <trans-unit id="archive.passphrase" resname="archive.passphrase">
+        <source>archive.passphrase</source>
+        <target>Geselska fraza</target>
+      </trans-unit>
+      <trans-unit id="archive.wrapped_explanation" resname="archive.wrapped_explanation">
+        <source>archive.wrapped_explanation</source>
+        <target>Datoteko lahko prenesete tudi šifrirano z geselsko frazo, dolgo vsaj {minimum} znakov. Fraza se nikjer ne shrani: če jo izgubite, datoteke ni mogoče odpreti. Datoteko .{container} odprite s programom 7-Zip ali Keka.</target>
+      </trans-unit>
+      <trans-unit id="archive.download_wrapped" resname="archive.download_wrapped">
+        <source>archive.download_wrapped</source>
+        <target>Prenesi šifrirano</target>
+      </trans-unit>
+      <trans-unit id="archive.passphrase_refused" resname="archive.passphrase_refused">
+        <source>archive.passphrase_refused</source>
+        <target>Geselska fraza je prešibka: uporabite več besed, vsaj {minimum, number} znakov.</target>
+      </trans-unit>
+      <trans-unit id="archive.kept_for" resname="archive.kept_for">
+        <source>archive.kept_for</source>
+        <target>Datoteka se hrani {days, plural, one {# dan} two {# dneva} few {# dni} other {# dni}}, nato se izbriše.</target>
+      </trans-unit>
+      <trans-unit id="archive.ask" resname="archive.ask">
+        <source>archive.ask</source>
+        <target>Zahtevaj moje podatke</target>
+      </trans-unit>
+      <trans-unit id="archive.ask_again" resname="archive.ask_again">
+        <source>archive.ask_again</source>
+        <target>Zahtevaj novo datoteko</target>
+      </trans-unit>
+      <trans-unit id="account.archive.never" resname="account.archive.never">
+        <source>account.archive.never</source>
+        <target>še ni zahtevano</target>
+      </trans-unit>
+      <trans-unit id="account.archive.being_built" resname="account.archive.being_built">
+        <source>account.archive.being_built</source>
+        <target>v pripravi</target>
+      </trans-unit>
+      <trans-unit id="account.archive.stalled" resname="account.archive.stalled">
+        <source>account.archive.stalled</source>
+        <target>priprava ni uspela</target>
+      </trans-unit>
+      <trans-unit id="account.archive.ready" resname="account.archive.ready">
+        <source>account.archive.ready</source>
+        <target>pripravljeno za prenos</target>
+      </trans-unit>
+      <trans-unit id="account.archive.expired" resname="account.archive.expired">
+        <source>account.archive.expired</source>
+        <target>datoteka je potekla</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_nothing" resname="profile.changed_nothing">
+        <source>profile.changed_nothing</source>
+        <target>Zaenkrat ni sprememb.</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_what" resname="profile.changed_what">
+        <source>profile.changed_what</source>
+        <target>Podatek</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_from" resname="profile.changed_from">
+        <source>profile.changed_from</source>
+        <target>Prej</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_to" resname="profile.changed_to">
+        <source>profile.changed_to</source>
+        <target>Potem</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_when" resname="profile.changed_when">
+        <source>profile.changed_when</source>
+        <target>Kdaj</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_by" resname="profile.changed_by">
+        <source>profile.changed_by</source>
+        <target>Kdo</target>
+      </trans-unit>
+      <trans-unit id="pager.pages" resname="pager.pages">
+        <source>pager.pages</source>
+        <target>Številčenje strani</target>
+      </trans-unit>
+      <trans-unit id="pager.rows" resname="pager.rows">
+        <source>pager.rows</source>
+        <target>Prikazano {first} do {last} od {total}</target>
+      </trans-unit>
+      <trans-unit id="pager.previous" resname="pager.previous">
+        <source>pager.previous</source>
+        <target>Prejšnja stran</target>
+      </trans-unit>
+      <trans-unit id="pager.next" resname="pager.next">
+        <source>pager.next</source>
+        <target>Naslednja stran</target>
+      </trans-unit>
+      <trans-unit id="pager.first" resname="pager.first">
+        <source>pager.first</source>
+        <target>Prva stran</target>
+      </trans-unit>
+      <trans-unit id="pager.last" resname="pager.last">
+        <source>pager.last</source>
+        <target>Zadnja stran</target>
+      </trans-unit>
+      <trans-unit id="pager.go_to" resname="pager.go_to">
+        <source>pager.go_to</source>
+        <target>Pojdi na</target>
+      </trans-unit>
+      <trans-unit id="changes.title" resname="changes.title">
+        <source>changes.title</source>
+        <target>Zgodovina sprememb</target>
+      </trans-unit>
+      <trans-unit id="changes.by_you" resname="changes.by_you">
+        <source>changes.by_you</source>
+        <target>Vi</target>
+      </trans-unit>
+      <trans-unit id="changes.none_matching" resname="changes.none_matching">
+        <source>changes.none_matching</source>
+        <target>Nobena sprememba ne ustreza filtrom.</target>
+      </trans-unit>
+      <trans-unit id="changes.filter.every_claim" resname="changes.filter.every_claim">
+        <source>changes.filter.every_claim</source>
+        <target>Vse</target>
+      </trans-unit>
+      <trans-unit id="changes.filter.by_anyone" resname="changes.filter.by_anyone">
+        <source>changes.filter.by_anyone</source>
+        <target>Kdorkoli</target>
+      </trans-unit>
+      <trans-unit id="filter.from" resname="filter.from">
+        <source>filter.from</source>
+        <target>Od</target>
+      </trans-unit>
+      <trans-unit id="filter.label" resname="filter.label">
+        <source>filter.label</source>
+        <target>Filtri</target>
+      </trans-unit>
+      <trans-unit id="filter.to" resname="filter.to">
+        <source>filter.to</source>
+        <target>Do</target>
+      </trans-unit>
+      <trans-unit id="filter.apply" resname="filter.apply">
+        <source>filter.apply</source>
+        <target>Filtriraj</target>
+      </trans-unit>
+      <trans-unit id="filter.clear" resname="filter.clear">
+        <source>filter.clear</source>
+        <target>Ponastavi</target>
+      </trans-unit>
+      <trans-unit id="passkeys.new_default" resname="passkeys.new_default">
+        <source>passkeys.new_default</source>
+        <target>Nov ključ za dostop</target>
+      </trans-unit>
+      <trans-unit id="passkeys.rename" resname="passkeys.rename">
+        <source>passkeys.rename</source>
+        <target>Preimenuj</target>
+      </trans-unit>
+      <trans-unit id="notifications.new_default" resname="notifications.new_default">
+        <source>notifications.new_default</source>
+        <target>Nov brskalnik</target>
+      </trans-unit>
+      <trans-unit id="notifications.rename" resname="notifications.rename">
+        <source>notifications.rename</source>
+        <target>Preimenuj</target>
+      </trans-unit>
+      <trans-unit id="notifications.this_browser" resname="notifications.this_browser">
+        <source>notifications.this_browser</source>
+        <target>Ta brskalnik</target>
+      </trans-unit>
+      <trans-unit id="notifications.error.invalid_label" resname="notifications.error.invalid_label">
+        <source>notifications.error.invalid_label</source>
+        <target>Ime brskalnika mora imeti od 1 do 255 znakov.</target>
+      </trans-unit>
+      <trans-unit id="archive.cancel" resname="archive.cancel">
+        <source>archive.cancel</source>
+        <target>Izbriši to zahtevo</target>
+      </trans-unit>
+      <trans-unit id="archive.drop" resname="archive.drop">
+        <source>archive.drop</source>
+        <target>Izbriši to datoteko</target>
+      </trans-unit>
+      <trans-unit id="archive.drop_explanation" resname="archive.drop_explanation">
+        <source>archive.drop_explanation</source>
+        <target>Ko datoteko prenesete, jo lahko izbrišete, ne da bi čakali, da poteče.</target>
+      </trans-unit>
+      <trans-unit id="archive.nothing_to_drop" resname="archive.nothing_to_drop">
+        <source>archive.nothing_to_drop</source>
+        <target>Ni več ničesar za brisanje.</target>
+      </trans-unit>
+      <trans-unit id="sessions.end_others" resname="sessions.end_others">
+        <source>sessions.end_others</source>
+        <target>Končaj vse druge seje</target>
+      </trans-unit>
+      <trans-unit id="sessions.none" resname="sessions.none">
+        <source>sessions.none</source>
+        <target>Ni odprte seje.</target>
+      </trans-unit>
+      <trans-unit id="sessions.none_matching" resname="sessions.none_matching">
+        <source>sessions.none_matching</source>
+        <target>Nobena seja ne ustreza filtrom.</target>
+      </trans-unit>
+      <trans-unit id="sessions.filter.every_proof" resname="sessions.filter.every_proof">
+        <source>sessions.filter.every_proof</source>
+        <target>Vse</target>
+      </trans-unit>
+      <trans-unit id="password.title" resname="password.title">
+        <source>password.title</source>
+        <target>Vaše geslo</target>
+      </trans-unit>
+      <trans-unit id="password.none" resname="password.none">
+        <source>password.none</source>
+        <target>Nimate gesla: prijavljate se na drug način.</target>
+      </trans-unit>
+      <trans-unit id="password.changed_at" resname="password.changed_at">
+        <source>password.changed_at</source>
+        <target>Zadnja sprememba: {date}.</target>
+      </trans-unit>
+      <trans-unit id="password.what_happens" resname="password.what_happens">
+        <source>password.what_happens</source>
+        <target>Sprememba gesla vas odjavi iz vaših drugih brskalnikov.</target>
+      </trans-unit>
+      <trans-unit id="password.current" resname="password.current">
+        <source>password.current</source>
+        <target>Trenutno geslo</target>
+      </trans-unit>
+      <trans-unit id="password.new" resname="password.new">
+        <source>password.new</source>
+        <target>Novo geslo</target>
+      </trans-unit>
+      <trans-unit id="password.change" resname="password.change">
+        <source>password.change</source>
+        <target>Spremeni geslo</target>
+      </trans-unit>
+      <trans-unit id="password.error.wrong_password" resname="password.error.wrong_password">
+        <source>password.error.wrong_password</source>
+        <target>Napačno trenutno geslo.</target>
+      </trans-unit>
+      <trans-unit id="password.error.same_as_before" resname="password.error.same_as_before">
+        <source>password.error.same_as_before</source>
+        <target>To je že vaše geslo. Izberite drugo.</target>
+      </trans-unit>
+      <trans-unit id="password.error.no_password_held" resname="password.error.no_password_held">
+        <source>password.error.no_password_held</source>
+        <target>Nimate gesla, ki bi ga lahko spremenili.</target>
+      </trans-unit>
+      <trans-unit id="password.again" resname="password.again">
+        <source>password.again</source>
+        <target>Potrditev novega gesla</target>
+      </trans-unit>
+      <trans-unit id="password.breached" resname="password.breached">
+        <source>password.breached</source>
+        <target>Vaše geslo se pojavlja v uhajanju podatkov ({date}). Takoj ga spremenite.</target>
+      </trans-unit>
+      <trans-unit id="password.demanded" resname="password.demanded">
+        <source>password.demanded</source>
+        <target>Za nadaljevanje spremenite geslo. Sicer bo to znova zahtevano ob naslednji prijavi.</target>
+      </trans-unit>
+      <trans-unit id="password.strength.nothing" resname="password.strength.nothing">
+        <source>password.strength.nothing</source>
+        <target>zelo šibko</target>
+      </trans-unit>
+      <trans-unit id="password.strength.weak" resname="password.strength.weak">
+        <source>password.strength.weak</source>
+        <target>šibko</target>
+      </trans-unit>
+      <trans-unit id="password.strength.medium" resname="password.strength.medium">
+        <source>password.strength.medium</source>
+        <target>dovolj dobro</target>
+      </trans-unit>
+      <trans-unit id="password.strength.strong" resname="password.strength.strong">
+        <source>password.strength.strong</source>
+        <target>močno</target>
+      </trans-unit>
+      <trans-unit id="password.strength.very_strong" resname="password.strength.very_strong">
+        <source>password.strength.very_strong</source>
+        <target>zelo močno</target>
+      </trans-unit>
+      <trans-unit id="password.error.too_short" resname="password.error.too_short">
+        <source>password.error.too_short</source>
+        <target>Geslo mora imeti vsaj {minimum} znakov.</target>
+      </trans-unit>
+      <trans-unit id="password.error.too_long" resname="password.error.too_long">
+        <source>password.error.too_long</source>
+        <target>To geslo je predolgo.</target>
+      </trans-unit>
+      <trans-unit id="password.error.too_weak" resname="password.error.too_weak">
+        <source>password.error.too_weak</source>
+        <target>To geslo je preveč lahko uganiti. Podaljšajte ga ali uporabite več besed.</target>
+      </trans-unit>
+      <trans-unit id="password.error.breached" resname="password.error.breached">
+        <source>password.error.breached</source>
+        <target>To geslo se pojavlja v uhajanju podatkov. Izberite drugo.</target>
+      </trans-unit>
+      <trans-unit id="password.error.not_checked" resname="password.error.not_checked">
+        <source>password.error.not_checked</source>
+        <target>Gesla ni bilo mogoče preveriti. Poskusite znova.</target>
+      </trans-unit>
+      <trans-unit id="password.error.not_confirmed" resname="password.error.not_confirmed">
+        <source>password.error.not_confirmed</source>
+        <target>Gesli se ne ujemata.</target>
+      </trans-unit>
+      <trans-unit id="account.password.state" resname="account.password.state">
+        <source>account.password.state</source>
+        <target>{days, plural, =0 {spremenjeno danes} =1 {spremenjeno včeraj} one {spremenjeno pred # dnevom} two {spremenjeno pred # dnevoma} few {spremenjeno pred # dnevi} other {spremenjeno pred # dnevi}}</target>
+      </trans-unit>
+      <trans-unit id="account.password.none" resname="account.password.none">
+        <source>account.password.none</source>
+        <target>brez</target>
+      </trans-unit>
+      <trans-unit id="account.password.breached" resname="account.password.breached">
+        <source>account.password.breached</source>
+        <target>najdeno v uhajanju podatkov</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.renew" resname="two_factor.backup_codes.renew">
+        <source>two_factor.backup_codes.renew</source>
+        <target>Ustvari nove rezervne kode</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.title" resname="two_factor.backup_codes.title">
+        <source>two_factor.backup_codes.title</source>
+        <target>Vaše nove rezervne kode</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.renewed" resname="two_factor.backup_codes.renewed">
+        <source>two_factor.backup_codes.renewed</source>
+        <target>Vaše prejšnje kode ne delujejo več.</target>
+      </trans-unit>
+      <trans-unit id="provenance.device" resname="provenance.device">
+        <source>provenance.device</source>
+        <target>{browser} v sistemu {platform}</target>
+      </trans-unit>
+      <trans-unit id="provenance.unknown_place" resname="provenance.unknown_place">
+        <source>provenance.unknown_place</source>
+        <target>Neznan kraj</target>
+      </trans-unit>
+      <trans-unit id="provenance.unknown_address" resname="provenance.unknown_address">
+        <source>provenance.unknown_address</source>
+        <target>neznan naslov</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.copy" resname="two_factor.backup_codes.copy">
+        <source>two_factor.backup_codes.copy</source>
+        <target>Kopiraj vse</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.copied" resname="two_factor.backup_codes.copied">
+        <source>two_factor.backup_codes.copied</source>
+        <target>Kopirano</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.not_copied" resname="two_factor.backup_codes.not_copied">
+        <source>two_factor.backup_codes.not_copied</source>
+        <target>Kopiranje ni uspelo. Izberite kode in jih kopirajte.</target>
+      </trans-unit>
+      <trans-unit id="two_factor.enrol.step_secret" resname="two_factor.enrol.step_secret">
+        <source>two_factor.enrol.step_secret</source>
+        <target>Vnesite ključ v aplikacijo</target>
+      </trans-unit>
+      <trans-unit id="two_factor.enrol.step_code" resname="two_factor.enrol.step_code">
+        <source>two_factor.enrol.step_code</source>
+        <target>Potrdite s kodo, ki jo prikaže aplikacija</target>
+      </trans-unit>
+      <trans-unit id="two_factor.enrol.copy_key" resname="two_factor.enrol.copy_key">
+        <source>two_factor.enrol.copy_key</source>
+        <target>Kopiraj ključ</target>
+      </trans-unit>
+      <trans-unit id="two_factor.enrol.key_copied" resname="two_factor.enrol.key_copied">
+        <source>two_factor.enrol.key_copied</source>
+        <target>Kopirano</target>
+      </trans-unit>
+      <trans-unit id="two_factor.enrol.key_not_copied" resname="two_factor.enrol.key_not_copied">
+        <source>two_factor.enrol.key_not_copied</source>
+        <target>Kopiranje ni uspelo. Izberite ključ in ga kopirajte.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.title" resname="enrolment_ticket.title">
+        <source>enrolment_ticket.title</source>
+        <target>Dodajte ključ za dostop</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.prompt" resname="enrolment_ticket.prompt">
+        <source>enrolment_ticket.prompt</source>
+        <target>Dodajte ključ za dostop v račun {username}. Ta povezava deluje samo enkrat.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.enrol" resname="enrolment_ticket.enrol">
+        <source>enrolment_ticket.enrol</source>
+        <target>Dodaj moj ključ za dostop</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.unsupported" resname="enrolment_ticket.unsupported">
+        <source>enrolment_ticket.unsupported</source>
+        <target>Ta brskalnik ne more ustvariti ključa za dostop. Povezavo odprite v drugi napravi.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.error.no_ceremony" resname="enrolment_ticket.error.no_ceremony">
+        <source>enrolment_ticket.error.no_ceremony</source>
+        <target>Čas za dodajanje ključa za dostop je potekel. Poskusite znova.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.error.organisation_keys_only" resname="enrolment_ticket.error.organisation_keys_only">
+        <source>enrolment_ticket.error.organisation_keys_only</source>
+        <target>Sprejemajo se samo ključi, ki vam jih je dala vaša organizacija.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.error.model_under_security_alert" resname="enrolment_ticket.error.model_under_security_alert">
+        <source>enrolment_ticket.error.model_under_security_alert</source>
+        <target>Za ta model velja varnostno opozorilo, zato ni več sprejet. Uporabite drugega.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.error.refused" resname="enrolment_ticket.error.refused">
+        <source>enrolment_ticket.error.refused</source>
+        <target>Ključa za dostop ni bilo mogoče dodati. Poskusite znova.</target>
+      </trans-unit>
+      <trans-unit id="error.enrolment_ticket_refused" resname="error.enrolment_ticket_refused">
+        <source>error.enrolment_ticket_refused</source>
+        <target>Ta povezava je bila že uporabljena ali je potekla. Zahtevajte novo.</target>
+      </trans-unit>
+      <trans-unit id="act.enrolment_ticket.issued" resname="act.enrolment_ticket.issued">
+        <source>act.enrolment_ticket.issued</source>
+        <target>Izdana povezava za dodajanje ključa za dostop</target>
+      </trans-unit>
+      <trans-unit id="password_ticket.title" resname="password_ticket.title">
+        <source>password_ticket.title</source>
+        <target>Izberite novo geslo</target>
+      </trans-unit>
+      <trans-unit id="password_ticket.prompt" resname="password_ticket.prompt">
+        <source>password_ticket.prompt</source>
+        <target>Novo geslo za račun {username}. Ta povezava deluje samo enkrat.</target>
+      </trans-unit>
+      <trans-unit id="password_ticket.what_happens" resname="password_ticket.what_happens">
+        <source>password_ticket.what_happens</source>
+        <target>Vse vaše seje bodo končane: znova se prijavite z novim geslom.</target>
+      </trans-unit>
+      <trans-unit id="password_ticket.submit" resname="password_ticket.submit">
+        <source>password_ticket.submit</source>
+        <target>Shrani geslo</target>
+      </trans-unit>
+      <trans-unit id="password.error.not_admitted" resname="password.error.not_admitted">
+        <source>password.error.not_admitted</source>
+        <target>Vaša organizacija za vaš račun ne dovoli gesla.</target>
+      </trans-unit>
+      <trans-unit id="error.password_ticket_refused" resname="error.password_ticket_refused">
+        <source>error.password_ticket_refused</source>
+        <target>Ta povezava je bila že uporabljena ali je potekla. Zahtevajte novo.</target>
+      </trans-unit>
+      <trans-unit id="act.password_ticket.issued" resname="act.password_ticket.issued">
+        <source>act.password_ticket.issued</source>
+        <target>Izdana povezava za novo geslo</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.title" resname="totp_ticket.title">
+        <source>totp_ticket.title</source>
+        <target>Nastavite novo aplikacijo za preverjanje pristnosti</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.prompt" resname="totp_ticket.prompt">
+        <source>totp_ticket.prompt</source>
+        <target>Nova aplikacija za preverjanje pristnosti za račun {username}. Ta povezava deluje samo enkrat.</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.what_happens" resname="totp_ticket.what_happens">
+        <source>totp_ticket.what_happens</source>
+        <target>Prejšnja aplikacija bo prenehala delovati in vse vaše seje bodo končane.</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.enrolled" resname="totp_ticket.enrolled">
+        <source>totp_ticket.enrolled</source>
+        <target>Vaša nova aplikacija za preverjanje pristnosti je nastavljena in vaše seje so končane.</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.sign_in" resname="totp_ticket.sign_in">
+        <source>totp_ticket.sign_in</source>
+        <target>Prijava</target>
+      </trans-unit>
+      <trans-unit id="two_factor.error.not_admitted" resname="two_factor.error.not_admitted">
+        <source>two_factor.error.not_admitted</source>
+        <target>Vaša organizacija za vaš račun ne dovoli aplikacije za preverjanje pristnosti.</target>
+      </trans-unit>
+      <trans-unit id="error.totp_ticket_refused" resname="error.totp_ticket_refused">
+        <source>error.totp_ticket_refused</source>
+        <target>Ta povezava je bila že uporabljena ali je potekla. Zahtevajte novo.</target>
+      </trans-unit>
+      <trans-unit id="act.totp_ticket.issued" resname="act.totp_ticket.issued">
+        <source>act.totp_ticket.issued</source>
+        <target>Izdana povezava za nastavitev aplikacije za preverjanje pristnosti</target>
+      </trans-unit>
+      <trans-unit id="post_again.title" resname="post_again.title">
+        <source>post_again.title</source>
+        <target>Prijavljanje</target>
+      </trans-unit>
+      <trans-unit id="post_again.continue" resname="post_again.continue">
+        <source>post_again.continue</source>
+        <target>Nadaljuj</target>
+      </trans-unit>
+      <trans-unit id="saml_post.title" resname="saml_post.title">
+        <source>saml_post.title</source>
+        <target>Vračanje v aplikacijo</target>
+      </trans-unit>
+      <trans-unit id="saml_post.continue" resname="saml_post.continue">
+        <source>saml_post.continue</source>
+        <target>Nadaljuj</target>
+      </trans-unit>
+      <trans-unit id="saml_post.upstream.title" resname="saml_post.upstream.title">
+        <source>saml_post.upstream.title</source>
+        <target>Prijava prek vaše organizacije</target>
+      </trans-unit>
+      <trans-unit id="error.saml_request_refused" resname="error.saml_request_refused">
+        <source>error.saml_request_refused</source>
+        <target>Aplikacija je poslala neveljavno zahtevo za prijavo. Začnite znova v aplikaciji.</target>
+      </trans-unit>
+      <trans-unit id="error.saml_logout_refused" resname="error.saml_logout_refused">
+        <source>error.saml_logout_refused</source>
+        <target>Aplikacija je poslala neveljavno zahtevo za odjavo. Znova se odjavite v aplikaciji.</target>
+      </trans-unit>
+      <trans-unit id="error.saml_assertion_refused" resname="error.saml_assertion_refused">
+        <source>error.saml_assertion_refused</source>
+        <target>Prijava prek vaše organizacije ni uspela. Začnite znova v aplikaciji.</target>
+      </trans-unit>
+      <trans-unit id="error.saml_upstream_sign_on_refused" resname="error.saml_upstream_sign_on_refused">
+        <source>error.saml_upstream_sign_on_refused</source>
+        <target>Prijave prek vaše organizacije ni mogoče začeti tukaj. Začnite znova v aplikaciji.</target>
+      </trans-unit>
+      <trans-unit id="controls.close" resname="controls.close">
+        <source>controls.close</source>
+        <target>Zapri menije</target>
+      </trans-unit>
+      <trans-unit id="b7c1d4e9f0" resname="theme.choose">
+        <source>theme.choose</source>
+        <target>Izberi temo</target>
+      </trans-unit>
+      <trans-unit id="c3d5e7a1b2" resname="theme.light">
+        <source>theme.light</source>
+        <target>Svetla</target>
+      </trans-unit>
+      <trans-unit id="d9e2f4a6c8" resname="theme.dark">
+        <source>theme.dark</source>
+        <target>Temna</target>
+      </trans-unit>
+      <trans-unit id="e1f3a5b7d2" resname="theme.system">
+        <source>theme.system</source>
+        <target>Sistemska</target>
+      </trans-unit>
+      <trans-unit id="f4a6b8c1e3" resname="navigation.pages">
+        <source>navigation.pages</source>
+        <target>Strani vašega računa</target>
+      </trans-unit>
+      <trans-unit id="a8b2c4d6f1" resname="navigation.show_pages">
+        <source>navigation.show_pages</source>
+        <target>Prikaži strani vašega računa</target>
+      </trans-unit>
+      <trans-unit id="b1c3d5e7a9" resname="navigation.group.record">
+        <source>navigation.group.record</source>
+        <target>Osebni podatki</target>
+      </trans-unit>
+      <trans-unit id="c2d4e6f8b1" resname="navigation.group.sign_in">
+        <source>navigation.group.sign_in</source>
+        <target>Varnost</target>
+      </trans-unit>
+      <trans-unit id="d3e5f7a9c2" resname="navigation.group.activity">
+        <source>navigation.group.activity</source>
+        <target>Dejavnost</target>
+      </trans-unit>
+      <trans-unit id="e4f6a8b2c1" resname="navigation.where_you_are">
+        <source>navigation.where_you_are</source>
+        <target>Kje ste</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.approvals" resname="navigation.description.approvals">
+        <source>navigation.description.approvals</source>
+        <target>Zahteve, ki čakajo na vaš odgovor.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.profile" resname="navigation.description.profile">
+        <source>navigation.description.profile</source>
+        <target>Oglejte si in popravite svoje podatke.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.archive" resname="navigation.description.archive">
+        <source>navigation.description.archive</source>
+        <target>Prenesite kopijo svojih podatkov.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.password" resname="navigation.description.password">
+        <source>navigation.description.password</source>
+        <target>Spremenite geslo.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.passkeys" resname="navigation.description.passkeys">
+        <source>navigation.description.passkeys</source>
+        <target>Prijavite se z napravo, brez gesla.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.two_factor" resname="navigation.description.two_factor">
+        <source>navigation.description.two_factor</source>
+        <target>Koda poleg vašega gesla.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.notifications" resname="navigation.description.notifications">
+        <source>navigation.description.notifications</source>
+        <target>Kako prejemate obvestila.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.sessions" resname="navigation.description.sessions">
+        <source>navigation.description.sessions</source>
+        <target>Naprave, prijavljene v vaš račun.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.consents" resname="navigation.description.consents">
+        <source>navigation.description.consents</source>
+        <target>Kaj vsaka aplikacija dobi od vas.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.acts" resname="navigation.description.acts">
+        <source>navigation.description.acts</source>
+        <target>Prijave in spremembe vašega računa.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.title" resname="mail_encryption.title">
+        <source>mail_encryption.title</source>
+        <target>Šifrirana e-pošta</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.explanation" resname="mail_encryption.explanation">
+        <source>mail_encryption.explanation</source>
+        <target>E-poštna sporočila, poslana na {address}, je mogoče šifrirati za vaše potrdilo S/MIME ali ključ OpenPGP, ki mora vsebovati ta naslov. Pošiljatelj, prejemnik, datum in zadeva ostanejo berljivi.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.no_address" resname="mail_encryption.no_address">
+        <source>mail_encryption.no_address</source>
+        <target>Šifriranje zahteva preverjen e-poštni naslov, vaš račun pa ga nima.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.none" resname="mail_encryption.none">
+        <source>mail_encryption.none</source>
+        <target>Vaša e-poštna sporočila niso šifrirana.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.held" resname="mail_encryption.held">
+        <source>mail_encryption.held</source>
+        <target>Vaša e-poštna sporočila so šifrirana v formatu {format} za ključ {fingerprint}. E-poštno sporočilo, ki ga ni mogoče šifrirati, ni poslano.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.valid_until" resname="mail_encryption.valid_until">
+        <source>mail_encryption.valid_until</source>
+        <target>Veljavno do {date}.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.remove" resname="mail_encryption.remove">
+        <source>mail_encryption.remove</source>
+        <target>Ne šifriraj več mojih e-poštnih sporočil</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.format" resname="mail_encryption.format">
+        <source>mail_encryption.format</source>
+        <target>Format</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.material" resname="mail_encryption.material">
+        <source>mail_encryption.material</source>
+        <target>Potrdilo ali javni ključ</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.material_help" resname="mail_encryption.material_help">
+        <source>mail_encryption.material_help</source>
+        <target>S/MIME: samo potrdilo v formatu PEM. OpenPGP: samo javni ključ v formatu ASCII armor. Nadomesti prejšnje.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.give" resname="mail_encryption.give">
+        <source>mail_encryption.give</source>
+        <target>Šifriraj moja e-poštna sporočila</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.kind.smime" resname="mail_encryption.kind.smime">
+        <source>mail_encryption.kind.smime</source>
+        <target>S/MIME</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.kind.pgp" resname="mail_encryption.kind.pgp">
+        <source>mail_encryption.kind.pgp</source>
+        <target>OpenPGP</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.unreadable" resname="mail_encryption.error.unreadable">
+        <source>mail_encryption.error.unreadable</source>
+        <target>Tega potrdila ali javnega ključa ni mogoče prebrati.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.not_for_encryption" resname="mail_encryption.error.not_for_encryption">
+        <source>mail_encryption.error.not_for_encryption</source>
+        <target>To potrdilo ali ta ključ ne omogoča šifriranja: potreben je ključ RSA z vsaj 2048 biti (S/MIME) ali podključ za šifriranje (OpenPGP).</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.not_valid_now" resname="mail_encryption.error.not_valid_now">
+        <source>mail_encryption.error.not_valid_now</source>
+        <target>To potrdilo ali ta ključ je potekel, je preklican ali še ni veljaven.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.another_address" resname="mail_encryption.error.another_address">
+        <source>mail_encryption.error.another_address</source>
+        <target>To potrdilo ali ta ključ ne vsebuje vašega preverjenega naslova.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.no_verified_address" resname="mail_encryption.error.no_verified_address">
+        <source>mail_encryption.error.no_verified_address</source>
+        <target>Šifriranje zahteva preverjen e-poštni naslov, vaš račun pa ga nima.</target>
+      </trans-unit>
+      <trans-unit id="profile.mail_encryption" resname="profile.mail_encryption">
+        <source>profile.mail_encryption</source>
+        <target>Šifrirana e-pošta</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.title" resname="notifications.channels.title">
+        <source>notifications.channels.title</source>
+        <target>Kanali</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.explanation" resname="notifications.channels.explanation">
+        <source>notifications.channels.explanation</source>
+        <target>Izberite privzete kanale ali jih prilagodite za posamezno obvestilo. E-poštno sporočilo ali SMS se pošlje samo na preverjen naslov ali številko.</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.none" resname="notifications.channels.none">
+        <source>notifications.channels.none</source>
+        <target>Noben kanal za obvestila ni na voljo.</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.kind" resname="notifications.channels.kind">
+        <source>notifications.channels.kind</source>
+        <target>Obvestilo</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.apart" resname="notifications.channels.apart">
+        <source>notifications.channels.apart</source>
+        <target>Prilagodi</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.apart_label" resname="notifications.channels.apart_label">
+        <source>notifications.channels.apart_label</source>
+        <target>{kind}: prilagodi</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.following" resname="notifications.channels.following">
+        <source>notifications.channels.following</source>
+        <target>Privzeti kanali</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.by" resname="notifications.channels.by">
+        <source>notifications.channels.by</source>
+        <target>{kind}: {channel}</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.every_kind" resname="notifications.channels.every_kind">
+        <source>notifications.channels.every_kind</source>
+        <target>Privzeto</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.every_channel" resname="notifications.channels.every_channel">
+        <source>notifications.channels.every_channel</source>
+        <target>Vedno poslano po vseh kanalih.</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.save" resname="notifications.channels.save">
+        <source>notifications.channels.save</source>
+        <target>Shrani</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.not_chosen" resname="notifications.channels.not_chosen">
+        <source>notifications.channels.not_chosen</source>
+        <target>Ni izbrano</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.no_channel" resname="notifications.channels.no_channel">
+        <source>notifications.channels.no_channel</source>
+        <target>Brez kanala</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.web_push" resname="notifications.channel.web_push">
+        <source>notifications.channel.web_push</source>
+        <target>Brskalniki</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.mail" resname="notifications.channel.mail">
+        <source>notifications.channel.mail</source>
+        <target>E-pošta</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.sms" resname="notifications.channel.sms">
+        <source>notifications.channel.sms</source>
+        <target>SMS</target>
+      </trans-unit>
+      <trans-unit id="notifications.kind.pending_approval" resname="notifications.kind.pending_approval">
+        <source>notifications.kind.pending_approval</source>
+        <target>Zahteva za odobritev</target>
+      </trans-unit>
+      <trans-unit id="notifications.kind.credential_change" resname="notifications.kind.credential_change">
+        <source>notifications.kind.credential_change</source>
+        <target>Sprememba načinov prijave</target>
+      </trans-unit>
+      <trans-unit id="profile.notification_channels" resname="profile.notification_channels">
+        <source>profile.notification_channels</source>
+        <target>Privzeti kanali obvestil</target>
+      </trans-unit>
+      <trans-unit id="profile.notification_channels.pending_approval" resname="profile.notification_channels.pending_approval">
+        <source>profile.notification_channels.pending_approval</source>
+        <target>Kanali za zahteve za odobritev</target>
+      </trans-unit>
+      <trans-unit id="act.notification_channels.chosen" resname="act.notification_channels.chosen">
+        <source>act.notification_channels.chosen</source>
+        <target>Kanali obvestil spremenjeni</target>
+      </trans-unit>
+      <trans-unit id="confirmation.offer" resname="confirmation.offer">
+        <source>confirmation.offer</source>
+        <target>Naslovi za potrditev</target>
+      </trans-unit>
+      <trans-unit id="confirmation.offer_explanation" resname="confirmation.offer_explanation">
+        <source>confirmation.offer_explanation</source>
+        <target>Dokler naslov ni potrjen, prejema samo svojo potrditveno kodo.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.send" resname="confirmation.send">
+        <source>confirmation.send</source>
+        <target>Pošlji kodo</target>
+      </trans-unit>
+      <trans-unit id="confirmation.email.title" resname="confirmation.email.title">
+        <source>confirmation.email.title</source>
+        <target>Potrditev e-poštnega naslova</target>
+      </trans-unit>
+      <trans-unit id="confirmation.phone_number.title" resname="confirmation.phone_number.title">
+        <source>confirmation.phone_number.title</source>
+        <target>Potrditev telefonske številke</target>
+      </trans-unit>
+      <trans-unit id="confirmation.sent" resname="confirmation.sent">
+        <source>confirmation.sent</source>
+        <target>Koda je bila poslana na {address}. Vnesite jo tukaj ali odprite povezavo, ki je bila poslana skupaj z njo.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.code" resname="confirmation.code">
+        <source>confirmation.code</source>
+        <target>Koda</target>
+      </trans-unit>
+      <trans-unit id="confirmation.submit" resname="confirmation.submit">
+        <source>confirmation.submit</source>
+        <target>Potrdi</target>
+      </trans-unit>
+      <trans-unit id="confirmation.again" resname="confirmation.again">
+        <source>confirmation.again</source>
+        <target>Pošlji drugo kodo</target>
+      </trans-unit>
+      <trans-unit id="confirmation.refused" resname="confirmation.refused">
+        <source>confirmation.refused</source>
+        <target>Napačna ali potekla koda. Preverite jo ali zahtevajte drugo.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.link_prompt" resname="confirmation.link_prompt">
+        <source>confirmation.link_prompt</source>
+        <target>Potrdite, da je ta naslov vaš.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.link_submit" resname="confirmation.link_submit">
+        <source>confirmation.link_submit</source>
+        <target>Potrdi ta naslov</target>
+      </trans-unit>
+      <trans-unit id="confirmation.notice.title" resname="confirmation.notice.title">
+        <source>confirmation.notice.title</source>
+        <target>{provider}</target>
+      </trans-unit>
+      <trans-unit id="confirmation.notice.subject" resname="confirmation.notice.subject">
+        <source>confirmation.notice.subject</source>
+        <target>{provider}: vaša potrditvena koda</target>
+      </trans-unit>
+      <trans-unit id="confirmation.notice.body" resname="confirmation.notice.body">
+        <source>confirmation.notice.body</source>
+        <target>Vaša potrditvena koda: {code}, veljavna do {until}. Vnesite jo v svojem računu ali odprite spodnjo povezavo. Če je niste zahtevali, prezrite to sporočilo.</target>
+      </trans-unit>
+      <trans-unit id="error.address_confirmation_refused" resname="error.address_confirmation_refused">
+        <source>error.address_confirmation_refused</source>
+        <target>Ta povezava je bila že uporabljena, je potekla ali je bila zamenjana. Pošljite novo kodo iz svojega računa.</target>
+      </trans-unit>
+      <trans-unit id="act.address.confirmation_sent" resname="act.address.confirmation_sent">
+        <source>act.address.confirmation_sent</source>
+        <target>Potrditvena koda poslana</target>
+      </trans-unit>
+      <trans-unit id="act.address.established" resname="act.address.established">
+        <source>act.address.established</source>
+        <target>Naslov potrjen</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

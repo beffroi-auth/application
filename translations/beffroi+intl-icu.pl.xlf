@@ -1137,6 +1137,102 @@
         <source>language.pl</source>
         <target>Polski</target>
       </trans-unit>
+      <trans-unit id="language.bg" resname="language.bg">
+        <source>language.bg</source>
+        <target>Български</target>
+      </trans-unit>
+      <trans-unit id="language.bs" resname="language.bs">
+        <source>language.bs</source>
+        <target>Bosanski</target>
+      </trans-unit>
+      <trans-unit id="language.ca" resname="language.ca">
+        <source>language.ca</source>
+        <target>Català</target>
+      </trans-unit>
+      <trans-unit id="language.cs" resname="language.cs">
+        <source>language.cs</source>
+        <target>Čeština</target>
+      </trans-unit>
+      <trans-unit id="language.da" resname="language.da">
+        <source>language.da</source>
+        <target>Dansk</target>
+      </trans-unit>
+      <trans-unit id="language.el" resname="language.el">
+        <source>language.el</source>
+        <target>Ελληνικά</target>
+      </trans-unit>
+      <trans-unit id="language.et" resname="language.et">
+        <source>language.et</source>
+        <target>Eesti</target>
+      </trans-unit>
+      <trans-unit id="language.fi" resname="language.fi">
+        <source>language.fi</source>
+        <target>Suomi</target>
+      </trans-unit>
+      <trans-unit id="language.hr" resname="language.hr">
+        <source>language.hr</source>
+        <target>Hrvatski</target>
+      </trans-unit>
+      <trans-unit id="language.hu" resname="language.hu">
+        <source>language.hu</source>
+        <target>Magyar</target>
+      </trans-unit>
+      <trans-unit id="language.is" resname="language.is">
+        <source>language.is</source>
+        <target>Íslenska</target>
+      </trans-unit>
+      <trans-unit id="language.lt" resname="language.lt">
+        <source>language.lt</source>
+        <target>Lietuvių</target>
+      </trans-unit>
+      <trans-unit id="language.lv" resname="language.lv">
+        <source>language.lv</source>
+        <target>Latviešu</target>
+      </trans-unit>
+      <trans-unit id="language.mk" resname="language.mk">
+        <source>language.mk</source>
+        <target>Македонски</target>
+      </trans-unit>
+      <trans-unit id="language.nb" resname="language.nb">
+        <source>language.nb</source>
+        <target>Norsk bokmål</target>
+      </trans-unit>
+      <trans-unit id="language.pt" resname="language.pt">
+        <source>language.pt</source>
+        <target>Português</target>
+      </trans-unit>
+      <trans-unit id="language.ro" resname="language.ro">
+        <source>language.ro</source>
+        <target>Română</target>
+      </trans-unit>
+      <trans-unit id="language.sk" resname="language.sk">
+        <source>language.sk</source>
+        <target>Slovenčina</target>
+      </trans-unit>
+      <trans-unit id="language.sl" resname="language.sl">
+        <source>language.sl</source>
+        <target>Slovenščina</target>
+      </trans-unit>
+      <trans-unit id="language.sq" resname="language.sq">
+        <source>language.sq</source>
+        <target>Shqip</target>
+      </trans-unit>
+      <trans-unit id="language.sr" resname="language.sr">
+        <source>language.sr</source>
+        <target>Српски</target>
+      </trans-unit>
+      <trans-unit id="language.sv" resname="language.sv">
+        <source>language.sv</source>
+        <target>Svenska</target>
+      </trans-unit>
+      <trans-unit id="language.tr" resname="language.tr">
+        <source>language.tr</source>
+        <target>Türkçe</target>
+      </trans-unit>
+      <trans-unit id="language.uk" resname="language.uk">
+        <source>language.uk</source>
+        <target>Українська</target>
+      </trans-unit>
       <trans-unit id="d1a7f3b9c2" resname="sessions.title">
         <source>sessions.title</source>
         <target>Aktywne sesje</target>

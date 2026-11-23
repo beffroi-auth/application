@@ -1,0 +1,2418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="et" datatype="plaintext" original="beffroi">
+    <header>
+      <note>Every string a user reads on the pages of the provider (architecture §5.7), and the words of what the application draws around them: the theme, the controls of the bar, the headings the pages of the account are arranged under and the line each of them is read by. It wires no type of authorization detail and so says none: the type of the lab is said in src/Lab/translations/, with the lab. ICU message format: {client} is the name of the client, {username} the name of the user.</note>
+    </header>
+    <body>
+      <trans-unit id="b3bb2f3a07" resname="login.title">
+        <source>login.title</source>
+        <target>Sisselogimine</target>
+      </trans-unit>
+      <trans-unit id="456091ca2c" resname="login.prompt">
+        <source>login.prompt</source>
+        <target>Logige sisse, et jätkata rakendusega {client}.</target>
+      </trans-unit>
+      <trans-unit id="80fbd248a3" resname="login.reauthentication">
+        <source>login.reauthentication</source>
+        <target>Jätkamiseks logige uuesti sisse.</target>
+      </trans-unit>
+      <trans-unit id="d3cdf3d871" resname="login.step_up">
+        <source>login.step_up</source>
+        <target>{client} nõuab tugevamat sisselogimist.</target>
+      </trans-unit>
+      <trans-unit id="bc176883bc" resname="login.step_up_alone">
+        <source>login.step_up_alone</source>
+        <target>Vaja on tugevamat sisselogimist.</target>
+      </trans-unit>
+      <trans-unit id="6282806c35" resname="login.step_up.passkey">
+        <source>login.step_up.passkey</source>
+        <target>Sobib pääsuvõti.</target>
+      </trans-unit>
+      <trans-unit id="2063082125" resname="login.step_up.password">
+        <source>login.step_up.password</source>
+        <target>Sobib teie parool.</target>
+      </trans-unit>
+      <trans-unit id="9702602430" resname="login.step_up.totp">
+        <source>login.step_up.totp</source>
+        <target>Sobib teie parool ja seejärel autentimisrakenduse kood.</target>
+      </trans-unit>
+      <trans-unit id="55b0f4b87b" resname="login.failed">
+        <source>login.failed</source>
+        <target>Vale kasutajanimi või parool.</target>
+      </trans-unit>
+      <trans-unit id="04690da6d3" resname="login.username">
+        <source>login.username</source>
+        <target>Kasutajanimi</target>
+      </trans-unit>
+      <trans-unit id="f65ca78fed" resname="login.password">
+        <source>login.password</source>
+        <target>Parool</target>
+      </trans-unit>
+      <trans-unit id="4fea9c0c55" resname="login.submit">
+        <source>login.submit</source>
+        <target>Logi sisse</target>
+      </trans-unit>
+      <trans-unit id="27c34297f7" resname="consent.title">
+        <source>consent.title</source>
+        <target>Juurdepääsu lubamine: {client}</target>
+      </trans-unit>
+      <trans-unit id="732d4a5e7a" resname="consent.logo">
+        <source>consent.logo</source>
+        <target>Rakenduse {client} logo</target>
+      </trans-unit>
+      <trans-unit id="db56775db9" resname="consent.signed_in_as">
+        <source>consent.signed_in_as</source>
+        <target>Olete sisse logitud kasutajana {username}.</target>
+      </trans-unit>
+      <trans-unit id="55eb317d06" resname="consent.request">
+        <source>consent.request</source>
+        <target>{client} palub juurdepääsu järgmisele:</target>
+      </trans-unit>
+      <trans-unit id="57188e00f3" resname="consent.authorization_details">
+        <source>consent.authorization_details</source>
+        <target>{client} palub ka luba:</target>
+      </trans-unit>
+      <trans-unit id="dd97b47622" resname="consent.policy_uri">
+        <source>consent.policy_uri</source>
+        <target>Kuidas {client} teie andmeid kasutab</target>
+      </trans-unit>
+      <trans-unit id="c7a5045153" resname="consent.tos_uri">
+        <source>consent.tos_uri</source>
+        <target>Rakenduse {client} kasutustingimused</target>
+      </trans-unit>
+      <trans-unit id="8043c439f3" resname="consent.client_uri">
+        <source>consent.client_uri</source>
+        <target>Rakenduse {client} veebisait</target>
+      </trans-unit>
+      <trans-unit id="271b1bd84f" resname="consent.allow">
+        <source>consent.allow</source>
+        <target>Luba</target>
+      </trans-unit>
+      <trans-unit id="f2fab12b37" resname="consent.deny">
+        <source>consent.deny</source>
+        <target>Keeldu</target>
+      </trans-unit>
+      <trans-unit id="bbb000871f" resname="scope.openid">
+        <source>scope.openid</source>
+        <target>Teie identifikaator</target>
+      </trans-unit>
+      <trans-unit id="2e384f832b" resname="scope.profile">
+        <source>scope.profile</source>
+        <target>Teie profiil: nimi, pilt, keel</target>
+      </trans-unit>
+      <trans-unit id="c5ee1b4219" resname="scope.email">
+        <source>scope.email</source>
+        <target>Teie e-posti aadress</target>
+      </trans-unit>
+      <trans-unit id="d7c77b8f51" resname="scope.address">
+        <source>scope.address</source>
+        <target>Teie postiaadress</target>
+      </trans-unit>
+      <trans-unit id="ef5674b605" resname="scope.phone">
+        <source>scope.phone</source>
+        <target>Teie telefoninumber</target>
+      </trans-unit>
+      <trans-unit id="33607b30f0" resname="scope.offline_access">
+        <source>scope.offline_access</source>
+        <target>Juurdepääs ka teie äraolekul, kuni te selle tühistate</target>
+      </trans-unit>
+      <trans-unit id="aac9493a9a" resname="logout.title">
+        <source>logout.title</source>
+        <target>Väljalogimine</target>
+      </trans-unit>
+      <trans-unit id="b62f1870d8" resname="logout.prompt.client">
+        <source>logout.prompt.client</source>
+        <target>{client} palub teid välja logida.</target>
+      </trans-unit>
+      <trans-unit id="5c9a3f6527" resname="logout.prompt.anonymous">
+        <source>logout.prompt.anonymous</source>
+        <target>Rakendus palub teid välja logida.</target>
+      </trans-unit>
+      <trans-unit id="beb2b22fa9" resname="logout.signed_in_as">
+        <source>logout.signed_in_as</source>
+        <target>Olete sisse logitud kasutajana {username}. Kas soovite välja logida?</target>
+      </trans-unit>
+      <trans-unit id="e6a1f46cff" resname="logout.confirm">
+        <source>logout.confirm</source>
+        <target>Logi välja</target>
+      </trans-unit>
+      <trans-unit id="879d52571c" resname="logout.stay">
+        <source>logout.stay</source>
+        <target>Jää sisselogituks</target>
+      </trans-unit>
+      <trans-unit id="9e91e50535" resname="logged_out.title">
+        <source>logged_out.title</source>
+        <target>Olete välja logitud</target>
+      </trans-unit>
+      <trans-unit id="b1cdee136f" resname="logged_out.close">
+        <source>logged_out.close</source>
+        <target>Võite selle akna sulgeda.</target>
+      </trans-unit>
+      <trans-unit id="dc96b2d115" resname="still_signed_in.title">
+        <source>still_signed_in.title</source>
+        <target>Olete endiselt sisse logitud</target>
+      </trans-unit>
+      <trans-unit id="66be09af33" resname="still_signed_in.unchanged">
+        <source>still_signed_in.unchanged</source>
+        <target>Midagi ei muudetud.</target>
+      </trans-unit>
+      <trans-unit id="49a8c3fb96" resname="error.title">
+        <source>error.title</source>
+        <target>Jätkata ei saa</target>
+      </trans-unit>
+      <trans-unit id="3d21b51c86" resname="error.default">
+        <source>error.default</source>
+        <target>Seda päringut ei saa töödelda. Alustage rakenduses uuesti.</target>
+      </trans-unit>
+      <trans-unit id="607d0dc2ff" resname="error.unknown_interaction">
+        <source>error.unknown_interaction</source>
+        <target>Seda päringut ei leitud. Alustage rakenduses uuesti.</target>
+      </trans-unit>
+      <trans-unit id="feaea8469d" resname="error.interaction_expired">
+        <source>error.interaction_expired</source>
+        <target>See päring on aegunud. Alustage rakenduses uuesti.</target>
+      </trans-unit>
+      <trans-unit id="35d471521d" resname="error.interaction_completed">
+        <source>error.interaction_completed</source>
+        <target>See päring on juba lõpetatud. Alustage rakenduses uuesti.</target>
+      </trans-unit>
+      <trans-unit id="7a2863564f" resname="error.invalid_csrf_token">
+        <source>error.invalid_csrf_token</source>
+        <target>Vorm ei kehti enam. Alustage rakenduses uuesti.</target>
+      </trans-unit>
+      <trans-unit id="9b1e13b67f" resname="error.invalid_request">
+        <source>error.invalid_request</source>
+        <target>Rakendus saatis vigase päringu. Alustage rakenduses uuesti.</target>
+      </trans-unit>
+      <trans-unit id="7afc04115d" resname="error.too_many_requests">
+        <source>error.too_many_requests</source>
+        <target>Liiga palju päringuid. Oodake hetk ja alustage siis rakenduses uuesti.</target>
+      </trans-unit>
+      <trans-unit id="0357cea9c3" resname="error.no_login_to_begin">
+        <source>error.no_login_to_begin</source>
+        <target>See link ei vii ühegi rakenduseni. Alustage rakenduses uuesti.</target>
+      </trans-unit>
+      <trans-unit id="276b888c75" resname="login.passkey">
+        <source>login.passkey</source>
+        <target>Kasuta pääsuvõtit</target>
+      </trans-unit>
+      <trans-unit id="d88f3b782b" resname="login.passkey_failed">
+        <source>login.passkey_failed</source>
+        <target>Pääsuvõti ei toiminud. Proovige uuesti.</target>
+      </trans-unit>
+      <trans-unit id="login.passkey_only" resname="login.passkey_only">
+        <source>login.passkey_only</source>
+        <target>Logige sisse oma pääsuvõtmega.</target>
+      </trans-unit>
+      <trans-unit id="login.address" resname="login.address">
+        <source>login.address</source>
+        <target>E-posti aadress</target>
+      </trans-unit>
+      <trans-unit id="login.continue" resname="login.continue">
+        <source>login.continue</source>
+        <target>Jätka</target>
+      </trans-unit>
+      <trans-unit id="login.address_unreadable" resname="login.address_unreadable">
+        <source>login.address_unreadable</source>
+        <target>See aadress ei ole kehtiv.</target>
+      </trans-unit>
+      <trans-unit id="login.other_address" resname="login.other_address">
+        <source>login.other_address</source>
+        <target>Kasuta muud aadressi</target>
+      </trans-unit>
+      <trans-unit id="account.federated_domain" resname="account.federated_domain">
+        <source>account.federated_domain</source>
+        <target>Te logite sisse oma organisatsiooni kaudu: siin pole midagi seadistada.</target>
+      </trans-unit>
+      <trans-unit id="passkeys.error.federated_domain" resname="passkeys.error.federated_domain">
+        <source>passkeys.error.federated_domain</source>
+        <target>Te logite sisse oma organisatsiooni kaudu: pääsuvõtit ei saa lisada.</target>
+      </trans-unit>
+      <trans-unit id="two_factor.error.federated_domain" resname="two_factor.error.federated_domain">
+        <source>two_factor.error.federated_domain</source>
+        <target>Te logite sisse oma organisatsiooni kaudu: autentimisrakendust ei saa seadistada.</target>
+      </trans-unit>
+      <trans-unit id="password.error.federated_domain" resname="password.error.federated_domain">
+        <source>password.error.federated_domain</source>
+        <target>Te logite sisse oma organisatsiooni kaudu: parooli ei saa määrata.</target>
+      </trans-unit>
+      <trans-unit id="a71d2a8f04" resname="account.title">
+        <source>account.title</source>
+        <target>Teie konto</target>
+      </trans-unit>
+      <trans-unit id="949a77ae23" resname="account.signed_in_as">
+        <source>account.signed_in_as</source>
+        <target>Sisse logitud kasutajana {username}.</target>
+      </trans-unit>
+      <trans-unit id="1a530079a8" resname="account.signed_in_since">
+        <source>account.signed_in_since</source>
+        <target>Sisse logitud alates {date}.</target>
+      </trans-unit>
+      <trans-unit id="65154335f6" resname="account.profile.state">
+        <source>account.profile.state</source>
+        <target>{count, plural, =0 {Midagi pole täidetud} one {Üks andmeväli} other {# andmevälja}}</target>
+      </trans-unit>
+      <trans-unit id="f89c3f6e13" resname="account.passkeys.state">
+        <source>account.passkeys.state</source>
+        <target>{count, plural, =0 {Pääsuvõtit pole} one {Üks pääsuvõti} other {# pääsuvõtit}}</target>
+      </trans-unit>
+      <trans-unit id="788ce7e79c" resname="account.consents.state">
+        <source>account.consents.state</source>
+        <target>{count, plural, =0 {Rakendusi pole} one {Üks rakendus} other {# rakendust}}</target>
+      </trans-unit>
+      <trans-unit id="0fe4f1a644" resname="account.two_factor.state.none">
+        <source>account.two_factor.state.none</source>
+        <target>Autentimisrakendust pole</target>
+      </trans-unit>
+      <trans-unit id="ab8c5a2fff" resname="account.two_factor.state.active">
+        <source>account.two_factor.state.active</source>
+        <target>Autentimisrakendus seadistatud</target>
+      </trans-unit>
+      <trans-unit id="ee464a5f53" resname="account.back">
+        <source>account.back</source>
+        <target>Tagasi oma kontole</target>
+      </trans-unit>
+      <trans-unit id="5cb4722c04" resname="account.sign_out">
+        <source>account.sign_out</source>
+        <target>Logi välja</target>
+      </trans-unit>
+      <trans-unit id="35245e14b0" resname="profile.title">
+        <source>profile.title</source>
+        <target>Teie andmed</target>
+      </trans-unit>
+      <trans-unit id="76abe8899b" resname="profile.account">
+        <source>profile.account</source>
+        <target>Teie konto</target>
+      </trans-unit>
+      <trans-unit id="5b974a26e1" resname="profile.about_you">
+        <source>profile.about_you</source>
+        <target>Teie kohta</target>
+      </trans-unit>
+      <trans-unit id="eaa27dc1d2" resname="profile.none">
+        <source>profile.none</source>
+        <target>Andmeid veel pole.</target>
+      </trans-unit>
+      <trans-unit id="b0e678f0e9" resname="profile.verified">
+        <source>profile.verified</source>
+        <target>kinnitatud</target>
+      </trans-unit>
+      <trans-unit id="b636667ab7" resname="profile.unverified">
+        <source>profile.unverified</source>
+        <target>kinnitamata</target>
+      </trans-unit>
+      <trans-unit id="9cdc497348" resname="profile.username">
+        <source>profile.username</source>
+        <target>Kasutajanimi</target>
+      </trans-unit>
+      <trans-unit id="a49dd70115" resname="profile.created_at">
+        <source>profile.created_at</source>
+        <target>Konto loodud</target>
+      </trans-unit>
+      <trans-unit id="23ba2362e6" resname="profile.updated_at">
+        <source>profile.updated_at</source>
+        <target>Viimane muudatus</target>
+      </trans-unit>
+      <trans-unit id="43b26cec8d" resname="profile.email">
+        <source>profile.email</source>
+        <target>E-posti aadress</target>
+      </trans-unit>
+      <trans-unit id="4f812be1b4" resname="profile.email_verified">
+        <source>profile.email_verified</source>
+        <target>E-posti aadress kinnitatud</target>
+      </trans-unit>
+      <trans-unit id="d2921f1caa" resname="profile.phone_number">
+        <source>profile.phone_number</source>
+        <target>Telefoninumber</target>
+      </trans-unit>
+      <trans-unit id="860cda4c62" resname="profile.phone_number_verified">
+        <source>profile.phone_number_verified</source>
+        <target>Telefoninumber kinnitatud</target>
+      </trans-unit>
+      <trans-unit id="7c02d4292c" resname="profile.name">
+        <source>profile.name</source>
+        <target>Täisnimi</target>
+      </trans-unit>
+      <trans-unit id="25b09e30e8" resname="profile.given_name">
+        <source>profile.given_name</source>
+        <target>Eesnimi</target>
+      </trans-unit>
+      <trans-unit id="ff2feb233e" resname="profile.family_name">
+        <source>profile.family_name</source>
+        <target>Perekonnanimi</target>
+      </trans-unit>
+      <trans-unit id="25813757bf" resname="profile.middle_name">
+        <source>profile.middle_name</source>
+        <target>Teine eesnimi</target>
+      </trans-unit>
+      <trans-unit id="05218d9e6f" resname="profile.nickname">
+        <source>profile.nickname</source>
+        <target>Hüüdnimi</target>
+      </trans-unit>
+      <trans-unit id="24482f4bbc" resname="profile.preferred_username">
+        <source>profile.preferred_username</source>
+        <target>Eelistatud kasutajanimi</target>
+      </trans-unit>
+      <trans-unit id="3a58b7a487" resname="profile.birthdate">
+        <source>profile.birthdate</source>
+        <target>Sünniaeg</target>
+      </trans-unit>
+      <trans-unit id="b70497d99e" resname="profile.gender">
+        <source>profile.gender</source>
+        <target>Sugu</target>
+      </trans-unit>
+      <trans-unit id="ea722b79ef" resname="profile.locale">
+        <source>profile.locale</source>
+        <target>Keel</target>
+      </trans-unit>
+      <trans-unit id="5e323fac89" resname="profile.zoneinfo">
+        <source>profile.zoneinfo</source>
+        <target>Ajavöönd</target>
+      </trans-unit>
+      <trans-unit id="5deb5d46f9" resname="profile.profile">
+        <source>profile.profile</source>
+        <target>Profiilileht</target>
+      </trans-unit>
+      <trans-unit id="117780da1e" resname="profile.picture">
+        <source>profile.picture</source>
+        <target>Pilt</target>
+      </trans-unit>
+      <trans-unit id="96c81c25d2" resname="profile.website">
+        <source>profile.website</source>
+        <target>Veebisait</target>
+      </trans-unit>
+      <trans-unit id="ef830c2e9b" resname="profile.address">
+        <source>profile.address</source>
+        <target>Postiaadress</target>
+      </trans-unit>
+      <trans-unit id="profile.address.formatted" resname="profile.address.formatted">
+        <source>profile.address.formatted</source>
+        <target>Täielik postiaadress</target>
+      </trans-unit>
+      <trans-unit id="profile.address.street_address" resname="profile.address.street_address">
+        <source>profile.address.street_address</source>
+        <target>Tänav ja maja</target>
+      </trans-unit>
+      <trans-unit id="profile.address.locality" resname="profile.address.locality">
+        <source>profile.address.locality</source>
+        <target>Linn</target>
+      </trans-unit>
+      <trans-unit id="profile.address.region" resname="profile.address.region">
+        <source>profile.address.region</source>
+        <target>Piirkond</target>
+      </trans-unit>
+      <trans-unit id="profile.address.postal_code" resname="profile.address.postal_code">
+        <source>profile.address.postal_code</source>
+        <target>Postiindeks</target>
+      </trans-unit>
+      <trans-unit id="profile.address.country" resname="profile.address.country">
+        <source>profile.address.country</source>
+        <target>Riik</target>
+      </trans-unit>
+      <trans-unit id="465d5b10ab" resname="passkeys.title">
+        <source>passkeys.title</source>
+        <target>Teie pääsuvõtmed</target>
+      </trans-unit>
+      <trans-unit id="81402f59a0" resname="passkeys.none">
+        <source>passkeys.none</source>
+        <target>Aktiivseid pääsuvõtmeid pole.</target>
+      </trans-unit>
+      <trans-unit id="ef84f1b8d3" resname="passkeys.name">
+        <source>passkeys.name</source>
+        <target>Nimi</target>
+      </trans-unit>
+      <trans-unit id="1b6d07e1ac" resname="passkeys.created_at">
+        <source>passkeys.created_at</source>
+        <target>Loodud</target>
+      </trans-unit>
+      <trans-unit id="c5a67d1c58" resname="passkeys.last_used_at">
+        <source>passkeys.last_used_at</source>
+        <target>Viimati kasutatud</target>
+      </trans-unit>
+      <trans-unit id="09f630d338" resname="passkeys.never_used">
+        <source>passkeys.never_used</source>
+        <target>Mitte kunagi</target>
+      </trans-unit>
+      <trans-unit id="af1fd41fc5" resname="passkeys.state">
+        <source>passkeys.state</source>
+        <target>Olek</target>
+      </trans-unit>
+      <trans-unit id="63f5c7f0e8" resname="passkeys.active">
+        <source>passkeys.active</source>
+        <target>Aktiivne</target>
+      </trans-unit>
+      <trans-unit id="71000a07e6" resname="passkeys.revoked_at">
+        <source>passkeys.revoked_at</source>
+        <target>Tühistatud: {date}</target>
+      </trans-unit>
+      <trans-unit id="2ce8b47f35" resname="passkeys.revoke">
+        <source>passkeys.revoke</source>
+        <target>Tühista</target>
+      </trans-unit>
+      <trans-unit id="08af99ba89" resname="passkeys.enrol">
+        <source>passkeys.enrol</source>
+        <target>Lisa pääsuvõti</target>
+      </trans-unit>
+      <trans-unit id="5b94e18bc6" resname="passkeys.unsupported">
+        <source>passkeys.unsupported</source>
+        <target>Selle brauseriga ei saa pääsuvõtit luua.</target>
+      </trans-unit>
+      <trans-unit id="f86312f8a9" resname="passkeys.error.browser">
+        <source>passkeys.error.browser</source>
+        <target>Pääsuvõtit ei õnnestunud luua. Proovige uuesti.</target>
+      </trans-unit>
+      <trans-unit id="d3eb8fcaa3" resname="passkeys.error.invalid_name">
+        <source>passkeys.error.invalid_name</source>
+        <target>Andke pääsuvõtmele nimi, milles on 1 kuni 255 märki.</target>
+      </trans-unit>
+      <trans-unit id="769bbfbeaa" resname="passkeys.error.no_ceremony">
+        <source>passkeys.error.no_ceremony</source>
+        <target>Pääsuvõtme lisamise aeg sai otsa. Proovige uuesti.</target>
+      </trans-unit>
+      <trans-unit id="c5d11b8713" resname="passkeys.error.refused">
+        <source>passkeys.error.refused</source>
+        <target>See pääsuvõti lükati tagasi. Proovige mõnda muud.</target>
+      </trans-unit>
+      <trans-unit id="750c174f43" resname="passkeys.held_by">
+        <source>passkeys.held_by</source>
+        <target>Autentija</target>
+      </trans-unit>
+      <trans-unit id="02820b7d95" resname="passkeys.authenticator.unknown">
+        <source>passkeys.authenticator.unknown</source>
+        <target>Tundmatu autentija</target>
+      </trans-unit>
+      <trans-unit id="passkeys.features" resname="passkeys.features">
+        <source>passkeys.features</source>
+        <target>Funktsioonid</target>
+      </trans-unit>
+      <trans-unit id="passkeys.aaguid" resname="passkeys.aaguid">
+        <source>passkeys.aaguid</source>
+        <target>AAGUID {aaguid}</target>
+      </trans-unit>
+      <trans-unit id="passkeys.none_matching" resname="passkeys.none_matching">
+        <source>passkeys.none_matching</source>
+        <target>Ükski pääsuvõti ei vasta filtritele.</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.active" resname="passkeys.filter.active">
+        <source>passkeys.filter.active</source>
+        <target>Aktiivsed</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.revoked" resname="passkeys.filter.revoked">
+        <source>passkeys.filter.revoked</source>
+        <target>Tühistatud</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.every_state" resname="passkeys.filter.every_state">
+        <source>passkeys.filter.every_state</source>
+        <target>Kõik</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.every_authenticator" resname="passkeys.filter.every_authenticator">
+        <source>passkeys.filter.every_authenticator</source>
+        <target>Kõik</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.unknown_authenticator" resname="passkeys.filter.unknown_authenticator">
+        <source>passkeys.filter.unknown_authenticator</source>
+        <target>Tundmatu ({aaguid})</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.sync" resname="passkeys.filter.sync">
+        <source>passkeys.filter.sync</source>
+        <target>Sünkroonimine</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.synced_or_not" resname="passkeys.filter.synced_or_not">
+        <source>passkeys.filter.synced_or_not</source>
+        <target>Kõik</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.synced" resname="passkeys.filter.synced">
+        <source>passkeys.filter.synced</source>
+        <target>Sünkroonitud</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.device_bound" resname="passkeys.filter.device_bound">
+        <source>passkeys.filter.device_bound</source>
+        <target>Seadmega seotud</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.transport" resname="passkeys.filter.transport">
+        <source>passkeys.filter.transport</source>
+        <target>Ühendus</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.every_transport" resname="passkeys.filter.every_transport">
+        <source>passkeys.filter.every_transport</source>
+        <target>Kõik</target>
+      </trans-unit>
+      <trans-unit id="passkeys.model_proof.declared" resname="passkeys.model_proof.declared">
+        <source>passkeys.model_proof.declared</source>
+        <target>Deklareeritud mudel, kinnitamata</target>
+      </trans-unit>
+      <trans-unit id="passkeys.model_proof.verified" resname="passkeys.model_proof.verified">
+        <source>passkeys.model_proof.verified</source>
+        <target>Kinnitatud mudel</target>
+      </trans-unit>
+      <trans-unit id="passkeys.model_proof.enterprise" resname="passkeys.model_proof.enterprise">
+        <source>passkeys.model_proof.enterprise</source>
+        <target>Teie organisatsiooni võti</target>
+      </trans-unit>
+      <trans-unit id="passkeys.serial_number" resname="passkeys.serial_number">
+        <source>passkeys.serial_number</source>
+        <target>Seerianumber {serial}</target>
+      </trans-unit>
+      <trans-unit id="passkeys.under_security_alert" resname="passkeys.under_security_alert">
+        <source>passkeys.under_security_alert</source>
+        <target>Mudelil on turvahoiatus</target>
+      </trans-unit>
+      <trans-unit id="passkeys.error.organisation_keys_only" resname="passkeys.error.organisation_keys_only">
+        <source>passkeys.error.organisation_keys_only</source>
+        <target>Aktsepteeritakse ainult teie organisatsiooni antud võtmeid.</target>
+      </trans-unit>
+      <trans-unit id="passkeys.error.model_under_security_alert" resname="passkeys.error.model_under_security_alert">
+        <source>passkeys.error.model_under_security_alert</source>
+        <target>Sellel mudelil on turvahoiatus ja seda enam ei aktsepteerita. Kasutage mõnda muud.</target>
+      </trans-unit>
+      <trans-unit id="fd60213150" resname="passkeys.certification.NOT_FIDO_CERTIFIED">
+        <source>passkeys.certification.NOT_FIDO_CERTIFIED</source>
+        <target>Pole FIDO-sertifitseeritud</target>
+      </trans-unit>
+      <trans-unit id="f08c853044" resname="passkeys.certification.SELF_ASSERTION_SUBMITTED">
+        <source>passkeys.certification.SELF_ASSERTION_SUBMITTED</source>
+        <target>Enesehindamine esitatud FIDO Alliance’ile</target>
+      </trans-unit>
+      <trans-unit id="a08bf87175" resname="passkeys.certification.FIDO_CERTIFIED">
+        <source>passkeys.certification.FIDO_CERTIFIED</source>
+        <target>FIDO-sertifitseeritud</target>
+      </trans-unit>
+      <trans-unit id="195df5ec7e" resname="passkeys.certification.FIDO_CERTIFIED_L1">
+        <source>passkeys.certification.FIDO_CERTIFIED_L1</source>
+        <target>FIDO-sertifitseeritud, tase 1</target>
+      </trans-unit>
+      <trans-unit id="5202b427e6" resname="passkeys.certification.FIDO_CERTIFIED_L1plus">
+        <source>passkeys.certification.FIDO_CERTIFIED_L1plus</source>
+        <target>FIDO-sertifitseeritud, tase 1+</target>
+      </trans-unit>
+      <trans-unit id="73447fff7e" resname="passkeys.certification.FIDO_CERTIFIED_L2">
+        <source>passkeys.certification.FIDO_CERTIFIED_L2</source>
+        <target>FIDO-sertifitseeritud, tase 2</target>
+      </trans-unit>
+      <trans-unit id="c04f76a90b" resname="passkeys.certification.FIDO_CERTIFIED_L2plus">
+        <source>passkeys.certification.FIDO_CERTIFIED_L2plus</source>
+        <target>FIDO-sertifitseeritud, tase 2+</target>
+      </trans-unit>
+      <trans-unit id="05ff868652" resname="passkeys.certification.FIDO_CERTIFIED_L3">
+        <source>passkeys.certification.FIDO_CERTIFIED_L3</source>
+        <target>FIDO-sertifitseeritud, tase 3</target>
+      </trans-unit>
+      <trans-unit id="305ec3efe0" resname="passkeys.certification.FIDO_CERTIFIED_L3plus">
+        <source>passkeys.certification.FIDO_CERTIFIED_L3plus</source>
+        <target>FIDO-sertifitseeritud, tase 3+</target>
+      </trans-unit>
+      <trans-unit id="a2c38be2c2" resname="passkeys.certification.RETIRED">
+        <source>passkeys.certification.RETIRED</source>
+        <target>Tootja on kasutusest kõrvaldanud</target>
+      </trans-unit>
+      <trans-unit id="dfff2ff3c7" resname="passkeys.certification.REVOKED">
+        <source>passkeys.certification.REVOKED</source>
+        <target>FIDO Alliance on tühistanud</target>
+      </trans-unit>
+      <trans-unit id="9f5464da31" resname="passkeys.backup.single_device">
+        <source>passkeys.backup.single_device</source>
+        <target>Seadmega seotud</target>
+      </trans-unit>
+      <trans-unit id="8fdac8b403" resname="passkeys.backup.backed_up">
+        <source>passkeys.backup.backed_up</source>
+        <target>Sünkroonitud</target>
+      </trans-unit>
+      <trans-unit id="4150fe9928" resname="passkeys.backup.not_backed_up">
+        <source>passkeys.backup.not_backed_up</source>
+        <target>Sünkroonitav, varundamata</target>
+      </trans-unit>
+      <trans-unit id="e0e39cd225" resname="passkeys.reached_through">
+        <source>passkeys.reached_through</source>
+        <target>Ühendus: {ways}</target>
+      </trans-unit>
+      <trans-unit id="bacb48e58b" resname="passkeys.transport.internal">
+        <source>passkeys.transport.internal</source>
+        <target>seade</target>
+      </trans-unit>
+      <trans-unit id="29728954a8" resname="passkeys.transport.hybrid">
+        <source>passkeys.transport.hybrid</source>
+        <target>lähedal asuv telefon</target>
+      </trans-unit>
+      <trans-unit id="a6b962c0d4" resname="passkeys.transport.usb">
+        <source>passkeys.transport.usb</source>
+        <target>USB</target>
+      </trans-unit>
+      <trans-unit id="0ec9969fae" resname="passkeys.transport.nfc">
+        <source>passkeys.transport.nfc</source>
+        <target>NFC</target>
+      </trans-unit>
+      <trans-unit id="6b5407b258" resname="passkeys.transport.ble">
+        <source>passkeys.transport.ble</source>
+        <target>Bluetooth</target>
+      </trans-unit>
+      <trans-unit id="d93f9670bc" resname="passkeys.transport.smart-card">
+        <source>passkeys.transport.smart-card</source>
+        <target>kiipkaart</target>
+      </trans-unit>
+      <trans-unit id="5b10da251c" resname="code.title">
+        <source>code.title</source>
+        <target>Sisestage kood</target>
+      </trans-unit>
+      <trans-unit id="7a2dedee21" resname="code.prompt">
+        <source>code.prompt</source>
+        <target>Sisestage autentimisrakenduse kood või varukood.</target>
+      </trans-unit>
+      <trans-unit id="da69e8a447" resname="code.code">
+        <source>code.code</source>
+        <target>Kood</target>
+      </trans-unit>
+      <trans-unit id="b65d28a647" resname="code.submit">
+        <source>code.submit</source>
+        <target>Jätka</target>
+      </trans-unit>
+      <trans-unit id="c609c5cc7e" resname="code.failed.code_refused">
+        <source>code.failed.code_refused</source>
+        <target>Vale kood. Sisestage praegu kuvatav kood.</target>
+      </trans-unit>
+      <trans-unit id="504d18ce7a" resname="code.failed.backup_code_refused">
+        <source>code.failed.backup_code_refused</source>
+        <target>See varukood on vale või juba kasutatud.</target>
+      </trans-unit>
+      <trans-unit id="af360d0c03" resname="code.failed.too_many_attempts">
+        <source>code.failed.too_many_attempts</source>
+        <target>Liiga palju katseid. Oodake hetk ja proovige siis uuesti.</target>
+      </trans-unit>
+      <trans-unit id="8cdae7d238" resname="consents.title">
+        <source>consents.title</source>
+        <target>Lubatud rakendused</target>
+      </trans-unit>
+      <trans-unit id="b40383a420" resname="consents.none">
+        <source>consents.none</source>
+        <target>Lubatud rakendusi pole.</target>
+      </trans-unit>
+      <trans-unit id="consents.none_matching" resname="consents.none_matching">
+        <source>consents.none_matching</source>
+        <target>Ükski rakendus ei vasta filtritele.</target>
+      </trans-unit>
+      <trans-unit id="consents.filter.every_access" resname="consents.filter.every_access">
+        <source>consents.filter.every_access</source>
+        <target>Kõik</target>
+      </trans-unit>
+      <trans-unit id="792b29ed69" resname="consents.explanation">
+        <source>consents.explanation</source>
+        <target>Kui tühistate rakenduse juurdepääsu, küsib see uuesti teie luba.</target>
+      </trans-unit>
+      <trans-unit id="d697faa88f" resname="consents.application">
+        <source>consents.application</source>
+        <target>Rakendus</target>
+      </trans-unit>
+      <trans-unit id="985a1ee4b8" resname="consents.access">
+        <source>consents.access</source>
+        <target>Juurdepääs</target>
+      </trans-unit>
+      <trans-unit id="1cf8e20127" resname="consents.granted_at">
+        <source>consents.granted_at</source>
+        <target>Lubatud</target>
+      </trans-unit>
+      <trans-unit id="d729adbd9a" resname="consents.revoke">
+        <source>consents.revoke</source>
+        <target>Tühista juurdepääs</target>
+      </trans-unit>
+      <trans-unit id="68e780445d" resname="two_factor.title">
+        <source>two_factor.title</source>
+        <target>Kaheastmeline autentimine</target>
+      </trans-unit>
+      <trans-unit id="two_factor.not_admitted" resname="two_factor.not_admitted">
+        <source>two_factor.not_admitted</source>
+        <target>Te logite sisse pääsuvõtmega: autentimisrakendust pole vaja.</target>
+      </trans-unit>
+      <trans-unit id="120102f7ce" resname="two_factor.none">
+        <source>two_factor.none</source>
+        <target>Autentimisrakendust pole. Kui see on seadistatud, küsitakse selle koodi pärast teie parooli.</target>
+      </trans-unit>
+      <trans-unit id="126fd373df" resname="two_factor.set_up">
+        <source>two_factor.set_up</source>
+        <target>Seadista autentimisrakendus</target>
+      </trans-unit>
+      <trans-unit id="f17b1d335e" resname="two_factor.active">
+        <source>two_factor.active</source>
+        <target>Autentimisrakendus seadistatud: {date}.</target>
+      </trans-unit>
+      <trans-unit id="1642acc9b6" resname="two_factor.last_used_at">
+        <source>two_factor.last_used_at</source>
+        <target>Viimati kasutatud</target>
+      </trans-unit>
+      <trans-unit id="71cfff5c92" resname="two_factor.never_used">
+        <source>two_factor.never_used</source>
+        <target>Mitte kunagi</target>
+      </trans-unit>
+      <trans-unit id="fe08ccc069" resname="two_factor.backup_codes">
+        <source>two_factor.backup_codes</source>
+        <target>Varukoodid</target>
+      </trans-unit>
+      <trans-unit id="fa94375559" resname="two_factor.backup_codes_left">
+        <source>two_factor.backup_codes_left</source>
+        <target>{count, plural, =0 {Varukoode pole alles} one {Alles on # varukood} other {Alles on # varukoodi}}</target>
+      </trans-unit>
+      <trans-unit id="42e65dc64c" resname="two_factor.revoke">
+        <source>two_factor.revoke</source>
+        <target>Eemalda autentimisrakendus</target>
+      </trans-unit>
+      <trans-unit id="a29cc8ac2e" resname="two_factor.enrol.title">
+        <source>two_factor.enrol.title</source>
+        <target>Seadistage oma autentimisrakendus</target>
+      </trans-unit>
+      <trans-unit id="e8b20ec1fd" resname="two_factor.enrol.scan">
+        <source>two_factor.enrol.scan</source>
+        <target>Skannige see QR-kood oma autentimisrakendusega.</target>
+      </trans-unit>
+      <trans-unit id="9a129eca30" resname="two_factor.enrol.manual">
+        <source>two_factor.enrol.manual</source>
+        <target>Või sisestage see võti käsitsi:</target>
+      </trans-unit>
+      <trans-unit id="3fb9679842" resname="two_factor.enrol.code">
+        <source>two_factor.enrol.code</source>
+        <target>Rakenduse kuvatud kood</target>
+      </trans-unit>
+      <trans-unit id="1aba2d16d3" resname="two_factor.enrol.submit">
+        <source>two_factor.enrol.submit</source>
+        <target>Kinnita</target>
+      </trans-unit>
+      <trans-unit id="6b810babaa" resname="two_factor.enrolled.title">
+        <source>two_factor.enrolled.title</source>
+        <target>Teie varukoodid</target>
+      </trans-unit>
+      <trans-unit id="94905118d7" resname="two_factor.enrolled.done">
+        <source>two_factor.enrolled.done</source>
+        <target>Teie autentimisrakendus on seadistatud. Selle koodi küsitakse pärast teie parooli.</target>
+      </trans-unit>
+      <trans-unit id="87b3bb2962" resname="two_factor.enrolled.codes">
+        <source>two_factor.enrolled.codes</source>
+        <target>Hoidke neid koode turvalises kohas: neid ei näidata uuesti. Kui kaotate rakenduse, asendab iga kood ühe korra rakenduse koodi.</target>
+      </trans-unit>
+      <trans-unit id="732a6b396d" resname="two_factor.error.refused">
+        <source>two_factor.error.refused</source>
+        <target>Vale kood. Sisestage praegu kuvatav kood.</target>
+      </trans-unit>
+      <trans-unit id="56a44ece6f" resname="two_factor.error.no_provisioning">
+        <source>two_factor.error.no_provisioning</source>
+        <target>Seadistamine on aegunud. Alustage uuesti.</target>
+      </trans-unit>
+      <trans-unit id="71292a8b65" resname="two_factor.error.already_enrolled">
+        <source>two_factor.error.already_enrolled</source>
+        <target>Autentimisrakendus on juba seadistatud. Eemaldage see enne uue seadistamist.</target>
+      </trans-unit>
+      <trans-unit id="f614d3c6a6" resname="error.login_required">
+        <source>error.login_required</source>
+        <target>Logige sisse ja avage see leht seejärel uuesti.</target>
+      </trans-unit>
+      <trans-unit id="7f6da9700e" resname="error.sign_in">
+        <source>error.sign_in</source>
+        <target>Logi sisse</target>
+      </trans-unit>
+      <trans-unit id="884d5c03f9" resname="form_post.title">
+        <source>form_post.title</source>
+        <target>Rakendusse naasmine</target>
+      </trans-unit>
+      <trans-unit id="2965dcacbb" resname="form_post.explanation">
+        <source>form_post.explanation</source>
+        <target>Kui midagi ei juhtu, kasutage nuppu Jätka.</target>
+      </trans-unit>
+      <trans-unit id="899a3c277e" resname="form_post.continue">
+        <source>form_post.continue</source>
+        <target>Jätka</target>
+      </trans-unit>
+      <trans-unit id="2237eea428" resname="front_channel_logout.title">
+        <source>front_channel_logout.title</source>
+        <target>Teie rakendustest väljalogimine</target>
+      </trans-unit>
+      <trans-unit id="155202e7b3" resname="front_channel_logout.asked">
+        <source>front_channel_logout.asked</source>
+        <target>Teie rakendustel paluti teid välja logida. Need, mida teie brauser blokeerib, teevad seda teie järgmisel külastusel.</target>
+      </trans-unit>
+      <trans-unit id="1e7bfc09fa" resname="front_channel_logout.continue">
+        <source>front_channel_logout.continue</source>
+        <target>Jätka</target>
+      </trans-unit>
+      <trans-unit id="66ec4c8293" resname="front_channel_logout.frame">
+        <source>front_channel_logout.frame</source>
+        <target>Rakendusest väljalogimine</target>
+      </trans-unit>
+      <trans-unit id="2a09e75af2" resname="login.prompt_alone">
+        <source>login.prompt_alone</source>
+        <target>Jätkamiseks logige sisse.</target>
+      </trans-unit>
+      <trans-unit id="dc02dea145" resname="device.title">
+        <source>device.title</source>
+        <target>Ühendage seade</target>
+      </trans-unit>
+      <trans-unit id="fdd74a6c56" resname="device.prompt">
+        <source>device.prompt</source>
+        <target>Sisestage seadmes kuvatav kood.</target>
+      </trans-unit>
+      <trans-unit id="fd47214568" resname="device.code">
+        <source>device.code</source>
+        <target>Kood</target>
+      </trans-unit>
+      <trans-unit id="0ebc2034f0" resname="device.submit">
+        <source>device.submit</source>
+        <target>Jätka</target>
+      </trans-unit>
+      <trans-unit id="9795377dd9" resname="device.refused.unknown_code">
+        <source>device.refused.unknown_code</source>
+        <target>Tundmatu kood. Kontrollige seadmes kuvatavat koodi.</target>
+      </trans-unit>
+      <trans-unit id="f530b41973" resname="device.refused.too_many_attempts">
+        <source>device.refused.too_many_attempts</source>
+        <target>Liiga palju katseid. Oodake minut ja proovige siis uuesti.</target>
+      </trans-unit>
+      <trans-unit id="99e6bfe694" resname="device.approval.title">
+        <source>device.approval.title</source>
+        <target>Kas lubada rakendusel {client} ühenduda?</target>
+      </trans-unit>
+      <trans-unit id="37c90fe35d" resname="device.approval.signed_in_as">
+        <source>device.approval.signed_in_as</source>
+        <target>Olete sisse logitud kasutajana {username}.</target>
+      </trans-unit>
+      <trans-unit id="a6aca898f1" resname="device.approval.request">
+        <source>device.approval.request</source>
+        <target>{client} palub luba ühenduda teie kontoga koodiga {code}.</target>
+      </trans-unit>
+      <trans-unit id="453aa8634a" resname="device.approval.origin">
+        <source>device.approval.origin</source>
+        <target>Päringu allikas: {address} ({agent}).</target>
+      </trans-unit>
+      <trans-unit id="a6f6ea1b9e" resname="device.approval.unknown_address">
+        <source>device.approval.unknown_address</source>
+        <target>tundmatu aadress</target>
+      </trans-unit>
+      <trans-unit id="e3833693f9" resname="device.approval.unknown_agent">
+        <source>device.approval.unknown_agent</source>
+        <target>tundmatu seade</target>
+      </trans-unit>
+      <trans-unit id="2ac67d203a" resname="device.approval.unexpected">
+        <source>device.approval.unexpected</source>
+        <target>Kui te seda päringut ei algatanud, keelduge sellest.</target>
+      </trans-unit>
+      <trans-unit id="f62ada85d7" resname="device.approval.allow">
+        <source>device.approval.allow</source>
+        <target>Luba</target>
+      </trans-unit>
+      <trans-unit id="9a1c11f83f" resname="device.approval.deny">
+        <source>device.approval.deny</source>
+        <target>Keeldu</target>
+      </trans-unit>
+      <trans-unit id="f3543cfd93" resname="device.answered.approved.title">
+        <source>device.answered.approved.title</source>
+        <target>Seade ühendatud</target>
+      </trans-unit>
+      <trans-unit id="8515dd5522" resname="device.answered.denied.title">
+        <source>device.answered.denied.title</source>
+        <target>Päringust keelduti</target>
+      </trans-unit>
+      <trans-unit id="3a6d124638" resname="device.answered.approved">
+        <source>device.answered.approved</source>
+        <target>{client} saab nüüd teie kontot kasutada. Naaske oma seadme juurde.</target>
+      </trans-unit>
+      <trans-unit id="b3cdc73ad3" resname="device.answered.denied">
+        <source>device.answered.denied</source>
+        <target>{client} ei saa teie kontole juurdepääsu. Võite selle lehe sulgeda.</target>
+      </trans-unit>
+      <trans-unit id="7ea1ce200f" resname="device.approval.provider">
+        <source>device.approval.provider</source>
+        <target>Päringu esitaja: {provider}.</target>
+      </trans-unit>
+      <trans-unit id="1fdfeca8b7" resname="approvals.title">
+        <source>approvals.title</source>
+        <target>Ootel päringud</target>
+      </trans-unit>
+      <trans-unit id="a7cbe7f52a" resname="approvals.provider">
+        <source>approvals.provider</source>
+        <target>Päringu esitaja: {provider}.</target>
+      </trans-unit>
+      <trans-unit id="3cbe156f9c" resname="approvals.nothing">
+        <source>approvals.nothing</source>
+        <target>Ootel päringuid pole.</target>
+      </trans-unit>
+      <trans-unit id="2f2cc83054" resname="approvals.request">
+        <source>approvals.request</source>
+        <target>{client} palub luba teie kontot kasutada.</target>
+      </trans-unit>
+      <trans-unit id="44ce1f2c66" resname="approvals.binding_message">
+        <source>approvals.binding_message</source>
+        <target>{client} teatab: {message}</target>
+      </trans-unit>
+      <trans-unit id="7eccbd5d22" resname="approvals.origin">
+        <source>approvals.origin</source>
+        <target>Päringu allikas: {address} ({agent}).</target>
+      </trans-unit>
+      <trans-unit id="42210e2c97" resname="approvals.unknown_address">
+        <source>approvals.unknown_address</source>
+        <target>tundmatu aadress</target>
+      </trans-unit>
+      <trans-unit id="5cb6f3dc54" resname="approvals.unknown_agent">
+        <source>approvals.unknown_agent</source>
+        <target>tundmatu klient</target>
+      </trans-unit>
+      <trans-unit id="a6a9c0f2d8" resname="approvals.unexpected">
+        <source>approvals.unexpected</source>
+        <target>Kui te päringut ei algatanud, keelduge sellest.</target>
+      </trans-unit>
+      <trans-unit id="6ce56f5d12" resname="approvals.allow">
+        <source>approvals.allow</source>
+        <target>Luba</target>
+      </trans-unit>
+      <trans-unit id="5a7dfc49d3" resname="approvals.deny">
+        <source>approvals.deny</source>
+        <target>Keeldu</target>
+      </trans-unit>
+      <trans-unit id="afba73eebf" resname="approvals.refused.nothing_to_answer">
+        <source>approvals.refused.nothing_to_answer</source>
+        <target>See päring ei vaja enam vastust.</target>
+      </trans-unit>
+      <trans-unit id="8e71b29d2d" resname="approvals.answered.approved.title">
+        <source>approvals.answered.approved.title</source>
+        <target>Päring lubatud</target>
+      </trans-unit>
+      <trans-unit id="9eabc0605e" resname="approvals.answered.denied.title">
+        <source>approvals.answered.denied.title</source>
+        <target>Päringust keelduti</target>
+      </trans-unit>
+      <trans-unit id="921a96cc05" resname="approvals.answered.approved">
+        <source>approvals.answered.approved</source>
+        <target>{client} saab nüüd teie kontot kasutada. Naaske sinna, kust alustasite.</target>
+      </trans-unit>
+      <trans-unit id="965ccbcb18" resname="approvals.answered.denied">
+        <source>approvals.answered.denied</source>
+        <target>{client} ei saa teie kontole juurdepääsu. Võite selle lehe sulgeda.</target>
+      </trans-unit>
+      <trans-unit id="93dc1e5079" resname="notifications.title">
+        <source>notifications.title</source>
+        <target>Teavitused</target>
+      </trans-unit>
+      <trans-unit id="07e99afba9" resname="notifications.what_is_sent">
+        <source>notifications.what_is_sent</source>
+        <target>Siia lisatud brauser saab teavituse, kui päring ootab teie vastust. Vastate alati siin.</target>
+      </trans-unit>
+      <trans-unit id="1a8a70cf10" resname="notifications.none">
+        <source>notifications.none</source>
+        <target>Ühtegi brauserit pole lisatud.</target>
+      </trans-unit>
+      <trans-unit id="notifications.none_matching" resname="notifications.none_matching">
+        <source>notifications.none_matching</source>
+        <target>Ükski brauser ei vasta filtritele.</target>
+      </trans-unit>
+      <trans-unit id="6bee5ae6f1" resname="notifications.label">
+        <source>notifications.label</source>
+        <target>Brauser</target>
+      </trans-unit>
+      <trans-unit id="9ccb115d7e" resname="notifications.unnamed">
+        <source>notifications.unnamed</source>
+        <target>Nimetu</target>
+      </trans-unit>
+      <trans-unit id="463cb30490" resname="notifications.created_at">
+        <source>notifications.created_at</source>
+        <target>Lisatud</target>
+      </trans-unit>
+      <trans-unit id="87dc9c5a99" resname="notifications.last_pushed_at">
+        <source>notifications.last_pushed_at</source>
+        <target>Viimane teavitus</target>
+      </trans-unit>
+      <trans-unit id="cbcf139564" resname="notifications.never_pushed">
+        <source>notifications.never_pushed</source>
+        <target>Mitte kunagi</target>
+      </trans-unit>
+      <trans-unit id="349298c2df" resname="notifications.revoke">
+        <source>notifications.revoke</source>
+        <target>Eemalda</target>
+      </trans-unit>
+      <trans-unit id="2fada520c3" resname="notifications.subscribe">
+        <source>notifications.subscribe</source>
+        <target>Lisa see brauser</target>
+      </trans-unit>
+      <trans-unit id="fb344c54e6" resname="notifications.unsupported">
+        <source>notifications.unsupported</source>
+        <target>See brauser ei toeta teavitusi.</target>
+      </trans-unit>
+      <trans-unit id="092d481e7c" resname="notifications.not_served">
+        <source>notifications.not_served</source>
+        <target>Brauseri teavitused pole saadaval.</target>
+      </trans-unit>
+      <trans-unit id="b7d8776630" resname="notifications.error.browser">
+        <source>notifications.error.browser</source>
+        <target>Brauserit ei lisatud. Kontrollige, kas teavitused on lubatud.</target>
+      </trans-unit>
+      <trans-unit id="e773e70d91" resname="notifications.error.refused">
+        <source>notifications.error.refused</source>
+        <target>See brauser saatis vigase tellimuse. Proovige uuesti.</target>
+      </trans-unit>
+      <trans-unit id="99fed0616f" resname="notifications.error.not_served">
+        <source>notifications.error.not_served</source>
+        <target>Brauseri teavitused pole saadaval.</target>
+      </trans-unit>
+      <trans-unit id="a7c31de490" resname="account.approvals.state">
+        <source>account.approvals.state</source>
+        <target>{count, plural, =0 {Midagi pole ootel} one {Üks ootel päring} other {# ootel päringut}}</target>
+      </trans-unit>
+      <trans-unit id="e0bc57b68b" resname="account.notifications.state">
+        <source>account.notifications.state</source>
+        <target>{count, plural, =0 {Brausereid pole} one {Üks brauser} other {# brauserit}}</target>
+      </trans-unit>
+      <trans-unit id="8929e85d47" resname="approval.notice.title">
+        <source>approval.notice.title</source>
+        <target>{provider}</target>
+      </trans-unit>
+      <trans-unit id="1b482fd722" resname="approval.notice.subject">
+        <source>approval.notice.subject</source>
+        <target>{provider}: sisselogimine ootab teie kinnitust</target>
+      </trans-unit>
+      <trans-unit id="95c419025b" resname="approval.notice.body">
+        <source>approval.notice.body</source>
+        <target>{client} palub teil kinnitada sisselogimise. Vastamiseks avage oma konto.</target>
+      </trans-unit>
+      <trans-unit id="4399d9d6d6" resname="approval.notice.body_with_message">
+        <source>approval.notice.body_with_message</source>
+        <target>{client} palub teil kinnitada: {message}. Vastamiseks avage oma konto.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.title" resname="credential_change.title">
+        <source>credential_change.title</source>
+        <target>{provider}</target>
+      </trans-unit>
+      <trans-unit id="credential_change.subject" resname="credential_change.subject">
+        <source>credential_change.subject</source>
+        <target>{provider}: muudatus teie sisselogimisviisides</target>
+      </trans-unit>
+      <trans-unit id="credential_change.body" resname="credential_change.body">
+        <source>credential_change.body</source>
+        <target>{what} Kui see polnud teie, avage oma konto.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.body_with_contact" resname="credential_change.body_with_contact">
+        <source>credential_change.body_with_contact</source>
+        <target>{what} Kui see polnud teie, avage oma konto ja võtke ühendust: {contact}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.credential.enrolled" resname="credential_change.credential.enrolled">
+        <source>credential_change.credential.enrolled</source>
+        <target>{kind, select, passkey {Pääsuvõti} totp {Autentimisrakendus} password {Parool} other {Sisselogimisviis}} lisati teie kontole {when}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.credential.revoked" resname="credential_change.credential.revoked">
+        <source>credential_change.credential.revoked</source>
+        <target>{kind, select, passkey {Pääsuvõti} totp {Autentimisrakendus} password {Parool} other {Sisselogimisviis}} eemaldati teie kontolt {when}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.password.changed" resname="credential_change.password.changed">
+        <source>credential_change.password.changed</source>
+        <target>Teie konto parool muudeti {when}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.enrolment_ticket.issued" resname="credential_change.enrolment_ticket.issued">
+        <source>credential_change.enrolment_ticket.issued</source>
+        <target>Link pääsuvõtme lisamiseks teie kontole väljastati {when}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.backup_codes.renewed" resname="credential_change.backup_codes.renewed">
+        <source>credential_change.backup_codes.renewed</source>
+        <target>Teie konto varukoodid uuendati {when}.</target>
+      </trans-unit>
+      <trans-unit id="c7a1e4f9b3" resname="locale.choose">
+        <source>locale.choose</source>
+        <target>Keel</target>
+      </trans-unit>
+      <trans-unit id="a4b8d2e6f1" resname="language.en">
+        <source>language.en</source>
+        <target>English</target>
+      </trans-unit>
+      <trans-unit id="f2c9a7b5e8" resname="language.fr">
+        <source>language.fr</source>
+        <target>Français</target>
+      </trans-unit>
+      <trans-unit id="language.de" resname="language.de">
+        <source>language.de</source>
+        <target>Deutsch</target>
+      </trans-unit>
+      <trans-unit id="language.es" resname="language.es">
+        <source>language.es</source>
+        <target>Español</target>
+      </trans-unit>
+      <trans-unit id="language.it" resname="language.it">
+        <source>language.it</source>
+        <target>Italiano</target>
+      </trans-unit>
+      <trans-unit id="language.nl" resname="language.nl">
+        <source>language.nl</source>
+        <target>Nederlands</target>
+      </trans-unit>
+      <trans-unit id="language.pl" resname="language.pl">
+        <source>language.pl</source>
+        <target>Polski</target>
+      </trans-unit>
+      <trans-unit id="language.bg" resname="language.bg">
+        <source>language.bg</source>
+        <target>Български</target>
+      </trans-unit>
+      <trans-unit id="language.bs" resname="language.bs">
+        <source>language.bs</source>
+        <target>Bosanski</target>
+      </trans-unit>
+      <trans-unit id="language.ca" resname="language.ca">
+        <source>language.ca</source>
+        <target>Català</target>
+      </trans-unit>
+      <trans-unit id="language.cs" resname="language.cs">
+        <source>language.cs</source>
+        <target>Čeština</target>
+      </trans-unit>
+      <trans-unit id="language.da" resname="language.da">
+        <source>language.da</source>
+        <target>Dansk</target>
+      </trans-unit>
+      <trans-unit id="language.el" resname="language.el">
+        <source>language.el</source>
+        <target>Ελληνικά</target>
+      </trans-unit>
+      <trans-unit id="language.et" resname="language.et">
+        <source>language.et</source>
+        <target>Eesti</target>
+      </trans-unit>
+      <trans-unit id="language.fi" resname="language.fi">
+        <source>language.fi</source>
+        <target>Suomi</target>
+      </trans-unit>
+      <trans-unit id="language.hr" resname="language.hr">
+        <source>language.hr</source>
+        <target>Hrvatski</target>
+      </trans-unit>
+      <trans-unit id="language.hu" resname="language.hu">
+        <source>language.hu</source>
+        <target>Magyar</target>
+      </trans-unit>
+      <trans-unit id="language.is" resname="language.is">
+        <source>language.is</source>
+        <target>Íslenska</target>
+      </trans-unit>
+      <trans-unit id="language.lt" resname="language.lt">
+        <source>language.lt</source>
+        <target>Lietuvių</target>
+      </trans-unit>
+      <trans-unit id="language.lv" resname="language.lv">
+        <source>language.lv</source>
+        <target>Latviešu</target>
+      </trans-unit>
+      <trans-unit id="language.mk" resname="language.mk">
+        <source>language.mk</source>
+        <target>Македонски</target>
+      </trans-unit>
+      <trans-unit id="language.nb" resname="language.nb">
+        <source>language.nb</source>
+        <target>Norsk bokmål</target>
+      </trans-unit>
+      <trans-unit id="language.pt" resname="language.pt">
+        <source>language.pt</source>
+        <target>Português</target>
+      </trans-unit>
+      <trans-unit id="language.ro" resname="language.ro">
+        <source>language.ro</source>
+        <target>Română</target>
+      </trans-unit>
+      <trans-unit id="language.sk" resname="language.sk">
+        <source>language.sk</source>
+        <target>Slovenčina</target>
+      </trans-unit>
+      <trans-unit id="language.sl" resname="language.sl">
+        <source>language.sl</source>
+        <target>Slovenščina</target>
+      </trans-unit>
+      <trans-unit id="language.sq" resname="language.sq">
+        <source>language.sq</source>
+        <target>Shqip</target>
+      </trans-unit>
+      <trans-unit id="language.sr" resname="language.sr">
+        <source>language.sr</source>
+        <target>Српски</target>
+      </trans-unit>
+      <trans-unit id="language.sv" resname="language.sv">
+        <source>language.sv</source>
+        <target>Svenska</target>
+      </trans-unit>
+      <trans-unit id="language.tr" resname="language.tr">
+        <source>language.tr</source>
+        <target>Türkçe</target>
+      </trans-unit>
+      <trans-unit id="language.uk" resname="language.uk">
+        <source>language.uk</source>
+        <target>Українська</target>
+      </trans-unit>
+      <trans-unit id="d1a7f3b9c2" resname="sessions.title">
+        <source>sessions.title</source>
+        <target>Avatud seansid</target>
+      </trans-unit>
+      <trans-unit id="f7c2e9a4b1" resname="sessions.explanation">
+        <source>sessions.explanation</source>
+        <target>Seansi lõpetamine logib teid välja kõigist rakendustest, milles seda kasutati.</target>
+      </trans-unit>
+      <trans-unit id="a9d4f1c7e3" resname="sessions.proved">
+        <source>sessions.proved</source>
+        <target>Sisselogimisviis</target>
+      </trans-unit>
+      <trans-unit id="b2e7a3d9f4" resname="sessions.opened_at">
+        <source>sessions.opened_at</source>
+        <target>Avatud</target>
+      </trans-unit>
+      <trans-unit id="c5f1b8e2a7" resname="sessions.last_seen">
+        <source>sessions.last_seen</source>
+        <target>Viimati aktiivne</target>
+      </trans-unit>
+      <trans-unit id="d8a2c7f3b1" resname="sessions.from">
+        <source>sessions.from</source>
+        <target>Allikas</target>
+      </trans-unit>
+      <trans-unit id="f3c8a1e7b2" resname="sessions.this_browser">
+        <source>sessions.this_browser</source>
+        <target>see brauser</target>
+      </trans-unit>
+      <trans-unit id="a6d2f9b3c1" resname="sessions.end">
+        <source>sessions.end</source>
+        <target>Lõpeta</target>
+      </trans-unit>
+      <trans-unit id="b9e3a7d2f8" resname="sessions.end_this_one">
+        <source>sessions.end_this_one</source>
+        <target>Lõpeta ja logi välja</target>
+      </trans-unit>
+      <trans-unit id="c2f7b1e9a4" resname="account.sessions.state">
+        <source>account.sessions.state</source>
+        <target>{count, plural, =0 {avatud seansse pole} one {üks avatud seanss} other {# avatud seanssi}}</target>
+      </trans-unit>
+      <trans-unit id="a1c4e7f2b9" resname="application.granted">
+        <source>application.granted</source>
+        <target>Millega nõustusite</target>
+      </trans-unit>
+      <trans-unit id="b4f8a2c6e1" resname="application.holds">
+        <source>application.holds</source>
+        <target>Praegune juurdepääs</target>
+      </trans-unit>
+      <trans-unit id="c7a1d4f8b2" resname="application.renewable">
+        <source>application.renewable</source>
+        <target>{count, plural, =0 {Rakendus ei saa oma juurdepääsu pikendada.} one {Rakendus saab oma juurdepääsu ilma teieta pikendada.} other {Rakendus saab oma juurdepääsu ilma teieta pikendada.}}</target>
+      </trans-unit>
+      <trans-unit id="d2b8f1a7c4" resname="application.last_issued">
+        <source>application.last_issued</source>
+        <target>Viimane juurdepääs väljastatud:</target>
+      </trans-unit>
+      <trans-unit id="e5c1a8d2f7" resname="application.self_contained">
+        <source>application.self_contained</source>
+        <target>Juba väljastatud juurdepääs kehtib aegumiseni, isegi kui te selle tühistate.</target>
+      </trans-unit>
+      <trans-unit id="f8d2b7a1c5" resname="application.pending">
+        <source>application.pending</source>
+        <target>Mida rakendus ootab</target>
+      </trans-unit>
+      <trans-unit id="a3e9c2f7b4" resname="application.nothing_pending">
+        <source>application.nothing_pending</source>
+        <target>Rakendus ei oota teilt midagi.</target>
+      </trans-unit>
+      <trans-unit id="b6f2d8a3c9" resname="application.answer_them">
+        <source>application.answer_them</source>
+        <target>Vaata ootel päringuid</target>
+      </trans-unit>
+      <trans-unit id="c9a3e1f8b5" resname="application.take_it_back">
+        <source>application.take_it_back</source>
+        <target>Tühista juurdepääs</target>
+      </trans-unit>
+      <trans-unit id="d4b9f2a8c3" resname="application.take_it_back_means">
+        <source>application.take_it_back_means</source>
+        <target>Järgmisel korral küsib rakendus uuesti teie luba.</target>
+      </trans-unit>
+      <trans-unit id="acts.title" resname="acts.title">
+        <source>acts.title</source>
+        <target>Konto tegevus</target>
+      </trans-unit>
+      <trans-unit id="acts.explanation" resname="acts.explanation">
+        <source>acts.explanation</source>
+        <target>Kui te mõnda rida ära ei tunne, muutke oma parooli.</target>
+      </trans-unit>
+      <trans-unit id="acts.what" resname="acts.what">
+        <source>acts.what</source>
+        <target>Sündmus</target>
+      </trans-unit>
+      <trans-unit id="acts.when" resname="acts.when">
+        <source>acts.when</source>
+        <target>Aeg</target>
+      </trans-unit>
+      <trans-unit id="acts.from" resname="acts.from">
+        <source>acts.from</source>
+        <target>Allikas</target>
+      </trans-unit>
+      <trans-unit id="acts.by_an_administrator" resname="acts.by_an_administrator">
+        <source>acts.by_an_administrator</source>
+        <target>Teie organisatsiooni administraator</target>
+      </trans-unit>
+      <trans-unit id="acts.none" resname="acts.none">
+        <source>acts.none</source>
+        <target>Midagi pole veel registreeritud.</target>
+      </trans-unit>
+      <trans-unit id="acts.none_matching" resname="acts.none_matching">
+        <source>acts.none_matching</source>
+        <target>Miski ei vasta filtritele.</target>
+      </trans-unit>
+      <trans-unit id="acts.filter.every_act" resname="acts.filter.every_act">
+        <source>acts.filter.every_act</source>
+        <target>Kõik</target>
+      </trans-unit>
+      <trans-unit id="acts.filter.from_anywhere" resname="acts.filter.from_anywhere">
+        <source>acts.filter.from_anywhere</source>
+        <target>Kõik</target>
+      </trans-unit>
+      <trans-unit id="acts.filter.from_a_request" resname="acts.filter.from_a_request">
+        <source>acts.filter.from_a_request</source>
+        <target>Brauser või rakendus</target>
+      </trans-unit>
+      <trans-unit id="account.acts.state" resname="account.acts.state">
+        <source>account.acts.state</source>
+        <target>{count, plural, =0 {tagasilükatud katseid pole} one {# tagasilükatud katse} other {# tagasilükatud katset}}</target>
+      </trans-unit>
+      <trans-unit id="act.user.authenticated" resname="act.user.authenticated">
+        <source>act.user.authenticated</source>
+        <target>Sisselogimine</target>
+      </trans-unit>
+      <trans-unit id="act.authentication.failed" resname="act.authentication.failed">
+        <source>act.authentication.failed</source>
+        <target>Sisselogimine tagasi lükatud</target>
+      </trans-unit>
+      <trans-unit id="act.password.used" resname="act.password.used">
+        <source>act.password.used</source>
+        <target>Parool aktsepteeritud</target>
+      </trans-unit>
+      <trans-unit id="act.passkey.used" resname="act.passkey.used">
+        <source>act.passkey.used</source>
+        <target>Pääsuvõtit kasutatud</target>
+      </trans-unit>
+      <trans-unit id="act.totp.used" resname="act.totp.used">
+        <source>act.totp.used</source>
+        <target>Autentimisrakenduse kood aktsepteeritud</target>
+      </trans-unit>
+      <trans-unit id="act.backup_code.used" resname="act.backup_code.used">
+        <source>act.backup_code.used</source>
+        <target>Varukoodi kasutatud</target>
+      </trans-unit>
+      <trans-unit id="act.session.ended" resname="act.session.ended">
+        <source>act.session.ended</source>
+        <target>Seanss lõpetatud</target>
+      </trans-unit>
+      <trans-unit id="act.credential.enrolled" resname="act.credential.enrolled">
+        <source>act.credential.enrolled</source>
+        <target>Sisselogimisviis lisatud</target>
+      </trans-unit>
+      <trans-unit id="act.credential.revoked" resname="act.credential.revoked">
+        <source>act.credential.revoked</source>
+        <target>Sisselogimisviis eemaldatud</target>
+      </trans-unit>
+      <trans-unit id="act.credential.forgotten" resname="act.credential.forgotten">
+        <source>act.credential.forgotten</source>
+        <target>Sisselogimisviis kustutatud, kuna see pole enam lubatud</target>
+      </trans-unit>
+      <trans-unit id="act.credential.renamed" resname="act.credential.renamed">
+        <source>act.credential.renamed</source>
+        <target>Sisselogimisviis ümber nimetatud</target>
+      </trans-unit>
+      <trans-unit id="act.password.changed" resname="act.password.changed">
+        <source>act.password.changed</source>
+        <target>Parool muudetud</target>
+      </trans-unit>
+      <trans-unit id="act.backup_codes.renewed" resname="act.backup_codes.renewed">
+        <source>act.backup_codes.renewed</source>
+        <target>Varukoodid uuendatud</target>
+      </trans-unit>
+      <trans-unit id="act.person.created" resname="act.person.created">
+        <source>act.person.created</source>
+        <target>Konto loodud</target>
+      </trans-unit>
+      <trans-unit id="act.person.provisioned" resname="act.person.provisioned">
+        <source>act.person.provisioned</source>
+        <target>Konto loodud teie organisatsiooni kaudu</target>
+      </trans-unit>
+      <trans-unit id="act.person.described_themselves" resname="act.person.described_themselves">
+        <source>act.person.described_themselves</source>
+        <target>Andmeid muudetud</target>
+      </trans-unit>
+      <trans-unit id="act.person.described" resname="act.person.described">
+        <source>act.person.described</source>
+        <target>Andmeid muudetud</target>
+      </trans-unit>
+      <trans-unit id="act.person.disabled" resname="act.person.disabled">
+        <source>act.person.disabled</source>
+        <target>Konto deaktiveeritud</target>
+      </trans-unit>
+      <trans-unit id="act.person.enabled" resname="act.person.enabled">
+        <source>act.person.enabled</source>
+        <target>Konto uuesti aktiveeritud</target>
+      </trans-unit>
+      <trans-unit id="act.group_membership.added" resname="act.group_membership.added">
+        <source>act.group_membership.added</source>
+        <target>Lisatud gruppi</target>
+      </trans-unit>
+      <trans-unit id="act.group_membership.removed" resname="act.group_membership.removed">
+        <source>act.group_membership.removed</source>
+        <target>Eemaldatud grupist</target>
+      </trans-unit>
+      <trans-unit id="act.consent.granted" resname="act.consent.granted">
+        <source>act.consent.granted</source>
+        <target>Rakendus lubatud</target>
+      </trans-unit>
+      <trans-unit id="act.consent.revoked" resname="act.consent.revoked">
+        <source>act.consent.revoked</source>
+        <target>Rakenduse juurdepääs tühistatud</target>
+      </trans-unit>
+      <trans-unit id="act.archive.asked" resname="act.archive.asked">
+        <source>act.archive.asked</source>
+        <target>Andmete koopia küsitud</target>
+      </trans-unit>
+      <trans-unit id="act.archive.taken" resname="act.archive.taken">
+        <source>act.archive.taken</source>
+        <target>Andmete koopia alla laaditud</target>
+      </trans-unit>
+      <trans-unit id="act.archive.dropped" resname="act.archive.dropped">
+        <source>act.archive.dropped</source>
+        <target>Andmete koopia kustutatud</target>
+      </trans-unit>
+      <trans-unit id="act.administration.person_read" resname="act.administration.person_read">
+        <source>act.administration.person_read</source>
+        <target>Kontot vaadatud</target>
+      </trans-unit>
+      <trans-unit id="act.administration.sessions_read" resname="act.administration.sessions_read">
+        <source>act.administration.sessions_read</source>
+        <target>Seansse vaadatud</target>
+      </trans-unit>
+      <trans-unit id="act.administration.membership_read" resname="act.administration.membership_read">
+        <source>act.administration.membership_read</source>
+        <target>Grupikuuluvust vaadatud</target>
+      </trans-unit>
+      <trans-unit id="act.administration.consents_read" resname="act.administration.consents_read">
+        <source>act.administration.consents_read</source>
+        <target>Lubatud rakendusi vaadatud</target>
+      </trans-unit>
+      <trans-unit id="act.administration.journal_read" resname="act.administration.journal_read">
+        <source>act.administration.journal_read</source>
+        <target>Konto tegevust vaadatud</target>
+      </trans-unit>
+      <trans-unit id="profile.change_explanation" resname="profile.change_explanation">
+        <source>profile.change_explanation</source>
+        <target>Andmete eemaldamiseks tühjendage väli.</target>
+      </trans-unit>
+      <trans-unit id="profile.change_nothing" resname="profile.change_nothing">
+        <source>profile.change_nothing</source>
+        <target>Neid andmeid ei saa siin muuta.</target>
+      </trans-unit>
+      <trans-unit id="profile.save" resname="profile.save">
+        <source>profile.save</source>
+        <target>Salvesta</target>
+      </trans-unit>
+      <trans-unit id="profile.claim_not_open" resname="profile.claim_not_open">
+        <source>profile.claim_not_open</source>
+        <target>Seda ei saa siin muuta.</target>
+      </trans-unit>
+      <trans-unit id="profile.claim_refused" resname="profile.claim_refused">
+        <source>profile.claim_refused</source>
+        <target>See väärtus ei ole kehtiv.</target>
+      </trans-unit>
+      <trans-unit id="profile.nothing" resname="profile.nothing">
+        <source>profile.nothing</source>
+        <target>Puudub</target>
+      </trans-unit>
+      <trans-unit id="profile.birthdate.example" resname="profile.birthdate.example">
+        <source>profile.birthdate.example</source>
+        <target>1815-12-10 või 1815</target>
+      </trans-unit>
+      <trans-unit id="archive.title" resname="archive.title">
+        <source>archive.title</source>
+        <target>Teie andmete koopia</target>
+      </trans-unit>
+      <trans-unit id="archive.explanation" resname="archive.explanation">
+        <source>archive.explanation</source>
+        <target>Kõik teie andmed ühes failis, valmis mõni minut pärast küsimist.</target>
+      </trans-unit>
+      <trans-unit id="archive.what_it_holds" resname="archive.what_it_holds">
+        <source>archive.what_it_holds</source>
+        <target>Faili sisu</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.profile" resname="archive.chapter.profile">
+        <source>archive.chapter.profile</source>
+        <target>Teie konto ja andmed</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.credentials" resname="archive.chapter.credentials">
+        <source>archive.chapter.credentials</source>
+        <target>Teie sisselogimisviisid ilma nende saladusteta</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.linked_identities" resname="archive.chapter.linked_identities">
+        <source>archive.chapter.linked_identities</source>
+        <target>Teie seotud kontod ja see, mida need jagasid</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.groups" resname="archive.chapter.groups">
+        <source>archive.chapter.groups</source>
+        <target>Teie grupid ja iga grupi päritolu</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.consents" resname="archive.chapter.consents">
+        <source>archive.chapter.consents</source>
+        <target>Lubatud rakendused ja see, mida igaüks neist saab</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.sessions" resname="archive.chapter.sessions">
+        <source>archive.chapter.sessions</source>
+        <target>Teie avatud seansid</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.journal" resname="archive.chapter.journal">
+        <source>archive.chapter.journal</source>
+        <target>Teie konto tegevus</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.changes" resname="archive.chapter.changes">
+        <source>archive.chapter.changes</source>
+        <target>Teie andmete muudatuste ajalugu</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.disclosures" resname="archive.chapter.disclosures">
+        <source>archive.chapter.disclosures</source>
+        <target>Mida iga rakendus teilt sai ja millal</target>
+      </trans-unit>
+      <trans-unit id="archive.your_request" resname="archive.your_request">
+        <source>archive.your_request</source>
+        <target>Teie päring</target>
+      </trans-unit>
+      <trans-unit id="archive.never" resname="archive.never">
+        <source>archive.never</source>
+        <target>Te pole veel oma andmeid küsinud.</target>
+      </trans-unit>
+      <trans-unit id="archive.being_built" resname="archive.being_built">
+        <source>archive.being_built</source>
+        <target>Teie faili valmistatakse ette. Tulge tagasi mõne minuti pärast.</target>
+      </trans-unit>
+      <trans-unit id="archive.stalled" resname="archive.stalled">
+        <source>archive.stalled</source>
+        <target>Teie faili ei õnnestunud ette valmistada. Küsige uut.</target>
+      </trans-unit>
+      <trans-unit id="archive.ready" resname="archive.ready">
+        <source>archive.ready</source>
+        <target>Teie fail on valmis.</target>
+      </trans-unit>
+      <trans-unit id="archive.expired" resname="archive.expired">
+        <source>archive.expired</source>
+        <target>Teie fail on aegunud. Küsige uut.</target>
+      </trans-unit>
+      <trans-unit id="archive.asked_at" resname="archive.asked_at">
+        <source>archive.asked_at</source>
+        <target>Küsitud: {moment}.</target>
+      </trans-unit>
+      <trans-unit id="archive.built_at" resname="archive.built_at">
+        <source>archive.built_at</source>
+        <target>Valmistatud: {moment}.</target>
+      </trans-unit>
+      <trans-unit id="archive.expires_at" resname="archive.expires_at">
+        <source>archive.expires_at</source>
+        <target>Saadaval kuni {moment}.</target>
+      </trans-unit>
+      <trans-unit id="archive.download" resname="archive.download">
+        <source>archive.download</source>
+        <target>Laadi oma andmed alla</target>
+      </trans-unit>
+      <trans-unit id="archive.passphrase" resname="archive.passphrase">
+        <source>archive.passphrase</source>
+        <target>Salafraas</target>
+      </trans-unit>
+      <trans-unit id="archive.wrapped_explanation" resname="archive.wrapped_explanation">
+        <source>archive.wrapped_explanation</source>
+        <target>Saate selle alla laadida ka krüpteerituna salafraasiga, milles on vähemalt {minimum} märki. Salafraasi ei säilitata kusagil: kui kaotate selle, ei saa faili avada. Avage .{container}-fail programmiga 7-Zip või Keka.</target>
+      </trans-unit>
+      <trans-unit id="archive.download_wrapped" resname="archive.download_wrapped">
+        <source>archive.download_wrapped</source>
+        <target>Laadi alla krüpteerituna</target>
+      </trans-unit>
+      <trans-unit id="archive.passphrase_refused" resname="archive.passphrase_refused">
+        <source>archive.passphrase_refused</source>
+        <target>Salafraas on liiga nõrk: kasutage mitut sõna, vähemalt {minimum, number} märki.</target>
+      </trans-unit>
+      <trans-unit id="archive.kept_for" resname="archive.kept_for">
+        <source>archive.kept_for</source>
+        <target>Faili hoitakse {days, plural, one {# päev} other {# päeva}} ja seejärel kustutatakse.</target>
+      </trans-unit>
+      <trans-unit id="archive.ask" resname="archive.ask">
+        <source>archive.ask</source>
+        <target>Küsi minu andmeid</target>
+      </trans-unit>
+      <trans-unit id="archive.ask_again" resname="archive.ask_again">
+        <source>archive.ask_again</source>
+        <target>Küsi uut faili</target>
+      </trans-unit>
+      <trans-unit id="account.archive.never" resname="account.archive.never">
+        <source>account.archive.never</source>
+        <target>pole küsitud</target>
+      </trans-unit>
+      <trans-unit id="account.archive.being_built" resname="account.archive.being_built">
+        <source>account.archive.being_built</source>
+        <target>valmistatakse ette</target>
+      </trans-unit>
+      <trans-unit id="account.archive.stalled" resname="account.archive.stalled">
+        <source>account.archive.stalled</source>
+        <target>ettevalmistamine ebaõnnestus</target>
+      </trans-unit>
+      <trans-unit id="account.archive.ready" resname="account.archive.ready">
+        <source>account.archive.ready</source>
+        <target>valmis allalaadimiseks</target>
+      </trans-unit>
+      <trans-unit id="account.archive.expired" resname="account.archive.expired">
+        <source>account.archive.expired</source>
+        <target>fail aegunud</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_nothing" resname="profile.changed_nothing">
+        <source>profile.changed_nothing</source>
+        <target>Muudatusi veel pole.</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_what" resname="profile.changed_what">
+        <source>profile.changed_what</source>
+        <target>Andmeväli</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_from" resname="profile.changed_from">
+        <source>profile.changed_from</source>
+        <target>Enne</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_to" resname="profile.changed_to">
+        <source>profile.changed_to</source>
+        <target>Pärast</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_when" resname="profile.changed_when">
+        <source>profile.changed_when</source>
+        <target>Millal</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_by" resname="profile.changed_by">
+        <source>profile.changed_by</source>
+        <target>Muutja</target>
+      </trans-unit>
+      <trans-unit id="pager.pages" resname="pager.pages">
+        <source>pager.pages</source>
+        <target>Leheküljed</target>
+      </trans-unit>
+      <trans-unit id="pager.rows" resname="pager.rows">
+        <source>pager.rows</source>
+        <target>Kuvatakse {first} kuni {last}, kokku {total}</target>
+      </trans-unit>
+      <trans-unit id="pager.previous" resname="pager.previous">
+        <source>pager.previous</source>
+        <target>Eelmine leht</target>
+      </trans-unit>
+      <trans-unit id="pager.next" resname="pager.next">
+        <source>pager.next</source>
+        <target>Järgmine leht</target>
+      </trans-unit>
+      <trans-unit id="pager.first" resname="pager.first">
+        <source>pager.first</source>
+        <target>Esimene leht</target>
+      </trans-unit>
+      <trans-unit id="pager.last" resname="pager.last">
+        <source>pager.last</source>
+        <target>Viimane leht</target>
+      </trans-unit>
+      <trans-unit id="pager.go_to" resname="pager.go_to">
+        <source>pager.go_to</source>
+        <target>Mine</target>
+      </trans-unit>
+      <trans-unit id="changes.title" resname="changes.title">
+        <source>changes.title</source>
+        <target>Muudatuste ajalugu</target>
+      </trans-unit>
+      <trans-unit id="changes.by_you" resname="changes.by_you">
+        <source>changes.by_you</source>
+        <target>Teie</target>
+      </trans-unit>
+      <trans-unit id="changes.none_matching" resname="changes.none_matching">
+        <source>changes.none_matching</source>
+        <target>Ükski muudatus ei vasta filtritele.</target>
+      </trans-unit>
+      <trans-unit id="changes.filter.every_claim" resname="changes.filter.every_claim">
+        <source>changes.filter.every_claim</source>
+        <target>Kõik</target>
+      </trans-unit>
+      <trans-unit id="changes.filter.by_anyone" resname="changes.filter.by_anyone">
+        <source>changes.filter.by_anyone</source>
+        <target>Igaüks</target>
+      </trans-unit>
+      <trans-unit id="filter.from" resname="filter.from">
+        <source>filter.from</source>
+        <target>Alates</target>
+      </trans-unit>
+      <trans-unit id="filter.label" resname="filter.label">
+        <source>filter.label</source>
+        <target>Filtrid</target>
+      </trans-unit>
+      <trans-unit id="filter.to" resname="filter.to">
+        <source>filter.to</source>
+        <target>Kuni</target>
+      </trans-unit>
+      <trans-unit id="filter.apply" resname="filter.apply">
+        <source>filter.apply</source>
+        <target>Filtreeri</target>
+      </trans-unit>
+      <trans-unit id="filter.clear" resname="filter.clear">
+        <source>filter.clear</source>
+        <target>Lähtesta</target>
+      </trans-unit>
+      <trans-unit id="passkeys.new_default" resname="passkeys.new_default">
+        <source>passkeys.new_default</source>
+        <target>Uus pääsuvõti</target>
+      </trans-unit>
+      <trans-unit id="passkeys.rename" resname="passkeys.rename">
+        <source>passkeys.rename</source>
+        <target>Nimeta ümber</target>
+      </trans-unit>
+      <trans-unit id="notifications.new_default" resname="notifications.new_default">
+        <source>notifications.new_default</source>
+        <target>Uus brauser</target>
+      </trans-unit>
+      <trans-unit id="notifications.rename" resname="notifications.rename">
+        <source>notifications.rename</source>
+        <target>Nimeta ümber</target>
+      </trans-unit>
+      <trans-unit id="notifications.this_browser" resname="notifications.this_browser">
+        <source>notifications.this_browser</source>
+        <target>See brauser</target>
+      </trans-unit>
+      <trans-unit id="notifications.error.invalid_label" resname="notifications.error.invalid_label">
+        <source>notifications.error.invalid_label</source>
+        <target>Andke brauserile nimi, milles on 1 kuni 255 märki.</target>
+      </trans-unit>
+      <trans-unit id="archive.cancel" resname="archive.cancel">
+        <source>archive.cancel</source>
+        <target>Kustuta see päring</target>
+      </trans-unit>
+      <trans-unit id="archive.drop" resname="archive.drop">
+        <source>archive.drop</source>
+        <target>Kustuta see fail</target>
+      </trans-unit>
+      <trans-unit id="archive.drop_explanation" resname="archive.drop_explanation">
+        <source>archive.drop_explanation</source>
+        <target>Kui olete faili alla laadinud, võite selle kustutada, ootamata selle aegumist.</target>
+      </trans-unit>
+      <trans-unit id="archive.nothing_to_drop" resname="archive.nothing_to_drop">
+        <source>archive.nothing_to_drop</source>
+        <target>Kustutada pole enam midagi.</target>
+      </trans-unit>
+      <trans-unit id="sessions.end_others" resname="sessions.end_others">
+        <source>sessions.end_others</source>
+        <target>Lõpeta kõik teised seansid</target>
+      </trans-unit>
+      <trans-unit id="sessions.none" resname="sessions.none">
+        <source>sessions.none</source>
+        <target>Avatud seansse pole.</target>
+      </trans-unit>
+      <trans-unit id="sessions.none_matching" resname="sessions.none_matching">
+        <source>sessions.none_matching</source>
+        <target>Ükski seanss ei vasta filtritele.</target>
+      </trans-unit>
+      <trans-unit id="sessions.filter.every_proof" resname="sessions.filter.every_proof">
+        <source>sessions.filter.every_proof</source>
+        <target>Kõik</target>
+      </trans-unit>
+      <trans-unit id="password.title" resname="password.title">
+        <source>password.title</source>
+        <target>Teie parool</target>
+      </trans-unit>
+      <trans-unit id="password.none" resname="password.none">
+        <source>password.none</source>
+        <target>Teil pole parooli: logite sisse muul viisil.</target>
+      </trans-unit>
+      <trans-unit id="password.changed_at" resname="password.changed_at">
+        <source>password.changed_at</source>
+        <target>Viimati muudetud: {date}.</target>
+      </trans-unit>
+      <trans-unit id="password.what_happens" resname="password.what_happens">
+        <source>password.what_happens</source>
+        <target>Parooli muutmine logib teid välja teistest brauseritest.</target>
+      </trans-unit>
+      <trans-unit id="password.current" resname="password.current">
+        <source>password.current</source>
+        <target>Praegune parool</target>
+      </trans-unit>
+      <trans-unit id="password.new" resname="password.new">
+        <source>password.new</source>
+        <target>Uus parool</target>
+      </trans-unit>
+      <trans-unit id="password.change" resname="password.change">
+        <source>password.change</source>
+        <target>Muuda parooli</target>
+      </trans-unit>
+      <trans-unit id="password.error.wrong_password" resname="password.error.wrong_password">
+        <source>password.error.wrong_password</source>
+        <target>Vale praegune parool.</target>
+      </trans-unit>
+      <trans-unit id="password.error.same_as_before" resname="password.error.same_as_before">
+        <source>password.error.same_as_before</source>
+        <target>See on juba teie parool. Valige mõni muu.</target>
+      </trans-unit>
+      <trans-unit id="password.error.no_password_held" resname="password.error.no_password_held">
+        <source>password.error.no_password_held</source>
+        <target>Teil pole muudetavat parooli.</target>
+      </trans-unit>
+      <trans-unit id="password.again" resname="password.again">
+        <source>password.again</source>
+        <target>Kinnitage uus parool</target>
+      </trans-unit>
+      <trans-unit id="password.breached" resname="password.breached">
+        <source>password.breached</source>
+        <target>Teie parool esineb andmelekkes ({date}). Muutke seda kohe.</target>
+      </trans-unit>
+      <trans-unit id="password.demanded" resname="password.demanded">
+        <source>password.demanded</source>
+        <target>Jätkamiseks muutke oma parooli. Vastasel juhul küsitakse seda uuesti järgmisel sisselogimisel.</target>
+      </trans-unit>
+      <trans-unit id="password.strength.nothing" resname="password.strength.nothing">
+        <source>password.strength.nothing</source>
+        <target>väga nõrk</target>
+      </trans-unit>
+      <trans-unit id="password.strength.weak" resname="password.strength.weak">
+        <source>password.strength.weak</source>
+        <target>nõrk</target>
+      </trans-unit>
+      <trans-unit id="password.strength.medium" resname="password.strength.medium">
+        <source>password.strength.medium</source>
+        <target>piisav</target>
+      </trans-unit>
+      <trans-unit id="password.strength.strong" resname="password.strength.strong">
+        <source>password.strength.strong</source>
+        <target>tugev</target>
+      </trans-unit>
+      <trans-unit id="password.strength.very_strong" resname="password.strength.very_strong">
+        <source>password.strength.very_strong</source>
+        <target>väga tugev</target>
+      </trans-unit>
+      <trans-unit id="password.error.too_short" resname="password.error.too_short">
+        <source>password.error.too_short</source>
+        <target>Parool peab olema vähemalt {minimum} märki pikk.</target>
+      </trans-unit>
+      <trans-unit id="password.error.too_long" resname="password.error.too_long">
+        <source>password.error.too_long</source>
+        <target>See parool on liiga pikk.</target>
+      </trans-unit>
+      <trans-unit id="password.error.too_weak" resname="password.error.too_weak">
+        <source>password.error.too_weak</source>
+        <target>Seda parooli on liiga lihtne ära arvata. Tehke see pikemaks või kasutage mitut sõna.</target>
+      </trans-unit>
+      <trans-unit id="password.error.breached" resname="password.error.breached">
+        <source>password.error.breached</source>
+        <target>See parool esineb andmelekkes. Valige mõni muu.</target>
+      </trans-unit>
+      <trans-unit id="password.error.not_checked" resname="password.error.not_checked">
+        <source>password.error.not_checked</source>
+        <target>Parooli ei õnnestunud kontrollida. Proovige uuesti.</target>
+      </trans-unit>
+      <trans-unit id="password.error.not_confirmed" resname="password.error.not_confirmed">
+        <source>password.error.not_confirmed</source>
+        <target>Paroolid ei ühti.</target>
+      </trans-unit>
+      <trans-unit id="account.password.state" resname="account.password.state">
+        <source>account.password.state</source>
+        <target>{days, plural, =0 {muudetud täna} one {muudetud eile} other {muudetud # päeva tagasi}}</target>
+      </trans-unit>
+      <trans-unit id="account.password.none" resname="account.password.none">
+        <source>account.password.none</source>
+        <target>puudub</target>
+      </trans-unit>
+      <trans-unit id="account.password.breached" resname="account.password.breached">
+        <source>account.password.breached</source>
+        <target>leitud andmelekkest</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.renew" resname="two_factor.backup_codes.renew">
+        <source>two_factor.backup_codes.renew</source>
+        <target>Loo uued varukoodid</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.title" resname="two_factor.backup_codes.title">
+        <source>two_factor.backup_codes.title</source>
+        <target>Teie uued varukoodid</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.renewed" resname="two_factor.backup_codes.renewed">
+        <source>two_factor.backup_codes.renewed</source>
+        <target>Teie varasemad koodid enam ei tööta.</target>
+      </trans-unit>
+      <trans-unit id="provenance.device" resname="provenance.device">
+        <source>provenance.device</source>
+        <target>{browser}, {platform}</target>
+      </trans-unit>
+      <trans-unit id="provenance.unknown_place" resname="provenance.unknown_place">
+        <source>provenance.unknown_place</source>
+        <target>Asukoht teadmata</target>
+      </trans-unit>
+      <trans-unit id="provenance.unknown_address" resname="provenance.unknown_address">
+        <source>provenance.unknown_address</source>
+        <target>aadress teadmata</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.copy" resname="two_factor.backup_codes.copy">
+        <source>two_factor.backup_codes.copy</source>
+        <target>Kopeeri kõik</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.copied" resname="two_factor.backup_codes.copied">
+        <source>two_factor.backup_codes.copied</source>
+        <target>Kopeeritud</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.not_copied" resname="two_factor.backup_codes.not_copied">
+        <source>two_factor.backup_codes.not_copied</source>
+        <target>Kopeerimine ebaõnnestus. Valige koodid ja kopeerige need.</target>
+      </trans-unit>
+      <trans-unit id="two_factor.enrol.step_secret" resname="two_factor.enrol.step_secret">
+        <source>two_factor.enrol.step_secret</source>
+        <target>Andke võti oma rakendusele</target>
+      </trans-unit>
+      <trans-unit id="two_factor.enrol.step_code" resname="two_factor.enrol.step_code">
+        <source>two_factor.enrol.step_code</source>
+        <target>Kinnitage koodiga, mida see kuvab</target>
+      </trans-unit>
+      <trans-unit id="two_factor.enrol.copy_key" resname="two_factor.enrol.copy_key">
+        <source>two_factor.enrol.copy_key</source>
+        <target>Kopeeri võti</target>
+      </trans-unit>
+      <trans-unit id="two_factor.enrol.key_copied" resname="two_factor.enrol.key_copied">
+        <source>two_factor.enrol.key_copied</source>
+        <target>Kopeeritud</target>
+      </trans-unit>
+      <trans-unit id="two_factor.enrol.key_not_copied" resname="two_factor.enrol.key_not_copied">
+        <source>two_factor.enrol.key_not_copied</source>
+        <target>Kopeerimine ebaõnnestus. Valige võti ja kopeerige see.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.title" resname="enrolment_ticket.title">
+        <source>enrolment_ticket.title</source>
+        <target>Lisage pääsuvõti</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.prompt" resname="enrolment_ticket.prompt">
+        <source>enrolment_ticket.prompt</source>
+        <target>Lisage pääsuvõti kontole {username}. See link töötab ainult ühe korra.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.enrol" resname="enrolment_ticket.enrol">
+        <source>enrolment_ticket.enrol</source>
+        <target>Lisa minu pääsuvõti</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.unsupported" resname="enrolment_ticket.unsupported">
+        <source>enrolment_ticket.unsupported</source>
+        <target>Selle brauseriga ei saa pääsuvõtit luua. Avage link mõnes teises seadmes.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.error.no_ceremony" resname="enrolment_ticket.error.no_ceremony">
+        <source>enrolment_ticket.error.no_ceremony</source>
+        <target>Pääsuvõtme lisamise aeg sai otsa. Proovige uuesti.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.error.organisation_keys_only" resname="enrolment_ticket.error.organisation_keys_only">
+        <source>enrolment_ticket.error.organisation_keys_only</source>
+        <target>Aktsepteeritakse ainult teie organisatsiooni antud võtmeid.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.error.model_under_security_alert" resname="enrolment_ticket.error.model_under_security_alert">
+        <source>enrolment_ticket.error.model_under_security_alert</source>
+        <target>Sellel mudelil on turvahoiatus ja seda enam ei aktsepteerita. Kasutage mõnda muud.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.error.refused" resname="enrolment_ticket.error.refused">
+        <source>enrolment_ticket.error.refused</source>
+        <target>Pääsuvõtit ei õnnestunud lisada. Proovige uuesti.</target>
+      </trans-unit>
+      <trans-unit id="error.enrolment_ticket_refused" resname="error.enrolment_ticket_refused">
+        <source>error.enrolment_ticket_refused</source>
+        <target>See link on juba kasutatud või aegunud. Küsige uut.</target>
+      </trans-unit>
+      <trans-unit id="act.enrolment_ticket.issued" resname="act.enrolment_ticket.issued">
+        <source>act.enrolment_ticket.issued</source>
+        <target>Pääsuvõtme lisamise link väljastatud</target>
+      </trans-unit>
+      <trans-unit id="password_ticket.title" resname="password_ticket.title">
+        <source>password_ticket.title</source>
+        <target>Valige uus parool</target>
+      </trans-unit>
+      <trans-unit id="password_ticket.prompt" resname="password_ticket.prompt">
+        <source>password_ticket.prompt</source>
+        <target>Uus parool kontole {username}. See link töötab ainult ühe korra.</target>
+      </trans-unit>
+      <trans-unit id="password_ticket.what_happens" resname="password_ticket.what_happens">
+        <source>password_ticket.what_happens</source>
+        <target>Kõik teie seansid lõpetatakse: seejärel logige uue parooliga uuesti sisse.</target>
+      </trans-unit>
+      <trans-unit id="password_ticket.submit" resname="password_ticket.submit">
+        <source>password_ticket.submit</source>
+        <target>Salvesta parool</target>
+      </trans-unit>
+      <trans-unit id="password.error.not_admitted" resname="password.error.not_admitted">
+        <source>password.error.not_admitted</source>
+        <target>Teie organisatsioon ei luba teie kontol parooli kasutada.</target>
+      </trans-unit>
+      <trans-unit id="error.password_ticket_refused" resname="error.password_ticket_refused">
+        <source>error.password_ticket_refused</source>
+        <target>See link on juba kasutatud või aegunud. Küsige uut.</target>
+      </trans-unit>
+      <trans-unit id="act.password_ticket.issued" resname="act.password_ticket.issued">
+        <source>act.password_ticket.issued</source>
+        <target>Uue parooli link väljastatud</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.title" resname="totp_ticket.title">
+        <source>totp_ticket.title</source>
+        <target>Seadistage uus autentimisrakendus</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.prompt" resname="totp_ticket.prompt">
+        <source>totp_ticket.prompt</source>
+        <target>Uus autentimisrakendus kontole {username}. See link töötab ainult ühe korra.</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.what_happens" resname="totp_ticket.what_happens">
+        <source>totp_ticket.what_happens</source>
+        <target>Senine rakendus lakkab töötamast ja kõik teie seansid lõpetatakse.</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.enrolled" resname="totp_ticket.enrolled">
+        <source>totp_ticket.enrolled</source>
+        <target>Teie uus autentimisrakendus on seadistatud ja teie seansid on lõpetatud.</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.sign_in" resname="totp_ticket.sign_in">
+        <source>totp_ticket.sign_in</source>
+        <target>Logi sisse</target>
+      </trans-unit>
+      <trans-unit id="two_factor.error.not_admitted" resname="two_factor.error.not_admitted">
+        <source>two_factor.error.not_admitted</source>
+        <target>Teie organisatsioon ei luba teie kontol autentimisrakendust kasutada.</target>
+      </trans-unit>
+      <trans-unit id="error.totp_ticket_refused" resname="error.totp_ticket_refused">
+        <source>error.totp_ticket_refused</source>
+        <target>See link on juba kasutatud või aegunud. Küsige uut.</target>
+      </trans-unit>
+      <trans-unit id="act.totp_ticket.issued" resname="act.totp_ticket.issued">
+        <source>act.totp_ticket.issued</source>
+        <target>Autentimisrakenduse seadistamise link väljastatud</target>
+      </trans-unit>
+      <trans-unit id="post_again.title" resname="post_again.title">
+        <source>post_again.title</source>
+        <target>Teid logitakse sisse</target>
+      </trans-unit>
+      <trans-unit id="post_again.continue" resname="post_again.continue">
+        <source>post_again.continue</source>
+        <target>Jätka</target>
+      </trans-unit>
+      <trans-unit id="saml_post.title" resname="saml_post.title">
+        <source>saml_post.title</source>
+        <target>Rakendusse naasmine</target>
+      </trans-unit>
+      <trans-unit id="saml_post.continue" resname="saml_post.continue">
+        <source>saml_post.continue</source>
+        <target>Jätka</target>
+      </trans-unit>
+      <trans-unit id="saml_post.upstream.title" resname="saml_post.upstream.title">
+        <source>saml_post.upstream.title</source>
+        <target>Sisselogimine teie organisatsiooni kaudu</target>
+      </trans-unit>
+      <trans-unit id="error.saml_request_refused" resname="error.saml_request_refused">
+        <source>error.saml_request_refused</source>
+        <target>Rakendus saatis vigase sisselogimispäringu. Alustage rakenduses uuesti.</target>
+      </trans-unit>
+      <trans-unit id="error.saml_logout_refused" resname="error.saml_logout_refused">
+        <source>error.saml_logout_refused</source>
+        <target>Rakendus saatis vigase väljalogimispäringu. Logige rakenduses uuesti välja.</target>
+      </trans-unit>
+      <trans-unit id="error.saml_assertion_refused" resname="error.saml_assertion_refused">
+        <source>error.saml_assertion_refused</source>
+        <target>Sisselogimine teie organisatsiooni kaudu ei õnnestunud. Alustage rakenduses uuesti.</target>
+      </trans-unit>
+      <trans-unit id="error.saml_upstream_sign_on_refused" resname="error.saml_upstream_sign_on_refused">
+        <source>error.saml_upstream_sign_on_refused</source>
+        <target>Sisselogimist teie organisatsiooni kaudu ei saa siit alustada. Alustage rakenduses uuesti.</target>
+      </trans-unit>
+      <trans-unit id="controls.close" resname="controls.close">
+        <source>controls.close</source>
+        <target>Sulge menüüd</target>
+      </trans-unit>
+      <trans-unit id="b7c1d4e9f0" resname="theme.choose">
+        <source>theme.choose</source>
+        <target>Vali teema</target>
+      </trans-unit>
+      <trans-unit id="c3d5e7a1b2" resname="theme.light">
+        <source>theme.light</source>
+        <target>Hele</target>
+      </trans-unit>
+      <trans-unit id="d9e2f4a6c8" resname="theme.dark">
+        <source>theme.dark</source>
+        <target>Tume</target>
+      </trans-unit>
+      <trans-unit id="e1f3a5b7d2" resname="theme.system">
+        <source>theme.system</source>
+        <target>Süsteem</target>
+      </trans-unit>
+      <trans-unit id="f4a6b8c1e3" resname="navigation.pages">
+        <source>navigation.pages</source>
+        <target>Teie konto lehed</target>
+      </trans-unit>
+      <trans-unit id="a8b2c4d6f1" resname="navigation.show_pages">
+        <source>navigation.show_pages</source>
+        <target>Näita konto lehti</target>
+      </trans-unit>
+      <trans-unit id="b1c3d5e7a9" resname="navigation.group.record">
+        <source>navigation.group.record</source>
+        <target>Isikuandmed</target>
+      </trans-unit>
+      <trans-unit id="c2d4e6f8b1" resname="navigation.group.sign_in">
+        <source>navigation.group.sign_in</source>
+        <target>Turvalisus</target>
+      </trans-unit>
+      <trans-unit id="d3e5f7a9c2" resname="navigation.group.activity">
+        <source>navigation.group.activity</source>
+        <target>Tegevus</target>
+      </trans-unit>
+      <trans-unit id="e4f6a8b2c1" resname="navigation.where_you_are">
+        <source>navigation.where_you_are</source>
+        <target>Te olete siin</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.approvals" resname="navigation.description.approvals">
+        <source>navigation.description.approvals</source>
+        <target>Päringud, mis ootavad teie vastust.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.profile" resname="navigation.description.profile">
+        <source>navigation.description.profile</source>
+        <target>Vaadake ja parandage oma andmeid.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.archive" resname="navigation.description.archive">
+        <source>navigation.description.archive</source>
+        <target>Laadige alla oma andmete koopia.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.password" resname="navigation.description.password">
+        <source>navigation.description.password</source>
+        <target>Muutke oma parooli.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.passkeys" resname="navigation.description.passkeys">
+        <source>navigation.description.passkeys</source>
+        <target>Logige sisse oma seadmega, ilma paroolita.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.two_factor" resname="navigation.description.two_factor">
+        <source>navigation.description.two_factor</source>
+        <target>Kood lisaks teie paroolile.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.notifications" resname="navigation.description.notifications">
+        <source>navigation.description.notifications</source>
+        <target>Kuidas te teavitusi saate.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.sessions" resname="navigation.description.sessions">
+        <source>navigation.description.sessions</source>
+        <target>Teie kontole sisse logitud seadmed.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.consents" resname="navigation.description.consents">
+        <source>navigation.description.consents</source>
+        <target>Mida iga rakendus teilt saab.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.acts" resname="navigation.description.acts">
+        <source>navigation.description.acts</source>
+        <target>Sisselogimised ja muudatused teie kontol.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.title" resname="mail_encryption.title">
+        <source>mail_encryption.title</source>
+        <target>Krüpteeritud e-kirjad</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.explanation" resname="mail_encryption.explanation">
+        <source>mail_encryption.explanation</source>
+        <target>Aadressile {address} saadetud e-kirju saab krüpteerida teie S/MIME-sertifikaadi või OpenPGP-võtmega, mis peab sisaldama seda aadressi. Saatja, saaja, kuupäev ja teema jäävad loetavaks.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.no_address" resname="mail_encryption.no_address">
+        <source>mail_encryption.no_address</source>
+        <target>Krüpteerimiseks on vaja kinnitatud e-posti aadressi, kuid teie kontol seda pole.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.none" resname="mail_encryption.none">
+        <source>mail_encryption.none</source>
+        <target>Teie e-kirju ei krüpteerita.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.held" resname="mail_encryption.held">
+        <source>mail_encryption.held</source>
+        <target>Teie e-kirjad krüpteeritakse võtmega {fingerprint} ({format}). E-kirja, mida ei saa krüpteerida, ei saadeta.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.valid_until" resname="mail_encryption.valid_until">
+        <source>mail_encryption.valid_until</source>
+        <target>Kehtib kuni {date}.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.remove" resname="mail_encryption.remove">
+        <source>mail_encryption.remove</source>
+        <target>Lõpeta minu e-kirjade krüpteerimine</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.format" resname="mail_encryption.format">
+        <source>mail_encryption.format</source>
+        <target>Vorming</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.material" resname="mail_encryption.material">
+        <source>mail_encryption.material</source>
+        <target>Sertifikaat või avalik võti</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.material_help" resname="mail_encryption.material_help">
+        <source>mail_encryption.material_help</source>
+        <target>S/MIME: ainult sertifikaat, PEM-vormingus. OpenPGP: ainult avalik võti, ASCII-pakendis. Asendab eelmise.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.give" resname="mail_encryption.give">
+        <source>mail_encryption.give</source>
+        <target>Krüpteeri minu e-kirjad</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.kind.smime" resname="mail_encryption.kind.smime">
+        <source>mail_encryption.kind.smime</source>
+        <target>S/MIME</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.kind.pgp" resname="mail_encryption.kind.pgp">
+        <source>mail_encryption.kind.pgp</source>
+        <target>OpenPGP</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.unreadable" resname="mail_encryption.error.unreadable">
+        <source>mail_encryption.error.unreadable</source>
+        <target>Seda sertifikaati või avalikku võtit ei saa lugeda.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.not_for_encryption" resname="mail_encryption.error.not_for_encryption">
+        <source>mail_encryption.error.not_for_encryption</source>
+        <target>Selle sertifikaadi või võtmega ei saa krüpteerida: vaja on vähemalt 2048-bitist RSA-võtit (S/MIME) või krüpteerimise alamvõtit (OpenPGP).</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.not_valid_now" resname="mail_encryption.error.not_valid_now">
+        <source>mail_encryption.error.not_valid_now</source>
+        <target>See sertifikaat või võti on aegunud, tühistatud või ei kehti veel.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.another_address" resname="mail_encryption.error.another_address">
+        <source>mail_encryption.error.another_address</source>
+        <target>See sertifikaat või võti ei sisalda teie kinnitatud aadressi.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.no_verified_address" resname="mail_encryption.error.no_verified_address">
+        <source>mail_encryption.error.no_verified_address</source>
+        <target>Krüpteerimiseks on vaja kinnitatud e-posti aadressi, kuid teie kontol seda pole.</target>
+      </trans-unit>
+      <trans-unit id="profile.mail_encryption" resname="profile.mail_encryption">
+        <source>profile.mail_encryption</source>
+        <target>Krüpteeritud e-kirjad</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.title" resname="notifications.channels.title">
+        <source>notifications.channels.title</source>
+        <target>Kanalid</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.explanation" resname="notifications.channels.explanation">
+        <source>notifications.channels.explanation</source>
+        <target>Valige vaikimisi kanalid või kohandage neid ühe teavituse jaoks. E-kiri või SMS saadetakse ainult kinnitatud aadressile või numbrile.</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.none" resname="notifications.channels.none">
+        <source>notifications.channels.none</source>
+        <target>Ühtegi teavituskanalit pole saadaval.</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.kind" resname="notifications.channels.kind">
+        <source>notifications.channels.kind</source>
+        <target>Teavitus</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.apart" resname="notifications.channels.apart">
+        <source>notifications.channels.apart</source>
+        <target>Kohanda</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.apart_label" resname="notifications.channels.apart_label">
+        <source>notifications.channels.apart_label</source>
+        <target>{kind}: kohanda</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.following" resname="notifications.channels.following">
+        <source>notifications.channels.following</source>
+        <target>Vaikimisi kanalid</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.by" resname="notifications.channels.by">
+        <source>notifications.channels.by</source>
+        <target>{kind}: {channel}</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.every_kind" resname="notifications.channels.every_kind">
+        <source>notifications.channels.every_kind</source>
+        <target>Vaikimisi</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.every_channel" resname="notifications.channels.every_channel">
+        <source>notifications.channels.every_channel</source>
+        <target>Saadetakse alati kõigi kanalite kaudu.</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.save" resname="notifications.channels.save">
+        <source>notifications.channels.save</source>
+        <target>Salvesta</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.not_chosen" resname="notifications.channels.not_chosen">
+        <source>notifications.channels.not_chosen</source>
+        <target>Valimata</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.no_channel" resname="notifications.channels.no_channel">
+        <source>notifications.channels.no_channel</source>
+        <target>Kanalit pole</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.web_push" resname="notifications.channel.web_push">
+        <source>notifications.channel.web_push</source>
+        <target>Brauserid</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.mail" resname="notifications.channel.mail">
+        <source>notifications.channel.mail</source>
+        <target>E-post</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.sms" resname="notifications.channel.sms">
+        <source>notifications.channel.sms</source>
+        <target>SMS</target>
+      </trans-unit>
+      <trans-unit id="notifications.kind.pending_approval" resname="notifications.kind.pending_approval">
+        <source>notifications.kind.pending_approval</source>
+        <target>Kinnitamist vajav päring</target>
+      </trans-unit>
+      <trans-unit id="notifications.kind.credential_change" resname="notifications.kind.credential_change">
+        <source>notifications.kind.credential_change</source>
+        <target>Muudatus teie sisselogimisviisides</target>
+      </trans-unit>
+      <trans-unit id="profile.notification_channels" resname="profile.notification_channels">
+        <source>profile.notification_channels</source>
+        <target>Vaikimisi teavituskanalid</target>
+      </trans-unit>
+      <trans-unit id="profile.notification_channels.pending_approval" resname="profile.notification_channels.pending_approval">
+        <source>profile.notification_channels.pending_approval</source>
+        <target>Kinnitamist vajavate päringute kanalid</target>
+      </trans-unit>
+      <trans-unit id="act.notification_channels.chosen" resname="act.notification_channels.chosen">
+        <source>act.notification_channels.chosen</source>
+        <target>Teavituskanaleid muudetud</target>
+      </trans-unit>
+      <trans-unit id="confirmation.offer" resname="confirmation.offer">
+        <source>confirmation.offer</source>
+        <target>Kinnitamist vajavad aadressid</target>
+      </trans-unit>
+      <trans-unit id="confirmation.offer_explanation" resname="confirmation.offer_explanation">
+        <source>confirmation.offer_explanation</source>
+        <target>Kuni aadress pole kinnitatud, saadetakse sellele ainult kinnituskood.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.send" resname="confirmation.send">
+        <source>confirmation.send</source>
+        <target>Saada kood</target>
+      </trans-unit>
+      <trans-unit id="confirmation.email.title" resname="confirmation.email.title">
+        <source>confirmation.email.title</source>
+        <target>Kinnitage oma e-posti aadress</target>
+      </trans-unit>
+      <trans-unit id="confirmation.phone_number.title" resname="confirmation.phone_number.title">
+        <source>confirmation.phone_number.title</source>
+        <target>Kinnitage oma telefoninumber</target>
+      </trans-unit>
+      <trans-unit id="confirmation.sent" resname="confirmation.sent">
+        <source>confirmation.sent</source>
+        <target>Kood on saadetud: {address}. Sisestage see siia või avage sellega kaasas olnud link.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.code" resname="confirmation.code">
+        <source>confirmation.code</source>
+        <target>Kood</target>
+      </trans-unit>
+      <trans-unit id="confirmation.submit" resname="confirmation.submit">
+        <source>confirmation.submit</source>
+        <target>Kinnita</target>
+      </trans-unit>
+      <trans-unit id="confirmation.again" resname="confirmation.again">
+        <source>confirmation.again</source>
+        <target>Saada uus kood</target>
+      </trans-unit>
+      <trans-unit id="confirmation.refused" resname="confirmation.refused">
+        <source>confirmation.refused</source>
+        <target>Vale või aegunud kood. Kontrollige seda või küsige uut.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.link_prompt" resname="confirmation.link_prompt">
+        <source>confirmation.link_prompt</source>
+        <target>Kinnitage, et see aadress on teie oma.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.link_submit" resname="confirmation.link_submit">
+        <source>confirmation.link_submit</source>
+        <target>Kinnita see aadress</target>
+      </trans-unit>
+      <trans-unit id="confirmation.notice.title" resname="confirmation.notice.title">
+        <source>confirmation.notice.title</source>
+        <target>{provider}</target>
+      </trans-unit>
+      <trans-unit id="confirmation.notice.subject" resname="confirmation.notice.subject">
+        <source>confirmation.notice.subject</source>
+        <target>{provider}: teie kinnituskood</target>
+      </trans-unit>
+      <trans-unit id="confirmation.notice.body" resname="confirmation.notice.body">
+        <source>confirmation.notice.body</source>
+        <target>Teie kinnituskood: {code}, kehtib kuni {until}. Sisestage see oma kontol või avage allolev link. Kui te seda ei küsinud, eirake seda sõnumit.</target>
+      </trans-unit>
+      <trans-unit id="error.address_confirmation_refused" resname="error.address_confirmation_refused">
+        <source>error.address_confirmation_refused</source>
+        <target>See link on juba kasutatud, aegunud või asendatud. Saatke oma kontolt uus kood.</target>
+      </trans-unit>
+      <trans-unit id="act.address.confirmation_sent" resname="act.address.confirmation_sent">
+        <source>act.address.confirmation_sent</source>
+        <target>Kinnituskood saadetud</target>
+      </trans-unit>
+      <trans-unit id="act.address.established" resname="act.address.established">
+        <source>act.address.established</source>
+        <target>Aadress kinnitatud</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

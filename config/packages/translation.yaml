@@ -1,6 +1,6 @@
 framework:
     default_locale: '%env(DEFAULT_LOCALE)%'
-    enabled_locales: ['en', 'fr', 'de', 'es', 'it', 'nl', 'pl']
+    enabled_locales: ['en', 'fr', 'bg', 'bs', 'ca', 'cs', 'da', 'de', 'el', 'es', 'et', 'fi', 'hr', 'hu', 'is', 'it', 'lt', 'lv', 'mk', 'nb', 'nl', 'pl', 'pt', 'ro', 'sk', 'sl', 'sq', 'sr', 'sv', 'tr', 'uk']
     set_locale_from_accept_language: true
     set_content_language_from_locale: true
     translator:

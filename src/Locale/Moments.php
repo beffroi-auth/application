@@ -18,9 +18,10 @@ final readonly class Moments
     private const string CLOCK = ' zzz';
 
     /**
-     * The English of the catalogue is British, which ICU does not take "en" for.
+     * The English of the catalogue is British and its Portuguese that of Portugal, which ICU takes neither "en" nor
+     * "pt" for.
      */
-    private const array WRITTEN_AS = ['en' => 'en_GB'];
+    private const array WRITTEN_AS = ['en' => 'en_GB', 'pt' => 'pt_PT'];
 
     public function __construct(
         private UserTimeZone $zones,

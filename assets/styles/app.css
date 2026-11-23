@@ -272,9 +272,10 @@
     }
 
     /* Under the button and aligned on its end, as wide as what it holds and never narrower than a line of
-       it: a list of two languages and a list of three themes are the same control. */
+       it: a list of two languages and a list of three themes are the same control. A list taller than the
+       screen, the thirty-one languages, scrolls inside the panel. */
     div[data-control] > div[data-control="panel"] {
-        @apply absolute end-0 top-full z-30 mt-2 hidden w-max min-w-52 max-w-72 rounded-box border border-base-300 bg-base-100 p-1 shadow-lg;
+        @apply absolute end-0 top-full z-30 mt-2 hidden max-h-[70dvh] w-max min-w-52 max-w-72 overflow-y-auto rounded-box border border-base-300 bg-base-100 p-1 shadow-lg;
     }
 
     input[name="layout-control"]:checked ~ div[data-control="panel"] {

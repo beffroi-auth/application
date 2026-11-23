@@ -1,0 +1,2418 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="ro" datatype="plaintext" original="beffroi">
+    <header>
+      <note>Every string a user reads on the pages of the provider (architecture §5.7), and the words of what the application draws around them: the theme, the controls of the bar, the headings the pages of the account are arranged under and the line each of them is read by. It wires no type of authorization detail and so says none: the type of the lab is said in src/Lab/translations/, with the lab. ICU message format: {client} is the name of the client, {username} the name of the user.</note>
+    </header>
+    <body>
+      <trans-unit id="b3bb2f3a07" resname="login.title">
+        <source>login.title</source>
+        <target>Conectare</target>
+      </trans-unit>
+      <trans-unit id="456091ca2c" resname="login.prompt">
+        <source>login.prompt</source>
+        <target>Conectați-vă pentru a continua la {client}.</target>
+      </trans-unit>
+      <trans-unit id="80fbd248a3" resname="login.reauthentication">
+        <source>login.reauthentication</source>
+        <target>Conectați-vă din nou pentru a continua.</target>
+      </trans-unit>
+      <trans-unit id="d3cdf3d871" resname="login.step_up">
+        <source>login.step_up</source>
+        <target>{client} solicită o conectare mai sigură.</target>
+      </trans-unit>
+      <trans-unit id="bc176883bc" resname="login.step_up_alone">
+        <source>login.step_up_alone</source>
+        <target>Este necesară o conectare mai sigură.</target>
+      </trans-unit>
+      <trans-unit id="6282806c35" resname="login.step_up.passkey">
+        <source>login.step_up.passkey</source>
+        <target>Este suficientă o cheie de acces.</target>
+      </trans-unit>
+      <trans-unit id="2063082125" resname="login.step_up.password">
+        <source>login.step_up.password</source>
+        <target>Este suficientă parola dumneavoastră.</target>
+      </trans-unit>
+      <trans-unit id="9702602430" resname="login.step_up.totp">
+        <source>login.step_up.totp</source>
+        <target>Este suficientă parola dumneavoastră, urmată de un cod din aplicația de autentificare.</target>
+      </trans-unit>
+      <trans-unit id="55b0f4b87b" resname="login.failed">
+        <source>login.failed</source>
+        <target>Numele de utilizator sau parola nu sunt corecte.</target>
+      </trans-unit>
+      <trans-unit id="04690da6d3" resname="login.username">
+        <source>login.username</source>
+        <target>Nume de utilizator</target>
+      </trans-unit>
+      <trans-unit id="f65ca78fed" resname="login.password">
+        <source>login.password</source>
+        <target>Parolă</target>
+      </trans-unit>
+      <trans-unit id="4fea9c0c55" resname="login.submit">
+        <source>login.submit</source>
+        <target>Conectați-vă</target>
+      </trans-unit>
+      <trans-unit id="27c34297f7" resname="consent.title">
+        <source>consent.title</source>
+        <target>Autorizați {client}</target>
+      </trans-unit>
+      <trans-unit id="732d4a5e7a" resname="consent.logo">
+        <source>consent.logo</source>
+        <target>Sigla aplicației {client}</target>
+      </trans-unit>
+      <trans-unit id="db56775db9" resname="consent.signed_in_as">
+        <source>consent.signed_in_as</source>
+        <target>V-ați conectat ca {username}.</target>
+      </trans-unit>
+      <trans-unit id="55eb317d06" resname="consent.request">
+        <source>consent.request</source>
+        <target>{client} solicită acces la:</target>
+      </trans-unit>
+      <trans-unit id="57188e00f3" resname="consent.authorization_details">
+        <source>consent.authorization_details</source>
+        <target>{client} mai solicită:</target>
+      </trans-unit>
+      <trans-unit id="dd97b47622" resname="consent.policy_uri">
+        <source>consent.policy_uri</source>
+        <target>Cum utilizează {client} datele dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="c7a5045153" resname="consent.tos_uri">
+        <source>consent.tos_uri</source>
+        <target>Condițiile de utilizare ale aplicației {client}</target>
+      </trans-unit>
+      <trans-unit id="8043c439f3" resname="consent.client_uri">
+        <source>consent.client_uri</source>
+        <target>Site-ul aplicației {client}</target>
+      </trans-unit>
+      <trans-unit id="271b1bd84f" resname="consent.allow">
+        <source>consent.allow</source>
+        <target>Autorizați</target>
+      </trans-unit>
+      <trans-unit id="f2fab12b37" resname="consent.deny">
+        <source>consent.deny</source>
+        <target>Refuzați</target>
+      </trans-unit>
+      <trans-unit id="bbb000871f" resname="scope.openid">
+        <source>scope.openid</source>
+        <target>Identificatorul dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="2e384f832b" resname="scope.profile">
+        <source>scope.profile</source>
+        <target>Profilul dumneavoastră: nume, fotografie, limbă</target>
+      </trans-unit>
+      <trans-unit id="c5ee1b4219" resname="scope.email">
+        <source>scope.email</source>
+        <target>Adresa dumneavoastră de e-mail</target>
+      </trans-unit>
+      <trans-unit id="d7c77b8f51" resname="scope.address">
+        <source>scope.address</source>
+        <target>Adresa dumneavoastră poștală</target>
+      </trans-unit>
+      <trans-unit id="ef5674b605" resname="scope.phone">
+        <source>scope.phone</source>
+        <target>Numărul dumneavoastră de telefon</target>
+      </trans-unit>
+      <trans-unit id="33607b30f0" resname="scope.offline_access">
+        <source>scope.offline_access</source>
+        <target>Acces în absența dumneavoastră, până când îl revocați</target>
+      </trans-unit>
+      <trans-unit id="aac9493a9a" resname="logout.title">
+        <source>logout.title</source>
+        <target>Deconectare</target>
+      </trans-unit>
+      <trans-unit id="b62f1870d8" resname="logout.prompt.client">
+        <source>logout.prompt.client</source>
+        <target>{client} solicită deconectarea dumneavoastră.</target>
+      </trans-unit>
+      <trans-unit id="5c9a3f6527" resname="logout.prompt.anonymous">
+        <source>logout.prompt.anonymous</source>
+        <target>O aplicație solicită deconectarea dumneavoastră.</target>
+      </trans-unit>
+      <trans-unit id="beb2b22fa9" resname="logout.signed_in_as">
+        <source>logout.signed_in_as</source>
+        <target>V-ați conectat ca {username}. Doriți să vă deconectați?</target>
+      </trans-unit>
+      <trans-unit id="e6a1f46cff" resname="logout.confirm">
+        <source>logout.confirm</source>
+        <target>Deconectați-vă</target>
+      </trans-unit>
+      <trans-unit id="879d52571c" resname="logout.stay">
+        <source>logout.stay</source>
+        <target>Păstrați sesiunea deschisă</target>
+      </trans-unit>
+      <trans-unit id="9e91e50535" resname="logged_out.title">
+        <source>logged_out.title</source>
+        <target>V-ați deconectat</target>
+      </trans-unit>
+      <trans-unit id="b1cdee136f" resname="logged_out.close">
+        <source>logged_out.close</source>
+        <target>Puteți închide această fereastră.</target>
+      </trans-unit>
+      <trans-unit id="dc96b2d115" resname="still_signed_in.title">
+        <source>still_signed_in.title</source>
+        <target>Sesiunea rămâne deschisă</target>
+      </trans-unit>
+      <trans-unit id="66be09af33" resname="still_signed_in.unchanged">
+        <source>still_signed_in.unchanged</source>
+        <target>Nu s-a modificat nimic.</target>
+      </trans-unit>
+      <trans-unit id="49a8c3fb96" resname="error.title">
+        <source>error.title</source>
+        <target>Nu se poate continua</target>
+      </trans-unit>
+      <trans-unit id="3d21b51c86" resname="error.default">
+        <source>error.default</source>
+        <target>Această solicitare nu poate fi finalizată. Reîncepeți din aplicație.</target>
+      </trans-unit>
+      <trans-unit id="607d0dc2ff" resname="error.unknown_interaction">
+        <source>error.unknown_interaction</source>
+        <target>Această solicitare nu a fost găsită. Reîncepeți din aplicație.</target>
+      </trans-unit>
+      <trans-unit id="feaea8469d" resname="error.interaction_expired">
+        <source>error.interaction_expired</source>
+        <target>Această solicitare a expirat. Reîncepeți din aplicație.</target>
+      </trans-unit>
+      <trans-unit id="35d471521d" resname="error.interaction_completed">
+        <source>error.interaction_completed</source>
+        <target>Această solicitare este deja finalizată. Reîncepeți din aplicație.</target>
+      </trans-unit>
+      <trans-unit id="7a2863564f" resname="error.invalid_csrf_token">
+        <source>error.invalid_csrf_token</source>
+        <target>Formularul nu mai este valabil. Reîncepeți din aplicație.</target>
+      </trans-unit>
+      <trans-unit id="9b1e13b67f" resname="error.invalid_request">
+        <source>error.invalid_request</source>
+        <target>Aplicația a trimis o solicitare nevalidă. Reîncepeți din aplicație.</target>
+      </trans-unit>
+      <trans-unit id="7afc04115d" resname="error.too_many_requests">
+        <source>error.too_many_requests</source>
+        <target>Prea multe solicitări. Așteptați puțin, apoi reîncepeți din aplicație.</target>
+      </trans-unit>
+      <trans-unit id="0357cea9c3" resname="error.no_login_to_begin">
+        <source>error.no_login_to_begin</source>
+        <target>Acest link nu duce la nicio aplicație. Reîncepeți din aplicație.</target>
+      </trans-unit>
+      <trans-unit id="276b888c75" resname="login.passkey">
+        <source>login.passkey</source>
+        <target>Utilizați o cheie de acces</target>
+      </trans-unit>
+      <trans-unit id="d88f3b782b" resname="login.passkey_failed">
+        <source>login.passkey_failed</source>
+        <target>Cheia de acces nu a funcționat. Încercați din nou.</target>
+      </trans-unit>
+      <trans-unit id="login.passkey_only" resname="login.passkey_only">
+        <source>login.passkey_only</source>
+        <target>Conectați-vă cu cheia de acces.</target>
+      </trans-unit>
+      <trans-unit id="login.address" resname="login.address">
+        <source>login.address</source>
+        <target>Adresă de e-mail</target>
+      </trans-unit>
+      <trans-unit id="login.continue" resname="login.continue">
+        <source>login.continue</source>
+        <target>Continuați</target>
+      </trans-unit>
+      <trans-unit id="login.address_unreadable" resname="login.address_unreadable">
+        <source>login.address_unreadable</source>
+        <target>Această adresă nu este validă.</target>
+      </trans-unit>
+      <trans-unit id="login.other_address" resname="login.other_address">
+        <source>login.other_address</source>
+        <target>Utilizați altă adresă</target>
+      </trans-unit>
+      <trans-unit id="account.federated_domain" resname="account.federated_domain">
+        <source>account.federated_domain</source>
+        <target>Vă conectați prin organizația dumneavoastră: nu este nimic de configurat aici.</target>
+      </trans-unit>
+      <trans-unit id="passkeys.error.federated_domain" resname="passkeys.error.federated_domain">
+        <source>passkeys.error.federated_domain</source>
+        <target>Vă conectați prin organizația dumneavoastră: nu se pot adăuga chei de acces.</target>
+      </trans-unit>
+      <trans-unit id="two_factor.error.federated_domain" resname="two_factor.error.federated_domain">
+        <source>two_factor.error.federated_domain</source>
+        <target>Vă conectați prin organizația dumneavoastră: nu se poate configura nicio aplicație de autentificare.</target>
+      </trans-unit>
+      <trans-unit id="password.error.federated_domain" resname="password.error.federated_domain">
+        <source>password.error.federated_domain</source>
+        <target>Vă conectați prin organizația dumneavoastră: nu se poate seta nicio parolă.</target>
+      </trans-unit>
+      <trans-unit id="a71d2a8f04" resname="account.title">
+        <source>account.title</source>
+        <target>Contul dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="949a77ae23" resname="account.signed_in_as">
+        <source>account.signed_in_as</source>
+        <target>V-ați conectat ca {username}.</target>
+      </trans-unit>
+      <trans-unit id="1a530079a8" resname="account.signed_in_since">
+        <source>account.signed_in_since</source>
+        <target>Sesiune deschisă din {date}.</target>
+      </trans-unit>
+      <trans-unit id="65154335f6" resname="account.profile.state">
+        <source>account.profile.state</source>
+        <target>{count, plural, =0 {Nicio informație completată} one {O informație} few {# informații} other {# de informații}}</target>
+      </trans-unit>
+      <trans-unit id="f89c3f6e13" resname="account.passkeys.state">
+        <source>account.passkeys.state</source>
+        <target>{count, plural, =0 {Nicio cheie de acces} one {O cheie de acces} few {# chei de acces} other {# de chei de acces}}</target>
+      </trans-unit>
+      <trans-unit id="788ce7e79c" resname="account.consents.state">
+        <source>account.consents.state</source>
+        <target>{count, plural, =0 {Nicio aplicație} one {O aplicație} few {# aplicații} other {# de aplicații}}</target>
+      </trans-unit>
+      <trans-unit id="0fe4f1a644" resname="account.two_factor.state.none">
+        <source>account.two_factor.state.none</source>
+        <target>Nicio aplicație de autentificare</target>
+      </trans-unit>
+      <trans-unit id="ab8c5a2fff" resname="account.two_factor.state.active">
+        <source>account.two_factor.state.active</source>
+        <target>O aplicație de autentificare</target>
+      </trans-unit>
+      <trans-unit id="ee464a5f53" resname="account.back">
+        <source>account.back</source>
+        <target>Înapoi la contul dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="5cb4722c04" resname="account.sign_out">
+        <source>account.sign_out</source>
+        <target>Deconectați-vă</target>
+      </trans-unit>
+      <trans-unit id="35245e14b0" resname="profile.title">
+        <source>profile.title</source>
+        <target>Informațiile dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="76abe8899b" resname="profile.account">
+        <source>profile.account</source>
+        <target>Contul dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="5b974a26e1" resname="profile.about_you">
+        <source>profile.about_you</source>
+        <target>Despre dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="eaa27dc1d2" resname="profile.none">
+        <source>profile.none</source>
+        <target>Încă nimic.</target>
+      </trans-unit>
+      <trans-unit id="b0e678f0e9" resname="profile.verified">
+        <source>profile.verified</source>
+        <target>verificat</target>
+      </trans-unit>
+      <trans-unit id="b636667ab7" resname="profile.unverified">
+        <source>profile.unverified</source>
+        <target>neverificat</target>
+      </trans-unit>
+      <trans-unit id="9cdc497348" resname="profile.username">
+        <source>profile.username</source>
+        <target>Nume de utilizator</target>
+      </trans-unit>
+      <trans-unit id="a49dd70115" resname="profile.created_at">
+        <source>profile.created_at</source>
+        <target>Cont creat</target>
+      </trans-unit>
+      <trans-unit id="23ba2362e6" resname="profile.updated_at">
+        <source>profile.updated_at</source>
+        <target>Ultima modificare</target>
+      </trans-unit>
+      <trans-unit id="43b26cec8d" resname="profile.email">
+        <source>profile.email</source>
+        <target>Adresă de e-mail</target>
+      </trans-unit>
+      <trans-unit id="4f812be1b4" resname="profile.email_verified">
+        <source>profile.email_verified</source>
+        <target>Adresă de e-mail verificată</target>
+      </trans-unit>
+      <trans-unit id="d2921f1caa" resname="profile.phone_number">
+        <source>profile.phone_number</source>
+        <target>Număr de telefon</target>
+      </trans-unit>
+      <trans-unit id="860cda4c62" resname="profile.phone_number_verified">
+        <source>profile.phone_number_verified</source>
+        <target>Număr de telefon verificat</target>
+      </trans-unit>
+      <trans-unit id="7c02d4292c" resname="profile.name">
+        <source>profile.name</source>
+        <target>Nume complet</target>
+      </trans-unit>
+      <trans-unit id="25b09e30e8" resname="profile.given_name">
+        <source>profile.given_name</source>
+        <target>Prenume</target>
+      </trans-unit>
+      <trans-unit id="ff2feb233e" resname="profile.family_name">
+        <source>profile.family_name</source>
+        <target>Nume de familie</target>
+      </trans-unit>
+      <trans-unit id="25813757bf" resname="profile.middle_name">
+        <source>profile.middle_name</source>
+        <target>Al doilea prenume</target>
+      </trans-unit>
+      <trans-unit id="05218d9e6f" resname="profile.nickname">
+        <source>profile.nickname</source>
+        <target>Poreclă</target>
+      </trans-unit>
+      <trans-unit id="24482f4bbc" resname="profile.preferred_username">
+        <source>profile.preferred_username</source>
+        <target>Nume de utilizator preferat</target>
+      </trans-unit>
+      <trans-unit id="3a58b7a487" resname="profile.birthdate">
+        <source>profile.birthdate</source>
+        <target>Data nașterii</target>
+      </trans-unit>
+      <trans-unit id="b70497d99e" resname="profile.gender">
+        <source>profile.gender</source>
+        <target>Gen</target>
+      </trans-unit>
+      <trans-unit id="ea722b79ef" resname="profile.locale">
+        <source>profile.locale</source>
+        <target>Limbă</target>
+      </trans-unit>
+      <trans-unit id="5e323fac89" resname="profile.zoneinfo">
+        <source>profile.zoneinfo</source>
+        <target>Fus orar</target>
+      </trans-unit>
+      <trans-unit id="5deb5d46f9" resname="profile.profile">
+        <source>profile.profile</source>
+        <target>Pagină de profil</target>
+      </trans-unit>
+      <trans-unit id="117780da1e" resname="profile.picture">
+        <source>profile.picture</source>
+        <target>Fotografie</target>
+      </trans-unit>
+      <trans-unit id="96c81c25d2" resname="profile.website">
+        <source>profile.website</source>
+        <target>Site web</target>
+      </trans-unit>
+      <trans-unit id="ef830c2e9b" resname="profile.address">
+        <source>profile.address</source>
+        <target>Adresă poștală</target>
+      </trans-unit>
+      <trans-unit id="profile.address.formatted" resname="profile.address.formatted">
+        <source>profile.address.formatted</source>
+        <target>Adresă poștală completă</target>
+      </trans-unit>
+      <trans-unit id="profile.address.street_address" resname="profile.address.street_address">
+        <source>profile.address.street_address</source>
+        <target>Stradă și număr</target>
+      </trans-unit>
+      <trans-unit id="profile.address.locality" resname="profile.address.locality">
+        <source>profile.address.locality</source>
+        <target>Localitate</target>
+      </trans-unit>
+      <trans-unit id="profile.address.region" resname="profile.address.region">
+        <source>profile.address.region</source>
+        <target>Regiune</target>
+      </trans-unit>
+      <trans-unit id="profile.address.postal_code" resname="profile.address.postal_code">
+        <source>profile.address.postal_code</source>
+        <target>Cod poștal</target>
+      </trans-unit>
+      <trans-unit id="profile.address.country" resname="profile.address.country">
+        <source>profile.address.country</source>
+        <target>Țară</target>
+      </trans-unit>
+      <trans-unit id="465d5b10ab" resname="passkeys.title">
+        <source>passkeys.title</source>
+        <target>Cheile dumneavoastră de acces</target>
+      </trans-unit>
+      <trans-unit id="81402f59a0" resname="passkeys.none">
+        <source>passkeys.none</source>
+        <target>Nicio cheie de acces activă.</target>
+      </trans-unit>
+      <trans-unit id="ef84f1b8d3" resname="passkeys.name">
+        <source>passkeys.name</source>
+        <target>Nume</target>
+      </trans-unit>
+      <trans-unit id="1b6d07e1ac" resname="passkeys.created_at">
+        <source>passkeys.created_at</source>
+        <target>Creată</target>
+      </trans-unit>
+      <trans-unit id="c5a67d1c58" resname="passkeys.last_used_at">
+        <source>passkeys.last_used_at</source>
+        <target>Ultima utilizare</target>
+      </trans-unit>
+      <trans-unit id="09f630d338" resname="passkeys.never_used">
+        <source>passkeys.never_used</source>
+        <target>Niciodată</target>
+      </trans-unit>
+      <trans-unit id="af1fd41fc5" resname="passkeys.state">
+        <source>passkeys.state</source>
+        <target>Stare</target>
+      </trans-unit>
+      <trans-unit id="63f5c7f0e8" resname="passkeys.active">
+        <source>passkeys.active</source>
+        <target>Activă</target>
+      </trans-unit>
+      <trans-unit id="71000a07e6" resname="passkeys.revoked_at">
+        <source>passkeys.revoked_at</source>
+        <target>Revocată la {date}</target>
+      </trans-unit>
+      <trans-unit id="2ce8b47f35" resname="passkeys.revoke">
+        <source>passkeys.revoke</source>
+        <target>Revocați</target>
+      </trans-unit>
+      <trans-unit id="08af99ba89" resname="passkeys.enrol">
+        <source>passkeys.enrol</source>
+        <target>Adăugați o cheie de acces</target>
+      </trans-unit>
+      <trans-unit id="5b94e18bc6" resname="passkeys.unsupported">
+        <source>passkeys.unsupported</source>
+        <target>Acest browser nu poate crea chei de acces.</target>
+      </trans-unit>
+      <trans-unit id="f86312f8a9" resname="passkeys.error.browser">
+        <source>passkeys.error.browser</source>
+        <target>Cheia de acces nu a putut fi creată. Încercați din nou.</target>
+      </trans-unit>
+      <trans-unit id="d3eb8fcaa3" resname="passkeys.error.invalid_name">
+        <source>passkeys.error.invalid_name</source>
+        <target>Dați cheii de acces un nume de 1 până la 255 de caractere.</target>
+      </trans-unit>
+      <trans-unit id="769bbfbeaa" resname="passkeys.error.no_ceremony">
+        <source>passkeys.error.no_ceremony</source>
+        <target>Timpul pentru adăugarea cheii de acces a expirat. Încercați din nou.</target>
+      </trans-unit>
+      <trans-unit id="c5d11b8713" resname="passkeys.error.refused">
+        <source>passkeys.error.refused</source>
+        <target>Această cheie de acces a fost refuzată. Încercați alta.</target>
+      </trans-unit>
+      <trans-unit id="750c174f43" resname="passkeys.held_by">
+        <source>passkeys.held_by</source>
+        <target>Autentificator</target>
+      </trans-unit>
+      <trans-unit id="02820b7d95" resname="passkeys.authenticator.unknown">
+        <source>passkeys.authenticator.unknown</source>
+        <target>Autentificator necunoscut</target>
+      </trans-unit>
+      <trans-unit id="passkeys.features" resname="passkeys.features">
+        <source>passkeys.features</source>
+        <target>Funcționalități</target>
+      </trans-unit>
+      <trans-unit id="passkeys.aaguid" resname="passkeys.aaguid">
+        <source>passkeys.aaguid</source>
+        <target>AAGUID {aaguid}</target>
+      </trans-unit>
+      <trans-unit id="passkeys.none_matching" resname="passkeys.none_matching">
+        <source>passkeys.none_matching</source>
+        <target>Nicio cheie de acces nu corespunde filtrelor.</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.active" resname="passkeys.filter.active">
+        <source>passkeys.filter.active</source>
+        <target>Active</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.revoked" resname="passkeys.filter.revoked">
+        <source>passkeys.filter.revoked</source>
+        <target>Revocate</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.every_state" resname="passkeys.filter.every_state">
+        <source>passkeys.filter.every_state</source>
+        <target>Toate</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.every_authenticator" resname="passkeys.filter.every_authenticator">
+        <source>passkeys.filter.every_authenticator</source>
+        <target>Toate</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.unknown_authenticator" resname="passkeys.filter.unknown_authenticator">
+        <source>passkeys.filter.unknown_authenticator</source>
+        <target>Necunoscut ({aaguid})</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.sync" resname="passkeys.filter.sync">
+        <source>passkeys.filter.sync</source>
+        <target>Sincronizare</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.synced_or_not" resname="passkeys.filter.synced_or_not">
+        <source>passkeys.filter.synced_or_not</source>
+        <target>Toate</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.synced" resname="passkeys.filter.synced">
+        <source>passkeys.filter.synced</source>
+        <target>Sincronizate</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.device_bound" resname="passkeys.filter.device_bound">
+        <source>passkeys.filter.device_bound</source>
+        <target>Legate de un dispozitiv</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.transport" resname="passkeys.filter.transport">
+        <source>passkeys.filter.transport</source>
+        <target>Transport</target>
+      </trans-unit>
+      <trans-unit id="passkeys.filter.every_transport" resname="passkeys.filter.every_transport">
+        <source>passkeys.filter.every_transport</source>
+        <target>Toate</target>
+      </trans-unit>
+      <trans-unit id="passkeys.model_proof.declared" resname="passkeys.model_proof.declared">
+        <source>passkeys.model_proof.declared</source>
+        <target>Model declarat, neverificat</target>
+      </trans-unit>
+      <trans-unit id="passkeys.model_proof.verified" resname="passkeys.model_proof.verified">
+        <source>passkeys.model_proof.verified</source>
+        <target>Model verificat</target>
+      </trans-unit>
+      <trans-unit id="passkeys.model_proof.enterprise" resname="passkeys.model_proof.enterprise">
+        <source>passkeys.model_proof.enterprise</source>
+        <target>Cheia organizației dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="passkeys.serial_number" resname="passkeys.serial_number">
+        <source>passkeys.serial_number</source>
+        <target>Număr de serie {serial}</target>
+      </trans-unit>
+      <trans-unit id="passkeys.under_security_alert" resname="passkeys.under_security_alert">
+        <source>passkeys.under_security_alert</source>
+        <target>Model cu alertă de securitate</target>
+      </trans-unit>
+      <trans-unit id="passkeys.error.organisation_keys_only" resname="passkeys.error.organisation_keys_only">
+        <source>passkeys.error.organisation_keys_only</source>
+        <target>Sunt acceptate doar cheile primite de la organizația dumneavoastră.</target>
+      </trans-unit>
+      <trans-unit id="passkeys.error.model_under_security_alert" resname="passkeys.error.model_under_security_alert">
+        <source>passkeys.error.model_under_security_alert</source>
+        <target>Acest model are o alertă de securitate și nu mai este acceptat. Utilizați altul.</target>
+      </trans-unit>
+      <trans-unit id="fd60213150" resname="passkeys.certification.NOT_FIDO_CERTIFIED">
+        <source>passkeys.certification.NOT_FIDO_CERTIFIED</source>
+        <target>Fără certificare FIDO</target>
+      </trans-unit>
+      <trans-unit id="f08c853044" resname="passkeys.certification.SELF_ASSERTION_SUBMITTED">
+        <source>passkeys.certification.SELF_ASSERTION_SUBMITTED</source>
+        <target>Autoevaluare trimisă către FIDO Alliance</target>
+      </trans-unit>
+      <trans-unit id="a08bf87175" resname="passkeys.certification.FIDO_CERTIFIED">
+        <source>passkeys.certification.FIDO_CERTIFIED</source>
+        <target>Certificat FIDO</target>
+      </trans-unit>
+      <trans-unit id="195df5ec7e" resname="passkeys.certification.FIDO_CERTIFIED_L1">
+        <source>passkeys.certification.FIDO_CERTIFIED_L1</source>
+        <target>Certificat FIDO, nivelul 1</target>
+      </trans-unit>
+      <trans-unit id="5202b427e6" resname="passkeys.certification.FIDO_CERTIFIED_L1plus">
+        <source>passkeys.certification.FIDO_CERTIFIED_L1plus</source>
+        <target>Certificat FIDO, nivelul 1+</target>
+      </trans-unit>
+      <trans-unit id="73447fff7e" resname="passkeys.certification.FIDO_CERTIFIED_L2">
+        <source>passkeys.certification.FIDO_CERTIFIED_L2</source>
+        <target>Certificat FIDO, nivelul 2</target>
+      </trans-unit>
+      <trans-unit id="c04f76a90b" resname="passkeys.certification.FIDO_CERTIFIED_L2plus">
+        <source>passkeys.certification.FIDO_CERTIFIED_L2plus</source>
+        <target>Certificat FIDO, nivelul 2+</target>
+      </trans-unit>
+      <trans-unit id="05ff868652" resname="passkeys.certification.FIDO_CERTIFIED_L3">
+        <source>passkeys.certification.FIDO_CERTIFIED_L3</source>
+        <target>Certificat FIDO, nivelul 3</target>
+      </trans-unit>
+      <trans-unit id="305ec3efe0" resname="passkeys.certification.FIDO_CERTIFIED_L3plus">
+        <source>passkeys.certification.FIDO_CERTIFIED_L3plus</source>
+        <target>Certificat FIDO, nivelul 3+</target>
+      </trans-unit>
+      <trans-unit id="a2c38be2c2" resname="passkeys.certification.RETIRED">
+        <source>passkeys.certification.RETIRED</source>
+        <target>Retras de producător</target>
+      </trans-unit>
+      <trans-unit id="dfff2ff3c7" resname="passkeys.certification.REVOKED">
+        <source>passkeys.certification.REVOKED</source>
+        <target>Revocat de FIDO Alliance</target>
+      </trans-unit>
+      <trans-unit id="9f5464da31" resname="passkeys.backup.single_device">
+        <source>passkeys.backup.single_device</source>
+        <target>Legată de un dispozitiv</target>
+      </trans-unit>
+      <trans-unit id="8fdac8b403" resname="passkeys.backup.backed_up">
+        <source>passkeys.backup.backed_up</source>
+        <target>Sincronizată</target>
+      </trans-unit>
+      <trans-unit id="4150fe9928" resname="passkeys.backup.not_backed_up">
+        <source>passkeys.backup.not_backed_up</source>
+        <target>Sincronizabilă, fără copie de rezervă</target>
+      </trans-unit>
+      <trans-unit id="e0e39cd225" resname="passkeys.reached_through">
+        <source>passkeys.reached_through</source>
+        <target>Transport: {ways}</target>
+      </trans-unit>
+      <trans-unit id="bacb48e58b" resname="passkeys.transport.internal">
+        <source>passkeys.transport.internal</source>
+        <target>dispozitivul</target>
+      </trans-unit>
+      <trans-unit id="29728954a8" resname="passkeys.transport.hybrid">
+        <source>passkeys.transport.hybrid</source>
+        <target>telefon din apropiere</target>
+      </trans-unit>
+      <trans-unit id="a6b962c0d4" resname="passkeys.transport.usb">
+        <source>passkeys.transport.usb</source>
+        <target>USB</target>
+      </trans-unit>
+      <trans-unit id="0ec9969fae" resname="passkeys.transport.nfc">
+        <source>passkeys.transport.nfc</source>
+        <target>NFC</target>
+      </trans-unit>
+      <trans-unit id="6b5407b258" resname="passkeys.transport.ble">
+        <source>passkeys.transport.ble</source>
+        <target>Bluetooth</target>
+      </trans-unit>
+      <trans-unit id="d93f9670bc" resname="passkeys.transport.smart-card">
+        <source>passkeys.transport.smart-card</source>
+        <target>card inteligent</target>
+      </trans-unit>
+      <trans-unit id="5b10da251c" resname="code.title">
+        <source>code.title</source>
+        <target>Introduceți codul</target>
+      </trans-unit>
+      <trans-unit id="7a2dedee21" resname="code.prompt">
+        <source>code.prompt</source>
+        <target>Introduceți codul din aplicația de autentificare sau un cod de rezervă.</target>
+      </trans-unit>
+      <trans-unit id="da69e8a447" resname="code.code">
+        <source>code.code</source>
+        <target>Cod</target>
+      </trans-unit>
+      <trans-unit id="b65d28a647" resname="code.submit">
+        <source>code.submit</source>
+        <target>Continuați</target>
+      </trans-unit>
+      <trans-unit id="c609c5cc7e" resname="code.failed.code_refused">
+        <source>code.failed.code_refused</source>
+        <target>Cod greșit. Introduceți codul afișat acum.</target>
+      </trans-unit>
+      <trans-unit id="504d18ce7a" resname="code.failed.backup_code_refused">
+        <source>code.failed.backup_code_refused</source>
+        <target>Acest cod de rezervă este greșit sau a fost deja utilizat.</target>
+      </trans-unit>
+      <trans-unit id="af360d0c03" resname="code.failed.too_many_attempts">
+        <source>code.failed.too_many_attempts</source>
+        <target>Prea multe încercări. Așteptați puțin, apoi încercați din nou.</target>
+      </trans-unit>
+      <trans-unit id="8cdae7d238" resname="consents.title">
+        <source>consents.title</source>
+        <target>Aplicații autorizate</target>
+      </trans-unit>
+      <trans-unit id="b40383a420" resname="consents.none">
+        <source>consents.none</source>
+        <target>Nicio aplicație autorizată.</target>
+      </trans-unit>
+      <trans-unit id="consents.none_matching" resname="consents.none_matching">
+        <source>consents.none_matching</source>
+        <target>Nicio aplicație nu corespunde filtrelor.</target>
+      </trans-unit>
+      <trans-unit id="consents.filter.every_access" resname="consents.filter.every_access">
+        <source>consents.filter.every_access</source>
+        <target>Toate</target>
+      </trans-unit>
+      <trans-unit id="792b29ed69" resname="consents.explanation">
+        <source>consents.explanation</source>
+        <target>Dacă revocați accesul unei aplicații, aceasta vă va cere din nou permisiunea.</target>
+      </trans-unit>
+      <trans-unit id="d697faa88f" resname="consents.application">
+        <source>consents.application</source>
+        <target>Aplicație</target>
+      </trans-unit>
+      <trans-unit id="985a1ee4b8" resname="consents.access">
+        <source>consents.access</source>
+        <target>Acces</target>
+      </trans-unit>
+      <trans-unit id="1cf8e20127" resname="consents.granted_at">
+        <source>consents.granted_at</source>
+        <target>Autorizată la</target>
+      </trans-unit>
+      <trans-unit id="d729adbd9a" resname="consents.revoke">
+        <source>consents.revoke</source>
+        <target>Revocați accesul</target>
+      </trans-unit>
+      <trans-unit id="68e780445d" resname="two_factor.title">
+        <source>two_factor.title</source>
+        <target>Autentificare cu doi factori</target>
+      </trans-unit>
+      <trans-unit id="two_factor.not_admitted" resname="two_factor.not_admitted">
+        <source>two_factor.not_admitted</source>
+        <target>Vă conectați cu o cheie de acces: nu aveți nevoie de o aplicație de autentificare.</target>
+      </trans-unit>
+      <trans-unit id="120102f7ce" resname="two_factor.none">
+        <source>two_factor.none</source>
+        <target>Nicio aplicație de autentificare. După configurare, codul acesteia vă va fi cerut după parolă.</target>
+      </trans-unit>
+      <trans-unit id="126fd373df" resname="two_factor.set_up">
+        <source>two_factor.set_up</source>
+        <target>Configurați o aplicație de autentificare</target>
+      </trans-unit>
+      <trans-unit id="f17b1d335e" resname="two_factor.active">
+        <source>two_factor.active</source>
+        <target>Aplicație de autentificare configurată la {date}.</target>
+      </trans-unit>
+      <trans-unit id="1642acc9b6" resname="two_factor.last_used_at">
+        <source>two_factor.last_used_at</source>
+        <target>Ultima utilizare</target>
+      </trans-unit>
+      <trans-unit id="71cfff5c92" resname="two_factor.never_used">
+        <source>two_factor.never_used</source>
+        <target>Niciodată</target>
+      </trans-unit>
+      <trans-unit id="fe08ccc069" resname="two_factor.backup_codes">
+        <source>two_factor.backup_codes</source>
+        <target>Coduri de rezervă</target>
+      </trans-unit>
+      <trans-unit id="fa94375559" resname="two_factor.backup_codes_left">
+        <source>two_factor.backup_codes_left</source>
+        <target>{count, plural, =0 {Niciun cod de rezervă rămas} one {# cod de rezervă rămas} few {# coduri de rezervă rămase} other {# de coduri de rezervă rămase}}</target>
+      </trans-unit>
+      <trans-unit id="42e65dc64c" resname="two_factor.revoke">
+        <source>two_factor.revoke</source>
+        <target>Eliminați aplicația de autentificare</target>
+      </trans-unit>
+      <trans-unit id="a29cc8ac2e" resname="two_factor.enrol.title">
+        <source>two_factor.enrol.title</source>
+        <target>Configurați aplicația de autentificare</target>
+      </trans-unit>
+      <trans-unit id="e8b20ec1fd" resname="two_factor.enrol.scan">
+        <source>two_factor.enrol.scan</source>
+        <target>Scanați acest cod QR cu aplicația de autentificare.</target>
+      </trans-unit>
+      <trans-unit id="9a129eca30" resname="two_factor.enrol.manual">
+        <source>two_factor.enrol.manual</source>
+        <target>Sau introduceți manual această cheie:</target>
+      </trans-unit>
+      <trans-unit id="3fb9679842" resname="two_factor.enrol.code">
+        <source>two_factor.enrol.code</source>
+        <target>Codul afișat de aplicație</target>
+      </trans-unit>
+      <trans-unit id="1aba2d16d3" resname="two_factor.enrol.submit">
+        <source>two_factor.enrol.submit</source>
+        <target>Confirmați</target>
+      </trans-unit>
+      <trans-unit id="6b810babaa" resname="two_factor.enrolled.title">
+        <source>two_factor.enrolled.title</source>
+        <target>Codurile dumneavoastră de rezervă</target>
+      </trans-unit>
+      <trans-unit id="94905118d7" resname="two_factor.enrolled.done">
+        <source>two_factor.enrolled.done</source>
+        <target>Aplicația de autentificare este configurată. Codul acesteia vă va fi cerut după parolă.</target>
+      </trans-unit>
+      <trans-unit id="87b3bb2962" resname="two_factor.enrolled.codes">
+        <source>two_factor.enrolled.codes</source>
+        <target>Păstrați aceste coduri într-un loc sigur: nu vor mai fi afișate. Fiecare înlocuiește o singură dată un cod din aplicație, dacă o pierdeți.</target>
+      </trans-unit>
+      <trans-unit id="732a6b396d" resname="two_factor.error.refused">
+        <source>two_factor.error.refused</source>
+        <target>Cod greșit. Introduceți codul afișat acum.</target>
+      </trans-unit>
+      <trans-unit id="56a44ece6f" resname="two_factor.error.no_provisioning">
+        <source>two_factor.error.no_provisioning</source>
+        <target>Configurarea a expirat. Reîncepeți.</target>
+      </trans-unit>
+      <trans-unit id="71292a8b65" resname="two_factor.error.already_enrolled">
+        <source>two_factor.error.already_enrolled</source>
+        <target>O aplicație de autentificare este deja configurată. Eliminați-o înainte de a configura alta.</target>
+      </trans-unit>
+      <trans-unit id="f614d3c6a6" resname="error.login_required">
+        <source>error.login_required</source>
+        <target>Conectați-vă, apoi deschideți din nou această pagină.</target>
+      </trans-unit>
+      <trans-unit id="7f6da9700e" resname="error.sign_in">
+        <source>error.sign_in</source>
+        <target>Conectați-vă</target>
+      </trans-unit>
+      <trans-unit id="884d5c03f9" resname="form_post.title">
+        <source>form_post.title</source>
+        <target>Revenire la aplicație</target>
+      </trans-unit>
+      <trans-unit id="2965dcacbb" resname="form_post.explanation">
+        <source>form_post.explanation</source>
+        <target>Dacă nu se întâmplă nimic, utilizați butonul Continuați.</target>
+      </trans-unit>
+      <trans-unit id="899a3c277e" resname="form_post.continue">
+        <source>form_post.continue</source>
+        <target>Continuați</target>
+      </trans-unit>
+      <trans-unit id="2237eea428" resname="front_channel_logout.title">
+        <source>front_channel_logout.title</source>
+        <target>Deconectare din aplicațiile dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="155202e7b3" resname="front_channel_logout.asked">
+        <source>front_channel_logout.asked</source>
+        <target>Aplicațiilor dumneavoastră li s-a cerut să vă deconecteze. Cele blocate de browser o vor face la următoarea vizită.</target>
+      </trans-unit>
+      <trans-unit id="1e7bfc09fa" resname="front_channel_logout.continue">
+        <source>front_channel_logout.continue</source>
+        <target>Continuați</target>
+      </trans-unit>
+      <trans-unit id="66ec4c8293" resname="front_channel_logout.frame">
+        <source>front_channel_logout.frame</source>
+        <target>Deconectare dintr-o aplicație</target>
+      </trans-unit>
+      <trans-unit id="2a09e75af2" resname="login.prompt_alone">
+        <source>login.prompt_alone</source>
+        <target>Conectați-vă pentru a continua.</target>
+      </trans-unit>
+      <trans-unit id="dc02dea145" resname="device.title">
+        <source>device.title</source>
+        <target>Conectați un dispozitiv</target>
+      </trans-unit>
+      <trans-unit id="fdd74a6c56" resname="device.prompt">
+        <source>device.prompt</source>
+        <target>Introduceți codul afișat pe dispozitiv.</target>
+      </trans-unit>
+      <trans-unit id="fd47214568" resname="device.code">
+        <source>device.code</source>
+        <target>Cod</target>
+      </trans-unit>
+      <trans-unit id="0ebc2034f0" resname="device.submit">
+        <source>device.submit</source>
+        <target>Continuați</target>
+      </trans-unit>
+      <trans-unit id="9795377dd9" resname="device.refused.unknown_code">
+        <source>device.refused.unknown_code</source>
+        <target>Cod necunoscut. Verificați codul afișat pe dispozitiv.</target>
+      </trans-unit>
+      <trans-unit id="f530b41973" resname="device.refused.too_many_attempts">
+        <source>device.refused.too_many_attempts</source>
+        <target>Prea multe încercări. Așteptați un minut, apoi încercați din nou.</target>
+      </trans-unit>
+      <trans-unit id="99e6bfe694" resname="device.approval.title">
+        <source>device.approval.title</source>
+        <target>Autorizați conectarea aplicației {client}?</target>
+      </trans-unit>
+      <trans-unit id="37c90fe35d" resname="device.approval.signed_in_as">
+        <source>device.approval.signed_in_as</source>
+        <target>V-ați conectat ca {username}.</target>
+      </trans-unit>
+      <trans-unit id="a6aca898f1" resname="device.approval.request">
+        <source>device.approval.request</source>
+        <target>{client} solicită să se conecteze la contul dumneavoastră cu codul {code}.</target>
+      </trans-unit>
+      <trans-unit id="453aa8634a" resname="device.approval.origin">
+        <source>device.approval.origin</source>
+        <target>Solicitarea a venit de la {address} ({agent}).</target>
+      </trans-unit>
+      <trans-unit id="a6f6ea1b9e" resname="device.approval.unknown_address">
+        <source>device.approval.unknown_address</source>
+        <target>o adresă necunoscută</target>
+      </trans-unit>
+      <trans-unit id="e3833693f9" resname="device.approval.unknown_agent">
+        <source>device.approval.unknown_agent</source>
+        <target>un dispozitiv necunoscut</target>
+      </trans-unit>
+      <trans-unit id="2ac67d203a" resname="device.approval.unexpected">
+        <source>device.approval.unexpected</source>
+        <target>Dacă nu ați inițiat această solicitare, refuzați-o.</target>
+      </trans-unit>
+      <trans-unit id="f62ada85d7" resname="device.approval.allow">
+        <source>device.approval.allow</source>
+        <target>Autorizați</target>
+      </trans-unit>
+      <trans-unit id="9a1c11f83f" resname="device.approval.deny">
+        <source>device.approval.deny</source>
+        <target>Refuzați</target>
+      </trans-unit>
+      <trans-unit id="f3543cfd93" resname="device.answered.approved.title">
+        <source>device.answered.approved.title</source>
+        <target>Dispozitiv conectat</target>
+      </trans-unit>
+      <trans-unit id="8515dd5522" resname="device.answered.denied.title">
+        <source>device.answered.denied.title</source>
+        <target>Solicitare refuzată</target>
+      </trans-unit>
+      <trans-unit id="3a6d124638" resname="device.answered.approved">
+        <source>device.answered.approved</source>
+        <target>{client} poate utiliza acum contul dumneavoastră. Reveniți la dispozitiv.</target>
+      </trans-unit>
+      <trans-unit id="b3cdc73ad3" resname="device.answered.denied">
+        <source>device.answered.denied</source>
+        <target>{client} nu are acces la contul dumneavoastră. Puteți închide această pagină.</target>
+      </trans-unit>
+      <trans-unit id="7ea1ce200f" resname="device.approval.provider">
+        <source>device.approval.provider</source>
+        <target>Solicitare de la {provider}.</target>
+      </trans-unit>
+      <trans-unit id="1fdfeca8b7" resname="approvals.title">
+        <source>approvals.title</source>
+        <target>Solicitări în așteptare</target>
+      </trans-unit>
+      <trans-unit id="a7cbe7f52a" resname="approvals.provider">
+        <source>approvals.provider</source>
+        <target>Solicitare de la {provider}.</target>
+      </trans-unit>
+      <trans-unit id="3cbe156f9c" resname="approvals.nothing">
+        <source>approvals.nothing</source>
+        <target>Nicio solicitare în așteptare.</target>
+      </trans-unit>
+      <trans-unit id="2f2cc83054" resname="approvals.request">
+        <source>approvals.request</source>
+        <target>{client} solicită să vă utilizeze contul.</target>
+      </trans-unit>
+      <trans-unit id="44ce1f2c66" resname="approvals.binding_message">
+        <source>approvals.binding_message</source>
+        <target>{client} transmite: {message}</target>
+      </trans-unit>
+      <trans-unit id="7eccbd5d22" resname="approvals.origin">
+        <source>approvals.origin</source>
+        <target>Solicitarea a venit de la {address} ({agent}).</target>
+      </trans-unit>
+      <trans-unit id="42210e2c97" resname="approvals.unknown_address">
+        <source>approvals.unknown_address</source>
+        <target>o adresă necunoscută</target>
+      </trans-unit>
+      <trans-unit id="5cb6f3dc54" resname="approvals.unknown_agent">
+        <source>approvals.unknown_agent</source>
+        <target>un client necunoscut</target>
+      </trans-unit>
+      <trans-unit id="a6a9c0f2d8" resname="approvals.unexpected">
+        <source>approvals.unexpected</source>
+        <target>Dacă nu ați inițiat nicio solicitare, refuzați-o.</target>
+      </trans-unit>
+      <trans-unit id="6ce56f5d12" resname="approvals.allow">
+        <source>approvals.allow</source>
+        <target>Autorizați</target>
+      </trans-unit>
+      <trans-unit id="5a7dfc49d3" resname="approvals.deny">
+        <source>approvals.deny</source>
+        <target>Refuzați</target>
+      </trans-unit>
+      <trans-unit id="afba73eebf" resname="approvals.refused.nothing_to_answer">
+        <source>approvals.refused.nothing_to_answer</source>
+        <target>Această solicitare nu mai necesită un răspuns.</target>
+      </trans-unit>
+      <trans-unit id="8e71b29d2d" resname="approvals.answered.approved.title">
+        <source>approvals.answered.approved.title</source>
+        <target>Solicitare autorizată</target>
+      </trans-unit>
+      <trans-unit id="9eabc0605e" resname="approvals.answered.denied.title">
+        <source>approvals.answered.denied.title</source>
+        <target>Solicitare refuzată</target>
+      </trans-unit>
+      <trans-unit id="921a96cc05" resname="approvals.answered.approved">
+        <source>approvals.answered.approved</source>
+        <target>{client} poate utiliza acum contul dumneavoastră. Reveniți acolo unde ați început.</target>
+      </trans-unit>
+      <trans-unit id="965ccbcb18" resname="approvals.answered.denied">
+        <source>approvals.answered.denied</source>
+        <target>{client} nu are acces la contul dumneavoastră. Puteți închide această pagină.</target>
+      </trans-unit>
+      <trans-unit id="93dc1e5079" resname="notifications.title">
+        <source>notifications.title</source>
+        <target>Notificări</target>
+      </trans-unit>
+      <trans-unit id="07e99afba9" resname="notifications.what_is_sent">
+        <source>notifications.what_is_sent</source>
+        <target>Un browser adăugat aici primește o notificare atunci când o solicitare așteaptă răspunsul dumneavoastră. Răspundeți întotdeauna aici.</target>
+      </trans-unit>
+      <trans-unit id="1a8a70cf10" resname="notifications.none">
+        <source>notifications.none</source>
+        <target>Niciun browser adăugat.</target>
+      </trans-unit>
+      <trans-unit id="notifications.none_matching" resname="notifications.none_matching">
+        <source>notifications.none_matching</source>
+        <target>Niciun browser nu corespunde filtrelor.</target>
+      </trans-unit>
+      <trans-unit id="6bee5ae6f1" resname="notifications.label">
+        <source>notifications.label</source>
+        <target>Browser</target>
+      </trans-unit>
+      <trans-unit id="9ccb115d7e" resname="notifications.unnamed">
+        <source>notifications.unnamed</source>
+        <target>Fără nume</target>
+      </trans-unit>
+      <trans-unit id="463cb30490" resname="notifications.created_at">
+        <source>notifications.created_at</source>
+        <target>Adăugat</target>
+      </trans-unit>
+      <trans-unit id="87dc9c5a99" resname="notifications.last_pushed_at">
+        <source>notifications.last_pushed_at</source>
+        <target>Ultima notificare</target>
+      </trans-unit>
+      <trans-unit id="cbcf139564" resname="notifications.never_pushed">
+        <source>notifications.never_pushed</source>
+        <target>Niciodată</target>
+      </trans-unit>
+      <trans-unit id="349298c2df" resname="notifications.revoke">
+        <source>notifications.revoke</source>
+        <target>Eliminați</target>
+      </trans-unit>
+      <trans-unit id="2fada520c3" resname="notifications.subscribe">
+        <source>notifications.subscribe</source>
+        <target>Adăugați acest browser</target>
+      </trans-unit>
+      <trans-unit id="fb344c54e6" resname="notifications.unsupported">
+        <source>notifications.unsupported</source>
+        <target>Acest browser nu acceptă notificări.</target>
+      </trans-unit>
+      <trans-unit id="092d481e7c" resname="notifications.not_served">
+        <source>notifications.not_served</source>
+        <target>Notificările în browser nu sunt disponibile.</target>
+      </trans-unit>
+      <trans-unit id="b7d8776630" resname="notifications.error.browser">
+        <source>notifications.error.browser</source>
+        <target>Browserul nu a fost adăugat. Verificați dacă notificările sunt permise.</target>
+      </trans-unit>
+      <trans-unit id="e773e70d91" resname="notifications.error.refused">
+        <source>notifications.error.refused</source>
+        <target>Acest browser a trimis un abonament nevalid. Încercați din nou.</target>
+      </trans-unit>
+      <trans-unit id="99fed0616f" resname="notifications.error.not_served">
+        <source>notifications.error.not_served</source>
+        <target>Notificările în browser nu sunt disponibile.</target>
+      </trans-unit>
+      <trans-unit id="a7c31de490" resname="account.approvals.state">
+        <source>account.approvals.state</source>
+        <target>{count, plural, =0 {Nimic în așteptare} one {O solicitare în așteptare} few {# solicitări în așteptare} other {# de solicitări în așteptare}}</target>
+      </trans-unit>
+      <trans-unit id="e0bc57b68b" resname="account.notifications.state">
+        <source>account.notifications.state</source>
+        <target>{count, plural, =0 {Niciun browser} one {Un browser} few {# browsere} other {# de browsere}}</target>
+      </trans-unit>
+      <trans-unit id="8929e85d47" resname="approval.notice.title">
+        <source>approval.notice.title</source>
+        <target>{provider}</target>
+      </trans-unit>
+      <trans-unit id="1b482fd722" resname="approval.notice.subject">
+        <source>approval.notice.subject</source>
+        <target>{provider}: o conectare așteaptă aprobarea dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="95c419025b" resname="approval.notice.body">
+        <source>approval.notice.body</source>
+        <target>{client} vă solicită să aprobați o conectare. Deschideți contul pentru a răspunde.</target>
+      </trans-unit>
+      <trans-unit id="4399d9d6d6" resname="approval.notice.body_with_message">
+        <source>approval.notice.body_with_message</source>
+        <target>{client} vă solicită să aprobați: {message}. Deschideți contul pentru a răspunde.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.title" resname="credential_change.title">
+        <source>credential_change.title</source>
+        <target>{provider}</target>
+      </trans-unit>
+      <trans-unit id="credential_change.subject" resname="credential_change.subject">
+        <source>credential_change.subject</source>
+        <target>{provider}: o modificare a metodelor de conectare</target>
+      </trans-unit>
+      <trans-unit id="credential_change.body" resname="credential_change.body">
+        <source>credential_change.body</source>
+        <target>{what} Dacă nu ați fost dumneavoastră, deschideți contul.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.body_with_contact" resname="credential_change.body_with_contact">
+        <source>credential_change.body_with_contact</source>
+        <target>{what} Dacă nu ați fost dumneavoastră, deschideți contul și contactați {contact}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.credential.enrolled" resname="credential_change.credential.enrolled">
+        <source>credential_change.credential.enrolled</source>
+        <target>{kind, select, passkey {O cheie de acces a fost adăugată} totp {O aplicație de autentificare a fost adăugată} password {O parolă a fost adăugată} other {O metodă de conectare a fost adăugată}} în contul dumneavoastră la {when}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.credential.revoked" resname="credential_change.credential.revoked">
+        <source>credential_change.credential.revoked</source>
+        <target>{kind, select, passkey {O cheie de acces a fost eliminată} totp {O aplicație de autentificare a fost eliminată} password {O parolă a fost eliminată} other {O metodă de conectare a fost eliminată}} din contul dumneavoastră la {when}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.password.changed" resname="credential_change.password.changed">
+        <source>credential_change.password.changed</source>
+        <target>Parola contului dumneavoastră a fost schimbată la {when}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.enrolment_ticket.issued" resname="credential_change.enrolment_ticket.issued">
+        <source>credential_change.enrolment_ticket.issued</source>
+        <target>Un link pentru adăugarea unei chei de acces în contul dumneavoastră a fost emis la {when}.</target>
+      </trans-unit>
+      <trans-unit id="credential_change.backup_codes.renewed" resname="credential_change.backup_codes.renewed">
+        <source>credential_change.backup_codes.renewed</source>
+        <target>Codurile de rezervă ale contului dumneavoastră au fost reînnoite la {when}.</target>
+      </trans-unit>
+      <trans-unit id="c7a1e4f9b3" resname="locale.choose">
+        <source>locale.choose</source>
+        <target>Limbă</target>
+      </trans-unit>
+      <trans-unit id="a4b8d2e6f1" resname="language.en">
+        <source>language.en</source>
+        <target>English</target>
+      </trans-unit>
+      <trans-unit id="f2c9a7b5e8" resname="language.fr">
+        <source>language.fr</source>
+        <target>Français</target>
+      </trans-unit>
+      <trans-unit id="language.de" resname="language.de">
+        <source>language.de</source>
+        <target>Deutsch</target>
+      </trans-unit>
+      <trans-unit id="language.es" resname="language.es">
+        <source>language.es</source>
+        <target>Español</target>
+      </trans-unit>
+      <trans-unit id="language.it" resname="language.it">
+        <source>language.it</source>
+        <target>Italiano</target>
+      </trans-unit>
+      <trans-unit id="language.nl" resname="language.nl">
+        <source>language.nl</source>
+        <target>Nederlands</target>
+      </trans-unit>
+      <trans-unit id="language.pl" resname="language.pl">
+        <source>language.pl</source>
+        <target>Polski</target>
+      </trans-unit>
+      <trans-unit id="language.bg" resname="language.bg">
+        <source>language.bg</source>
+        <target>Български</target>
+      </trans-unit>
+      <trans-unit id="language.bs" resname="language.bs">
+        <source>language.bs</source>
+        <target>Bosanski</target>
+      </trans-unit>
+      <trans-unit id="language.ca" resname="language.ca">
+        <source>language.ca</source>
+        <target>Català</target>
+      </trans-unit>
+      <trans-unit id="language.cs" resname="language.cs">
+        <source>language.cs</source>
+        <target>Čeština</target>
+      </trans-unit>
+      <trans-unit id="language.da" resname="language.da">
+        <source>language.da</source>
+        <target>Dansk</target>
+      </trans-unit>
+      <trans-unit id="language.el" resname="language.el">
+        <source>language.el</source>
+        <target>Ελληνικά</target>
+      </trans-unit>
+      <trans-unit id="language.et" resname="language.et">
+        <source>language.et</source>
+        <target>Eesti</target>
+      </trans-unit>
+      <trans-unit id="language.fi" resname="language.fi">
+        <source>language.fi</source>
+        <target>Suomi</target>
+      </trans-unit>
+      <trans-unit id="language.hr" resname="language.hr">
+        <source>language.hr</source>
+        <target>Hrvatski</target>
+      </trans-unit>
+      <trans-unit id="language.hu" resname="language.hu">
+        <source>language.hu</source>
+        <target>Magyar</target>
+      </trans-unit>
+      <trans-unit id="language.is" resname="language.is">
+        <source>language.is</source>
+        <target>Íslenska</target>
+      </trans-unit>
+      <trans-unit id="language.lt" resname="language.lt">
+        <source>language.lt</source>
+        <target>Lietuvių</target>
+      </trans-unit>
+      <trans-unit id="language.lv" resname="language.lv">
+        <source>language.lv</source>
+        <target>Latviešu</target>
+      </trans-unit>
+      <trans-unit id="language.mk" resname="language.mk">
+        <source>language.mk</source>
+        <target>Македонски</target>
+      </trans-unit>
+      <trans-unit id="language.nb" resname="language.nb">
+        <source>language.nb</source>
+        <target>Norsk bokmål</target>
+      </trans-unit>
+      <trans-unit id="language.pt" resname="language.pt">
+        <source>language.pt</source>
+        <target>Português</target>
+      </trans-unit>
+      <trans-unit id="language.ro" resname="language.ro">
+        <source>language.ro</source>
+        <target>Română</target>
+      </trans-unit>
+      <trans-unit id="language.sk" resname="language.sk">
+        <source>language.sk</source>
+        <target>Slovenčina</target>
+      </trans-unit>
+      <trans-unit id="language.sl" resname="language.sl">
+        <source>language.sl</source>
+        <target>Slovenščina</target>
+      </trans-unit>
+      <trans-unit id="language.sq" resname="language.sq">
+        <source>language.sq</source>
+        <target>Shqip</target>
+      </trans-unit>
+      <trans-unit id="language.sr" resname="language.sr">
+        <source>language.sr</source>
+        <target>Српски</target>
+      </trans-unit>
+      <trans-unit id="language.sv" resname="language.sv">
+        <source>language.sv</source>
+        <target>Svenska</target>
+      </trans-unit>
+      <trans-unit id="language.tr" resname="language.tr">
+        <source>language.tr</source>
+        <target>Türkçe</target>
+      </trans-unit>
+      <trans-unit id="language.uk" resname="language.uk">
+        <source>language.uk</source>
+        <target>Українська</target>
+      </trans-unit>
+      <trans-unit id="d1a7f3b9c2" resname="sessions.title">
+        <source>sessions.title</source>
+        <target>Sesiuni deschise</target>
+      </trans-unit>
+      <trans-unit id="f7c2e9a4b1" resname="sessions.explanation">
+        <source>sessions.explanation</source>
+        <target>Închiderea unei sesiuni vă deconectează din toate aplicațiile în care a fost utilizată.</target>
+      </trans-unit>
+      <trans-unit id="a9d4f1c7e3" resname="sessions.proved">
+        <source>sessions.proved</source>
+        <target>Metodă</target>
+      </trans-unit>
+      <trans-unit id="b2e7a3d9f4" resname="sessions.opened_at">
+        <source>sessions.opened_at</source>
+        <target>Deschisă</target>
+      </trans-unit>
+      <trans-unit id="c5f1b8e2a7" resname="sessions.last_seen">
+        <source>sessions.last_seen</source>
+        <target>Ultima activitate</target>
+      </trans-unit>
+      <trans-unit id="d8a2c7f3b1" resname="sessions.from">
+        <source>sessions.from</source>
+        <target>Origine</target>
+      </trans-unit>
+      <trans-unit id="f3c8a1e7b2" resname="sessions.this_browser">
+        <source>sessions.this_browser</source>
+        <target>acest browser</target>
+      </trans-unit>
+      <trans-unit id="a6d2f9b3c1" resname="sessions.end">
+        <source>sessions.end</source>
+        <target>Închideți</target>
+      </trans-unit>
+      <trans-unit id="b9e3a7d2f8" resname="sessions.end_this_one">
+        <source>sessions.end_this_one</source>
+        <target>Închideți și deconectați-vă</target>
+      </trans-unit>
+      <trans-unit id="c2f7b1e9a4" resname="account.sessions.state">
+        <source>account.sessions.state</source>
+        <target>{count, plural, =0 {nicio sesiune deschisă} one {o sesiune deschisă} few {# sesiuni deschise} other {# de sesiuni deschise}}</target>
+      </trans-unit>
+      <trans-unit id="a1c4e7f2b9" resname="application.granted">
+        <source>application.granted</source>
+        <target>Ce ați acceptat</target>
+      </trans-unit>
+      <trans-unit id="b4f8a2c6e1" resname="application.holds">
+        <source>application.holds</source>
+        <target>Accesul actual</target>
+      </trans-unit>
+      <trans-unit id="c7a1d4f8b2" resname="application.renewable">
+        <source>application.renewable</source>
+        <target>{count, plural, =0 {Nu își poate prelungi accesul.} one {Își poate prelungi accesul fără intervenția dumneavoastră.} few {Își poate prelungi accesul fără intervenția dumneavoastră.} other {Își poate prelungi accesul fără intervenția dumneavoastră.}}</target>
+      </trans-unit>
+      <trans-unit id="d2b8f1a7c4" resname="application.last_issued">
+        <source>application.last_issued</source>
+        <target>Ultimul acces emis:</target>
+      </trans-unit>
+      <trans-unit id="e5c1a8d2f7" resname="application.self_contained">
+        <source>application.self_contained</source>
+        <target>Accesul deja emis rămâne valabil până la expirare, chiar dacă îl revocați.</target>
+      </trans-unit>
+      <trans-unit id="f8d2b7a1c5" resname="application.pending">
+        <source>application.pending</source>
+        <target>Ce așteaptă</target>
+      </trans-unit>
+      <trans-unit id="a3e9c2f7b4" resname="application.nothing_pending">
+        <source>application.nothing_pending</source>
+        <target>Nu așteaptă nimic de la dumneavoastră.</target>
+      </trans-unit>
+      <trans-unit id="b6f2d8a3c9" resname="application.answer_them">
+        <source>application.answer_them</source>
+        <target>Vedeți solicitările în așteptare</target>
+      </trans-unit>
+      <trans-unit id="c9a3e1f8b5" resname="application.take_it_back">
+        <source>application.take_it_back</source>
+        <target>Revocați accesul</target>
+      </trans-unit>
+      <trans-unit id="d4b9f2a8c3" resname="application.take_it_back_means">
+        <source>application.take_it_back_means</source>
+        <target>Vă va cere din nou permisiunea data viitoare.</target>
+      </trans-unit>
+      <trans-unit id="acts.title" resname="acts.title">
+        <source>acts.title</source>
+        <target>Activitatea contului</target>
+      </trans-unit>
+      <trans-unit id="acts.explanation" resname="acts.explanation">
+        <source>acts.explanation</source>
+        <target>Dacă nu recunoașteți o linie, schimbați parola.</target>
+      </trans-unit>
+      <trans-unit id="acts.what" resname="acts.what">
+        <source>acts.what</source>
+        <target>Eveniment</target>
+      </trans-unit>
+      <trans-unit id="acts.when" resname="acts.when">
+        <source>acts.when</source>
+        <target>Dată</target>
+      </trans-unit>
+      <trans-unit id="acts.from" resname="acts.from">
+        <source>acts.from</source>
+        <target>Origine</target>
+      </trans-unit>
+      <trans-unit id="acts.by_an_administrator" resname="acts.by_an_administrator">
+        <source>acts.by_an_administrator</source>
+        <target>Un administrator al organizației dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="acts.none" resname="acts.none">
+        <source>acts.none</source>
+        <target>Nu s-a înregistrat încă nimic.</target>
+      </trans-unit>
+      <trans-unit id="acts.none_matching" resname="acts.none_matching">
+        <source>acts.none_matching</source>
+        <target>Nimic nu corespunde filtrelor.</target>
+      </trans-unit>
+      <trans-unit id="acts.filter.every_act" resname="acts.filter.every_act">
+        <source>acts.filter.every_act</source>
+        <target>Toate</target>
+      </trans-unit>
+      <trans-unit id="acts.filter.from_anywhere" resname="acts.filter.from_anywhere">
+        <source>acts.filter.from_anywhere</source>
+        <target>Toate</target>
+      </trans-unit>
+      <trans-unit id="acts.filter.from_a_request" resname="acts.filter.from_a_request">
+        <source>acts.filter.from_a_request</source>
+        <target>Un browser sau o aplicație</target>
+      </trans-unit>
+      <trans-unit id="account.acts.state" resname="account.acts.state">
+        <source>account.acts.state</source>
+        <target>{count, plural, =0 {nicio încercare refuzată} one {# încercare refuzată} few {# încercări refuzate} other {# de încercări refuzate}}</target>
+      </trans-unit>
+      <trans-unit id="act.user.authenticated" resname="act.user.authenticated">
+        <source>act.user.authenticated</source>
+        <target>Conectare</target>
+      </trans-unit>
+      <trans-unit id="act.authentication.failed" resname="act.authentication.failed">
+        <source>act.authentication.failed</source>
+        <target>Conectare refuzată</target>
+      </trans-unit>
+      <trans-unit id="act.password.used" resname="act.password.used">
+        <source>act.password.used</source>
+        <target>Parolă acceptată</target>
+      </trans-unit>
+      <trans-unit id="act.passkey.used" resname="act.passkey.used">
+        <source>act.passkey.used</source>
+        <target>Cheie de acces utilizată</target>
+      </trans-unit>
+      <trans-unit id="act.totp.used" resname="act.totp.used">
+        <source>act.totp.used</source>
+        <target>Cod din aplicația de autentificare acceptat</target>
+      </trans-unit>
+      <trans-unit id="act.backup_code.used" resname="act.backup_code.used">
+        <source>act.backup_code.used</source>
+        <target>Cod de rezervă utilizat</target>
+      </trans-unit>
+      <trans-unit id="act.session.ended" resname="act.session.ended">
+        <source>act.session.ended</source>
+        <target>Sesiune închisă</target>
+      </trans-unit>
+      <trans-unit id="act.credential.enrolled" resname="act.credential.enrolled">
+        <source>act.credential.enrolled</source>
+        <target>Metodă de conectare adăugată</target>
+      </trans-unit>
+      <trans-unit id="act.credential.revoked" resname="act.credential.revoked">
+        <source>act.credential.revoked</source>
+        <target>Metodă de conectare eliminată</target>
+      </trans-unit>
+      <trans-unit id="act.credential.forgotten" resname="act.credential.forgotten">
+        <source>act.credential.forgotten</source>
+        <target>Metodă de conectare ștearsă, deoarece nu mai este permisă</target>
+      </trans-unit>
+      <trans-unit id="act.credential.renamed" resname="act.credential.renamed">
+        <source>act.credential.renamed</source>
+        <target>Metodă de conectare redenumită</target>
+      </trans-unit>
+      <trans-unit id="act.password.changed" resname="act.password.changed">
+        <source>act.password.changed</source>
+        <target>Parolă schimbată</target>
+      </trans-unit>
+      <trans-unit id="act.backup_codes.renewed" resname="act.backup_codes.renewed">
+        <source>act.backup_codes.renewed</source>
+        <target>Coduri de rezervă reînnoite</target>
+      </trans-unit>
+      <trans-unit id="act.person.created" resname="act.person.created">
+        <source>act.person.created</source>
+        <target>Cont creat</target>
+      </trans-unit>
+      <trans-unit id="act.person.provisioned" resname="act.person.provisioned">
+        <source>act.person.provisioned</source>
+        <target>Cont creat prin organizația dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="act.person.described_themselves" resname="act.person.described_themselves">
+        <source>act.person.described_themselves</source>
+        <target>Informații modificate</target>
+      </trans-unit>
+      <trans-unit id="act.person.described" resname="act.person.described">
+        <source>act.person.described</source>
+        <target>Informații modificate</target>
+      </trans-unit>
+      <trans-unit id="act.person.disabled" resname="act.person.disabled">
+        <source>act.person.disabled</source>
+        <target>Cont dezactivat</target>
+      </trans-unit>
+      <trans-unit id="act.person.enabled" resname="act.person.enabled">
+        <source>act.person.enabled</source>
+        <target>Cont reactivat</target>
+      </trans-unit>
+      <trans-unit id="act.group_membership.added" resname="act.group_membership.added">
+        <source>act.group_membership.added</source>
+        <target>Adăugare într-un grup</target>
+      </trans-unit>
+      <trans-unit id="act.group_membership.removed" resname="act.group_membership.removed">
+        <source>act.group_membership.removed</source>
+        <target>Eliminare dintr-un grup</target>
+      </trans-unit>
+      <trans-unit id="act.consent.granted" resname="act.consent.granted">
+        <source>act.consent.granted</source>
+        <target>Aplicație autorizată</target>
+      </trans-unit>
+      <trans-unit id="act.consent.revoked" resname="act.consent.revoked">
+        <source>act.consent.revoked</source>
+        <target>Acces revocat pentru o aplicație</target>
+      </trans-unit>
+      <trans-unit id="act.archive.asked" resname="act.archive.asked">
+        <source>act.archive.asked</source>
+        <target>Copie a datelor solicitată</target>
+      </trans-unit>
+      <trans-unit id="act.archive.taken" resname="act.archive.taken">
+        <source>act.archive.taken</source>
+        <target>Copie a datelor descărcată</target>
+      </trans-unit>
+      <trans-unit id="act.archive.dropped" resname="act.archive.dropped">
+        <source>act.archive.dropped</source>
+        <target>Copie a datelor ștearsă</target>
+      </trans-unit>
+      <trans-unit id="act.administration.person_read" resname="act.administration.person_read">
+        <source>act.administration.person_read</source>
+        <target>Cont consultat</target>
+      </trans-unit>
+      <trans-unit id="act.administration.sessions_read" resname="act.administration.sessions_read">
+        <source>act.administration.sessions_read</source>
+        <target>Sesiuni consultate</target>
+      </trans-unit>
+      <trans-unit id="act.administration.membership_read" resname="act.administration.membership_read">
+        <source>act.administration.membership_read</source>
+        <target>Apartenența la grupuri consultată</target>
+      </trans-unit>
+      <trans-unit id="act.administration.consents_read" resname="act.administration.consents_read">
+        <source>act.administration.consents_read</source>
+        <target>Aplicații autorizate consultate</target>
+      </trans-unit>
+      <trans-unit id="act.administration.journal_read" resname="act.administration.journal_read">
+        <source>act.administration.journal_read</source>
+        <target>Activitatea contului consultată</target>
+      </trans-unit>
+      <trans-unit id="profile.change_explanation" resname="profile.change_explanation">
+        <source>profile.change_explanation</source>
+        <target>Goliți un câmp pentru a-l elimina.</target>
+      </trans-unit>
+      <trans-unit id="profile.change_nothing" resname="profile.change_nothing">
+        <source>profile.change_nothing</source>
+        <target>Aceste informații nu pot fi modificate aici.</target>
+      </trans-unit>
+      <trans-unit id="profile.save" resname="profile.save">
+        <source>profile.save</source>
+        <target>Salvați</target>
+      </trans-unit>
+      <trans-unit id="profile.claim_not_open" resname="profile.claim_not_open">
+        <source>profile.claim_not_open</source>
+        <target>Acest lucru nu poate fi modificat aici.</target>
+      </trans-unit>
+      <trans-unit id="profile.claim_refused" resname="profile.claim_refused">
+        <source>profile.claim_refused</source>
+        <target>Această valoare nu este validă.</target>
+      </trans-unit>
+      <trans-unit id="profile.nothing" resname="profile.nothing">
+        <source>profile.nothing</source>
+        <target>Nimic</target>
+      </trans-unit>
+      <trans-unit id="profile.birthdate.example" resname="profile.birthdate.example">
+        <source>profile.birthdate.example</source>
+        <target>1815-12-10 sau 1815</target>
+      </trans-unit>
+      <trans-unit id="archive.title" resname="archive.title">
+        <source>archive.title</source>
+        <target>Datele dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="archive.explanation" resname="archive.explanation">
+        <source>archive.explanation</source>
+        <target>Toate datele dumneavoastră într-un singur fișier, gata la câteva minute după solicitare.</target>
+      </trans-unit>
+      <trans-unit id="archive.what_it_holds" resname="archive.what_it_holds">
+        <source>archive.what_it_holds</source>
+        <target>Ce conține fișierul</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.profile" resname="archive.chapter.profile">
+        <source>archive.chapter.profile</source>
+        <target>Contul și informațiile dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.credentials" resname="archive.chapter.credentials">
+        <source>archive.chapter.credentials</source>
+        <target>Metodele dumneavoastră de conectare, fără secretele lor</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.linked_identities" resname="archive.chapter.linked_identities">
+        <source>archive.chapter.linked_identities</source>
+        <target>Conturile dumneavoastră asociate și ce au transmis</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.groups" resname="archive.chapter.groups">
+        <source>archive.chapter.groups</source>
+        <target>Grupurile dumneavoastră și proveniența fiecăruia</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.consents" resname="archive.chapter.consents">
+        <source>archive.chapter.consents</source>
+        <target>Aplicațiile autorizate și ce obține fiecare</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.sessions" resname="archive.chapter.sessions">
+        <source>archive.chapter.sessions</source>
+        <target>Sesiunile dumneavoastră deschise</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.journal" resname="archive.chapter.journal">
+        <source>archive.chapter.journal</source>
+        <target>Activitatea contului dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.changes" resname="archive.chapter.changes">
+        <source>archive.chapter.changes</source>
+        <target>Istoricul modificărilor informațiilor dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="archive.chapter.disclosures" resname="archive.chapter.disclosures">
+        <source>archive.chapter.disclosures</source>
+        <target>Ce a obținut fiecare aplicație de la dumneavoastră și când</target>
+      </trans-unit>
+      <trans-unit id="archive.your_request" resname="archive.your_request">
+        <source>archive.your_request</source>
+        <target>Solicitarea dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="archive.never" resname="archive.never">
+        <source>archive.never</source>
+        <target>Nu ați solicitat încă datele.</target>
+      </trans-unit>
+      <trans-unit id="archive.being_built" resname="archive.being_built">
+        <source>archive.being_built</source>
+        <target>Fișierul este în curs de pregătire. Reveniți peste câteva minute.</target>
+      </trans-unit>
+      <trans-unit id="archive.stalled" resname="archive.stalled">
+        <source>archive.stalled</source>
+        <target>Fișierul nu a putut fi pregătit. Solicitați unul nou.</target>
+      </trans-unit>
+      <trans-unit id="archive.ready" resname="archive.ready">
+        <source>archive.ready</source>
+        <target>Fișierul este gata.</target>
+      </trans-unit>
+      <trans-unit id="archive.expired" resname="archive.expired">
+        <source>archive.expired</source>
+        <target>Fișierul a expirat. Solicitați unul nou.</target>
+      </trans-unit>
+      <trans-unit id="archive.asked_at" resname="archive.asked_at">
+        <source>archive.asked_at</source>
+        <target>Solicitat la {moment}.</target>
+      </trans-unit>
+      <trans-unit id="archive.built_at" resname="archive.built_at">
+        <source>archive.built_at</source>
+        <target>Pregătit la {moment}.</target>
+      </trans-unit>
+      <trans-unit id="archive.expires_at" resname="archive.expires_at">
+        <source>archive.expires_at</source>
+        <target>Disponibil până la {moment}.</target>
+      </trans-unit>
+      <trans-unit id="archive.download" resname="archive.download">
+        <source>archive.download</source>
+        <target>Descărcați datele</target>
+      </trans-unit>
+      <trans-unit id="archive.passphrase" resname="archive.passphrase">
+        <source>archive.passphrase</source>
+        <target>Frază de acces</target>
+      </trans-unit>
+      <trans-unit id="archive.wrapped_explanation" resname="archive.wrapped_explanation">
+        <source>archive.wrapped_explanation</source>
+        <target>Îl puteți descărca și criptat cu o frază de acces (număr minim de caractere: {minimum}). Nu este păstrată nicăieri: dacă o pierdeți, fișierul nu mai poate fi deschis. Deschideți fișierul .{container} cu 7-Zip sau Keka.</target>
+      </trans-unit>
+      <trans-unit id="archive.download_wrapped" resname="archive.download_wrapped">
+        <source>archive.download_wrapped</source>
+        <target>Descărcați criptat</target>
+      </trans-unit>
+      <trans-unit id="archive.passphrase_refused" resname="archive.passphrase_refused">
+        <source>archive.passphrase_refused</source>
+        <target>Frază de acces prea slabă: utilizați mai multe cuvinte. Număr minim de caractere: {minimum, number}.</target>
+      </trans-unit>
+      <trans-unit id="archive.kept_for" resname="archive.kept_for">
+        <source>archive.kept_for</source>
+        <target>Un fișier este păstrat {days, plural, one {# zi} few {# zile} other {# de zile}}, apoi este șters.</target>
+      </trans-unit>
+      <trans-unit id="archive.ask" resname="archive.ask">
+        <source>archive.ask</source>
+        <target>Solicitați datele</target>
+      </trans-unit>
+      <trans-unit id="archive.ask_again" resname="archive.ask_again">
+        <source>archive.ask_again</source>
+        <target>Solicitați un fișier nou</target>
+      </trans-unit>
+      <trans-unit id="account.archive.never" resname="account.archive.never">
+        <source>account.archive.never</source>
+        <target>niciodată solicitate</target>
+      </trans-unit>
+      <trans-unit id="account.archive.being_built" resname="account.archive.being_built">
+        <source>account.archive.being_built</source>
+        <target>în curs de pregătire</target>
+      </trans-unit>
+      <trans-unit id="account.archive.stalled" resname="account.archive.stalled">
+        <source>account.archive.stalled</source>
+        <target>pregătire eșuată</target>
+      </trans-unit>
+      <trans-unit id="account.archive.ready" resname="account.archive.ready">
+        <source>account.archive.ready</source>
+        <target>gata de descărcare</target>
+      </trans-unit>
+      <trans-unit id="account.archive.expired" resname="account.archive.expired">
+        <source>account.archive.expired</source>
+        <target>fișier expirat</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_nothing" resname="profile.changed_nothing">
+        <source>profile.changed_nothing</source>
+        <target>Nicio modificare încă.</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_what" resname="profile.changed_what">
+        <source>profile.changed_what</source>
+        <target>Informație</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_from" resname="profile.changed_from">
+        <source>profile.changed_from</source>
+        <target>Înainte</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_to" resname="profile.changed_to">
+        <source>profile.changed_to</source>
+        <target>După</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_when" resname="profile.changed_when">
+        <source>profile.changed_when</source>
+        <target>Când</target>
+      </trans-unit>
+      <trans-unit id="profile.changed_by" resname="profile.changed_by">
+        <source>profile.changed_by</source>
+        <target>De către</target>
+      </trans-unit>
+      <trans-unit id="pager.pages" resname="pager.pages">
+        <source>pager.pages</source>
+        <target>Paginare</target>
+      </trans-unit>
+      <trans-unit id="pager.rows" resname="pager.rows">
+        <source>pager.rows</source>
+        <target>De la {first} la {last} din {total}</target>
+      </trans-unit>
+      <trans-unit id="pager.previous" resname="pager.previous">
+        <source>pager.previous</source>
+        <target>Pagina anterioară</target>
+      </trans-unit>
+      <trans-unit id="pager.next" resname="pager.next">
+        <source>pager.next</source>
+        <target>Pagina următoare</target>
+      </trans-unit>
+      <trans-unit id="pager.first" resname="pager.first">
+        <source>pager.first</source>
+        <target>Prima pagină</target>
+      </trans-unit>
+      <trans-unit id="pager.last" resname="pager.last">
+        <source>pager.last</source>
+        <target>Ultima pagină</target>
+      </trans-unit>
+      <trans-unit id="pager.go_to" resname="pager.go_to">
+        <source>pager.go_to</source>
+        <target>Accesați</target>
+      </trans-unit>
+      <trans-unit id="changes.title" resname="changes.title">
+        <source>changes.title</source>
+        <target>Istoricul modificărilor</target>
+      </trans-unit>
+      <trans-unit id="changes.by_you" resname="changes.by_you">
+        <source>changes.by_you</source>
+        <target>Dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="changes.none_matching" resname="changes.none_matching">
+        <source>changes.none_matching</source>
+        <target>Nicio modificare nu corespunde filtrelor.</target>
+      </trans-unit>
+      <trans-unit id="changes.filter.every_claim" resname="changes.filter.every_claim">
+        <source>changes.filter.every_claim</source>
+        <target>Toate</target>
+      </trans-unit>
+      <trans-unit id="changes.filter.by_anyone" resname="changes.filter.by_anyone">
+        <source>changes.filter.by_anyone</source>
+        <target>Oricine</target>
+      </trans-unit>
+      <trans-unit id="filter.from" resname="filter.from">
+        <source>filter.from</source>
+        <target>De la</target>
+      </trans-unit>
+      <trans-unit id="filter.label" resname="filter.label">
+        <source>filter.label</source>
+        <target>Filtre</target>
+      </trans-unit>
+      <trans-unit id="filter.to" resname="filter.to">
+        <source>filter.to</source>
+        <target>Până la</target>
+      </trans-unit>
+      <trans-unit id="filter.apply" resname="filter.apply">
+        <source>filter.apply</source>
+        <target>Filtrați</target>
+      </trans-unit>
+      <trans-unit id="filter.clear" resname="filter.clear">
+        <source>filter.clear</source>
+        <target>Resetați</target>
+      </trans-unit>
+      <trans-unit id="passkeys.new_default" resname="passkeys.new_default">
+        <source>passkeys.new_default</source>
+        <target>Cheie de acces nouă</target>
+      </trans-unit>
+      <trans-unit id="passkeys.rename" resname="passkeys.rename">
+        <source>passkeys.rename</source>
+        <target>Redenumiți</target>
+      </trans-unit>
+      <trans-unit id="notifications.new_default" resname="notifications.new_default">
+        <source>notifications.new_default</source>
+        <target>Browser nou</target>
+      </trans-unit>
+      <trans-unit id="notifications.rename" resname="notifications.rename">
+        <source>notifications.rename</source>
+        <target>Redenumiți</target>
+      </trans-unit>
+      <trans-unit id="notifications.this_browser" resname="notifications.this_browser">
+        <source>notifications.this_browser</source>
+        <target>Acest browser</target>
+      </trans-unit>
+      <trans-unit id="notifications.error.invalid_label" resname="notifications.error.invalid_label">
+        <source>notifications.error.invalid_label</source>
+        <target>Dați browserului un nume de 1 până la 255 de caractere.</target>
+      </trans-unit>
+      <trans-unit id="archive.cancel" resname="archive.cancel">
+        <source>archive.cancel</source>
+        <target>Ștergeți această solicitare</target>
+      </trans-unit>
+      <trans-unit id="archive.drop" resname="archive.drop">
+        <source>archive.drop</source>
+        <target>Ștergeți acest fișier</target>
+      </trans-unit>
+      <trans-unit id="archive.drop_explanation" resname="archive.drop_explanation">
+        <source>archive.drop_explanation</source>
+        <target>După ce ați descărcat fișierul, îl puteți șterge fără să așteptați să expire.</target>
+      </trans-unit>
+      <trans-unit id="archive.nothing_to_drop" resname="archive.nothing_to_drop">
+        <source>archive.nothing_to_drop</source>
+        <target>Nu mai este nimic de șters.</target>
+      </trans-unit>
+      <trans-unit id="sessions.end_others" resname="sessions.end_others">
+        <source>sessions.end_others</source>
+        <target>Închideți toate celelalte sesiuni</target>
+      </trans-unit>
+      <trans-unit id="sessions.none" resname="sessions.none">
+        <source>sessions.none</source>
+        <target>Nicio sesiune deschisă.</target>
+      </trans-unit>
+      <trans-unit id="sessions.none_matching" resname="sessions.none_matching">
+        <source>sessions.none_matching</source>
+        <target>Nicio sesiune nu corespunde filtrelor.</target>
+      </trans-unit>
+      <trans-unit id="sessions.filter.every_proof" resname="sessions.filter.every_proof">
+        <source>sessions.filter.every_proof</source>
+        <target>Toate</target>
+      </trans-unit>
+      <trans-unit id="password.title" resname="password.title">
+        <source>password.title</source>
+        <target>Parola dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="password.none" resname="password.none">
+        <source>password.none</source>
+        <target>Nu aveți parolă: vă conectați în alt mod.</target>
+      </trans-unit>
+      <trans-unit id="password.changed_at" resname="password.changed_at">
+        <source>password.changed_at</source>
+        <target>Ultima modificare: {date}.</target>
+      </trans-unit>
+      <trans-unit id="password.what_happens" resname="password.what_happens">
+        <source>password.what_happens</source>
+        <target>Schimbarea parolei vă deconectează din celelalte browsere.</target>
+      </trans-unit>
+      <trans-unit id="password.current" resname="password.current">
+        <source>password.current</source>
+        <target>Parola actuală</target>
+      </trans-unit>
+      <trans-unit id="password.new" resname="password.new">
+        <source>password.new</source>
+        <target>Parola nouă</target>
+      </trans-unit>
+      <trans-unit id="password.change" resname="password.change">
+        <source>password.change</source>
+        <target>Schimbați parola</target>
+      </trans-unit>
+      <trans-unit id="password.error.wrong_password" resname="password.error.wrong_password">
+        <source>password.error.wrong_password</source>
+        <target>Parola actuală este greșită.</target>
+      </trans-unit>
+      <trans-unit id="password.error.same_as_before" resname="password.error.same_as_before">
+        <source>password.error.same_as_before</source>
+        <target>Aceasta este deja parola dumneavoastră. Alegeți alta.</target>
+      </trans-unit>
+      <trans-unit id="password.error.no_password_held" resname="password.error.no_password_held">
+        <source>password.error.no_password_held</source>
+        <target>Nu aveți nicio parolă de schimbat.</target>
+      </trans-unit>
+      <trans-unit id="password.again" resname="password.again">
+        <source>password.again</source>
+        <target>Confirmați parola nouă</target>
+      </trans-unit>
+      <trans-unit id="password.breached" resname="password.breached">
+        <source>password.breached</source>
+        <target>Parola dumneavoastră apare într-o breșă de date ({date}). Schimbați-o acum.</target>
+      </trans-unit>
+      <trans-unit id="password.demanded" resname="password.demanded">
+        <source>password.demanded</source>
+        <target>Schimbați parola pentru a continua. În caz contrar, vi se va cere din nou la următoarea conectare.</target>
+      </trans-unit>
+      <trans-unit id="password.strength.nothing" resname="password.strength.nothing">
+        <source>password.strength.nothing</source>
+        <target>foarte slabă</target>
+      </trans-unit>
+      <trans-unit id="password.strength.weak" resname="password.strength.weak">
+        <source>password.strength.weak</source>
+        <target>slabă</target>
+      </trans-unit>
+      <trans-unit id="password.strength.medium" resname="password.strength.medium">
+        <source>password.strength.medium</source>
+        <target>suficientă</target>
+      </trans-unit>
+      <trans-unit id="password.strength.strong" resname="password.strength.strong">
+        <source>password.strength.strong</source>
+        <target>puternică</target>
+      </trans-unit>
+      <trans-unit id="password.strength.very_strong" resname="password.strength.very_strong">
+        <source>password.strength.very_strong</source>
+        <target>foarte puternică</target>
+      </trans-unit>
+      <trans-unit id="password.error.too_short" resname="password.error.too_short">
+        <source>password.error.too_short</source>
+        <target>Parola este prea scurtă. Număr minim de caractere: {minimum}.</target>
+      </trans-unit>
+      <trans-unit id="password.error.too_long" resname="password.error.too_long">
+        <source>password.error.too_long</source>
+        <target>Această parolă este prea lungă.</target>
+      </trans-unit>
+      <trans-unit id="password.error.too_weak" resname="password.error.too_weak">
+        <source>password.error.too_weak</source>
+        <target>Această parolă este prea ușor de ghicit. Prelungiți-o sau utilizați mai multe cuvinte.</target>
+      </trans-unit>
+      <trans-unit id="password.error.breached" resname="password.error.breached">
+        <source>password.error.breached</source>
+        <target>Această parolă apare într-o breșă de date. Alegeți alta.</target>
+      </trans-unit>
+      <trans-unit id="password.error.not_checked" resname="password.error.not_checked">
+        <source>password.error.not_checked</source>
+        <target>Parola nu a putut fi verificată. Încercați din nou.</target>
+      </trans-unit>
+      <trans-unit id="password.error.not_confirmed" resname="password.error.not_confirmed">
+        <source>password.error.not_confirmed</source>
+        <target>Cele două parole nu coincid.</target>
+      </trans-unit>
+      <trans-unit id="account.password.state" resname="account.password.state">
+        <source>account.password.state</source>
+        <target>{days, plural, =0 {schimbată astăzi} one {schimbată ieri} few {schimbată acum # zile} other {schimbată acum # de zile}}</target>
+      </trans-unit>
+      <trans-unit id="account.password.none" resname="account.password.none">
+        <source>account.password.none</source>
+        <target>niciuna</target>
+      </trans-unit>
+      <trans-unit id="account.password.breached" resname="account.password.breached">
+        <source>account.password.breached</source>
+        <target>găsită într-o breșă de date</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.renew" resname="two_factor.backup_codes.renew">
+        <source>two_factor.backup_codes.renew</source>
+        <target>Generați coduri de rezervă noi</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.title" resname="two_factor.backup_codes.title">
+        <source>two_factor.backup_codes.title</source>
+        <target>Codurile dumneavoastră de rezervă noi</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.renewed" resname="two_factor.backup_codes.renewed">
+        <source>two_factor.backup_codes.renewed</source>
+        <target>Codurile anterioare nu mai funcționează.</target>
+      </trans-unit>
+      <trans-unit id="provenance.device" resname="provenance.device">
+        <source>provenance.device</source>
+        <target>{browser} pe {platform}</target>
+      </trans-unit>
+      <trans-unit id="provenance.unknown_place" resname="provenance.unknown_place">
+        <source>provenance.unknown_place</source>
+        <target>Loc necunoscut</target>
+      </trans-unit>
+      <trans-unit id="provenance.unknown_address" resname="provenance.unknown_address">
+        <source>provenance.unknown_address</source>
+        <target>adresă necunoscută</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.copy" resname="two_factor.backup_codes.copy">
+        <source>two_factor.backup_codes.copy</source>
+        <target>Copiați-le pe toate</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.copied" resname="two_factor.backup_codes.copied">
+        <source>two_factor.backup_codes.copied</source>
+        <target>Copiate</target>
+      </trans-unit>
+      <trans-unit id="two_factor.backup_codes.not_copied" resname="two_factor.backup_codes.not_copied">
+        <source>two_factor.backup_codes.not_copied</source>
+        <target>Copierea a eșuat. Selectați codurile și copiați-le.</target>
+      </trans-unit>
+      <trans-unit id="two_factor.enrol.step_secret" resname="two_factor.enrol.step_secret">
+        <source>two_factor.enrol.step_secret</source>
+        <target>Introduceți cheia în aplicație</target>
+      </trans-unit>
+      <trans-unit id="two_factor.enrol.step_code" resname="two_factor.enrol.step_code">
+        <source>two_factor.enrol.step_code</source>
+        <target>Confirmați cu codul afișat de aceasta</target>
+      </trans-unit>
+      <trans-unit id="two_factor.enrol.copy_key" resname="two_factor.enrol.copy_key">
+        <source>two_factor.enrol.copy_key</source>
+        <target>Copiați cheia</target>
+      </trans-unit>
+      <trans-unit id="two_factor.enrol.key_copied" resname="two_factor.enrol.key_copied">
+        <source>two_factor.enrol.key_copied</source>
+        <target>Copiată</target>
+      </trans-unit>
+      <trans-unit id="two_factor.enrol.key_not_copied" resname="two_factor.enrol.key_not_copied">
+        <source>two_factor.enrol.key_not_copied</source>
+        <target>Copierea a eșuat. Selectați cheia și copiați-o.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.title" resname="enrolment_ticket.title">
+        <source>enrolment_ticket.title</source>
+        <target>Adăugați o cheie de acces</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.prompt" resname="enrolment_ticket.prompt">
+        <source>enrolment_ticket.prompt</source>
+        <target>Adăugați o cheie de acces la contul {username}. Acest link funcționează o singură dată.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.enrol" resname="enrolment_ticket.enrol">
+        <source>enrolment_ticket.enrol</source>
+        <target>Adăugați cheia de acces</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.unsupported" resname="enrolment_ticket.unsupported">
+        <source>enrolment_ticket.unsupported</source>
+        <target>Acest browser nu poate crea chei de acces. Deschideți linkul pe alt dispozitiv.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.error.no_ceremony" resname="enrolment_ticket.error.no_ceremony">
+        <source>enrolment_ticket.error.no_ceremony</source>
+        <target>Timpul pentru adăugarea cheii de acces a expirat. Încercați din nou.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.error.organisation_keys_only" resname="enrolment_ticket.error.organisation_keys_only">
+        <source>enrolment_ticket.error.organisation_keys_only</source>
+        <target>Sunt acceptate doar cheile primite de la organizația dumneavoastră.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.error.model_under_security_alert" resname="enrolment_ticket.error.model_under_security_alert">
+        <source>enrolment_ticket.error.model_under_security_alert</source>
+        <target>Acest model are o alertă de securitate și nu mai este acceptat. Utilizați altul.</target>
+      </trans-unit>
+      <trans-unit id="enrolment_ticket.error.refused" resname="enrolment_ticket.error.refused">
+        <source>enrolment_ticket.error.refused</source>
+        <target>Cheia de acces nu a putut fi adăugată. Încercați din nou.</target>
+      </trans-unit>
+      <trans-unit id="error.enrolment_ticket_refused" resname="error.enrolment_ticket_refused">
+        <source>error.enrolment_ticket_refused</source>
+        <target>Acest link a fost deja utilizat sau a expirat. Solicitați unul nou.</target>
+      </trans-unit>
+      <trans-unit id="act.enrolment_ticket.issued" resname="act.enrolment_ticket.issued">
+        <source>act.enrolment_ticket.issued</source>
+        <target>Link de adăugare a unei chei de acces emis</target>
+      </trans-unit>
+      <trans-unit id="password_ticket.title" resname="password_ticket.title">
+        <source>password_ticket.title</source>
+        <target>Alegeți o parolă nouă</target>
+      </trans-unit>
+      <trans-unit id="password_ticket.prompt" resname="password_ticket.prompt">
+        <source>password_ticket.prompt</source>
+        <target>Parolă nouă pentru contul {username}. Acest link funcționează o singură dată.</target>
+      </trans-unit>
+      <trans-unit id="password_ticket.what_happens" resname="password_ticket.what_happens">
+        <source>password_ticket.what_happens</source>
+        <target>Toate sesiunile dumneavoastră vor fi închise: conectați-vă din nou cu parola nouă.</target>
+      </trans-unit>
+      <trans-unit id="password_ticket.submit" resname="password_ticket.submit">
+        <source>password_ticket.submit</source>
+        <target>Salvați parola</target>
+      </trans-unit>
+      <trans-unit id="password.error.not_admitted" resname="password.error.not_admitted">
+        <source>password.error.not_admitted</source>
+        <target>Organizația dumneavoastră nu permite o parolă pentru contul dumneavoastră.</target>
+      </trans-unit>
+      <trans-unit id="error.password_ticket_refused" resname="error.password_ticket_refused">
+        <source>error.password_ticket_refused</source>
+        <target>Acest link a fost deja utilizat sau a expirat. Solicitați unul nou.</target>
+      </trans-unit>
+      <trans-unit id="act.password_ticket.issued" resname="act.password_ticket.issued">
+        <source>act.password_ticket.issued</source>
+        <target>Link pentru parolă nouă emis</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.title" resname="totp_ticket.title">
+        <source>totp_ticket.title</source>
+        <target>Configurați o aplicație de autentificare nouă</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.prompt" resname="totp_ticket.prompt">
+        <source>totp_ticket.prompt</source>
+        <target>Aplicație de autentificare nouă pentru contul {username}. Acest link funcționează o singură dată.</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.what_happens" resname="totp_ticket.what_happens">
+        <source>totp_ticket.what_happens</source>
+        <target>Aplicația anterioară nu va mai funcționa și toate sesiunile dumneavoastră vor fi închise.</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.enrolled" resname="totp_ticket.enrolled">
+        <source>totp_ticket.enrolled</source>
+        <target>Noua aplicație de autentificare este configurată, iar sesiunile dumneavoastră au fost închise.</target>
+      </trans-unit>
+      <trans-unit id="totp_ticket.sign_in" resname="totp_ticket.sign_in">
+        <source>totp_ticket.sign_in</source>
+        <target>Conectați-vă</target>
+      </trans-unit>
+      <trans-unit id="two_factor.error.not_admitted" resname="two_factor.error.not_admitted">
+        <source>two_factor.error.not_admitted</source>
+        <target>Organizația dumneavoastră nu permite o aplicație de autentificare pentru contul dumneavoastră.</target>
+      </trans-unit>
+      <trans-unit id="error.totp_ticket_refused" resname="error.totp_ticket_refused">
+        <source>error.totp_ticket_refused</source>
+        <target>Acest link a fost deja utilizat sau a expirat. Solicitați unul nou.</target>
+      </trans-unit>
+      <trans-unit id="act.totp_ticket.issued" resname="act.totp_ticket.issued">
+        <source>act.totp_ticket.issued</source>
+        <target>Link de configurare a unei aplicații de autentificare emis</target>
+      </trans-unit>
+      <trans-unit id="post_again.title" resname="post_again.title">
+        <source>post_again.title</source>
+        <target>Conectare în curs</target>
+      </trans-unit>
+      <trans-unit id="post_again.continue" resname="post_again.continue">
+        <source>post_again.continue</source>
+        <target>Continuați</target>
+      </trans-unit>
+      <trans-unit id="saml_post.title" resname="saml_post.title">
+        <source>saml_post.title</source>
+        <target>Revenire la aplicație</target>
+      </trans-unit>
+      <trans-unit id="saml_post.continue" resname="saml_post.continue">
+        <source>saml_post.continue</source>
+        <target>Continuați</target>
+      </trans-unit>
+      <trans-unit id="saml_post.upstream.title" resname="saml_post.upstream.title">
+        <source>saml_post.upstream.title</source>
+        <target>Conectare prin organizația dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="error.saml_request_refused" resname="error.saml_request_refused">
+        <source>error.saml_request_refused</source>
+        <target>Aplicația a trimis o solicitare de conectare nevalidă. Reîncepeți din aplicație.</target>
+      </trans-unit>
+      <trans-unit id="error.saml_logout_refused" resname="error.saml_logout_refused">
+        <source>error.saml_logout_refused</source>
+        <target>Aplicația a trimis o solicitare de deconectare nevalidă. Deconectați-vă din nou din aplicație.</target>
+      </trans-unit>
+      <trans-unit id="error.saml_assertion_refused" resname="error.saml_assertion_refused">
+        <source>error.saml_assertion_refused</source>
+        <target>Conectarea prin organizația dumneavoastră nu a reușit. Reîncepeți din aplicație.</target>
+      </trans-unit>
+      <trans-unit id="error.saml_upstream_sign_on_refused" resname="error.saml_upstream_sign_on_refused">
+        <source>error.saml_upstream_sign_on_refused</source>
+        <target>Conectarea prin organizația dumneavoastră nu poate începe aici. Reîncepeți din aplicație.</target>
+      </trans-unit>
+      <trans-unit id="controls.close" resname="controls.close">
+        <source>controls.close</source>
+        <target>Închideți meniurile</target>
+      </trans-unit>
+      <trans-unit id="b7c1d4e9f0" resname="theme.choose">
+        <source>theme.choose</source>
+        <target>Alegeți o temă</target>
+      </trans-unit>
+      <trans-unit id="c3d5e7a1b2" resname="theme.light">
+        <source>theme.light</source>
+        <target>Luminoasă</target>
+      </trans-unit>
+      <trans-unit id="d9e2f4a6c8" resname="theme.dark">
+        <source>theme.dark</source>
+        <target>Întunecată</target>
+      </trans-unit>
+      <trans-unit id="e1f3a5b7d2" resname="theme.system">
+        <source>theme.system</source>
+        <target>Sistem</target>
+      </trans-unit>
+      <trans-unit id="f4a6b8c1e3" resname="navigation.pages">
+        <source>navigation.pages</source>
+        <target>Paginile contului dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="a8b2c4d6f1" resname="navigation.show_pages">
+        <source>navigation.show_pages</source>
+        <target>Afișați paginile contului dumneavoastră</target>
+      </trans-unit>
+      <trans-unit id="b1c3d5e7a9" resname="navigation.group.record">
+        <source>navigation.group.record</source>
+        <target>Date personale</target>
+      </trans-unit>
+      <trans-unit id="c2d4e6f8b1" resname="navigation.group.sign_in">
+        <source>navigation.group.sign_in</source>
+        <target>Securitate</target>
+      </trans-unit>
+      <trans-unit id="d3e5f7a9c2" resname="navigation.group.activity">
+        <source>navigation.group.activity</source>
+        <target>Activitate</target>
+      </trans-unit>
+      <trans-unit id="e4f6a8b2c1" resname="navigation.where_you_are">
+        <source>navigation.where_you_are</source>
+        <target>Unde vă aflați</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.approvals" resname="navigation.description.approvals">
+        <source>navigation.description.approvals</source>
+        <target>Solicitări care așteaptă răspunsul dumneavoastră.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.profile" resname="navigation.description.profile">
+        <source>navigation.description.profile</source>
+        <target>Consultați și corectați informațiile dumneavoastră.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.archive" resname="navigation.description.archive">
+        <source>navigation.description.archive</source>
+        <target>Descărcați o copie a datelor dumneavoastră.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.password" resname="navigation.description.password">
+        <source>navigation.description.password</source>
+        <target>Schimbați parola.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.passkeys" resname="navigation.description.passkeys">
+        <source>navigation.description.passkeys</source>
+        <target>Conectați-vă cu dispozitivul, fără parolă.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.two_factor" resname="navigation.description.two_factor">
+        <source>navigation.description.two_factor</source>
+        <target>Un cod pe lângă parolă.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.notifications" resname="navigation.description.notifications">
+        <source>navigation.description.notifications</source>
+        <target>Cum primiți notificările.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.sessions" resname="navigation.description.sessions">
+        <source>navigation.description.sessions</source>
+        <target>Dispozitivele conectate la contul dumneavoastră.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.consents" resname="navigation.description.consents">
+        <source>navigation.description.consents</source>
+        <target>Ce obține fiecare aplicație de la dumneavoastră.</target>
+      </trans-unit>
+      <trans-unit id="navigation.description.acts" resname="navigation.description.acts">
+        <source>navigation.description.acts</source>
+        <target>Conectări și modificări ale contului.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.title" resname="mail_encryption.title">
+        <source>mail_encryption.title</source>
+        <target>E-mail criptat</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.explanation" resname="mail_encryption.explanation">
+        <source>mail_encryption.explanation</source>
+        <target>E-mailurile trimise la {address} pot fi criptate pentru certificatul dumneavoastră S/MIME sau cheia dumneavoastră OpenPGP, care trebuie să conțină această adresă. Expeditorul, destinatarul, data și subiectul rămân lizibile.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.no_address" resname="mail_encryption.no_address">
+        <source>mail_encryption.no_address</source>
+        <target>Criptarea necesită o adresă de e-mail verificată, iar contul dumneavoastră nu are niciuna.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.none" resname="mail_encryption.none">
+        <source>mail_encryption.none</source>
+        <target>E-mailurile dumneavoastră nu sunt criptate.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.held" resname="mail_encryption.held">
+        <source>mail_encryption.held</source>
+        <target>E-mailurile dumneavoastră sunt criptate cu {format} pentru cheia {fingerprint}. Un e-mail care nu poate fi criptat nu este trimis.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.valid_until" resname="mail_encryption.valid_until">
+        <source>mail_encryption.valid_until</source>
+        <target>Valabil până la {date}.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.remove" resname="mail_encryption.remove">
+        <source>mail_encryption.remove</source>
+        <target>Dezactivați criptarea e-mailurilor</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.format" resname="mail_encryption.format">
+        <source>mail_encryption.format</source>
+        <target>Format</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.material" resname="mail_encryption.material">
+        <source>mail_encryption.material</source>
+        <target>Certificat sau cheie publică</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.material_help" resname="mail_encryption.material_help">
+        <source>mail_encryption.material_help</source>
+        <target>S/MIME: doar certificatul, în format PEM. OpenPGP: doar cheia publică, în format ASCII armor. Înlocuiește certificatul sau cheia anterioară.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.give" resname="mail_encryption.give">
+        <source>mail_encryption.give</source>
+        <target>Activați criptarea e-mailurilor</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.kind.smime" resname="mail_encryption.kind.smime">
+        <source>mail_encryption.kind.smime</source>
+        <target>S/MIME</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.kind.pgp" resname="mail_encryption.kind.pgp">
+        <source>mail_encryption.kind.pgp</source>
+        <target>OpenPGP</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.unreadable" resname="mail_encryption.error.unreadable">
+        <source>mail_encryption.error.unreadable</source>
+        <target>Nu se poate citi acest certificat sau această cheie publică.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.not_for_encryption" resname="mail_encryption.error.not_for_encryption">
+        <source>mail_encryption.error.not_for_encryption</source>
+        <target>Acest certificat sau această cheie nu permite criptarea: este necesară o cheie RSA de cel puțin 2048 de biți (S/MIME) sau o subcheie de criptare (OpenPGP).</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.not_valid_now" resname="mail_encryption.error.not_valid_now">
+        <source>mail_encryption.error.not_valid_now</source>
+        <target>Acest certificat sau această cheie a expirat, este revocată sau nu este încă valabilă.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.another_address" resname="mail_encryption.error.another_address">
+        <source>mail_encryption.error.another_address</source>
+        <target>Acest certificat sau această cheie nu conține adresa dumneavoastră verificată.</target>
+      </trans-unit>
+      <trans-unit id="mail_encryption.error.no_verified_address" resname="mail_encryption.error.no_verified_address">
+        <source>mail_encryption.error.no_verified_address</source>
+        <target>Criptarea necesită o adresă de e-mail verificată, iar contul dumneavoastră nu are niciuna.</target>
+      </trans-unit>
+      <trans-unit id="profile.mail_encryption" resname="profile.mail_encryption">
+        <source>profile.mail_encryption</source>
+        <target>E-mail criptat</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.title" resname="notifications.channels.title">
+        <source>notifications.channels.title</source>
+        <target>Canale</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.explanation" resname="notifications.channels.explanation">
+        <source>notifications.channels.explanation</source>
+        <target>Alegeți canalele implicite sau personalizați-le pentru o notificare. Un e-mail sau un SMS este trimis doar către o adresă sau un număr verificat.</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.none" resname="notifications.channels.none">
+        <source>notifications.channels.none</source>
+        <target>Nu este disponibil niciun canal de notificare.</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.kind" resname="notifications.channels.kind">
+        <source>notifications.channels.kind</source>
+        <target>Notificare</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.apart" resname="notifications.channels.apart">
+        <source>notifications.channels.apart</source>
+        <target>Personalizați</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.apart_label" resname="notifications.channels.apart_label">
+        <source>notifications.channels.apart_label</source>
+        <target>{kind}: personalizați</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.following" resname="notifications.channels.following">
+        <source>notifications.channels.following</source>
+        <target>Canale implicite</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.by" resname="notifications.channels.by">
+        <source>notifications.channels.by</source>
+        <target>{kind}: {channel}</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.every_kind" resname="notifications.channels.every_kind">
+        <source>notifications.channels.every_kind</source>
+        <target>Implicit</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.every_channel" resname="notifications.channels.every_channel">
+        <source>notifications.channels.every_channel</source>
+        <target>Trimisă întotdeauna pe toate canalele.</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.save" resname="notifications.channels.save">
+        <source>notifications.channels.save</source>
+        <target>Salvați</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.not_chosen" resname="notifications.channels.not_chosen">
+        <source>notifications.channels.not_chosen</source>
+        <target>Neales</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.no_channel" resname="notifications.channels.no_channel">
+        <source>notifications.channels.no_channel</source>
+        <target>Niciun canal</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.web_push" resname="notifications.channel.web_push">
+        <source>notifications.channel.web_push</source>
+        <target>Browsere</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.mail" resname="notifications.channel.mail">
+        <source>notifications.channel.mail</source>
+        <target>E-mail</target>
+      </trans-unit>
+      <trans-unit id="notifications.channel.sms" resname="notifications.channel.sms">
+        <source>notifications.channel.sms</source>
+        <target>SMS</target>
+      </trans-unit>
+      <trans-unit id="notifications.kind.pending_approval" resname="notifications.kind.pending_approval">
+        <source>notifications.kind.pending_approval</source>
+        <target>Solicitare de aprobat</target>
+      </trans-unit>
+      <trans-unit id="notifications.kind.credential_change" resname="notifications.kind.credential_change">
+        <source>notifications.kind.credential_change</source>
+        <target>Modificarea metodelor de conectare</target>
+      </trans-unit>
+      <trans-unit id="profile.notification_channels" resname="profile.notification_channels">
+        <source>profile.notification_channels</source>
+        <target>Canale de notificare implicite</target>
+      </trans-unit>
+      <trans-unit id="profile.notification_channels.pending_approval" resname="profile.notification_channels.pending_approval">
+        <source>profile.notification_channels.pending_approval</source>
+        <target>Canale pentru solicitările de aprobat</target>
+      </trans-unit>
+      <trans-unit id="act.notification_channels.chosen" resname="act.notification_channels.chosen">
+        <source>act.notification_channels.chosen</source>
+        <target>Canale de notificare modificate</target>
+      </trans-unit>
+      <trans-unit id="confirmation.offer" resname="confirmation.offer">
+        <source>confirmation.offer</source>
+        <target>Adrese de confirmat</target>
+      </trans-unit>
+      <trans-unit id="confirmation.offer_explanation" resname="confirmation.offer_explanation">
+        <source>confirmation.offer_explanation</source>
+        <target>Cât timp o adresă nu este confirmată, primește doar codul de confirmare.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.send" resname="confirmation.send">
+        <source>confirmation.send</source>
+        <target>Trimiteți un cod</target>
+      </trans-unit>
+      <trans-unit id="confirmation.email.title" resname="confirmation.email.title">
+        <source>confirmation.email.title</source>
+        <target>Confirmați adresa de e-mail</target>
+      </trans-unit>
+      <trans-unit id="confirmation.phone_number.title" resname="confirmation.phone_number.title">
+        <source>confirmation.phone_number.title</source>
+        <target>Confirmați numărul de telefon</target>
+      </trans-unit>
+      <trans-unit id="confirmation.sent" resname="confirmation.sent">
+        <source>confirmation.sent</source>
+        <target>Un cod a fost trimis la {address}. Introduceți-l aici sau deschideți linkul primit împreună cu acesta.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.code" resname="confirmation.code">
+        <source>confirmation.code</source>
+        <target>Cod</target>
+      </trans-unit>
+      <trans-unit id="confirmation.submit" resname="confirmation.submit">
+        <source>confirmation.submit</source>
+        <target>Confirmați</target>
+      </trans-unit>
+      <trans-unit id="confirmation.again" resname="confirmation.again">
+        <source>confirmation.again</source>
+        <target>Trimiteți alt cod</target>
+      </trans-unit>
+      <trans-unit id="confirmation.refused" resname="confirmation.refused">
+        <source>confirmation.refused</source>
+        <target>Cod greșit sau expirat. Verificați-l sau solicitați altul.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.link_prompt" resname="confirmation.link_prompt">
+        <source>confirmation.link_prompt</source>
+        <target>Confirmați că această adresă vă aparține.</target>
+      </trans-unit>
+      <trans-unit id="confirmation.link_submit" resname="confirmation.link_submit">
+        <source>confirmation.link_submit</source>
+        <target>Confirmați această adresă</target>
+      </trans-unit>
+      <trans-unit id="confirmation.notice.title" resname="confirmation.notice.title">
+        <source>confirmation.notice.title</source>
+        <target>{provider}</target>
+      </trans-unit>
+      <trans-unit id="confirmation.notice.subject" resname="confirmation.notice.subject">
+        <source>confirmation.notice.subject</source>
+        <target>{provider}: codul dumneavoastră de confirmare</target>
+      </trans-unit>
+      <trans-unit id="confirmation.notice.body" resname="confirmation.notice.body">
+        <source>confirmation.notice.body</source>
+        <target>Codul dumneavoastră de confirmare: {code}, valabil până la {until}. Introduceți-l în cont sau deschideți linkul de mai jos. Dacă nu l-ați solicitat, ignorați acest mesaj.</target>
+      </trans-unit>
+      <trans-unit id="error.address_confirmation_refused" resname="error.address_confirmation_refused">
+        <source>error.address_confirmation_refused</source>
+        <target>Acest link a fost deja utilizat, a expirat sau a fost înlocuit. Trimiteți un cod nou din contul dumneavoastră.</target>
+      </trans-unit>
+      <trans-unit id="act.address.confirmation_sent" resname="act.address.confirmation_sent">
+        <source>act.address.confirmation_sent</source>
+        <target>Cod de confirmare trimis</target>
+      </trans-unit>
+      <trans-unit id="act.address.established" resname="act.address.established">
+        <source>act.address.established</source>
+        <target>Adresă confirmată</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
