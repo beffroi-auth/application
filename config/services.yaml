@@ -32,16 +32,17 @@ services:
     App\Twig\AccountNavigationExtension: ~
     App\Twig\ThemeExtension: ~
 
+    beffroi.session_rows_of_the_schema:
+        class: App\Http\SealedSessionRows
+        factory: ['App\Http\SealedSessionRows', 'onTheConnectionOf']
+        arguments: ['@doctrine.dbal.default_connection', '@beffroi.personal_data.encrypter']
+
     # The sessions of this kernel live in the database (config/packages/framework.yaml), and the listener
     # DoctrineBundle declares reads session.handler, which is no PdoSessionHandler: this one brings the table of
     # their rows into the schema Doctrine compares.
     beffroi.session_rows_schema_listener:
         class: Symfony\Bridge\Doctrine\SchemaListener\PdoSessionHandlerSchemaListener
-        arguments:
-            - !service
-                class: App\Http\SealedSessionRows
-                factory: ['App\Http\SealedSessionRows', 'onTheConnectionOf']
-                arguments: ['@doctrine.dbal.default_connection', '@beffroi.personal_data.encrypter']
+        arguments: ['@beffroi.session_rows_of_the_schema']
         tags:
             - { name: doctrine.event_listener, event: postGenerateSchema }
 
