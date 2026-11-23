@@ -244,19 +244,19 @@ final class ChoicesOfTheDeploymentTest extends BrowserTestCase
     }
 
     /**
-     * OIDC Core §8, decision 0006
+     * Decisions 0006 and 0057
      */
     #[Test]
-    public function theLoginPageOffersNothingOfAPersonWhoGaveTheClientNoConsent(): void
+    public function theLoginPageOffersAUsernameHintAsTheClientSentItWhetherAnAccountHoldsItOrNot(): void
     {
         // Given
         self::user();
 
         // When
-        $page = $this->loginPageHinting('alice');
+        $page = $this->loginPageHinting('mallory');
 
         // Then
-        static::assertSame('', $page->filter('input#username')->attr('value'));
+        static::assertSame('mallory', $page->filter('input#username')->attr('value'));
     }
 
     private function loginPageHinting(string $hint): Crawler
