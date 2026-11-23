@@ -28,7 +28,7 @@ final readonly class TenantSynchronizeCommand
         try {
             $tenant = $this->synchronizer->synchronize();
         } catch (TenantNotSynchronizedException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::FAILURE;
         }

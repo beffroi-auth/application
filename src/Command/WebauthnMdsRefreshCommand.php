@@ -68,7 +68,7 @@ final readonly class WebauthnMdsRefreshCommand
         try {
             $rootCertificate = $this->rootCertificate($root ?? self::FIDO_ROOT_CERTIFICATE);
         } catch (Throwable $exception) {
-            $io->error(sprintf('The root certificate cannot be read: %s', $exception->getMessage()));
+            $io->error(sprintf('The root certificate cannot be read: %s', PrintedText::inBlock($exception->getMessage())));
 
             return Command::FAILURE;
         }
@@ -81,7 +81,7 @@ final readonly class WebauthnMdsRefreshCommand
                 $blob = $this->verifier->verify($this->download->of($source), $rootCertificate);
             } catch (DownloadRefusedException|MetadataBlobRefusedException $exception) {
                 ++$refused;
-                $io->error(sprintf('The blob of %s is refused, nothing of it is kept: %s', $source, $exception->getMessage()));
+                $io->error(sprintf('The blob of %s is refused, nothing of it is kept: %s', $source, PrintedText::inBlock($exception->getMessage())));
                 continue;
             }
             $name = self::name($source);

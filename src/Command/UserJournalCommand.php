@@ -26,6 +26,7 @@ use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
@@ -84,7 +85,7 @@ final readonly class UserJournalCommand
         try {
             $period = Period::ofDays(self::day($from, 'from'), self::day($to, 'to'));
         } catch (InvalidArgumentException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::FAILURE;
         }
@@ -118,18 +119,18 @@ final readonly class UserJournalCommand
      */
     private function writeTable(SymfonyStyle $io, User $user, ?Period $period, array $acts): int
     {
-        $io->title(sprintf('Journal of "%s"', $user->username));
+        $io->title(sprintf('Journal of "%s"', PrintedText::of($user->username)));
         if ($acts === []) {
-            $io->text(sprintf('The journal holds no act of "%s" over that stretch of time.', $user->username));
+            $io->text(sprintf('The journal holds no act of "%s" over that stretch of time.', PrintedText::of($user->username)));
         } else {
             $io->table(
                 ['Act', 'Occurred (UTC)', 'Application', 'From', 'Administrator'],
                 array_map(static fn (JournalEntry $entry): array => [
                     $entry->act,
                     $entry->occurredAt->format('Y-m-d H:i:s'),
-                    $entry->client ?? '',
+                    PrintedText::of($entry->client ?? ''),
                     $entry->context->ipAddress ?? 'address not recorded',
-                    $entry->author->value ?? '',
+                    PrintedText::of($entry->author->value ?? ''),
                 ], $acts),
             );
             $io->text(sprintf('%d act(s), most recent first.', count($acts)));
@@ -159,7 +160,7 @@ final readonly class UserJournalCommand
                 'acts' => array_map(ArchivedFacts::actAsWritten(...), $acts),
             ],
             JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES,
-        ));
+        ), OutputInterface::OUTPUT_RAW);
 
         return Command::SUCCESS;
     }

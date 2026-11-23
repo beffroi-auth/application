@@ -55,7 +55,7 @@ final readonly class UserRevokeSessionCommand
         }
         $session = $this->sessions->find(Uuid::fromString(trim($id)));
         if ($session === null || ! $session->user->id->equals($user->id)) {
-            $io->error(sprintf('The user "%s" has no session "%s".', $user->username, trim($id)));
+            $io->error(sprintf('The user "%s" has no session "%s".', PrintedText::inBlock($user->username), trim($id)));
 
             return Command::FAILURE;
         }
@@ -66,7 +66,7 @@ final readonly class UserRevokeSessionCommand
         }
 
         $this->terminator->end($session, SessionEnd::User, $this->contexts->fromConsole(self::NAME));
-        $io->success(sprintf('The session "%s" of "%s" is ended.', trim($id), $user->username));
+        $io->success(sprintf('The session "%s" of "%s" is ended.', trim($id), PrintedText::inBlock($user->username)));
 
         return Command::SUCCESS;
     }

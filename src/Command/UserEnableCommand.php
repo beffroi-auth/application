@@ -43,11 +43,11 @@ final readonly class UserEnableCommand
         }
 
         if (! $this->enabling->enable($user, $this->contexts->fromConsole(self::NAME))) {
-            $io->note(sprintf('The user "%s" was enabled already: nothing changed.', $user->username));
+            $io->note(sprintf('The user "%s" was enabled already: nothing changed.', PrintedText::inBlock($user->username)));
 
             return Command::SUCCESS;
         }
-        $io->success(sprintf('The user "%s" may sign in again.', $user->username));
+        $io->success(sprintf('The user "%s" may sign in again.', PrintedText::inBlock($user->username)));
 
         return Command::SUCCESS;
     }

@@ -70,12 +70,12 @@ final readonly class UserSetPasswordCommand
                 new PlainPassword($password, PasswordLength::under($user->tenant->loginFloor)),
             );
         } catch (PasswordRefusedException|CredentialEnrolmentFailedException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::INVALID;
         }
 
-        $io->success(sprintf('The password of "%s" is set.', $user->username));
+        $io->success(sprintf('The password of "%s" is set.', PrintedText::inBlock($user->username)));
 
         return Command::SUCCESS;
     }

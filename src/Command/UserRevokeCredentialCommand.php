@@ -56,7 +56,7 @@ final readonly class UserRevokeCredentialCommand
         }
         $credential = $this->credentials->find(Uuid::fromString(trim($id)));
         if ($credential === null || ! $credential->user->id->equals($user->id)) {
-            $io->error(sprintf('The user "%s" has no credential "%s".', $user->username, trim($id)));
+            $io->error(sprintf('The user "%s" has no credential "%s".', PrintedText::inBlock($user->username), trim($id)));
 
             return Command::FAILURE;
         }
@@ -68,13 +68,23 @@ final readonly class UserRevokeCredentialCommand
         }
         $label = $credential->label() ?? trim($id);
         if ($credential->isRevoked()) {
-            $io->warning(sprintf('The %s "%s" was revoked on %s already.', $kind, $label, $credential->revokedAt?->format('Y-m-d H:i:s')));
+            $io->warning(sprintf(
+                'The %s "%s" was revoked on %s already.',
+                $kind,
+                PrintedText::inBlock($label),
+                $credential->revokedAt?->format('Y-m-d H:i:s'),
+            ));
 
             return Command::SUCCESS;
         }
 
         $this->revocation->revoke($credential, $this->contexts->fromConsole(self::NAME));
-        $io->success(sprintf('The %s "%s" of the user "%s" is revoked; it never authenticates again.', $kind, $label, $user->username));
+        $io->success(sprintf(
+            'The %s "%s" of the user "%s" is revoked; it never authenticates again.',
+            $kind,
+            PrintedText::inBlock($label),
+            PrintedText::inBlock($user->username),
+        ));
 
         return Command::SUCCESS;
     }

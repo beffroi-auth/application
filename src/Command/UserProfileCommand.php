@@ -150,15 +150,15 @@ final readonly class UserProfileCommand
                 ),
             );
         } catch (InvalidArgumentException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::INVALID;
         }
 
         $io->definitionList([
-            'Username' => $user->username,
+            'Username' => PrintedText::of($user->username),
         ], ...UserShowCommand::claims($user));
-        $io->success(sprintf('The user "%s" is described.', $user->username));
+        $io->success(sprintf('The user "%s" is described.', PrintedText::inBlock($user->username)));
 
         return Command::SUCCESS;
     }

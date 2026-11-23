@@ -54,12 +54,12 @@ final readonly class WebauthnMdsImportCommand
                 [$aaguid, $description, $payload] = $this->wrap($file);
             } catch (Throwable $exception) {
                 ++$refused;
-                $io->error(sprintf('"%s" is not a metadata statement, nothing of it is kept: %s', $file, $exception->getMessage()));
+                $io->error(sprintf('"%s" is not a metadata statement, nothing of it is kept: %s', $file, PrintedText::inBlock($exception->getMessage())));
                 continue;
             }
             $name = 'statement-' . $aaguid;
             $this->store->write($name, $payload);
-            $io->success(sprintf('The statement of "%s" (%s) is stored as "%s".', $description, $aaguid, $name));
+            $io->success(sprintf('The statement of "%s" (%s) is stored as "%s".', PrintedText::inBlock($description), $aaguid, $name));
         }
 
         return $refused === 0 ? Command::SUCCESS : Command::FAILURE;

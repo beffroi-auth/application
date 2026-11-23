@@ -49,17 +49,17 @@ final readonly class UserApplicationsCommand
         }
         $consents = $this->consents->activeOf($user);
         if ($consents === []) {
-            $io->text(sprintf('"%s" has agreed to let no application obtain anything about them.', $user->username));
+            $io->text(sprintf('"%s" has agreed to let no application obtain anything about them.', PrintedText::of($user->username)));
 
             return Command::SUCCESS;
         }
-        $io->title(sprintf('Applications of "%s"', $user->username));
+        $io->title(sprintf('Applications of "%s"', PrintedText::of($user->username)));
         $io->table(
             ['Client id', 'Name', 'Access', 'Granted', 'Renewable', 'Last renewed', 'Awaiting'],
             array_map(
                 static fn (ApplicationHolding $holding): array => [
                     $holding->consent->clientId,
-                    $holding->consent->client->registration->presentation->name,
+                    PrintedText::of($holding->consent->client->registration->presentation->name),
                     self::access($holding->consent),
                     self::date($holding->consent->grantedAt),
                     (string) $holding->renewable,

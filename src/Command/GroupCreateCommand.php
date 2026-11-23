@@ -42,11 +42,11 @@ final readonly class GroupCreateCommand
         try {
             $group = $this->provisioner->create($tenant, $name, $this->contexts->fromConsole(self::NAME));
         } catch (InvalidArgumentException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::INVALID;
         } catch (GroupAlreadyExistsException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::FAILURE;
         }

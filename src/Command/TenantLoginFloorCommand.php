@@ -44,7 +44,7 @@ final readonly class TenantLoginFloorCommand
         try {
             $named = $this->predicates->named($floor);
         } catch (InvalidArgumentException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::INVALID;
         }

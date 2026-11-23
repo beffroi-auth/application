@@ -49,7 +49,7 @@ final readonly class KeysGenerateCommand
         try {
             $generatedFor = $algorithm === null ? $this->signatureAlgorithms->defaultAlgorithm() : $this->algorithms->named($algorithm);
         } catch (UnsupportedAlgorithmException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::FAILURE;
         }

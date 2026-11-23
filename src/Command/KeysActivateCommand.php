@@ -49,7 +49,7 @@ final readonly class KeysActivateCommand
         try {
             $key = $this->takeOver->activate($tenant, $kid, $this->contexts->fromConsole(self::NAME));
         } catch (KeyNotFoundException|LogicException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::FAILURE;
         }

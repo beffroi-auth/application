@@ -48,7 +48,7 @@ final readonly class ClientTokenListCommand
             ['Id', 'Name', 'Issued', 'Expires', 'Served', 'Administration', 'State', 'Gives'],
             array_map(static fn (InitialAccessToken $token): array => [
                 $token->id->toRfc4122(),
-                $token->name,
+                PrintedText::of($token->name),
                 $token->issuedAt->format('Y-m-d H:i:s'),
                 $token->expiresAt->format('Y-m-d H:i:s'),
                 sprintf('%d of %d', $token->registrationsServed, $token->registrationsAllowed),

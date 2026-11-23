@@ -64,8 +64,8 @@ final readonly class UserShowCommand
                 array_map(fn (Credential $credential): array => [
                     $credential->kind(),
                     $credential->id->toRfc4122(),
-                    $credential->label() ?? '',
-                    $credential instanceof ModelDeclaringCredentialInterface ? $this->authenticator($credential) : '',
+                    PrintedText::of($credential->label() ?? ''),
+                    $credential instanceof ModelDeclaringCredentialInterface ? PrintedText::of($this->authenticator($credential)) : '',
                     self::date($credential->createdAt),
                     self::date($credential->lastUsedAt),
                     $credential instanceof RevocableCredentialInterface ? self::date($credential->revokedAt) : '',
@@ -81,7 +81,7 @@ final readonly class UserShowCommand
             $io->table(
                 ['Group', 'Source', 'Added'],
                 array_map(static fn (GroupMembership $membership): array => [
-                    $membership->group->name,
+                    PrintedText::of($membership->group->name),
                     $membership->source->value,
                     self::date($membership->addedAt),
                 ], $memberships),
@@ -114,10 +114,10 @@ final readonly class UserShowCommand
     {
         return [
             [
-                'Username' => $user->username,
+                'Username' => PrintedText::of($user->username),
             ],
             [
-                'Subject' => $user->subject->value,
+                'Subject' => PrintedText::of($user->subject->value),
             ],
             [
                 'Status' => $user->isEnabled() ? 'enabled' : sprintf('disabled since %s', self::date($user->disabledAt)),
@@ -126,10 +126,12 @@ final readonly class UserShowCommand
                 'Created' => self::date($user->createdAt),
             ],
             [
-                'Email' => $user->email === null ? '' : sprintf('%s (%s)', $user->email, $user->emailVerified ? 'verified' : 'unverified'),
+                'Email' => $user->email === null
+                    ? ''
+                    : sprintf('%s (%s)', PrintedText::of((string) $user->email), $user->emailVerified ? 'verified' : 'unverified'),
             ],
             [
-                'Source' => self::source($user->source),
+                'Source' => PrintedText::of(self::source($user->source)),
             ],
         ];
     }
@@ -156,23 +158,23 @@ final readonly class UserShowCommand
     {
         return [
             [
-                'Name' => $user->profile->name ?? '',
+                'Name' => PrintedText::of($user->profile->name ?? ''),
             ],
             [
-                'Given name' => $user->profile->givenName ?? '',
+                'Given name' => PrintedText::of($user->profile->givenName ?? ''),
             ],
             [
-                'Family name' => $user->profile->familyName ?? '',
+                'Family name' => PrintedText::of($user->profile->familyName ?? ''),
             ],
             [
                 'Phone number' => $user->phoneNumber === null
                     ? ''
-                    : sprintf('%s (%s)', $user->phoneNumber, $user->phoneNumberVerified ? 'verified' : 'unverified'),
+                    : sprintf('%s (%s)', PrintedText::of($user->phoneNumber), $user->phoneNumberVerified ? 'verified' : 'unverified'),
             ],
             [
                 'Address' => $user->address === null
                     ? ''
-                    : implode(', ', array_filter(
+                    : PrintedText::of(implode(', ', array_filter(
                         [
                             $user->address->streetAddress,
                             $user->address->postalCode,
@@ -181,7 +183,7 @@ final readonly class UserShowCommand
                             $user->address->country,
                         ],
                         static fn (?string $member): bool => $member !== null,
-                    )),
+                    ))),
             ],
         ];
     }
