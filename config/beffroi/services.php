@@ -567,6 +567,7 @@ use Beffroi\Oidc\Application\Authorization\RequestObjectValidator;
 use Beffroi\Oidc\Application\Authorization\ResponseDocumentIssuer;
 use Beffroi\Oidc\Application\Claims\AssignedSubjectIdentifiers;
 use Beffroi\Oidc\Application\Claims\PairwiseSubjectIdentifierResolver;
+use Beffroi\Oidc\Application\Claims\Sector\IdentifiersWithoutARedirection;
 use Beffroi\Oidc\Application\Claims\Sector\JwksUriSectorIdentifier;
 use Beffroi\Oidc\Application\Claims\Sector\RedirectUriSectorIdentifier;
 use Beffroi\Oidc\Application\Claims\Sector\RegisteredSectorIdentifier;
@@ -1826,6 +1827,7 @@ return static function (ContainerConfigurator $container): void {
 
     // The first subject type tagged is what a client that registers none takes, and the sector identifier
     // sources are read in the order they are wired.
+    $services->set(IdentifiersWithoutARedirection::class);
     $services->set(RegisteredSectorIdentifier::class)->tag('beffroi.oidc.sector_identifier_source');
     $services->set(RedirectUriSectorIdentifier::class)->tag('beffroi.oidc.sector_identifier_source');
     $services->set(JwksUriSectorIdentifier::class)->tag('beffroi.oidc.sector_identifier_source');
