@@ -525,6 +525,13 @@
         @apply max-w-prose;
     }
 
+    /* A paragraph drawn as a box, an alert or the place of what the account holds nothing of, is a block of
+       the page as a table and a panel are, and takes their width: a line of text alone is held to the width
+       of a column of text. */
+    main[data-page="account"] > p:is([data-error], [data-warning], [data-copy-refused], [data-two-factor], [data-approvals="none"]) {
+        @apply max-w-none;
+    }
+
     /* What the account holds nothing of: said in the shape of the panel that would have held it. */
     main[data-page="account"] > p[data-two-factor="none"],
     main[data-page="account"] > p[data-approvals="none"] {
@@ -646,6 +653,13 @@
 
     main[data-page="account"] section[data-panel] > p {
         @apply max-w-prose text-sm text-base-content/60;
+    }
+
+    /* The gap of the panel spaces what it holds, as the gap of the page spaces the panels, and a list that
+       opens a line starts on the line of its label. */
+    main[data-page="account"] section[data-panel] > :is(p, ul, ol, form),
+    main[data-page="account"] :is(dd, li) > ul:first-child {
+        @apply mt-0;
     }
 
     /* The border and the surface of a panel are drawn once, by the panel, and not again by what it holds. */
@@ -1194,17 +1208,17 @@
     }
 
     /*
-     * The page of one application (issue beffroi-auth/beffroi#451) opens on what that application holds
-     * and not on who is signed in, so its first paragraph is a state of the panel and not the subtitle
-     * the rules above give one. The date of the last renewal keeps that subtitle shape: it is read under
-     * the count and not beside it.
+     * What the page of one application (issue beffroi-auth/beffroi#451) and the page of the archive say of
+     * the account, in a panel, is read as the text of the page; what it means is the smaller line under it
+     * that every panel has, and so is a panel that holds nothing.
      */
-    main[data-page="account"] > p[data-application="renewable"] {
-        @apply alert alert-info alert-soft mt-0 text-base;
+    main[data-page="account"] section[data-panel] > p:is([data-application], [data-archive]):not([data-pending="0"]) {
+        @apply text-base text-base-content;
     }
 
-    main[data-page="account"] > p[data-application="pending"][data-pending="0"] {
-        @apply rounded-box mt-0 border border-dashed border-base-content/20 px-5 py-6 text-center text-sm text-base-content/60;
+    /* What the file holds is read down, one chapter a line, in two columns where the page is wide. */
+    main[data-page="account"] ul[data-chapters] {
+        @apply grid list-disc gap-x-10 gap-y-1 ps-5 text-sm sm:grid-cols-2;
     }
 
     /* What a client wrote for the person it is waiting on (CIBA Core §7.1), beside the scopes it asked. */

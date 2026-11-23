@@ -30,52 +30,56 @@
 
     {# What the file holds is the chapters it is assembled from, so a kind of fact this provider comes to
        hold about a person is named here by being wired and this page is not edited. #}
-    <h2>{{ 'archive.what_it_holds'|trans }}</h2>
-    <ul data-chapters="{{ chapters|length }}">
-        {% for chapter in chapters %}
-            <li data-chapter="{{ chapter }}">{{ ('archive.chapter.' ~ chapter)|trans }}</li>
-        {% endfor %}
-    </ul>
+    <section data-panel="chapters">
+        <h2>{{ 'archive.what_it_holds'|trans }}</h2>
+        <ul data-chapters="{{ chapters|length }}">
+            {% for chapter in chapters %}
+                <li data-chapter="{{ chapter }}">{{ ('archive.chapter.' ~ chapter)|trans }}</li>
+            {% endfor %}
+        </ul>
+    </section>
 
-    <h2>{{ 'archive.your_request'|trans }}</h2>
-    <p data-archive="{{ state }}">{{ ('archive.' ~ state)|trans }}</p>
-    {# How long the file this person asks for is kept, read where its state is and not inside the button
-       that asks for one. #}
-    <p data-archive-kept-for="{{ kept_for_days }}">{{ 'archive.kept_for'|trans({days: kept_for_days}) }}</p>
-    {% if state == 'being_built' or state == 'stalled' %}
-        <p><time datetime="{{ archive.askedAt|date('c') }}">{{ 'archive.asked_at'|trans({moment: archive.askedAt|beffroi_moment(user)}) }}</time></p>
+    <section data-panel="request">
+        <h2>{{ 'archive.your_request'|trans }}</h2>
+        <p data-archive="{{ state }}">{{ ('archive.' ~ state)|trans }}</p>
+        {# How long the file this person asks for is kept, read where its state is and not inside the button
+           that asks for one. #}
+        <p data-archive-kept-for="{{ kept_for_days }}">{{ 'archive.kept_for'|trans({days: kept_for_days}) }}</p>
+        {% if state == 'being_built' or state == 'stalled' %}
+            <p><time datetime="{{ archive.askedAt|date('c') }}">{{ 'archive.asked_at'|trans({moment: archive.askedAt|beffroi_moment(user)}) }}</time></p>
 
-        {# A request a person can take back, whichever of the two states it is in: one they changed their
-           mind about, and one whose build never came back, are one row and one thing to say about it. The
-           state with no file says so in the label, there being nothing to delete yet. #}
-        <form method="post" action="{{ path('beffroi_interaction_account_archive_drop') }}" data-archive-cancel>
-            <input type="hidden" name="_token" value="{{ csrf_token('beffroi_archive_drop') }}">
-            <button type="submit">{{ 'archive.cancel'|trans }}</button>
-        </form>
-    {% elseif state == 'ready' %}
-        <p><time datetime="{{ archive.builtAt|date('c') }}">{{ 'archive.built_at'|trans({moment: archive.builtAt|beffroi_moment(user)}) }}</time></p>
-        <p><time datetime="{{ archive.expiresAt|date('c') }}">{{ 'archive.expires_at'|trans({moment: archive.expiresAt|beffroi_moment(user)}) }}</time></p>
-        <p><a href="{{ path('beffroi_interaction_account_archive_file') }}" data-archive-file download>{{ 'archive.download'|trans }}</a></p>
+            {# A request a person can take back, whichever of the two states it is in: one they changed their
+               mind about, and one whose build never came back, are one row and one thing to say about it. The
+               state with no file says so in the label, there being nothing to delete yet. #}
+            <form method="post" action="{{ path('beffroi_interaction_account_archive_drop') }}" data-archive-cancel>
+                <input type="hidden" name="_token" value="{{ csrf_token('beffroi_archive_drop') }}">
+                <button type="submit">{{ 'archive.cancel'|trans }}</button>
+            </form>
+        {% elseif state == 'ready' %}
+            <p><time datetime="{{ archive.builtAt|date('c') }}">{{ 'archive.built_at'|trans({moment: archive.builtAt|beffroi_moment(user)}) }}</time></p>
+            <p><time datetime="{{ archive.expiresAt|date('c') }}">{{ 'archive.expires_at'|trans({moment: archive.expiresAt|beffroi_moment(user)}) }}</time></p>
+            <p><a href="{{ path('beffroi_interaction_account_archive_file') }}" data-archive-file download>{{ 'archive.download'|trans }}</a></p>
 
-        {# The same file under a passphrase this person chose (issue #483). A POST, because a passphrase
-           belongs in a body and never in a query string, and the one form of these pages whose answer is
-           not a redirection: its answer is the file, and a passphrase kept to be used after a redirection
-           would be a passphrase written to a session. #}
-        <form method="post" action="{{ path('beffroi_interaction_account_archive_wrapped_file') }}" data-archive-wrap="{{ container }}">
-            <input type="hidden" name="_token" value="{{ csrf_token('beffroi_archive_wrap') }}">
-            <p>{{ 'archive.wrapped_explanation'|trans({minimum: passphrase_minimum, container: container}) }}</p>
-            <label for="archive-passphrase">{{ 'archive.passphrase'|trans }}</label>
-            <input type="password" id="archive-passphrase" name="password" minlength="{{ passphrase_minimum }}" autocomplete="new-password" required>
-            <button type="submit">{{ 'archive.download_wrapped'|trans }}</button>
-        </form>
+            {# The same file under a passphrase this person chose (issue #483). A POST, because a passphrase
+               belongs in a body and never in a query string, and the one form of these pages whose answer is
+               not a redirection: its answer is the file, and a passphrase kept to be used after a redirection
+               would be a passphrase written to a session. #}
+            <form method="post" action="{{ path('beffroi_interaction_account_archive_wrapped_file') }}" data-archive-wrap="{{ container }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('beffroi_archive_wrap') }}">
+                <p>{{ 'archive.wrapped_explanation'|trans({minimum: passphrase_minimum, container: container}) }}</p>
+                <label for="archive-passphrase">{{ 'archive.passphrase'|trans }}</label>
+                <input type="password" id="archive-passphrase" name="password" minlength="{{ passphrase_minimum }}" autocomplete="new-password" required>
+                <button type="submit">{{ 'archive.download_wrapped'|trans }}</button>
+            </form>
 
-        {# The file they have is a file this provider stops holding when they say so (issue #453). A week
-           is how long it would stay by itself, and nobody has to wait it out: the row goes, and the page
-           says again what asking for one would give them. #}
-        <form method="post" action="{{ path('beffroi_interaction_account_archive_drop') }}" data-archive-drop>
-            <input type="hidden" name="_token" value="{{ csrf_token('beffroi_archive_drop') }}">
-            <p>{{ 'archive.drop_explanation'|trans }}</p>
-            <button type="submit">{{ 'archive.drop'|trans }}</button>
-        </form>
-    {% endif %}
+            {# The file they have is a file this provider stops holding when they say so (issue #453). A week
+               is how long it would stay by itself, and nobody has to wait it out: the row goes, and the page
+               says again what asking for one would give them. #}
+            <form method="post" action="{{ path('beffroi_interaction_account_archive_drop') }}" data-archive-drop>
+                <input type="hidden" name="_token" value="{{ csrf_token('beffroi_archive_drop') }}">
+                <p>{{ 'archive.drop_explanation'|trans }}</p>
+                <button type="submit">{{ 'archive.drop'|trans }}</button>
+            </form>
+        {% endif %}
+    </section>
 {% endblock %}
