@@ -201,7 +201,7 @@
             "dist": {
                 "type": "path",
                 "url": "../../src/core",
-                "reference": "5fb491842d7d515320a778948eb12a4a89e8b1ea"
+                "reference": "174a88244029ec407e87d3e41b5f2bbf8a2ad7c4"
             },
             "require": {
                 "ext-intl": "*",
@@ -215,8 +215,8 @@
                 "spomky-labs/pki-framework": "^1.2.1",
                 "symfony/key-management": "8.2.*",
                 "symfony/uid": "8.2.*",
-                "web-auth/webauthn-lib": "^5.3.12",
-                "web-token/jwt-library": "^4.2"
+                "web-auth/webauthn-lib": "^5.3.15",
+                "web-token/jwt-library": "^4.2.7"
             },
             "type": "library",
             "extra": {
@@ -252,13 +252,13 @@
             "dist": {
                 "type": "path",
                 "url": "../../src/oidc",
-                "reference": "dad1ee857a56e06546119aae2ea9f5c80adbe414"
+                "reference": "19ec8427d43530d8555794d4ec6f88ef39d0c73e"
             },
             "require": {
                 "beffroi/core": "self.version",
                 "php": ">=8.4",
                 "spomky-labs/pki-framework": "^1.2.1",
-                "web-token/jwt-library": "^4.2"
+                "web-token/jwt-library": "^4.2.7"
             },
             "type": "library",
             "extra": {
@@ -10412,5 +10412,5 @@
         "ext-zip": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }
