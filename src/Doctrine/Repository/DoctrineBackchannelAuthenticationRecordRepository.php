@@ -83,6 +83,7 @@ final readonly class DoctrineBackchannelAuthenticationRecordRepository extends D
             ->andWhere('r.approvedAt IS NULL')
             ->andWhere('r.deniedAt IS NULL')
             ->andWhere('r.usedAt IS NULL')
+            ->andWhere('r.revokedAt IS NULL')
             ->setParameter('user', $user->id, UuidType::NAME)
             ->setParameter('now', $now, Types::DATETIME_IMMUTABLE)
             ->orderBy('r.issuedAt', SortDirection::Ascending)
