@@ -38,6 +38,9 @@ COPY --link apps/beffroi/frankenphp/administration.Caddyfile /etc/frankenphp/adm
 
 ENTRYPOINT ["docker-entrypoint"]
 
+# The development image keeps the administration API of Caddy, which its health check and the lab read; the
+# production image, built from another base, has none.
+ENV CADDY_ADMIN=localhost:2019
 HEALTHCHECK --start-period=60s CMD curl -f http://localhost:2019/metrics || exit 1
 CMD [ "frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile" ]
 
@@ -144,14 +147,15 @@ COPY --chown=33:0 --from=frankenphp_prod_builder /app/var /app/var
 # stops on a size of each of their variables that bounds nothing (issue #1198). The access log of each site keeps the
 # value of no parameter and of no ticket.
 # The configuration is adapted and not validated: validating provisions it, which draws the key of the internal
-# CA of Caddy into /data, and every deployment of the image would start with the same one.
+# CA of Caddy into /data, and every deployment of the image would start with the same one. Adapted as the image runs
+# it, the configuration has no administration API of Caddy.
 RUN set -eux; \
     mkdir -p /data/caddy /config/caddy; \
     chown -R 33:0 /data /config; \
     chmod -R g=u /app/var /data /config; \
     find / -xdev -perm /6000 -type f -exec chmod a-s {} +; \
     frankenphp version; \
-    frankenphp adapt --config /etc/frankenphp/Caddyfile > /dev/null; \
+    frankenphp adapt --config /etc/frankenphp/Caddyfile | grep -q '"admin":{"disabled":true}'; \
     TLS_TERMINATION=proxy SERVER_NAME=:80 frankenphp adapt --config /etc/frankenphp/Caddyfile > /dev/null; \
     behind_a_proxy="$(TLS_TERMINATION=proxy SERVER_NAME=:80 ADMINISTRATION_SERVER_NAME=:81 \
         CADDY_EXTRA_CONFIG='import administration.Caddyfile' \
