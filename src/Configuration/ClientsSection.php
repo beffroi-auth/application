@@ -220,7 +220,7 @@ final readonly class ClientsSection extends ConfigurationSection
             ->end()
             ->end()
             ->booleanNode('may_act_for_a_user')
-            ->info('Whether this client may present a token somebody signed in for. False for a service that only ever exchanges tokens of its own (RFC 6749 §4.4): a gateway carrying a user\'s token is not the same party, and a deployment says which of the two it registered.')
+            ->info('Whether this client may present a token that names a person, whether somebody signed in for it or a client named its subject. False for a service that only ever exchanges tokens of its own (RFC 6749 §4.4): a gateway carrying a user\'s token is not the same party, and a deployment says which of the two it registered.')
             ->defaultFalse()
             ->end()
             ->end()
