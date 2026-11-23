@@ -33,6 +33,12 @@ services:
     test.beffroi.password_hasher:
         alias: Beffroi\Core\Port\PasswordHasherInterface
         public: true
+    test.beffroi.journal:
+        alias: Beffroi\Core\Port\JournalInterface
+        public: true
+    test.beffroi.journal_verification:
+        alias: Beffroi\Core\Application\Journal\JournalVerification
+        public: true
     test.beffroi.sessions:
         alias: Beffroi\Core\Port\AuthenticationSessionRepositoryInterface
         public: true

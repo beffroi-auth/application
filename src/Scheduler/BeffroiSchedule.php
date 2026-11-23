@@ -12,6 +12,7 @@ use App\Message\ForgetTheRecordsThatAreDead;
 use App\Message\RefreshTheAddressDatabases;
 use App\Message\RefreshTheSamlMetadata;
 use App\Message\RemoveUnusedClients;
+use App\Message\SignTheJournal;
 use Symfony\Component\Scheduler\Attribute\AsSchedule;
 use Symfony\Component\Scheduler\RecurringMessage;
 use Symfony\Component\Scheduler\Schedule;
@@ -30,6 +31,11 @@ final readonly class BeffroiSchedule implements ScheduleProviderInterface
     public const string UNUSED_CLIENTS_EVERY = '1 hour';
 
     public const string JOURNAL_RETENTION_EVERY = '1 day';
+
+    /**
+     * In seconds: what the journal holds past its last signature is held by its chain alone.
+     */
+    public const int JOURNAL_SIGNATURE_EVERY = 300;
 
     /**
      * An hour and not a day: an archive holds everything known of a person in clear at once.
@@ -59,6 +65,7 @@ final readonly class BeffroiSchedule implements ScheduleProviderInterface
                 new RemoveUnusedClients(),
             ))
             ->add(RecurringMessage::every(self::JOURNAL_RETENTION_EVERY, new ForgetTheActsPastTheirRetention()))
+            ->add(RecurringMessage::every(self::JOURNAL_SIGNATURE_EVERY, new SignTheJournal()))
             ->add(RecurringMessage::every(
                 self::EXPIRED_ARCHIVES_EVERY,
                 new ForgetTheExpiredArchives(),

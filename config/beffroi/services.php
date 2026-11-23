@@ -38,6 +38,7 @@ use Beffroi\Oidc\Application\Administration\PersonDelivery;
 use Beffroi\Oidc\Application\Administration\AdministratorOfARequest;
 use Beffroi\Oidc\Application\Administration\PersonsOfTheTenant;
 use App\Doctor\ClientsSignedWithHeldKeys;
+use App\Doctor\JournalHoldsTogether;
 use App\Doctor\NotificationsLanePatience;
 use Beffroi\Oidc\Application\Secret\SecretDrawer;
 use Beffroi\Oidc\Application\Secret\UserCodeDrawer;
@@ -218,6 +219,7 @@ use App\Http\TotpProvisioningStore;
 use App\Http\TwoFactorPage;
 use App\Http\TotpSecretShown;
 use App\Key\FilePairwiseSalt;
+use App\Key\FileJournalCheckpoints;
 use App\Key\DormantKeyAlgorithms;
 use App\Key\FileTenantKeyRepository;
 use App\Key\KeysOpenedAtStart;
@@ -264,6 +266,7 @@ use App\Tenant\TenantFactory;
 use App\Locale\Moments;
 use App\Locale\UserTimeZone;
 use App\Doctrine\Repository\DoctrineJournal;
+use App\Doctrine\Repository\DoctrineChainOfActs;
 use App\Identity\LocaleClaimFactory;
 use App\Identity\WiredClaims;
 use Beffroi\Core\Port\ClaimsInterface;
@@ -296,6 +299,12 @@ use Beffroi\Core\Application\Session\ProvedMethods;
 use Beffroi\Core\Application\Session\ProvenancePlace;
 use Beffroi\Core\Application\Session\SessionProvenanceEnrichment;
 use Beffroi\Core\Application\Journal\JournalRetention;
+use Beffroi\Core\Application\Journal\ChainWalk;
+use Beffroi\Core\Application\Journal\JournalCheckpointJwsKind;
+use Beffroi\Core\Application\Journal\JournalCheckpoints;
+use Beffroi\Core\Application\Journal\JournalCut;
+use Beffroi\Core\Application\Journal\JournalSignature;
+use Beffroi\Core\Application\Journal\JournalVerification;
 use App\Doctrine\Repository\DoctrineDisclosures;
 use Beffroi\Oidc\Application\Archive\DisclosuresChapter;
 use Beffroi\Oidc\Application\Disclosure\DisclosureRecording;
@@ -533,6 +542,8 @@ use Beffroi\Core\Port\DecryptionKeyProviderInterface;
 use Beffroi\Core\Port\GeoLocatorInterface;
 use Beffroi\Core\Port\JweDecrypterInterface;
 use Beffroi\Core\Port\JwsSignerInterface;
+use Beffroi\Core\Port\SignedCheckpointsInterface;
+use Beffroi\Core\Port\ChainOfActsInterface;
 use Beffroi\Core\Port\JwsVerifierInterface;
 use Beffroi\Core\Port\KeyAlgorithmsInterface;
 use Beffroi\Core\Port\RotationSchedulesInterface;
@@ -1029,8 +1040,21 @@ return static function (ContainerConfigurator $container): void {
     $services->alias(ActsOfAPersonInterface::class, DoctrineJournal::class);
     $services->alias(CanPageActsOfAPersonInterface::class, DoctrineJournal::class);
     $services->alias(CanCountActsInterface::class, DoctrineJournal::class);
+    $services->set(DoctrineChainOfActs::class);
+    $services->alias(ChainOfActsInterface::class, DoctrineChainOfActs::class);
+    $services->set(FileJournalCheckpoints::class);
+    $services->alias(SignedCheckpointsInterface::class, FileJournalCheckpoints::class);
     $services->set(ActRecording::class);
+    $services->set(ChainWalk::class);
+    $services->set(JournalCheckpoints::class);
+    $services->set(JournalSignature::class);
+    $services->set(JournalVerification::class);
     $services->set(JournalRetention::class);
+    $services->set(JournalCut::class);
+    $services->set(JournalCheckpointJwsKind::class)->arg(
+        '$signedAgainWithin',
+        inline_service(DateInterval::class)->args(['PT' . (2 * BeffroiSchedule::JOURNAL_SIGNATURE_EVERY) . 'S']),
+    )->tag('beffroi.key_bound_artifact');
     $services->set(DoctrineDisclosures::class);
     $services->alias(DisclosuresInterface::class, DoctrineDisclosures::class);
     $services->alias(DisclosuresOfAPersonInterface::class, DoctrineDisclosures::class);
@@ -1160,6 +1184,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(LaneBacklogs::class)->args([service('messenger.receiver_locator')]);
     $services->set(InstanceStatistics::class);
     $services->set(ClientsSignedWithHeldKeys::class)->arg('$sources', tagged_iterator('beffroi.oidc.client_source'))->tag('beffroi.doctor_check');
+    $services->set(JournalHoldsTogether::class)->tag('beffroi.doctor_check');
     $services
         ->set(NotificationsLanePatience::class)
         ->args([

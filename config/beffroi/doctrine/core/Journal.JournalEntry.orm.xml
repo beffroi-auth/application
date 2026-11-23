@@ -8,7 +8,7 @@
         <indexes>
             <!-- What the page of a person reads: the acts of their account, named one by one, the newest first (ActsOfAnAccount). -->
             <index name="beffroi_journal_person" columns="tenant_id,subject,act,id"/>
-            <!-- What the retention reads, which walks by date and not by identifier: a row written late for an act that happened early is forgotten on the date of the act. -->
+            <!-- What the statistics read, the acts of a tenant counted since a moment. The retention follows the order of the chain instead (decision 0060). -->
             <index name="beffroi_journal_kept_until" columns="tenant_id,occurred_at"/>
         </indexes>
         <id name="id" type="uuid" column="id"/>
