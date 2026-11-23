@@ -1777,6 +1777,10 @@
         <source>archive.nothing_to_drop</source>
         <target>Já não há nada para eliminar.</target>
       </trans-unit>
+      <trans-unit id="archive.too_many_requests" resname="archive.too_many_requests">
+        <source>archive.too_many_requests</source>
+        <target>Demasiadas tentativas. Aguarde um momento e tente novamente.</target>
+      </trans-unit>
       <trans-unit id="sessions.end_others" resname="sessions.end_others">
         <source>sessions.end_others</source>
         <target>Terminar todas as outras sessões</target>

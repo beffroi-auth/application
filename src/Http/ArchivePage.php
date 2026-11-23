@@ -22,6 +22,8 @@ final readonly class ArchivePage
 
     public const string PASSPHRASE_REFUSED = 'passphrase_refused';
 
+    public const string TOO_MANY_REQUESTS = 'too_many_requests';
+
     /**
      * @param iterable<ArchiveChapterInterface> $chapters
      */
