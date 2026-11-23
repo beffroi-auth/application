@@ -1,4 +1,4 @@
-# Where this provider lets a browser read its answer (RFC 9700 §6.3).
+# Where this provider lets a browser read its answer (RFC 9700 §2.6).
 #
 # CORS is the one header of this configuration that opens rather than closes, so it is cut to the size of
 # what needs it: the endpoints a public client running in a page calls with fetch, and nothing else. It is

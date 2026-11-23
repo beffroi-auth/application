@@ -39,7 +39,7 @@ final readonly class DoctrineRefreshTokenRepository extends DoctrineRepository i
     }
 
     /**
-     * A rotated token is kept until its family expires, so that its reuse is still detected (RFC 9700 §4.13.2).
+     * A rotated token is kept until its family expires, so that its reuse is still detected (RFC 9700 §4.14.2).
      */
     public function forgetWhatIsDead(Tenant $tenant, DateTimeImmutable $now, int $limit): int
     {
