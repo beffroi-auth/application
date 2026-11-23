@@ -10,8 +10,10 @@
 # the handshake, and "self_signed_tls_client_auth" (RFC 8705 §2.2) presents a certificate that chains
 # nowhere. The handshake still proves the client holds the private key of what it presented, since a
 # certificate is only accepted with its CertificateVerify signature (RFC 8446 §4.4.3). What it does not
-# prove is a chain: a deployment doing "tls_client_auth" (§2.1) adds a "trust_pool" here, because only
-# the leaf reaches PHP and no chain can be validated there (docs/mtls-at-the-edge.md).
+# prove is a chain, and a "trust_pool" added here would change nothing: under "mode request" Caddy
+# verifies no certificate against it, and "verify_if_given" would refuse every self-signed one. The
+# provider validates the leaf of "tls_client_auth" (§2.1) itself, against the authorities
+# BEFFROI_MTLS_CERTIFICATE_AUTHORITIES names (architecture §6).
 #
 # The leaf is handed to PHP in a variable and not in a header: a client sets every header of its request
 # and no variable of the process that serves it. Caddy replaces the placeholder per request, and fills
