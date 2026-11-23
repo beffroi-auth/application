@@ -55,7 +55,7 @@
       </trans-unit>
       <trans-unit id="27c34297f7" resname="consent.title">
         <source>consent.title</source>
-        <target>Authorize {client}</target>
+        <target>Authorise {client}</target>
       </trans-unit>
       <trans-unit id="732d4a5e7a" resname="consent.logo">
         <source>consent.logo</source>
@@ -403,7 +403,7 @@
       </trans-unit>
       <trans-unit id="profile.address.postal_code" resname="profile.address.postal_code">
         <source>profile.address.postal_code</source>
-        <target>Postal code</target>
+        <target>Postcode</target>
       </trans-unit>
       <trans-unit id="profile.address.country" resname="profile.address.country">
         <source>profile.address.country</source>
@@ -2123,7 +2123,7 @@
       </trans-unit>
       <trans-unit id="mail_encryption.material_help" resname="mail_encryption.material_help">
         <source>mail_encryption.material_help</source>
-        <target>S/MIME: the certificate alone, in PEM. OpenPGP: the public key alone, ASCII-armored. Replaces the previous one.</target>
+        <target>S/MIME: the certificate alone, in PEM. OpenPGP: the public key alone, ASCII-armoured. Replaces the previous one.</target>
       </trans-unit>
       <trans-unit id="mail_encryption.give" resname="mail_encryption.give">
         <source>mail_encryption.give</source>
