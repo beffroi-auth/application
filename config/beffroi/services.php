@@ -643,6 +643,7 @@ use Beffroi\Oidc\Application\PushedAuthorization\PushedAuthorizationHandler;
 use Beffroi\Oidc\Application\Consent\ConsentGranting;
 use Beffroi\Oidc\Application\Consent\RequiredConsent;
 use Beffroi\Oidc\Application\Consent\ConsentRevocation;
+use Beffroi\Oidc\Application\Consent\SharedIdentity;
 use Beffroi\Oidc\Application\Exchange\PresentedAccessTokenType;
 use Beffroi\Oidc\Application\Exchange\PresentedTokenTypes;
 use Beffroi\Oidc\Application\Grant\RecordedGrants;
@@ -1918,6 +1919,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(RequiredConsent::class);
     $services->set(AuthorizationHandler::class);
     $services->set(ConsentGranting::class);
+    $services->set(SharedIdentity::class);
     $services->set(ThirdPartyInitiatedLoginHandler::class);
     $services->set(LoginHints::class);
     $services->set(ConsentRevocation::class);
