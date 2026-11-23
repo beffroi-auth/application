@@ -774,6 +774,7 @@ use Beffroi\Oidc\Bridge\Configuration\ConfigurationDeclaredScopes;
 use Beffroi\Oidc\Bridge\Configuration\ConfigurationAdministrationResource;
 use Beffroi\Oidc\Port\AdministrationResourceInterface;
 use Beffroi\Oidc\Port\ClientRegistrationPolicyInterface;
+use Beffroi\Oidc\Port\ClientRetentionPolicyInterface;
 use Beffroi\Oidc\Port\ClientInventoryInterface;
 use Beffroi\Oidc\Port\InitialAccessTokenRepositoryInterface;
 use Beffroi\Oidc\Port\IssuedInitialAccessTokensInterface;
@@ -1721,6 +1722,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(ClientIdentifierDrawer::class);
     $services->set(ConfigurationClientRegistrationPolicy::class);
     $services->alias(ClientRegistrationPolicyInterface::class, ConfigurationClientRegistrationPolicy::class);
+    $services->alias(ClientRetentionPolicyInterface::class, ConfigurationClientRegistrationPolicy::class);
     // Wiring a mode opens it for nobody: only a tenant whose policy names it reaches it.
     $services->set(DoctrineInitialAccessTokenRepository::class);
     $services->alias(InitialAccessTokenRepositoryInterface::class, DoctrineInitialAccessTokenRepository::class);
