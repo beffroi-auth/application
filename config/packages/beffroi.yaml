@@ -190,6 +190,11 @@ beffroi:
             person_limit: '%env(int:BEFFROI_CONFIRMATION_SENDS_PERSON_LIMIT)%'
             address_limit: '%env(int:BEFFROI_CONFIRMATION_SENDS_ADDRESS_LIMIT)%'
             interval: '%env(int:BEFFROI_CONFIRMATION_SENDS_INTERVAL)%'
+    # The budget of decision 0059 that counts the persons one administrator reads through the administration API.
+    administrator:
+        persons:
+            limit: '%env(int:BEFFROI_ADMINISTRATOR_PERSONS_LIMIT)%'
+            interval: '%env(int:BEFFROI_ADMINISTRATOR_PERSONS_INTERVAL)%'
     # The window of a DPoP proof (RFC 9449 §11.1), and whether it carries a nonce this provider issued (§8), the
     # server's to decide.
     dpop:

@@ -45,6 +45,7 @@ use App\Configuration\GeoipSection;
 use App\Configuration\KeysSection;
 use App\Configuration\HistorySection;
 use App\Configuration\JournalSection;
+use App\Configuration\AdministratorSection;
 use App\Configuration\LoadSection;
 use App\Configuration\ConfirmationSection;
 use App\Configuration\MailSection;
@@ -265,6 +266,9 @@ final class BeffroiExtension extends AbstractExtension
                         'beffroi.load' => [
                             'adapter' => 'cache.app',
                         ],
+                        'beffroi.administrator_persons' => [
+                            'adapter' => 'cache.app',
+                        ],
                     ],
                 ],
             ]);
@@ -335,6 +339,7 @@ final class BeffroiExtension extends AbstractExtension
             new TokensSection(),
             new LoadSection(),
             new ConfirmationSection(),
+            new AdministratorSection(),
             new JournalSection(),
             new HistorySection(),
             new GeoipSection(),
