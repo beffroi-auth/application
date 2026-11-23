@@ -7,13 +7,16 @@ namespace App\Load;
 use App\Plane\Plane;
 use App\Plane\PlaneRequestListener;
 use Beffroi\Core\Exception\LoadBudgetSpentException;
+use function str_contains;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Component\HttpFoundation\IpUtils;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Consumes the budget of the origin before any work a route asks for, on the address behind the trusted proxies and
- * never on a "client_id", which a caller can choose for somebody else.
+ * never on a "client_id", which a caller can choose for somebody else. An IPv6 address counts by its /64, the prefix
+ * before the 64 bits of its interface identifier (RFC 4291 §2.5.1), which one host may choose at will.
  */
 #[AsEventListener(event: KernelEvents::REQUEST, priority: self::PRIORITY)]
 final readonly class OriginLoadListener
@@ -27,6 +30,8 @@ final readonly class OriginLoadListener
      * Requests with no address are counted together rather than served free, as Symfony's own listener does.
      */
     public const string NO_ADDRESS = 'unknown';
+
+    private const int IPV6_HOST_BYTES = 8;
 
     public function __construct(
         private LoadBudget $origin,
@@ -46,6 +51,15 @@ final readonly class OriginLoadListener
             return;
         }
 
-        $this->origin->consume($request->getClientIp() ?? self::NO_ADDRESS);
+        $this->origin->consume(self::origin($request->getClientIp()));
+    }
+
+    private static function origin(?string $address): string
+    {
+        if ($address === null) {
+            return self::NO_ADDRESS;
+        }
+
+        return str_contains($address, ':') ? IpUtils::anonymize($address, 0, self::IPV6_HOST_BYTES) : $address;
     }
 }
