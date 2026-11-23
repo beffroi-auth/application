@@ -11,6 +11,7 @@ use Beffroi\Core\Exception\ExceptionTrail;
 use Beffroi\Core\Exception\KeyNotFoundException;
 use Beffroi\Core\Port\ApplicationServerKeyProviderInterface;
 use function is_string;
+use function preg_replace;
 use Psr\Clock\ClockInterface;
 use function sprintf;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
@@ -51,6 +52,11 @@ final readonly class WebPushSender
      * text a client wrote.
      */
     private const int PADDED_TO = 1024;
+
+    /**
+     * The URL of the one request a push makes, as the messages of a failure quote it, a closing punctuation left out.
+     */
+    private const string URL = '~https?://[^\s"]*[^\s".:,;]~i';
 
     /**
      * @param string $subject a "mailto:" or "https:" URI (RFC 8292 §2.1)
@@ -94,7 +100,7 @@ final readonly class WebPushSender
                 self::subscription($subscription),
             );
         } catch (Throwable $exception) {
-            return PushDelivery::unreachable(sprintf('the push service cannot be reached: %s', ExceptionTrail::of($exception)));
+            return PushDelivery::unreachable(sprintf('the push service cannot be reached: %s', self::withoutTheEndpoint(ExceptionTrail::of($exception))));
         }
         if ($report->isSuccess()) {
             return PushDelivery::delivered($report->getStatusCode());
@@ -103,6 +109,15 @@ final readonly class WebPushSender
         return $report->isSubscriptionExpired()
             ? PushDelivery::gone(sprintf('the push service answered %d: the subscription is gone', $report->getStatusCode()))
             : PushDelivery::unreachable(sprintf('the push service answered %d', $report->getStatusCode()));
+    }
+
+    /**
+     * The library and the HTTP client both word a failure with the URL of the request, which names the browser of a
+     * person: the detail is logged and kept in the stamps of the lane.
+     */
+    private static function withoutTheEndpoint(string $trail): string
+    {
+        return (string) preg_replace(self::URL, 'the endpoint', $trail);
     }
 
     private function webPush(string $publicKey, string $privateKey): WebPush
