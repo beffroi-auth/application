@@ -23,7 +23,9 @@ final readonly class MessengerContract
     /**
      * Always the database: a failure transport on the broker that failed is one nobody reads.
      */
-    public const string FAILURE_DSN = 'doctrine://default?queue_name=failed';
+    public const string FAILURE_DSN = 'doctrine://default?table_name=' . self::FAILURE_TABLE . '&queue_name=' . self::FAILURE_TRANSPORT;
+
+    public const string FAILURE_TABLE = 'messenger_messages';
 
     public const string DEFAULT_BUS = 'command.bus';
 
