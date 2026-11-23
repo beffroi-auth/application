@@ -34,6 +34,7 @@ use Beffroi\Oidc\Application\Administration\AdministeredMemberships;
 use Beffroi\Oidc\Application\Administration\AdministeredEnabling;
 use Beffroi\Oidc\Application\Administration\AdministeredSessionEnd;
 use Beffroi\Oidc\Application\Administration\AdministeredSessions;
+use Beffroi\Oidc\Application\Administration\PersonDelivery;
 use Beffroi\Oidc\Application\Administration\AdministratorOfARequest;
 use Beffroi\Oidc\Application\Administration\PersonsOfTheTenant;
 use App\Doctor\ClientsSignedWithHeldKeys;
@@ -1856,6 +1857,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(AdministrationAudience::class);
     $services->set(AdministratorOfARequest::class);
     $services->set(PersonsOfTheTenant::class);
+    $services->set(PersonDelivery::class);
     $services->set(AdministeredPerson::class);
     $services->set(AdministeredSessions::class);
     $services->set(AdministeredJournal::class);
