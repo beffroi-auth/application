@@ -22,6 +22,11 @@ use function ucfirst;
 final readonly class ServedLocales
 {
     /**
+     * A language, three extended language subtags, a script and a region (RFC 5646 §2.1): what follows names neither.
+     */
+    private const int UP_TO_THE_REGION = 6;
+
+    /**
      * @var list<string> canonical, the default locale first
      */
     public array $all;
@@ -63,13 +68,13 @@ final readonly class ServedLocales
     }
 
     /**
-     * RFC 5646 §2.2
+     * RFC 5646 §2.1, §2.2
      *
      * @return list<string> most specific first
      */
     private static function candidates(string $tag): array
     {
-        $subtags = preg_split('/[-_]/', $tag);
+        $subtags = preg_split('/[-_]/', $tag, self::UP_TO_THE_REGION + 1);
         if ($subtags === false) {
             return [];
         }
@@ -79,7 +84,7 @@ final readonly class ServedLocales
         }
         $script = null;
         $region = null;
-        foreach (array_slice($subtags, 1) as $subtag) {
+        foreach (array_slice($subtags, 1, self::UP_TO_THE_REGION - 1) as $subtag) {
             $length = strlen($subtag);
             if ($script === null && $region === null && $length === 4 && ctype_alpha($subtag)) {
                 $script = ucfirst(strtolower($subtag));

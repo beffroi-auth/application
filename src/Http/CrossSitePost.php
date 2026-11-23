@@ -59,7 +59,7 @@ final readonly class CrossSitePost
 
     public function postAgain(Request $request): ?Response
     {
-        return $this->page($request, []);
+        return self::isPostedAgain($request) ? $this->page($request, []) : null;
     }
 
     /**
@@ -67,6 +67,9 @@ final readonly class CrossSitePost
      */
     public function postAgainWithItsUiLocales(Request $request): ?Response
     {
+        if (! self::isPostedAgain($request)) {
+            return null;
+        }
         try {
             $uiLocales = OidcRequestParameters::of(RequestParameters::ofForm($request))->uiLocales();
         } catch (InvalidRequestException) {
@@ -76,14 +79,16 @@ final readonly class CrossSitePost
         return $this->page($request, $uiLocales);
     }
 
+    private static function isPostedAgain(Request $request): bool
+    {
+        return $request->isMethod(Request::METHOD_POST) && self::isAForm($request) && CrossSiteSessionCookie::withheldFrom($request);
+    }
+
     /**
      * @param list<string> $uiLocales most preferred first
      */
     private function page(Request $request, array $uiLocales): ?Response
     {
-        if (! $request->isMethod(Request::METHOD_POST) || ! self::isAForm($request) || ! CrossSiteSessionCookie::withheldFrom($request)) {
-            return null;
-        }
         $fields = self::fields($request->getContent());
         if ($fields === null) {
             return null;
