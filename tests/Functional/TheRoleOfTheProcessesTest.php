@@ -12,7 +12,9 @@ use Beffroi\Core\Domain\Journal\JournalEntry;
 use Beffroi\Core\Domain\Session\RequestContext;
 use Beffroi\Core\Domain\Tenant\Tenant;
 use Beffroi\Core\Port\ChainOfRowsInterface;
+use Beffroi\Core\Exception\RuntimeException;
 use Beffroi\Core\Port\JournalInterface;
+use Beffroi\Core\Port\RelinkableChainsInterface;
 use DateTimeImmutable;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\DriverException;
@@ -112,6 +114,37 @@ final class TheRoleOfTheProcessesTest extends KernelTestCase
         static::assertSame(1, $forgotten);
     }
 
+    #[Test]
+    public function theRoleOfTheProcessesIsToldToRelinkAChainAsTheOwner(): void
+    {
+        // Given
+        self::anAct(new DateTimeImmutable());
+        self::database()->executeStatement('SET ROLE ' . self::ROLE);
+
+        // Then
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessageIs(sprintf(
+            'The role "%s" this process connects as may not rewrite the links of a chain, which beffroi:database:grant withholds from the role of the processes: sign the chain anew with DATABASE_URL naming the role that owns the tables.',
+            self::ROLE,
+        ));
+
+        // When
+        self::relinkable()->relink(self::tenant(), new JournalChain());
+    }
+
+    #[Test]
+    public function theOwnerOfTheTablesRelinksAChain(): void
+    {
+        // Given
+        self::anAct(new DateTimeImmutable());
+
+        // When
+        $relinked = self::relinkable()->relink(self::tenant(), new JournalChain());
+
+        // Then
+        static::assertSame(1, $relinked->head->position);
+    }
+
     private static function anAct(DateTimeImmutable $at): void
     {
         $journal = self::getContainer()->get('test.beffroi.journal');
@@ -123,6 +156,14 @@ final class TheRoleOfTheProcessesTest extends KernelTestCase
     {
         $chains = self::getContainer()->get('test.beffroi.chains');
         static::assertInstanceOf(ChainOfRowsInterface::class, $chains);
+
+        return $chains;
+    }
+
+    private static function relinkable(): RelinkableChainsInterface
+    {
+        $chains = self::getContainer()->get('test.beffroi.chains');
+        static::assertInstanceOf(RelinkableChainsInterface::class, $chains);
 
         return $chains;
     }

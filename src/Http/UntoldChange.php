@@ -15,7 +15,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 /**
  * NIST SP 800-63B-4 §4.6
  *
- * A change no channel delivered is told once, at the first sign-in that follows it, in the browser that signs in.
+ * A change whose notice a channel gave up on is told once, at the first sign-in that follows it, in the browser that
+ * signs in.
  */
 final readonly class UntoldChange
 {
@@ -32,8 +33,8 @@ final readonly class UntoldChange
     }
 
     /**
-     * True once for the latest change no channel delivered, when it happened after the sign-in that preceded this
-     * session.
+     * True once for the latest change whose notice a channel gave up on, when it happened after the sign-in that
+     * preceded this session.
      */
     public function take(SessionInterface $httpSession, AuthenticationSession $session): bool
     {

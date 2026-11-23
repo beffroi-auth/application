@@ -178,9 +178,27 @@ final readonly class DoctrineChains implements ChainOfRowsInterface, RelinkableC
         return (int) $forgotten;
     }
 
+    /**
+     * On PostgreSQL, refused before any row is read to a role that may not delete a link, as beffroi:database:grant
+     * leaves the role of the processes.
+     */
     public function relink(Tenant $tenant, ChainInterface $chain): RelinkedChain
     {
-        return self::relinkRows($this->connection(), $this->table($chain), $tenant->id);
+        $connection = $this->connection();
+        if ($connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
+            $role = $connection->fetchAssociative(
+                "SELECT current_user AS name, has_table_privilege(:links, 'DELETE') AS rewrites",
+                ['links' => self::LINKS],
+            );
+            if (($role['rewrites'] ?? null) !== true) {
+                throw new RuntimeException(sprintf(
+                    'The role "%s" this process connects as may not rewrite the links of a chain, which beffroi:database:grant withholds from the role of the processes: sign the chain anew with DATABASE_URL naming the role that owns the tables.',
+                    is_string($role['name'] ?? null) ? $role['name'] : '',
+                ));
+            }
+        }
+
+        return self::relinkRows($connection, $this->table($chain), $tenant->id);
     }
 
     /**

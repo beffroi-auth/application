@@ -23,9 +23,9 @@ use Throwable;
  */
 final readonly class ChainHoldsTogether implements CheckInterface
 {
-    public const string WHAT_IT_MEANS = 'What it means: a row was changed, added or removed in the database after the provider wrote it, or the signature kept beside the keys of the tenant is not the last one the provider wrote. Until it is resolved, the chain is neither signed past it nor cut by its retention.';
+    public const string WHAT_IT_MEANS = 'What it means: a row was changed, added or removed in the database after the provider wrote it, or the signature kept beside the keys of the tenant is not one the provider wrote for these rows. Until it is resolved, the retention cuts nothing of the chain, no signature is taken while the row of the last one or a row written since does not follow, and every later signature carries a position the daily walk found broken.';
 
-    public const string WHAT_TO_DO = 'What makes it green: the database and the key storage restored from the same backup; or, once a person has read the finding, "bin/console beffroi:chain:sign-anew <chain>", which links and signs the chain again as the database holds it and writes that act to the journal.';
+    public const string WHAT_TO_DO = 'What makes it green: the database and the key storage restored from the same backup; or, once a person has read the finding, "bin/console beffroi:chain:sign-anew <chain> <slug>" run as the role that owns the tables, which links and signs the chain again as the database holds it and writes that act to the journal.';
 
     public const string WHAT_TO_DO_WHEN_LATE = 'What makes it green: the worker consuming the schedule, and its log, which says at error why a chain was not signed or cut.';
 
