@@ -4,20 +4,28 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional;
 
+use App\Doctrine\PersonalData\TenantScopedEncrypter;
+use App\Doctrine\TenantSynchronizer;
 use App\Http\DatabaseSessions;
 use Doctrine\DBAL\Connection;
-use function is_string;
 use function json_encode;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
  * Decision 0053: the session a server writes is the one another server of the deployment reads, in the database
- * of the deployment, under an HMAC of its identifier.
+ * of the deployment, under the hash of its identifier and sealed under a data key of the tenant.
  */
 final class SessionsInTheDatabaseTest extends KernelTestCase
 {
     private const string COOKIE = 'w3Fz9LpQ0dXn7Ty2';
+
+    protected function setUp(): void
+    {
+        $synchronizer = self::getContainer()->get('test.beffroi.tenant_synchronizer');
+        static::assertInstanceOf(TenantSynchronizer::class, $synchronizer);
+        $synchronizer->synchronize();
+    }
 
     protected function tearDown(): void
     {
@@ -34,7 +42,7 @@ final class SessionsInTheDatabaseTest extends KernelTestCase
         $written->read(self::COOKIE);
         $written->write(self::COOKIE, 'the data of the browser');
         $written->close();
-        $another = DatabaseSessions::onTheConnectionOf(self::database(), self::secret());
+        $another = DatabaseSessions::onTheConnectionOf(self::database(), self::sealer());
 
         // When
         $another->open('', 'beffroi');
@@ -80,11 +88,11 @@ final class SessionsInTheDatabaseTest extends KernelTestCase
         return $connection;
     }
 
-    private static function secret(): string
+    private static function sealer(): TenantScopedEncrypter
     {
-        $secret = self::getContainer()->getParameter('kernel.secret');
-        static::assertTrue(is_string($secret));
+        $sealer = self::getContainer()->get('beffroi.personal_data.encrypter');
+        static::assertInstanceOf(TenantScopedEncrypter::class, $sealer);
 
-        return $secret;
+        return $sealer;
     }
 }
