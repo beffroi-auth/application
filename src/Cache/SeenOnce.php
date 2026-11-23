@@ -6,14 +6,17 @@ namespace App\Cache;
 
 use DateTimeImmutable;
 use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Lock\LockFactory;
 
 /**
- * A pool cannot add atomically: two identical identifiers racing on the same millisecond may both be taken.
+ * Read and written under a lock named after the key, from the store every process of the deployment shares: a pool
+ * cannot add atomically, and of two requests presenting one identifier at once, one takes it.
  */
 final readonly class SeenOnce
 {
     public function __construct(
         private CacheItemPoolInterface $cache,
+        private LockFactory $locks,
     ) {
     }
 
@@ -22,14 +25,20 @@ final readonly class SeenOnce
      */
     public function remember(string $key, DateTimeImmutable $expiresAt): bool
     {
-        $item = $this->cache->getItem($key);
-        if ($item->isHit()) {
-            return false;
-        }
-        $item->set($expiresAt->getTimestamp());
-        $item->expiresAt($expiresAt);
-        $this->cache->save($item);
+        $lock = $this->locks->createLock($key);
+        $lock->acquire(true);
+        try {
+            $item = $this->cache->getItem($key);
+            if ($item->isHit()) {
+                return false;
+            }
+            $item->set($expiresAt->getTimestamp());
+            $item->expiresAt($expiresAt);
+            $this->cache->save($item);
 
-        return true;
+            return true;
+        } finally {
+            $lock->release();
+        }
     }
 }

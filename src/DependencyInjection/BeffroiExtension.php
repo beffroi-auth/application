@@ -216,10 +216,12 @@ final class BeffroiExtension extends AbstractExtension
         if ($builder->hasExtension('rate_limiter')) {
             $limiters = [];
             foreach (RateLimitedAttempts::LIMITERS as $limiter) {
+                // The lock factory named, never "auto": a kernel without one refuses to build rather than count without it.
                 $limiters[$limiter] = [
                     'policy' => 'sliding_window',
                     'limit' => RateLimitedAttempts::LIMIT,
                     'interval' => RateLimitedAttempts::INTERVAL,
+                    'lock_factory' => 'lock.factory',
                 ];
             }
             $builder->prependExtensionConfig('rate_limiter', [
