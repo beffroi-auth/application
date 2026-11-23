@@ -50,6 +50,20 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postGenerateSchema }
 
+    # The table of the queues is in the database whatever transports an environment wires, a migration creating it
+    # (decision 0060): the transport of the failures, always of the database, brings it into the schema Doctrine
+    # compares, as the listener of DoctrineBundle does for the transports of the database an environment wires.
+    beffroi.queue_table:
+        class: Symfony\Component\Messenger\Bridge\Doctrine\Transport\DoctrineTransport
+        factory: ['@messenger.transport.doctrine.factory', 'createTransport']
+        arguments: [!php/const App\Messenger\MessengerContract::FAILURE_DSN, !php/const App\Messenger\MessengerContract::TRANSPORT_OPTIONS, '@messenger.default_serializer']
+
+    beffroi.queue_table_schema_listener:
+        class: Symfony\Bridge\Doctrine\SchemaListener\MessengerTransportDoctrineSchemaListener
+        arguments: [['@beffroi.queue_table']]
+        tags:
+            - { name: doctrine.event_listener, event: postGenerateSchema }
+
     # Two directories are no part of the product, and each is wired where it is read and nowhere else
     # (issue #922): the demonstration, in development and in the suite of this application
     # (config/packages/demonstration.yaml), because it records the payload of every hop a flow exchanges,

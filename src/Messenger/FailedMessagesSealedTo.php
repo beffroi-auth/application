@@ -33,7 +33,7 @@ final readonly class FailedMessagesSealedTo implements RetirementHoldInterface
             return false;
         }
         try {
-            // The Doctrine transport creates its table at its first message.
+            // A migration creates the table: a database no migration built, as a suite's, holds none.
             if (! $this->connection->createSchemaManager()->tablesExist([MessengerContract::FAILURE_TABLE])) {
                 return false;
             }

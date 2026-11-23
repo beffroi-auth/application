@@ -28,6 +28,14 @@ final readonly class MessengerContract
 
     public const string FAILURE_TABLE = 'messenger_messages';
 
+    /**
+     * The table of the queues is created by a migration, as the owner of the tables: a transport that created it at its
+     * first message would do so as the role of the processes, which holds no CREATE (decision 0060).
+     *
+     * @var array<string, bool>
+     */
+    public const array TRANSPORT_OPTIONS = ['auto_setup' => false];
+
     public const string DEFAULT_BUS = 'command.bus';
 
     public const string FAILURE_TRANSPORT = 'failed';
@@ -86,13 +94,14 @@ final readonly class MessengerContract
         foreach (self::LANES as $lane) {
             $transports[$lane] = [
                 'dsn' => LaneDsn::of($lane, SecretFile::PREFIX . ':' . self::DSN_ENVIRONMENT_VARIABLE),
+                'options' => self::TRANSPORT_OPTIONS,
                 // The retirement of a signing key reads the same policy for how long a logout token travels.
                 'retry_strategy' => $lane === 'async_notifications'
                     ? ['service' => NotificationRetryPolicy::class]
                     : ['max_retries' => 4, 'delay' => 1000, 'max_delay' => 30_000, 'multiplier' => 4],
             ];
         }
-        $transports[self::FAILURE_TRANSPORT] = self::FAILURE_DSN;
+        $transports[self::FAILURE_TRANSPORT] = ['dsn' => self::FAILURE_DSN, 'options' => self::TRANSPORT_OPTIONS];
 
         return [
             'default_bus' => self::DEFAULT_BUS,
