@@ -62,7 +62,7 @@ final readonly class ClientAuthenticationSection extends ConfigurationSection
             ->min(1)
             ->end()
             ->integerNode('jwks_refetch_cooldown')
-            ->info('Seconds between two reads of the same jwks_uri when an assertion names a "kid" the kept set does not hold. A client that rotates a key is followed within one request; a client that signs with a key it never published cannot make the provider call it on every request.')
+            ->info('Seconds between two reads of the same jwks_uri, after a read that failed and when an assertion names a "kid" the kept set does not hold. A client that rotates a key is followed within one request; neither a key that was never published nor a jwks_uri that fails or hangs makes the provider call it on every request.')
             ->defaultValue(self::DEFAULT_JWKS_REFETCH_COOLDOWN)
             ->min(0)
             ->end()
