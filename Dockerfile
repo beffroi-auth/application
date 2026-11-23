@@ -1,7 +1,10 @@
 # syntax=docker/dockerfile:1
-ARG PHP_VERSION=8.5
 
-FROM dunglas/frankenphp:1-php${PHP_VERSION} AS frankenphp_base
+# Each base image names its version and is pinned by the digest of that tag, so that a build of a commit takes the
+# PHP, FrankenPHP and Debian that commit names. Dependabot proposes a release of FrankenPHP or a point release of
+# Debian as a new tag, and a rebuild of the same tag (FrankenPHP's for a patch of PHP, Debian's for a security
+# update) as a new digest (issue #1216).
+FROM dunglas/frankenphp:1.14.0-php8.5-trixie@sha256:0b21a2960d1a2e146d283f1e3ee7ef64b3c27781e372f13457f1c41d2419be75 AS frankenphp_base
 
 WORKDIR /app
 
@@ -108,7 +111,7 @@ RUN set -eux; \
 # install or download with (issue #932). Every process runs as www-data, named by its number so that a
 # runtime can tell it is not root: the code is root's and only read, var/ and what Caddy keeps are www-data's,
 # group 0 holding what the owner holds for a runtime that draws the uid itself.
-FROM debian:13-slim AS frankenphp_prod
+FROM debian:13.7-slim@sha256:a72b4433de1cf7d6bae0c4cee74d0547f58601a643b3375f070c51600d63b6b2 AS frankenphp_prod
 
 ENV APP_ENV=prod
 ENV FRANKENPHP_CONFIG="import worker.Caddyfile"
