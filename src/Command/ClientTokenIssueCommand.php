@@ -58,7 +58,7 @@ final readonly class ClientTokenIssueCommand
             description: 'A type of token the clients it registers may exchange for another (RFC 8693), which gives them the token exchange; once per type.',
         )]
         array $exchangeSubjectTokenType = [],
-        #[Option(description: 'They may also exchange a token somebody signed in for, and not only the token of a service.')]
+        #[Option(description: 'They may also exchange a token that names a person, and not only the token of a service.')]
         bool $exchangeForAUser = false,
         #[Option(description: 'The subject that may act for the subject of their tokens (RFC 8693 section 4.4), a gateway by its client id.')]
         ?string $mayAct = null,
@@ -70,7 +70,7 @@ final readonly class ClientTokenIssueCommand
             return Command::FAILURE;
         }
         if ($exchangeForAUser && $exchangeSubjectTokenType === []) {
-            $io->error('A token that lets its clients exchange a token somebody signed in for names what they may exchange: --exchange-subject-token-type.');
+            $io->error('A token that lets its clients exchange a token that names a person names what they may exchange: --exchange-subject-token-type.');
 
             return Command::INVALID;
         }

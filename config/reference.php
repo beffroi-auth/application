@@ -2206,7 +2206,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         authorization_details_types?: list<scalar|Param|null>,
  *         token_exchange?: array{ // What this client may do at the token exchange (RFC 8693 §2.1), for a client registered for that grant and for no other. A closed declaration: a client presenting something it did not register for is refused whatever the thing says. Which resources the new token may be addressed to is the resources option above, as it is for every other grant.
  *             subject_token_types?: list<scalar|Param|null>,
- *             may_act_for_a_user?: bool|Param, // Whether this client may present a token somebody signed in for. False for a service that only ever exchanges tokens of its own (RFC 6749 §4.4): a gateway carrying a user's token is not the same party, and a deployment says which of the two it registered. // Default: false
+ *             may_act_for_a_user?: bool|Param, // Whether this client may present a token that names a person, whether somebody signed in for it or a client named its subject. False for a service that only ever exchanges tokens of its own (RFC 6749 §4.4): a gateway carrying a user's token is not the same party, and a deployment says which of the two it registered. // Default: false
  *         },
  *         may_act?: scalar|Param|null, // Who may act for the subject of a token issued to this client (RFC 8693 §4.4), as a subject: it is written on every token this client receives, and an exchange asked for by anybody else is refused. Absent, the token says nothing and what decides is the registration of whoever asks. // Default: null
  *         request_uris?: list<scalar|Param|null>,
