@@ -708,6 +708,7 @@ use Beffroi\Oidc\Bridge\JwtLibrary\JwtLibraryJweEncrypter;
 use Beffroi\Oidc\Bridge\JwtLibrary\JwtLibraryJwtKeyVerifier;
 use Beffroi\Oidc\Bridge\JwtLibrary\JwtLibraryProofKeyVerifier;
 use Beffroi\Oidc\Bridge\Null\NoDpopNonce;
+use Beffroi\Oidc\Bridge\Pki\PkiFrameworkCertificateAuthorities;
 use Beffroi\Oidc\Bridge\Pki\PkiFrameworkCertificateReader;
 use Beffroi\Oidc\Port\AccessTokenIssuerInterface;
 use Beffroi\Oidc\Port\AccessTokenRepositoryInterface;
@@ -726,6 +727,7 @@ use Beffroi\Oidc\Port\PresentedTokenTypesInterface;
 use Beffroi\Oidc\Port\TrustedIssuersInterface;
 use Beffroi\Oidc\Port\RequestObjectReplayGuardInterface;
 use Beffroi\Oidc\Port\ClientAssertionSecretVerifierInterface;
+use Beffroi\Oidc\Port\ClientCertificateAuthoritiesInterface;
 use Beffroi\Oidc\Port\ClientAuthenticationMethodsInterface;
 use Beffroi\Oidc\Port\CodeChallengeMethodsInterface;
 use Beffroi\Oidc\Port\ClientJwksFetcherInterface;
@@ -1740,14 +1742,20 @@ return static function (ContainerConfigurator $container): void {
     $services->set(PrivateKeyJwt::class)->tag('beffroi.client_authentication_method');
     $services->set(ClientSecretJwt::class)->tag('beffroi.client_authentication_method');
     $services->set(NoAuthentication::class)->tag('beffroi.client_authentication_method');
-    // Only a host that asks for a certificate hands one to PHP: without it, a method that reads one serves no client.
+    // Only a host that asks for a certificate hands one to PHP, and tls_client_auth trusts no certificate no named authority issued.
     $services->set(TlsClientAuth::class);
     $services->set(SelfSignedTlsClientAuth::class);
+    $services->set(PkiFrameworkCertificateAuthorities::class);
+    $services->alias(ClientCertificateAuthoritiesInterface::class, PkiFrameworkCertificateAuthorities::class);
     $services->set(ClientAuthenticationMethods::class)->args([
         inline_service(SwitchedServices::class)->args([
-            tagged_iterator('beffroi.client_authentication_method'),
+            inline_service(SwitchedServices::class)->args([
+                tagged_iterator('beffroi.client_authentication_method'),
+                service(MutualTlsSection::AUTHORITIES_ROLE),
+                iterator([service(TlsClientAuth::class)]),
+            ]),
             service(MutualTlsSection::ROLE),
-            iterator([service(TlsClientAuth::class), service(SelfSignedTlsClientAuth::class)]),
+            iterator([service(SelfSignedTlsClientAuth::class)]),
         ]),
     ]);
     $services->alias(ClientAuthenticationMethodsInterface::class, ClientAuthenticationMethods::class);
