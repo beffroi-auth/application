@@ -32,6 +32,12 @@ final class DatabaseSessions extends PdoSessionHandler
     public const string FAMILY = 'browser_session';
 
     /**
+     * Followed by the hash of the identifier of its row, so that a row moved under another identifier and a value sealed
+     * for a column of personal data open as no session.
+     */
+    public const string AAD = 'beffroi:browser-session:v1:';
+
+    /**
      * @param array<string, mixed> $options of PdoSessionHandler
      */
     public function __construct(
@@ -63,17 +69,18 @@ final class DatabaseSessions extends PdoSessionHandler
     }
 
     /**
-     * A row whose envelope does not open, tampered with or sealed under a data key the tenant no longer holds, is no
-     * session.
+     * A row whose envelope does not open, tampered with, moved under another identifier or sealed under a data key the
+     * tenant no longer holds, is no session.
      */
     protected function doRead(#[SensitiveParameter] string $sessionId): string
     {
-        $sealed = parent::doRead($this->key($sessionId));
+        $key = $this->key($sessionId);
+        $sealed = parent::doRead($key);
         if ($sealed === '') {
             return '';
         }
         try {
-            return $this->sealer->decrypt(Envelope::fromBytes($sealed));
+            return $this->sealer->decrypt(Envelope::fromBytes($sealed), self::AAD . $key);
         } catch (DecryptionFailedException|DataKeyNotFoundException|InvalidArgumentException) {
             return '';
         }
@@ -81,7 +88,9 @@ final class DatabaseSessions extends PdoSessionHandler
 
     protected function doWrite(#[SensitiveParameter] string $sessionId, #[SensitiveParameter] string $data): bool
     {
-        return parent::doWrite($this->key($sessionId), (string) $this->sealer->encrypt(self::FAMILY, $data));
+        $key = $this->key($sessionId);
+
+        return parent::doWrite($key, (string) $this->sealer->encrypt(self::FAMILY, $data, self::AAD . $key));
     }
 
     protected function doDestroy(#[SensitiveParameter] string $sessionId): bool
