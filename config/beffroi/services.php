@@ -209,6 +209,7 @@ use App\Http\ResponseMode\SignedQueryResponseRenderer;
 use App\Http\Tls\ClientCertificateResolverInterface;
 use App\Http\Tls\EdgeClientCertificateResolver;
 use App\Http\Tls\PresentedClientCertificate;
+use App\Configuration\KeysSection;
 use App\Http\TotpProvisioningSealer;
 use App\Http\TotpProvisioningStore;
 use App\Http\TwoFactorPage;
@@ -1133,7 +1134,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(PasswordPage::class);
     $services->set(ConsentsPage::class);
     $services->set(PendingLoginStore::class);
-    $services->set(TotpProvisioningSealer::class);
+    $services->set(TotpProvisioningSealer::class)->arg('$sealer', service(KeysSection::TOTP_PROVISIONING_SEALER));
     $services->set(TotpProvisioningStore::class);
     $services->set(QrCode::class);
     $services->set(TwoFactorPage::class);
@@ -1923,9 +1924,9 @@ return static function (ContainerConfigurator $container): void {
     $services->set(UsernameLoginHint::class);
     $services->set(UserHints::class);
     $services->set(SignedBackchannelRequest::class);
-    $services->set(BackchannelAuthenticationHandler::class);
+    $services->set(BackchannelAuthenticationHandler::class)->arg('$sealer', service(KeysSection::BACKCHANNEL_SEALER));
     $services->set(ApprovalAuthenticationRequirement::class);
-    $services->set(BackchannelApproval::class);
+    $services->set(BackchannelApproval::class)->arg('$sealer', service(KeysSection::BACKCHANNEL_SEALER));
     $services->set(RequestObjectJweKind::class)->tag('beffroi.key_bound_artifact');
     $services->set(PushedRequestJweKind::class)->tag('beffroi.key_bound_artifact');
     $services->set(IdTokenHintVerifier::class);
@@ -1941,7 +1942,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(ResponseDocumentIssuer::class);
 
     // The first one tagged is the shape a client that names none takes.
-    $services->set(SealedPerson::class);
+    $services->set(SealedPerson::class)->arg('$sealer', service(KeysSection::PERSON_SEALER));
     $services->set(JwtAccessTokenIssuer::class)->tag('beffroi.oidc.access_token_issuer');
     $services->set(OpaqueAccessTokenIssuer::class)->tag('beffroi.oidc.access_token_issuer');
     $services->set(ServedAccessTokenShapes::class)->args([tagged_iterator('beffroi.oidc.access_token_issuer')]);

@@ -50,6 +50,24 @@ use function is_string;
 
 final readonly class KeysSection extends ConfigurationSection
 {
+    /**
+     * The sealer of the person an access token names, which every resource server reads in the token.
+     */
+    public const string PERSON_SEALER = 'beffroi.secret_sealer.person';
+
+    public const string BACKCHANNEL_SEALER = 'beffroi.secret_sealer.backchannel';
+
+    public const string TOTP_PROVISIONING_SEALER = 'beffroi.secret_sealer.totp_provisioning';
+
+    /**
+     * @var array<string, non-empty-string> by service, the purpose its envelopes are sealed for
+     */
+    private const array SECRET_SEALERS = [
+        self::PERSON_SEALER => 'beffroi:access-token-person:v1:',
+        self::BACKCHANNEL_SEALER => 'beffroi:backchannel-request:v1:',
+        self::TOTP_PROVISIONING_SEALER => 'beffroi:totp-provisioning:v1:',
+    ];
+
     public function name(): string
     {
         return 'keys';
@@ -218,6 +236,13 @@ final readonly class KeysSection extends ConfigurationSection
         ]);
         $services->get(EnvelopeKeySealer::class)->arg('$envelopes', service('beffroi.kms.envelopes'))->arg('$kmsKeyId', self::string($keys, 'key_id'));
         $services->get(EnvelopeSecretSealer::class)->arg('$envelopes', service('beffroi.kms.envelopes'))->arg('$kmsKeyId', self::string($keys, 'key_id'));
+        foreach (self::SECRET_SEALERS as $sealer => $purpose) {
+            $services->set($sealer, EnvelopeSecretSealer::class)->args([
+                '$envelopes' => service('beffroi.kms.envelopes'),
+                '$kmsKeyId' => self::string($keys, 'key_id'),
+                '$purpose' => $purpose,
+            ]);
+        }
         $services->get(FileTenantKeyRepository::class)->arg('$directory', self::string($keys, 'storage'));
         $services->get(FilePairwiseSalt::class)->arg('$directory', self::string($keys, 'storage'));
         $services->get(FileMailSigningKeyRepository::class)->arg('$directory', self::string($keys, 'storage'));
