@@ -2385,6 +2385,10 @@
         <source>confirmation.refused</source>
         <target>Nieprawidłowy lub wygasły kod. Sprawdź go lub poproś o nowy.</target>
       </trans-unit>
+      <trans-unit id="confirmation.withheld" resname="confirmation.withheld">
+        <source>confirmation.withheld</source>
+        <target>Wysłano zbyt wiele kodów. Spróbuj ponownie później.</target>
+      </trans-unit>
       <trans-unit id="confirmation.link_prompt" resname="confirmation.link_prompt">
         <source>confirmation.link_prompt</source>
         <target>Potwierdź, że ten adres należy do Ciebie.</target>
@@ -2412,6 +2416,10 @@
       <trans-unit id="act.address.confirmation_sent" resname="act.address.confirmation_sent">
         <source>act.address.confirmation_sent</source>
         <target>Wysłano kod potwierdzający</target>
+      </trans-unit>
+      <trans-unit id="act.address.confirmation_withheld" resname="act.address.confirmation_withheld">
+        <source>act.address.confirmation_withheld</source>
+        <target>Nie wysłano kodu potwierdzającego: osiągnięto limit</target>
       </trans-unit>
       <trans-unit id="act.address.established" resname="act.address.established">
         <source>act.address.established</source>

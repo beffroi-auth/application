@@ -2385,6 +2385,10 @@
         <source>confirmation.refused</source>
         <target>Forkert eller udløbet kode. Kontrollér den, eller bed om en ny.</target>
       </trans-unit>
+      <trans-unit id="confirmation.withheld" resname="confirmation.withheld">
+        <source>confirmation.withheld</source>
+        <target>Der er sendt for mange koder. Prøv igen senere.</target>
+      </trans-unit>
       <trans-unit id="confirmation.link_prompt" resname="confirmation.link_prompt">
         <source>confirmation.link_prompt</source>
         <target>Bekræft, at denne adresse er din.</target>
@@ -2412,6 +2416,10 @@
       <trans-unit id="act.address.confirmation_sent" resname="act.address.confirmation_sent">
         <source>act.address.confirmation_sent</source>
         <target>Bekræftelseskode sendt</target>
+      </trans-unit>
+      <trans-unit id="act.address.confirmation_withheld" resname="act.address.confirmation_withheld">
+        <source>act.address.confirmation_withheld</source>
+        <target>Bekræftelseskode ikke sendt: grænsen er nået</target>
       </trans-unit>
       <trans-unit id="act.address.established" resname="act.address.established">
         <source>act.address.established</source>

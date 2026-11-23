@@ -46,6 +46,7 @@ use App\Configuration\KeysSection;
 use App\Configuration\HistorySection;
 use App\Configuration\JournalSection;
 use App\Configuration\LoadSection;
+use App\Configuration\ConfirmationSection;
 use App\Configuration\MailSection;
 use App\Configuration\MutualTlsSection;
 use App\Configuration\OutboundSection;
@@ -332,6 +333,7 @@ final class BeffroiExtension extends AbstractExtension
             new MutualTlsSection(),
             new TokensSection(),
             new LoadSection(),
+            new ConfirmationSection(),
             new JournalSection(),
             new HistorySection(),
             new GeoipSection(),

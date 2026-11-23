@@ -184,6 +184,12 @@ beffroi:
         client:
             limit: '%env(int:BEFFROI_LOAD_CLIENT_LIMIT)%'
             interval: '%env(int:BEFFROI_LOAD_CLIENT_INTERVAL)%'
+    # The budgets of decision 0014 that count the confirmations sent for a person and to an address.
+    confirmation:
+        sends:
+            person_limit: '%env(int:BEFFROI_CONFIRMATION_SENDS_PERSON_LIMIT)%'
+            address_limit: '%env(int:BEFFROI_CONFIRMATION_SENDS_ADDRESS_LIMIT)%'
+            interval: '%env(int:BEFFROI_CONFIRMATION_SENDS_INTERVAL)%'
     # The window of a DPoP proof (RFC 9449 §11.1), and whether it carries a nonce this provider issued (§8), the
     # server's to decide.
     dpop:

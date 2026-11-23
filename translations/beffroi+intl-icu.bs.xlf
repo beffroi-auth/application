@@ -2385,6 +2385,10 @@
         <source>confirmation.refused</source>
         <target>Pogrešan ili istekao kod. Provjerite ga ili zatražite novi.</target>
       </trans-unit>
+      <trans-unit id="confirmation.withheld" resname="confirmation.withheld">
+        <source>confirmation.withheld</source>
+        <target>Poslano je previše kodova. Pokušajte ponovo kasnije.</target>
+      </trans-unit>
       <trans-unit id="confirmation.link_prompt" resname="confirmation.link_prompt">
         <source>confirmation.link_prompt</source>
         <target>Potvrdite da je ova adresa vaša.</target>
@@ -2412,6 +2416,10 @@
       <trans-unit id="act.address.confirmation_sent" resname="act.address.confirmation_sent">
         <source>act.address.confirmation_sent</source>
         <target>Kod za potvrdu poslan</target>
+      </trans-unit>
+      <trans-unit id="act.address.confirmation_withheld" resname="act.address.confirmation_withheld">
+        <source>act.address.confirmation_withheld</source>
+        <target>Kod za potvrdu nije poslan: dostignuto ograničenje</target>
       </trans-unit>
       <trans-unit id="act.address.established" resname="act.address.established">
         <source>act.address.established</source>

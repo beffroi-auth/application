@@ -2385,6 +2385,10 @@
         <source>confirmation.refused</source>
         <target>Neteisingas arba nebegaliojantis kodas. Patikrinkite jį arba paprašykite kito.</target>
       </trans-unit>
+      <trans-unit id="confirmation.withheld" resname="confirmation.withheld">
+        <source>confirmation.withheld</source>
+        <target>Išsiųsta per daug kodų. Bandykite vėliau.</target>
+      </trans-unit>
       <trans-unit id="confirmation.link_prompt" resname="confirmation.link_prompt">
         <source>confirmation.link_prompt</source>
         <target>Patvirtinkite, kad šis adresas priklauso jums.</target>
@@ -2412,6 +2416,10 @@
       <trans-unit id="act.address.confirmation_sent" resname="act.address.confirmation_sent">
         <source>act.address.confirmation_sent</source>
         <target>Patvirtinimo kodas išsiųstas</target>
+      </trans-unit>
+      <trans-unit id="act.address.confirmation_withheld" resname="act.address.confirmation_withheld">
+        <source>act.address.confirmation_withheld</source>
+        <target>Patvirtinimo kodas neišsiųstas: pasiekta riba</target>
       </trans-unit>
       <trans-unit id="act.address.established" resname="act.address.established">
         <source>act.address.established</source>

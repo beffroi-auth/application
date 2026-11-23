@@ -1162,6 +1162,50 @@
                         },
                         "description": "How many requests the provider takes in a window, by origin and by authenticated client (decision 0014). Both budgets always exist; these are their numbers, which depend on the size of the deployment. A number too low on /token or on /jwks is an outage a deployment inflicts on itself, so they are measured on what its own clients send."
                     },
+                    "confirmation": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "sends": {
+                                "$ref": "#/$defs/types/object_null",
+                                "properties": {
+                                    "person_limit": {
+                                        "$ref": "#/$defs/types/integer",
+                                        "minimum": 1,
+                                        "default": 5,
+                                        "description": "Confirmations sent for one person in the window."
+                                    },
+                                    "address_limit": {
+                                        "$ref": "#/$defs/types/integer",
+                                        "minimum": 2,
+                                        "default": 10,
+                                        "description": "Confirmations sent to one address in the window, more than for one person."
+                                    },
+                                    "interval": {
+                                        "$ref": "#/$defs/types/integer",
+                                        "minimum": 1,
+                                        "default": 86400,
+                                        "description": "Seconds the window covers."
+                                    }
+                                },
+                                "additionalProperties": false,
+                                "default": {
+                                    "person_limit": 5,
+                                    "address_limit": 10,
+                                    "interval": 86400
+                                },
+                                "description": "How many confirmations go out in a window, counted for the person who asks and for the address they go to, whatever the tenant. Past either budget nothing is sent, the page says so, and the refusal is an act of the person. The budgets always exist; these are their numbers."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "sends": {
+                                "person_limit": 5,
+                                "address_limit": 10,
+                                "interval": 86400
+                            }
+                        },
+                        "description": "The confirmations of an address (decisions 0014 and 0048): a code and a link sent by mail or by SMS to an address nobody verified yet."
+                    },
                     "journal": {
                         "$ref": "#/$defs/types/object_null",
                         "properties": {
