@@ -15,8 +15,9 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Uid\Uuid;
 
 /**
- * Ends an open session of a person of the tenant, what `beffroi:user:revoke-session` does (decision 0038): the session
- * leaves the open ones, and its relying parties are told by the back-channel (Back-Channel Logout 1.0 §2.5).
+ * Ends a session of a person of the tenant that has not ended, past its expiry or not, what `beffroi:user:revoke-session`
+ * does (decisions 0031 and 0038): its refresh tokens are revoked, and its relying parties are told by the back-channel
+ * (Back-Channel Logout 1.0 §2.5).
  */
 #[AsController]
 final readonly class UserSessionEndController
@@ -42,7 +43,7 @@ final readonly class UserSessionEndController
             return AdministrationAnswer::refusal(
                 Response::HTTP_NOT_FOUND,
                 'not_found',
-                'The tenant has no person of this identifier, or they have no open session of that one.',
+                'The tenant has no person of this identifier, or they have no session of that one that has not ended.',
             );
         }
 

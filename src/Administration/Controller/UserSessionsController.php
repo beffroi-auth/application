@@ -18,9 +18,9 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Uid\Uuid;
 
 /**
- * The sessions open in the name of a person of the tenant, what each one proved (the "acr" and the "amr", OIDC Core
- * §2, RFC 8176) and where it was last seen from: what `beffroi:user:sessions` prints (decision 0038). Reading them is
- * an act of the person that names the administrator (`AdministeredSessions`).
+ * The sessions of a person of the tenant that have not ended, one past its expiry included, what each one proved (the
+ * "acr" and the "amr", OIDC Core §2, RFC 8176), until when it signs in, and where it was last seen from (decision 0038).
+ * Reading them is an act of the person that names the administrator (`AdministeredSessions`).
  */
 #[AsController]
 final readonly class UserSessionsController
