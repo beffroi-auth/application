@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace App\Message;
 
-final readonly class SignTheJournal implements Command
+final readonly class SignTheChains implements Command
 {
 }
