@@ -11,6 +11,8 @@ use Beffroi\Core\Application\Identity\FederatedDomains;
 use Beffroi\Core\Domain\Event\AuthenticationFailureReason;
 use Beffroi\Core\Exception\PasskeyCeremonyFailedException;
 use Beffroi\Core\Port\PasskeyAuthenticatorInterface;
+use Beffroi\Core\Port\PasskeyUsesInterface;
+use Psr\Clock\ClockInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -22,8 +24,9 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken;
 
 /**
- * A passkey of another tenant, a revoked one, a backup eligibility other than at enrolment and a person of a
- * federated domain are refused after the signature, so that every refusal costs the same.
+ * A passkey of another tenant, a revoked one, a backup eligibility other than at enrolment, a disabled person and a
+ * person of a federated domain are refused after the signature, so that every refusal costs the same. The use is
+ * written last, before the login succeeds, so that a counter another login moved meanwhile refuses this one.
  */
 final readonly class PasskeyLoginAuthenticator implements AuthenticatorInterface, InteractiveAuthenticatorInterface
 {
@@ -36,6 +39,8 @@ final readonly class PasskeyLoginAuthenticator implements AuthenticatorInterface
         private InteractionLoginHandler $handler,
         private FederatedDomains $federated,
         private LoginFormToken $formToken,
+        private PasskeyUsesInterface $uses,
+        private ClockInterface $clock,
     ) {
     }
 
@@ -69,9 +74,15 @@ final readonly class PasskeyLoginAuthenticator implements AuthenticatorInterface
         if ($credential->isRevoked()) {
             throw new PasskeyLoginException(AuthenticationFailureReason::RevokedCredential, $method, $credential->user);
         }
+        if (! $credential->user->isEnabled()) {
+            throw new PasskeyLoginException(AuthenticationFailureReason::DisabledUser, $method, $credential->user);
+        }
         // Refused whatever the page offered: a person of a federated domain signs in through their provider alone.
         if (! $this->federated->admitsLocalCredentials($credential->user)) {
             throw new PasskeyLoginException(AuthenticationFailureReason::FederatedDomain, $method, $credential->user);
+        }
+        if (! $this->uses->recordUse($credential, $verified->authenticatorData, $this->clock->now())) {
+            throw new PasskeyLoginException(AuthenticationFailureReason::InvalidCredential, $method, $credential->user);
         }
 
         return new Passport(

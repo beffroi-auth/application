@@ -4,26 +4,21 @@ declare(strict_types=1);
 
 namespace App\Doctrine\Repository;
 
-use App\Doctrine\EntityManagers;
 use App\Doctrine\Type\BackupCodesType;
 use Beffroi\Core\Domain\Credential\TotpCredential;
 use Beffroi\Core\Port\TotpUsesInterface;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use function sprintf;
-use Symfony\Bridge\Doctrine\Types\UuidType;
 
 /**
- * One UPDATE through the connection, conditioned on what the row still holds: the affected row count says who wrote.
  * A copy of the credential takes the use first, so that its rules refuse the use before the row is written.
- *
- * @extends DoctrineRepository<TotpCredential>
  */
-final readonly class DoctrineTotpUses extends DoctrineRepository implements TotpUsesInterface
+final readonly class DoctrineTotpUses implements TotpUsesInterface
 {
-    public function __construct(EntityManagers $managers)
-    {
-        parent::__construct($managers, TotpCredential::class);
+    public function __construct(
+        private ConditionalCredentialWrite $rows,
+    ) {
     }
 
     public function acceptStep(TotpCredential $credential, int $step, DateTimeImmutable $now): bool
@@ -33,10 +28,10 @@ final readonly class DoctrineTotpUses extends DoctrineRepository implements Totp
         }
         $used = clone $credential;
         $used->recordUse($step, $now);
-        $column = $this->column('lastAcceptedStep');
-        $written = $this->written(
+        $column = $this->rows->column($credential, 'lastAcceptedStep');
+        $written = $this->rows->written(
             $credential,
-            sprintf('%s = :step, %s = :usedAt', $column, $this->column('lastUsedAt')),
+            sprintf('%s = :step, %s = :usedAt', $column, $this->rows->column($credential, 'lastUsedAt')),
             sprintf('%s < :step', $column),
             [
                 'step' => $used->lastAcceptedStep,
@@ -61,11 +56,11 @@ final readonly class DoctrineTotpUses extends DoctrineRepository implements Totp
         }
         $used = clone $credential;
         $used->spendBackupCode($index, $now);
-        $column = $this->column('backupCodes');
+        $column = $this->rows->column($credential, 'backupCodes');
         // The column keeps the text it was given, and the type writes one text for one list of codes.
-        $written = $this->written(
+        $written = $this->rows->written(
             $credential,
-            sprintf('%s = :codes, %s = :usedAt', $column, $this->column('lastUsedAt')),
+            sprintf('%s = :codes, %s = :usedAt', $column, $this->rows->column($credential, 'lastUsedAt')),
             sprintf('CAST(%s AS TEXT) = :read', $column),
             [
                 'codes' => $used->backupCodes,
@@ -83,37 +78,5 @@ final readonly class DoctrineTotpUses extends DoctrineRepository implements Totp
         }
 
         return $written;
-    }
-
-    /**
-     * The credential leaves the unit of work whatever the count, so that no later flush writes over the row.
-     *
-     * @param array<string, mixed>  $parameters
-     * @param array<string, string> $types
-     */
-    private function written(TotpCredential $credential, string $assignments, string $condition, array $parameters, array $types): bool
-    {
-        $manager = $this->manager();
-        $metadata = $manager->getClassMetadata(TotpCredential::class);
-        $written =
-            $manager->getConnection()->executeStatement(
-                sprintf('UPDATE %s SET %s WHERE %s = :id AND %s', $metadata->getTableName(), $assignments, $metadata->getColumnName('id'), $condition),
-                [
-                    ...$parameters,
-                    'id' => $credential->id,
-                ],
-                [
-                    ...$types,
-                    'id' => UuidType::NAME,
-                ],
-            ) === 1;
-        $manager->detach($credential);
-
-        return $written;
-    }
-
-    private function column(string $field): string
-    {
-        return $this->manager()->getClassMetadata(TotpCredential::class)->getColumnName($field);
     }
 }
