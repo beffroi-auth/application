@@ -1720,7 +1720,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(OpenRegistrationAuthorization::class)->tag('beffroi.oidc.registration_mode');
     // A pool of its own, so that nothing remembered here can satisfy the guard of an assertion.
     $services->set(SoftwareStatementReplayGuard::class)->args([
-        inline_service(SeenOnce::class)->args([service('beffroi.software_statements')]),
+        inline_service(SeenOnce::class)->args([service('beffroi.software_statements'), service('lock.factory')]),
     ]);
     $services->alias(SoftwareStatementReplayGuardInterface::class, SoftwareStatementReplayGuard::class);
     $services->set(SoftwareStatementVerifier::class);
@@ -1794,7 +1794,7 @@ return static function (ContainerConfigurator $container): void {
         '$cache' => service('beffroi.oidc.client_keys.cache'),
     ]);
     $services->set(ClientAssertionReplayGuard::class)->args([
-        inline_service(SeenOnce::class)->args([service('beffroi.client_assertions')]),
+        inline_service(SeenOnce::class)->args([service('beffroi.client_assertions'), service('lock.factory')]),
     ]);
     $services->alias(ClientAssertionReplayGuardInterface::class, ClientAssertionReplayGuard::class);
 
@@ -1809,14 +1809,14 @@ return static function (ContainerConfigurator $container): void {
     ]);
     $services->set(IssuerAssertionValidator::class)->arg('$publishedKeys', service('beffroi.oidc.issuer_keys.provider'));
     $services->set(IssuerAssertionReplayGuard::class)->args([
-        inline_service(SeenOnce::class)->args([service('beffroi.issuer_assertions')]),
+        inline_service(SeenOnce::class)->args([service('beffroi.issuer_assertions'), service('lock.factory')]),
     ]);
     $services->alias(IssuerAssertionReplayGuardInterface::class, IssuerAssertionReplayGuard::class);
 
     $services->set(JwtLibraryProofKeyVerifier::class)->args([service('beffroi.oidc.client_assertion.signature_algorithms')]);
     $services->alias(ProofKeyVerifierInterface::class, JwtLibraryProofKeyVerifier::class);
     $services->set(CachedDpopProofReplayGuard::class)->args([
-        inline_service(SeenOnce::class)->args([service('beffroi.dpop')]),
+        inline_service(SeenOnce::class)->args([service('beffroi.dpop'), service('lock.factory')]),
     ]);
     $services->alias(DpopProofReplayGuardInterface::class, CachedDpopProofReplayGuard::class);
     $services->set(NoDpopNonce::class);
@@ -1890,7 +1890,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(RequestObjectReader::class);
     $services->set(RequestObjectResolver::class);
     $services->set(RequestObjectReplayGuard::class)->args([
-        inline_service(SeenOnce::class)->args([service('beffroi.request_objects')]),
+        inline_service(SeenOnce::class)->args([service('beffroi.request_objects'), service('lock.factory')]),
     ]);
     $services->alias(RequestObjectReplayGuardInterface::class, RequestObjectReplayGuard::class);
     $services->set(RequestObjectFetcher::class);

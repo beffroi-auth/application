@@ -1,0 +1,10 @@
+# The locks of the provider: the count of the attempts at a password and at a code,
+# and the identifiers the replay guards remember, are read and written under them.
+#
+# The advisory locks of PostgreSQL, on the connection of Doctrine: the one store every process of a deployment
+# shares, its servers and its worker, however many there are (decision 0053), with no service and no table added to
+# the database the image already requires. A lock of the filesystem binds the processes of one host only, and none
+# on a volume mounted without locks.
+lock:
+    service_id: doctrine.dbal.default_connection
+    advisory: true

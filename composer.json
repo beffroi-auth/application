@@ -45,6 +45,7 @@
         "symfony/http-kernel": "8.2.*",
         "symfony/intl": "8.2.*",
         "symfony/key-management": "8.2.*",
+        "symfony/lock": "8.2.*",
         "symfony/mailer": "8.2.*",
         "symfony/messenger": "8.2.*",
         "symfony/mime": "8.2.*",
