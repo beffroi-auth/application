@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Beffroi\Core\Domain\Encoding\PlainText;
 use Beffroi\Core\Application\Identity\FederatedDomains;
 use App\Http\Account\AsksForARecentProofInterface;
 use App\Http\AccountAccess;
@@ -15,7 +16,6 @@ use Beffroi\Core\Application\Passkey\PasskeyEnrolment;
 use Beffroi\Core\Domain\Credential\PasskeyCredential;
 use Beffroi\Core\Exception\CredentialEnrolmentFailedException;
 use Beffroi\Core\Exception\PasskeyAttestationRefusedException;
-use function mb_strlen;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -70,7 +70,7 @@ final readonly class PasskeyEnrolmentController implements AsksForARecentProofIn
             return $this->refused($request, self::FEDERATED_DOMAIN);
         }
         $name = trim($request->request->getString(self::NAME_PARAMETER));
-        if ($name === '' || mb_strlen($name) > PasskeyCredential::NAME_MAX_LENGTH) {
+        if ($name === '' || ! PlainText::holds($name, PasskeyCredential::NAME_MAX_LENGTH)) {
             return $this->refused($request, self::INVALID_NAME);
         }
         $attestation = $request->request->getString(self::ATTESTATION_PARAMETER);
