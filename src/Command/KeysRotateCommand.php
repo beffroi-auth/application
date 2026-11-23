@@ -22,7 +22,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'beffroi:keys:rotate',
-    description: 'Stage a new key, sealed by the configured KMS and published at once; it takes over once the staging delay elapsed, or at once with --now; --compromised retires the previous key with no window.',
+    description: 'Stage a new key, sealed by the configured KMS and published at once; it takes over once the staging delay elapsed, or at once with --now; --compromised retires the previous key, and every key waiting to take over, with no window.',
 )]
 final readonly class KeysRotateCommand
 {
@@ -48,7 +48,9 @@ final readonly class KeysRotateCommand
             description: 'Activate the key at once, without the staging delay: a relying party whose JWK Set copy is younger than 60 s refuses the new tokens, or encrypts to the old key, until it is that old (oidc_login refetches once then); for an operator who knows every relying party is cold.',
         )]
         bool $now = false,
-        #[Option(description: 'The active key is compromised: the new key takes over at once and the compromised one leaves the JWK Set with no window.')]
+        #[Option(
+            description: 'The active key is compromised: the new key takes over at once, and the compromised one and every key of its algorithm waiting to take over leave the JWK Set with no window.',
+        )]
         bool $compromised = false,
     ): int {
         $tenant = $this->tenant->orTold($io);
