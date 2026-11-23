@@ -28,7 +28,7 @@ final readonly class AdministratorSection extends ConfigurationSection
     {
         $children
             ->arrayNode('administrator')
-            ->info('What one administrator of the tenant may read through the administration API (decisions 0038 and 0059). The budget always exists; these are its numbers.')
+            ->info('What one administrator of the tenant may read through the administration API (decisions 0014 and 0038). The budget always exists; these are its numbers.')
             ->addDefaultsIfNotSet()
             ->children()
             ->arrayNode('persons')

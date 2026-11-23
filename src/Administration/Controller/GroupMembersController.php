@@ -23,7 +23,7 @@ use Symfony\Component\Uid\Uuid;
 /**
  * The members of a group of the tenant, a page at a time in the order they were added, each with the source of their
  * membership, and how many the group holds. Each member delivered is an act of theirs that names the administrator
- * (decisions 0022 and 0038), and a person of the budget of the administrator (decision 0059).
+ * (decisions 0022 and 0038), and a person of the budget of the administrator (decision 0014).
  */
 #[AsController]
 final readonly class GroupMembersController

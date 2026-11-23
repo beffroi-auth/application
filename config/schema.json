@@ -1206,6 +1206,42 @@
                         },
                         "description": "The confirmations of an address (decisions 0014 and 0048): a code and a link sent by mail or by SMS to an address nobody verified yet."
                     },
+                    "administrator": {
+                        "$ref": "#/$defs/types/object_null",
+                        "properties": {
+                            "persons": {
+                                "$ref": "#/$defs/types/object_null",
+                                "properties": {
+                                    "limit": {
+                                        "$ref": "#/$defs/types/integer",
+                                        "minimum": 100,
+                                        "default": 600,
+                                        "description": "Persons delivered to one administrator in the window, at least the largest page of members."
+                                    },
+                                    "interval": {
+                                        "$ref": "#/$defs/types/integer",
+                                        "minimum": 1,
+                                        "default": 3600,
+                                        "description": "Seconds the window covers."
+                                    }
+                                },
+                                "additionalProperties": false,
+                                "default": {
+                                    "limit": 600,
+                                    "interval": 3600
+                                },
+                                "description": "How many persons the reads of one administrator deliver in a window, counted by tenant and by administrator: a person read, their sessions, their journal or their consents is one, a page of members one per member, and an answer that changes a person and gives them back is one. A read past it delivers nobody and is answered 429 with Retry-After, and the refusal is an act of the administrator."
+                            }
+                        },
+                        "additionalProperties": false,
+                        "default": {
+                            "persons": {
+                                "limit": 600,
+                                "interval": 3600
+                            }
+                        },
+                        "description": "What one administrator of the tenant may read through the administration API (decisions 0014 and 0038). The budget always exists; these are its numbers."
+                    },
                     "journal": {
                         "$ref": "#/$defs/types/object_null",
                         "properties": {

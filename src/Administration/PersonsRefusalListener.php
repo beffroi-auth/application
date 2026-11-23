@@ -14,8 +14,8 @@ use Throwable;
 
 /**
  * The 429 of RFC 6585 §4, with the delay of RFC 9110 §10.2.3, that a read of the administration API past the budget of
- * the administrator answers (decision 0059). The body carries no "error": no value of RFC 6749 §11.4 says a budget is
- * spent, as on every refusal of a budget of this provider (decision 0014).
+ * the administrator answers, in the shape of every refusal of a budget of decision 0014: the body carries no "error",
+ * since no value of RFC 6749 §11.4 says a budget is spent.
  */
 #[AsEventListener(event: KernelEvents::EXCEPTION, priority: self::PRIORITY)]
 final readonly class PersonsRefusalListener

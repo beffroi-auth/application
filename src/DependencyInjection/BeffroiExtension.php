@@ -266,9 +266,6 @@ final class BeffroiExtension extends AbstractExtension
                         'beffroi.load' => [
                             'adapter' => 'cache.app',
                         ],
-                        'beffroi.administrator_persons' => [
-                            'adapter' => 'cache.app',
-                        ],
                     ],
                 ],
             ]);

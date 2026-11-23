@@ -1942,7 +1942,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(PersonsDelivered::class);
     // The limit and the interval are filled in by AdministratorSection.
     $services->set(RateLimitedPersonsBudget::class)->args([
-        '$storage' => inline_service(CacheStorage::class)->args([service('beffroi.administrator_persons')]),
+        '$storage' => inline_service(CacheStorage::class)->args([service('cache.rate_limiter')]),
         '$locks' => service('lock.factory'),
     ]);
     $services->alias(PersonsBudgetInterface::class, RateLimitedPersonsBudget::class);
