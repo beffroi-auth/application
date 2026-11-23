@@ -37,6 +37,10 @@ use Beffroi\Oidc\Application\Administration\AdministeredSessions;
 use Beffroi\Oidc\Application\Administration\PersonDelivery;
 use Beffroi\Oidc\Application\Administration\AdministratorOfARequest;
 use Beffroi\Oidc\Application\Administration\PersonsOfTheTenant;
+use Beffroi\Oidc\Application\Administration\PersonsDelivered;
+use Beffroi\Oidc\Port\PersonsBudgetInterface;
+use App\Administration\PersonsRefusalListener;
+use App\Administration\RateLimitedPersonsBudget;
 use App\Doctor\ClientsSignedWithHeldKeys;
 use App\Doctor\JournalHoldsTogether;
 use App\Doctor\NotificationsLanePatience;
@@ -1951,6 +1955,14 @@ return static function (ContainerConfigurator $container): void {
     $services->set(AdministeredEnrolmentTicket::class);
     $services->set(AdministeredPasswordTicket::class);
     $services->set(AdministeredTotpTicket::class);
+    $services->set(PersonsDelivered::class);
+    // The limit and the interval are filled in by AdministratorSection.
+    $services->set(RateLimitedPersonsBudget::class)->args([
+        '$storage' => inline_service(CacheStorage::class)->args([service('cache.rate_limiter')]),
+        '$locks' => service('lock.factory'),
+    ]);
+    $services->alias(PersonsBudgetInterface::class, RateLimitedPersonsBudget::class);
+    $services->set(PersonsRefusalListener::class);
     $services->set(OfferedScopes::class);
     $services->alias(OfferedScopesInterface::class, OfferedScopes::class);
 

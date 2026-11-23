@@ -2099,6 +2099,12 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             interval?: int|Param, // Seconds the window covers. // Default: 86400
  *         },
  *     },
+ *     administrator?: array{ // What one administrator of the tenant may read through the administration API (decisions 0014 and 0038). The budget always exists; these are its numbers.
+ *         persons?: array{ // How many persons the reads of one administrator deliver in a window, counted by tenant and by administrator: a person read, their sessions, their journal or their consents is one, a page of members one per member, and an answer that changes a person and gives them back is one. A read past it delivers nobody and is answered 429 with Retry-After, and the refusal is an act of the administrator.
+ *             limit?: int|Param, // Persons delivered to one administrator in the window, at least the largest page of members. // Default: 600
+ *             interval?: int|Param, // Seconds the window covers. // Default: 3600
+ *         },
+ *     },
  *     journal?: array{ // The acts of the provider, written down and forgotten again (issue #454): who did what, when and from where. Nothing turns it on; what is configured is how long an act is kept.
  *         retention?: int|Param, // Days an act is kept before the timed step forgets it; six months by default, the duration the deliberation 2021-122 of the CNIL holds for a log of connections. A deployment under another obligation says its own. // Default: 180
  *     },
