@@ -163,7 +163,10 @@ final class AccountAddressConfirmationTest extends BrowserTestCase
         $this->sendTheCode('phone_number');
 
         // Then
-        static::assertMatchesRegularExpression('#\b\d{6}\b.*\nhttps://op\.test/account/addresses/phone_number/[0-9a-f-]{36}/[A-Za-z0-9_-]{43}$#s', $this->lastText());
+        static::assertMatchesRegularExpression(
+            '#\b\d{6}\b.*\nhttps://op\.test/account/addresses/phone_number/[0-9a-f-]{36}/[A-Za-z0-9_-]{43}$#s',
+            $this->lastText(),
+        );
     }
 
     /**
@@ -183,7 +186,7 @@ final class AccountAddressConfirmationTest extends BrowserTestCase
         $this->sendTheCode('phone_number');
 
         // Then
-        static::assertStringContainsString('Votre code de confirmation est ', $this->lastText());
+        static::assertStringContainsString('Votre code de confirmation : ', $this->lastText());
     }
 
     /**

@@ -9,7 +9,7 @@
 {% block title %}{{ 'code.title'|trans }}{% endblock %}
 
 {% block content %}
-    <p>{{ client is null ? 'code.prompt_alone'|trans : 'code.prompt'|trans_with_client(client.registration.presentation.name) }}</p>
+    <p>{{ 'code.prompt'|trans }}</p>
     {% if refusal is not null %}
         <p data-error="{{ refusal.value }}">{{ ('code.failed.' ~ refusal.value)|trans }}</p>
     {% endif %}

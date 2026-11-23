@@ -128,11 +128,6 @@
         </table>
     </div>
     {{ include('@Beffroi/account/pager.html.twig', {listing: passkeys}) }}
-    {# WebAuthn Level 3 §6: "the AAGUID is not provably authentic without attestation", so the page says what
-       an authenticator it names without one is. #}
-    {% if passkeys|filter(passkey => passkey.modelProof.value == 'declared')|length > 0 %}
-        <p data-authenticators-declared>{{ 'passkeys.authenticator.declared'|trans }}</p>
-    {% endif %}
     <p data-passkey-error hidden>{{ 'passkeys.error.browser'|trans }}</p>
     <p data-passkeys-unsupported>{{ 'passkeys.unsupported'|trans }}</p>
 {% endblock %}
