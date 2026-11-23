@@ -218,6 +218,10 @@ beffroi:
         jwks_max_size: '%env(int:BEFFROI_JWKS_URI_MAX_SIZE)%'
         jwks_ttl: '%env(int:BEFFROI_JWKS_URI_TTL)%'
         jwks_refetch_cooldown: '%env(int:BEFFROI_JWKS_URI_REFETCH_COOLDOWN)%'
+    # The networks of the deployment a request whose URL a client, a registrant or a person chose may reach: none
+    # until the deployment names them (decision 0006).
+    outbound:
+        reachable_private_networks: '%env(json:BEFFROI_OUTBOUND_REACHABLE_PRIVATE_NETWORKS)%'
     request_objects:
         max_lifetime: '%env(int:BEFFROI_REQUEST_OBJECT_MAX_LIFETIME)%'
         leeway: '%env(int:BEFFROI_REQUEST_OBJECT_LEEWAY)%'

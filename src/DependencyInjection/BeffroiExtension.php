@@ -47,6 +47,7 @@ use App\Configuration\JournalSection;
 use App\Configuration\LoadSection;
 use App\Configuration\MailSection;
 use App\Configuration\MutualTlsSection;
+use App\Configuration\OutboundSection;
 use App\Configuration\PasswordsSection;
 use App\Configuration\RequestObjectsSection;
 use App\Configuration\TenantSection;
@@ -74,6 +75,7 @@ use App\Doctrine\Type\SectorIdentifierType;
 use App\Doctrine\Type\SubjectType;
 use App\Key\KmsClientPass;
 use App\Key\KmsHttpClientPass;
+use App\Http\ThirdPartyRequestsPass;
 use App\Push\WebPushHttpClientPass;
 use App\Saml\ServiceProviderEntityIdPass;
 use App\Saml\ServiceProvidersPass;
@@ -149,6 +151,7 @@ final class BeffroiExtension extends AbstractExtension
         $container->addCompilerPass(new KmsClientPass());
         $container->addCompilerPass(new KmsHttpClientPass());
         $container->addCompilerPass(new WebPushHttpClientPass());
+        $container->addCompilerPass(new ThirdPartyRequestsPass());
         $container->addCompilerPass(new ServiceProvidersPass());
         $container->addCompilerPass(new ServiceProviderEntityIdPass());
         $container->addCompilerPass(new UpstreamIdentityProvidersPass());
@@ -339,6 +342,7 @@ final class BeffroiExtension extends AbstractExtension
             new ClientsSection(),
             new SelfClientSection(),
             new ClientRegistrationSection(),
+            new OutboundSection(),
             new SamlSection(),
         ];
     }
