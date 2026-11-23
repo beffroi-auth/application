@@ -8,8 +8,10 @@ use function array_pad;
 use function count;
 use function explode;
 use function is_string;
+use function ltrim;
 use function str_contains;
 use function str_starts_with;
+use function strtr;
 use Symfony\Component\HttpFoundation\Request;
 use function urldecode;
 
@@ -75,7 +77,7 @@ final readonly class RequestParameters
             if ($name === '' || str_contains($name, '[')) {
                 continue;
             }
-            $occurrences[$name][] = urldecode($value);
+            $occurrences[self::asPhpFilesIt($name)][] = urldecode($value);
         }
 
         $repeated = [];
@@ -86,6 +88,17 @@ final readonly class RequestParameters
         }
 
         return $repeated;
+    }
+
+    /**
+     * PHP drops the leading spaces of a name and reads a space or a dot as "_", so two spellings fill one parameter.
+     */
+    private static function asPhpFilesIt(string $name): string
+    {
+        return strtr(ltrim($name, ' '), [
+            ' ' => '_',
+            '.' => '_',
+        ]);
     }
 
     private static function queryString(Request $request): string
