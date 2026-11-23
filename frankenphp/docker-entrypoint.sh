@@ -1,6 +1,34 @@
 #!/bin/sh
 set -e
 
+# The role a database URL names, the URL read as the application reads a secret (App\Configuration\SecretFile): the
+# variable, or the file its twin ending in _FILE names, both set refused. The URL reaches PHP on its standard input and
+# goes into no environment.
+role_of() {
+	url="$(printenv "$1" || true)"
+	file="$(printenv "$1_FILE" || true)"
+	if [ -n "$url" ] && [ -n "$file" ]; then
+		echo "\"$1\" and \"$1_FILE\" are both set: a secret is named by one of them." >&2
+		return 1
+	fi
+	if [ -n "$file" ]; then
+		url="$(cat "$file")"
+	fi
+	printf '%s' "$url" | php -r 'echo rawurldecode((string) parse_url((string) stream_get_contents(STDIN), PHP_URL_USER));'
+}
+
+# A command played as the role that owns the tables: BEFFROI_MIGRATIONS_DATABASE_URL, or the file of its twin, in the
+# place of DATABASE_URL and of its twin, so that the application never reads both; DATABASE_URL when neither is set.
+as_the_owner() {
+	if [ -n "${BEFFROI_MIGRATIONS_DATABASE_URL_FILE:-}" ]; then
+		env -u DATABASE_URL DATABASE_URL_FILE="$BEFFROI_MIGRATIONS_DATABASE_URL_FILE" "$@"
+	elif [ -n "${BEFFROI_MIGRATIONS_DATABASE_URL:-}" ]; then
+		env -u DATABASE_URL_FILE DATABASE_URL="$BEFFROI_MIGRATIONS_DATABASE_URL" "$@"
+	else
+		"$@"
+	fi
+}
+
 if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 	if [ "$1" = 'frankenphp' ]; then
 		docker-request-bounds
@@ -44,12 +72,11 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 		# (compose.yaml) starts once it is healthy and finds both. BEFFROI_MIGRATIONS_DATABASE_URL names the role
 		# that owns the tables: it plays the migrations, and grants the role of DATABASE_URL when it is another.
 		if [ "$1" = 'frankenphp' ]; then
-			MIGRATIONS_DATABASE_URL="${BEFFROI_MIGRATIONS_DATABASE_URL:-$DATABASE_URL}"
-			DATABASE_URL="$MIGRATIONS_DATABASE_URL" php bin/console doctrine:migrations:migrate --no-interaction --all-or-nothing
-			RUNTIME_ROLE=$(php -r 'echo rawurldecode((string) parse_url((string) getenv("DATABASE_URL"), PHP_URL_USER));')
-			OWNER_ROLE=$(MIGRATIONS_DATABASE_URL="$MIGRATIONS_DATABASE_URL" php -r 'echo rawurldecode((string) parse_url((string) getenv("MIGRATIONS_DATABASE_URL"), PHP_URL_USER));')
-			if [ -n "$RUNTIME_ROLE" ] && [ "$RUNTIME_ROLE" != "$OWNER_ROLE" ]; then
-				DATABASE_URL="$MIGRATIONS_DATABASE_URL" php bin/console beffroi:database:grant "$RUNTIME_ROLE" --no-interaction
+			RUNTIME_ROLE=$(role_of DATABASE_URL)
+			OWNER_ROLE=$(role_of BEFFROI_MIGRATIONS_DATABASE_URL)
+			as_the_owner php bin/console doctrine:migrations:migrate --no-interaction --all-or-nothing
+			if [ -n "$RUNTIME_ROLE" ] && [ -n "$OWNER_ROLE" ] && [ "$RUNTIME_ROLE" != "$OWNER_ROLE" ]; then
+				as_the_owner php bin/console beffroi:database:grant "$RUNTIME_ROLE" --no-interaction
 			fi
 			php bin/console beffroi:tenant:synchronize --no-interaction
 		fi
