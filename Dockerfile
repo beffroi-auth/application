@@ -162,7 +162,9 @@ COPY --chown=33:0 --from=frankenphp_prod_builder /app/var /app/var
 # listener carries the options a deployment gives them all (CADDY_SERVER_OPTIONS) and bounds the headers of a
 # request, and each site its body (issue #1191); docker-request-bounds passes a size of 1B and one of 7EiB, and
 # stops on a size of each of their variables that bounds nothing (issue #1198). The access log of each site keeps the
-# value of no parameter and of no ticket.
+# value of no parameter and of no ticket. The worker of the provider runs 4 threads and the one of the administration
+# API 2, whatever the cores of the host, each number set by its variable and a "num" of FRANKENPHP_WORKER_CONFIG
+# winning over both (issue #1387).
 # The configuration is adapted and not validated: validating provisions it, which draws the key of the internal
 # CA of Caddy into /data, and every deployment of the image would start with the same one. Adapted as the image runs
 # it, the configuration has no administration API of Caddy.
@@ -185,6 +187,13 @@ RUN set -eux; \
     test "$(echo "${behind_a_proxy}" | grep -o '"max_header_bytes":16384' | wc -l)" -eq 2; \
     echo "${behind_a_proxy}" | grep -q '"max_size":2097152'; \
     echo "${behind_a_proxy}" | grep -q '"max_size":262144'; \
+    test "$(echo "${behind_a_proxy}" | grep -o '"num":[0-9]*' | sort | tr '\n' ' ')" = '"num":2 "num":4 '; \
+    workers="$(TLS_TERMINATION=proxy SERVER_NAME=:80 ADMINISTRATION_SERVER_NAME=:81 CADDY_EXTRA_CONFIG='import administration.Caddyfile' \
+        FRANKENPHP_WORKER_NUM=7 FRANKENPHP_ADMINISTRATION_WORKER_NUM=3 frankenphp adapt --config /etc/frankenphp/Caddyfile)"; \
+    test "$(echo "${workers}" | grep -o '"num":[0-9]*' | sort | tr '\n' ' ')" = '"num":3 "num":7 '; \
+    workers="$(TLS_TERMINATION=proxy SERVER_NAME=:80 ADMINISTRATION_SERVER_NAME=:81 CADDY_EXTRA_CONFIG='import administration.Caddyfile' \
+        FRANKENPHP_WORKER_CONFIG='num 5' frankenphp adapt --config /etc/frankenphp/Caddyfile)"; \
+    test "$(echo "${workers}" | grep -o '"num":[0-9]*' | sort | tr '\n' ' ')" = '"num":5 "num":5 '; \
     test "$(echo "${behind_a_proxy}" | grep -o '"filter":"multi_regexp"' | wc -l)" -eq 2; \
     CADDY_MAX_HEADER_SIZE=1B CADDY_REQUEST_BODY_MAX_SIZE=7EiB docker-request-bounds; \
     for nothing in CADDY_MAX_HEADER_SIZE=0KiB CADDY_REQUEST_BODY_MAX_SIZE=0.4B CADDY_ADMINISTRATION_REQUEST_BODY_MAX_SIZE=8EiB; do \

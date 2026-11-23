@@ -1,7 +1,12 @@
 # Worker mode: symfony/runtime detects FRANKENPHP_WORKER and runs the kernel in its FrankenPhpWorkerRunner.
-# FRANKENPHP_WORKER_CONFIG carries the "watch" directives of the development stack (compose.yaml), nothing
-# in production.
+#
+# Each thread of the worker boots a kernel of its own and keeps its connection to the database for as long as it
+# lives, so the number of threads is the number of connections the server holds. It is FRANKENPHP_WORKER_NUM, 4 unless
+# a deployment names another, and never what FrankenPHP starts when no number is given, twice the CPUs of the host.
+# 0 is that default of FrankenPHP. FRANKENPHP_WORKER_CONFIG carries the "watch" directives of the development stack
+# (compose.yaml), nothing in production; a "num" it carries comes after, and wins.
 worker {
 	file ./public/index.php
+	num {$FRANKENPHP_WORKER_NUM:4}
 	{$FRANKENPHP_WORKER_CONFIG}
 }

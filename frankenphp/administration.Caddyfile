@@ -11,6 +11,9 @@
 # CADDY_SERVER_EXTRA_DIRECTIVES are those of the site of SERVER_NAME: behind a proxy, the one that hands PHP the address
 # of the client. Each site has its own, since a directive of one may not fit the other, such as a "tls" line on a site
 # a proxy reaches in plain HTTP.
+#
+# Its worker runs FRANKENPHP_ADMINISTRATION_WORKER_NUM threads, 2 unless a deployment names another, each holding a
+# connection to the database as the threads of worker.Caddyfile do.
 {$ADMINISTRATION_SERVER_NAME} {
 	import access_log
 
@@ -28,6 +31,7 @@
 			file ./public/index.php
 			name administration
 			env BEFFROI_PLANE administration
+			num {$FRANKENPHP_ADMINISTRATION_WORKER_NUM:2}
 			{$FRANKENPHP_WORKER_CONFIG}
 		}
 	}
