@@ -27,7 +27,7 @@ final readonly class IssuedTicketOutput
     {
         $io->definitionList(
             [
-                'Person' => $issued->ticket->user->username,
+                'Person' => PrintedText::of($issued->ticket->user->username),
             ],
             [
                 'Opens until' => $issued->ticket->expiresAt->format('c'),

@@ -48,18 +48,18 @@ final readonly class UserLinkCommand
         try {
             $identity = $this->linker->link($user, $provider, $subject);
         } catch (InvalidArgumentException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::INVALID;
         } catch (IdentityAlreadyLinkedException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::FAILURE;
         }
 
         $io->definitionList(
             [
-                'Username' => $user->username,
+                'Username' => PrintedText::of($user->username),
             ],
             [
                 'Provider' => $identity->provider,
@@ -74,7 +74,12 @@ final readonly class UserLinkCommand
                 'Tenant' => $tenant->slug,
             ],
         );
-        $io->success(sprintf('The subject "%s" of the provider "%s" is the user "%s".', $identity->subject, $identity->provider, $user->username));
+        $io->success(sprintf(
+            'The subject "%s" of the provider "%s" is the user "%s".',
+            $identity->subject,
+            $identity->provider,
+            PrintedText::inBlock($user->username),
+        ));
 
         return Command::SUCCESS;
     }

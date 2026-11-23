@@ -21,7 +21,7 @@ final readonly class ConfiguredTenant
         try {
             return $this->tenants->provide();
         } catch (TenantNotSynchronizedException $exception) {
-            $io->error([$exception->getMessage(), 'Run "beffroi:tenant:synchronize" first.']);
+            $io->error([PrintedText::inBlock($exception->getMessage()), 'Run "beffroi:tenant:synchronize" first.']);
 
             return null;
         }

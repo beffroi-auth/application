@@ -58,11 +58,11 @@ final readonly class UserCreateCommand
                 $subject === null ? null : new Subject($subject),
             );
         } catch (InvalidArgumentException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::INVALID;
         } catch (UserAlreadyExistsException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::FAILURE;
         }

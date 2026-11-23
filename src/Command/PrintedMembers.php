@@ -29,7 +29,7 @@ final readonly class PrintedMembers
         ksort($members);
 
         return array_map(
-            static fn (string $name): array => [$name, self::shown($members[$name])],
+            static fn (string $name): array => [PrintedText::of($name), PrintedText::of(self::shown($members[$name]))],
             array_keys($members),
         );
     }

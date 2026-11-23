@@ -71,7 +71,7 @@ final readonly class ClientShowCommand
                 'Client id' => $client->clientId,
             ],
             [
-                'Name' => $client->clientName ?? '',
+                'Name' => PrintedText::of($client->clientName ?? ''),
             ],
             [
                 'Source' => $client->source,

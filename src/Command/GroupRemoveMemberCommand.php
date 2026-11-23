@@ -58,11 +58,11 @@ final readonly class GroupRemoveMemberCommand
         try {
             $this->memberships->remove($named, $user, $this->contexts->fromConsole(self::NAME));
         } catch (GroupMembershipException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::FAILURE;
         }
-        $io->success(sprintf('"%s" is no longer a member of the group "%s".', $user->username, $named->name));
+        $io->success(sprintf('"%s" is no longer a member of the group "%s".', PrintedText::inBlock($user->username), PrintedText::inBlock($named->name)));
 
         return Command::SUCCESS;
     }

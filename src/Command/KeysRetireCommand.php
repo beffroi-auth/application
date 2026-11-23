@@ -80,11 +80,11 @@ final readonly class KeysRetireCommand
                 ? $this->retirement->retireBeforeItsDate($tenant, $kid, $context)
                 : $this->retirement->retire($tenant, $kid, $context);
         } catch (RetirementNotDueException $exception) {
-            $io->error([$exception->getMessage(), 'Wait for the date, or pass --force if nothing bound to it can arrive any more.']);
+            $io->error([PrintedText::inBlock($exception->getMessage()), 'Wait for the date, or pass --force if nothing bound to it can arrive any more.']);
 
             return Command::FAILURE;
         } catch (KeyNotFoundException|LogicException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::FAILURE;
         }

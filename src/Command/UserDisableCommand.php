@@ -44,11 +44,11 @@ final readonly class UserDisableCommand
 
         $ended = $this->disabling->disable($user, $this->contexts->fromConsole(self::NAME));
         if ($ended === null) {
-            $io->note(sprintf('The user "%s" was disabled already: nothing changed.', $user->username));
+            $io->note(sprintf('The user "%s" was disabled already: nothing changed.', PrintedText::inBlock($user->username)));
 
             return Command::SUCCESS;
         }
-        $io->success(sprintf('The user "%s" is disabled, and %d session(s) of theirs ended.', $user->username, $ended));
+        $io->success(sprintf('The user "%s" is disabled, and %d session(s) of theirs ended.', PrintedText::inBlock($user->username), $ended));
 
         return Command::SUCCESS;
     }

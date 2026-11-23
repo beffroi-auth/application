@@ -48,7 +48,7 @@ final readonly class UserTotpTicketCommand
         try {
             $issued = $this->tickets->issue($user, $this->contexts->fromConsole(self::NAME));
         } catch (TicketRefusedException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::INVALID;
         }
@@ -56,7 +56,7 @@ final readonly class UserTotpTicketCommand
         $this->output->print($io, TotpTicketController::ROUTE, $issued);
         $io->success(sprintf(
             'The link is printed once and opens one set-up of an authenticator app; whoever issued it hands it over. Any authenticator app link issued for "%s" before this one opens nothing any more, and spending it revokes the app they held and ends every session of theirs.',
-            $user->username,
+            PrintedText::inBlock($user->username),
         ));
 
         return Command::SUCCESS;

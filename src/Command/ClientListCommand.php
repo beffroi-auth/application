@@ -45,7 +45,7 @@ final readonly class ClientListCommand
             ['Client id', 'Name', 'Source', 'Registered', 'Last used'],
             array_map(static fn (InventoriedClient $client): array => [
                 $client->clientId,
-                $client->clientName ?? '',
+                PrintedText::of($client->clientName ?? ''),
                 $client->source,
                 self::date($client->registeredAt),
                 self::date($client->lastUsedAt),

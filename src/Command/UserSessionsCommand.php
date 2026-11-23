@@ -46,11 +46,11 @@ final readonly class UserSessionsCommand
         }
         $sessions = $this->sessions->findActiveByUser($user, $this->clock->now());
         if ($sessions === []) {
-            $io->text(sprintf('No session is open in the name of "%s".', $user->username));
+            $io->text(sprintf('No session is open in the name of "%s".', PrintedText::of($user->username)));
 
             return Command::SUCCESS;
         }
-        $io->title(sprintf('Sessions of "%s"', $user->username));
+        $io->title(sprintf('Sessions of "%s"', PrintedText::of($user->username)));
         $io->table(
             ['Identifier', 'Proved', 'Opened', 'Last seen', 'From'],
             array_map(static fn (AuthenticationSession $session): array => [

@@ -19,10 +19,10 @@ final readonly class MetadataRefreshments
         foreach ($refreshments as $refreshment) {
             if ($refreshment->refused) {
                 ++$refused;
-                $io->error($refreshment->what);
+                $io->error(PrintedText::inBlock($refreshment->what));
                 continue;
             }
-            $io->success($refreshment->what);
+            $io->success(PrintedText::inBlock($refreshment->what));
         }
 
         return $refused === 0 ? Command::SUCCESS : Command::FAILURE;

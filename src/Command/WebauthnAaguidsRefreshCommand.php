@@ -42,7 +42,11 @@ final readonly class WebauthnAaguidsRefreshCommand
             $document = $this->download->of($source);
             $list = AuthenticatorList::fromJson($document);
         } catch (AuthenticatorListRefusedException|DownloadRefusedException $exception) {
-            $io->error(sprintf('The list of %s is refused, nothing of it is kept and the stored one stays: %s', $source, $exception->getMessage()));
+            $io->error(sprintf(
+                'The list of %s is refused, nothing of it is kept and the stored one stays: %s',
+                $source,
+                PrintedText::inBlock($exception->getMessage()),
+            ));
 
             return Command::FAILURE;
         }

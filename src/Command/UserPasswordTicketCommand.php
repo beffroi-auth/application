@@ -48,7 +48,7 @@ final readonly class UserPasswordTicketCommand
         try {
             $issued = $this->tickets->issue($user, $this->contexts->fromConsole(self::NAME));
         } catch (TicketRefusedException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::INVALID;
         }
@@ -56,7 +56,7 @@ final readonly class UserPasswordTicketCommand
         $this->output->print($io, PasswordTicketController::ROUTE, $issued);
         $io->success(sprintf(
             'The link is printed once and opens one setting of a password; whoever issued it hands it over. Any password link issued for "%s" before this one opens nothing any more, and spending it ends every session of theirs.',
-            $user->username,
+            PrintedText::inBlock($user->username),
         ));
 
         return Command::SUCCESS;

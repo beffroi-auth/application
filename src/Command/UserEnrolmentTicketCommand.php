@@ -48,7 +48,7 @@ final readonly class UserEnrolmentTicketCommand
         try {
             $issued = $this->tickets->issue($user, $this->contexts->fromConsole(self::NAME));
         } catch (TicketRefusedException $exception) {
-            $io->error($exception->getMessage());
+            $io->error(PrintedText::inBlock($exception->getMessage()));
 
             return Command::INVALID;
         }
@@ -56,7 +56,7 @@ final readonly class UserEnrolmentTicketCommand
         $this->output->print($io, EnrolmentTicketController::ROUTE, $issued);
         $io->success(sprintf(
             'The link is printed once and opens one enrolment; whoever issued it hands it over. Any enrolment link issued for "%s" before this one opens nothing any more.',
-            $user->username,
+            PrintedText::inBlock($user->username),
         ));
 
         return Command::SUCCESS;
