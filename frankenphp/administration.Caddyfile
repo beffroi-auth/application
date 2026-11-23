@@ -16,6 +16,10 @@
 		{$CADDY_SERVER_LOG_OPTIONS}
 	}
 
+	request_body {
+		max_size {$CADDY_ADMINISTRATION_REQUEST_BODY_MAX_SIZE:256KiB}
+	}
+
 	root * /app/public
 	encode zstd br gzip
 

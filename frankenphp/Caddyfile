@@ -1,5 +1,21 @@
+# The size of a request is bounded here, before PHP runs (architecture §6). The request line and the headers, on the
+# listener of the sites, by CADDY_MAX_HEADER_SIZE (431, RFC 6585 §5), whose default is the one of Caddy itself, written
+# here so that the environment sets it and no newer base image moves it. The body by CADDY_REQUEST_BODY_MAX_SIZE on the
+# site of SERVER_NAME and the mTLS site, and by CADDY_ADMINISTRATION_REQUEST_BODY_MAX_SIZE on the site of
+# administration.Caddyfile (413, RFC 9110 §15.5.14), whether its length is announced or it is chunked. Their defaults
+# let through the largest form beffroi/saml2-bindings reads a SAML message from, and the largest S/MIME key with its
+# certificates the administration API takes.
+#
+# Caddy refuses a second "servers" block for the same listeners: the options a deployment gives them all,
+# "trusted_proxies" and "client_ip_headers" behind a proxy, are CADDY_SERVER_OPTIONS, inside this block, never a
+# "servers" block of CADDY_GLOBAL_OPTIONS.
 {
 	{$CADDY_GLOBAL_OPTIONS}
+
+	servers {
+		max_header_size {$CADDY_MAX_HEADER_SIZE:16KiB}
+		{$CADDY_SERVER_OPTIONS}
+	}
 
 	frankenphp {
 		{$FRANKENPHP_CONFIG}
@@ -41,6 +57,10 @@
 				replace authorization REDACTED
 			}
 		}
+	}
+
+	request_body {
+		max_size {$CADDY_REQUEST_BODY_MAX_SIZE:2MiB}
 	}
 
 	root * /app/public

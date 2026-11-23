@@ -136,7 +136,9 @@ COPY --chown=33:0 --from=frankenphp_prod_builder /app/var /app/var
 # FrankenPHP or an extension misses a library, or when Caddy refuses its configuration in one of the two ways
 # the image serves the site of SERVER_NAME: Caddy terminating TLS, and a proxy in front of it terminating TLS
 # (TLS_TERMINATION, issue #908). Behind such a proxy, the site of the administration API is adapted too, and
-# must carry the directives a deployment gives it (CADDY_ADMINISTRATION_EXTRA_DIRECTIVES, issue #1042).
+# must carry the directives a deployment gives it (CADDY_ADMINISTRATION_EXTRA_DIRECTIVES, issue #1042); each
+# listener carries the options a deployment gives them all (CADDY_SERVER_OPTIONS) and bounds the headers of a
+# request, and each site its body (issue #1191).
 # The configuration is adapted and not validated: validating provisions it, which draws the key of the internal
 # CA of Caddy into /data, and every deployment of the image would start with the same one.
 RUN set -eux; \
@@ -147,10 +149,16 @@ RUN set -eux; \
     frankenphp version; \
     frankenphp adapt --config /etc/frankenphp/Caddyfile > /dev/null; \
     TLS_TERMINATION=proxy SERVER_NAME=:80 frankenphp adapt --config /etc/frankenphp/Caddyfile > /dev/null; \
-    TLS_TERMINATION=proxy SERVER_NAME=:80 ADMINISTRATION_SERVER_NAME=:81 \
+    behind_a_proxy="$(TLS_TERMINATION=proxy SERVER_NAME=:80 ADMINISTRATION_SERVER_NAME=:81 \
         CADDY_EXTRA_CONFIG='import administration.Caddyfile' \
         CADDY_ADMINISTRATION_EXTRA_DIRECTIVES='request_header X-Forwarded-For {client_ip}' \
-        frankenphp adapt --config /etc/frankenphp/Caddyfile | grep -q '"X-Forwarded-For"'; \
+        CADDY_SERVER_OPTIONS='trusted_proxies static private_ranges' \
+        frankenphp adapt --config /etc/frankenphp/Caddyfile)"; \
+    echo "${behind_a_proxy}" | grep -q '"X-Forwarded-For"'; \
+    test "$(echo "${behind_a_proxy}" | grep -o '"trusted_proxies"' | wc -l)" -eq 2; \
+    test "$(echo "${behind_a_proxy}" | grep -o '"max_header_bytes":16384' | wc -l)" -eq 2; \
+    echo "${behind_a_proxy}" | grep -q '"max_size":2097152'; \
+    echo "${behind_a_proxy}" | grep -q '"max_size":262144'; \
     test -z "$(php -m 2>&1 >/dev/null)"
 
 USER 33
