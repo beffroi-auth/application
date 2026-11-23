@@ -28,7 +28,7 @@ final readonly class IssueLogoutTokenHandler
     }
 
     /**
-     * @throws ClientKeysUnavailableException when the key of the client still cannot be obtained, which the lane tries again
+     * @throws ClientKeysUnavailableException when the key of the client still cannot be obtained or receives no JWE, which the lane tries again
      * @throws KeyNotFoundException
      * @throws KmsUnavailableException
      */
