@@ -171,6 +171,7 @@ use App\Http\AuthorizationRequestReaderInterface;
 use App\Http\AuthorizationResponder;
 use App\Http\AuthorizationResponderInterface;
 use App\Http\BrowserSession;
+use App\Http\DatabaseSessions;
 use App\Http\CrossSitePost;
 use App\Http\CrossSiteSessionCookie;
 use App\Http\BrowserPreferences;
@@ -915,6 +916,10 @@ return static function (ContainerConfigurator $container): void {
     $services->set(RequestContextFactory::class);
     $services->set(FapiInteractionId::class);
     $services->set(BrowserSession::class);
+    $services
+        ->set(DatabaseSessions::class)
+        ->factory([DatabaseSessions::class, 'onTheConnectionOf'])
+        ->args([service('doctrine.dbal.default_connection'), service('beffroi.personal_data.encrypter')]);
     $services->set(InteractionPages::class);
     $services->set(CrossSitePost::class);
     $services->set(CrossSiteSessionCookie::class);
