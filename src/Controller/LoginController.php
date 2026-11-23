@@ -149,7 +149,7 @@ final readonly class LoginController
     private function form(Tenant $tenant, ?Interaction $interaction, ?LoginRequirement $requirement, ?StepUpOffer $stepUp, bool $afterTheAddress): Response
     {
         $lastUsername = $this->authentication->getLastUsername();
-        $hinted = $interaction === null ? null : $this->hints->userNamedBy($interaction->request);
+        $offered = $interaction === null ? null : $this->hints->usernameToShow($interaction->request);
         $error = $this->authentication->getLastAuthenticationError();
 
         return $this->pages->render('login.html.twig', [
@@ -157,7 +157,7 @@ final readonly class LoginController
             'client' => $interaction?->request->client,
             'requirement' => $requirement,
             'step_up' => $stepUp,
-            'username' => $lastUsername === '' ? $hinted?->username : $lastUsername,
+            'username' => $lastUsername === '' ? $offered : $lastUsername,
             'failed' => self::failed($error),
             'offered' => $this->offered->kinds($tenant),
             'after_the_address' => $afterTheAddress,
