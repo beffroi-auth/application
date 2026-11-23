@@ -1,0 +1,16 @@
+{# NIST SP 800-63B-4 §4.6: a change to the ways of signing in that no channel delivered, told once at the sign-in
+   that follows it (App\Http\UntoldChange), before the request goes on as it would have. The activity opens
+   beside the request, which stays where it was. #}
+{% extends '@Beffroi/layout.html.twig' %}
+{% trans_default_domain 'beffroi' %}
+
+{% block title %}{{ 'untold_change.title'|trans }}{% endblock %}
+
+{% block content %}
+    <p data-untold-change>{{ 'untold_change.text'|trans }}</p>
+    <p><a href="{{ path('beffroi_interaction_account_acts', {act: 'credential_change.not_told'}) }}" target="_blank" rel="noopener">{{ 'acts.title'|trans }}</a></p>
+    <form method="get" action="{{ path('beffroi_interaction_login') }}">
+        <input type="hidden" name="interaction" value="{{ interaction.id }}">
+        <button type="submit">{{ 'login.continue'|trans }}</button>
+    </form>
+{% endblock %}

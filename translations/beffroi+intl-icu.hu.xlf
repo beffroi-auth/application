@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Változásról szóló értesítés nem kézbesítve</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>Egy változásról nem sikerült értesíteni</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>A bejelentkezési módjaiban történt változásról nem sikerült értesíteni. Ha nem Ön volt, ellenőrizze a fióktevékenységet.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Fiók létrehozva</target>

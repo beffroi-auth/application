@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Change notification not delivered</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>A change could not be notified</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>A change to how you sign in could not be notified to you. If it was not you, check your account activity.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Account created</target>

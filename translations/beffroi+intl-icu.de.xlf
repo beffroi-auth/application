@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Benachrichtigung über eine Änderung nicht zugestellt</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>Eine Änderung konnte nicht mitgeteilt werden</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>Eine Änderung Ihrer Anmeldemethoden konnte Ihnen nicht mitgeteilt werden. Wenn Sie das nicht waren, prüfen Sie Ihre Kontoaktivität.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Konto erstellt</target>

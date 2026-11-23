@@ -21,6 +21,7 @@ use App\Saml\UpstreamDiscovery;
 use App\Security\PasskeyLoginException;
 use App\Http\RequestContextFactory;
 use App\Http\StepUpOffer;
+use App\Http\UntoldChange;
 use Beffroi\Oidc\Application\Authorization\AuthorizationHandler;
 use Beffroi\Oidc\Application\Hint\LoginHints;
 use Beffroi\Oidc\Domain\Interaction\Interaction;
@@ -59,6 +60,7 @@ final readonly class LoginController
         private UpstreamDiscovery $discovery,
         private LoginAddresses $addresses,
         private WhatWasRefused $refusals,
+        private UntoldChange $untold,
         private ClockInterface $clock,
     ) {
     }
@@ -82,12 +84,12 @@ final readonly class LoginController
             return $this->form($tenant, null, $requirement, $stepUp, $asksForAnAddress);
         }
         $this->locale->resume($request, $interaction);
+        $session = $this->browser->authenticationSession($request, $tenant);
+        if ($session !== null && $interaction->sawTheLoginOf($session) && $this->untold->take($request->getSession(), $session)) {
+            return $this->pages->render('untold_change.html.twig', ['interaction' => $interaction]);
+        }
         try {
-            $decision = $this->handler->resume(
-                $interaction,
-                $this->browser->authenticationSession($request, $tenant),
-                $this->contexts->fromRequest($request),
-            );
+            $decision = $this->handler->resume($interaction, $session, $this->contexts->fromRequest($request));
         } catch (InteractionExpiredException|InteractionCompletedException $exception) {
             return $this->responder->unresumable($request, $interaction, $exception);
         } catch (OAuth2Exception $exception) {

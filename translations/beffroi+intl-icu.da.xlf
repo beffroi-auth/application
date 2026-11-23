@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Notifikation om ændring ikke leveret</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>En ændring kunne ikke meddeles</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>En ændring af, hvordan du logger på, kunne ikke meddeles dig. Hvis det ikke var dig, så tjek kontoaktiviteten.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Konto oprettet</target>

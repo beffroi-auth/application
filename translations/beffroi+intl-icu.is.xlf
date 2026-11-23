@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Tilkynning um breytingu ekki afhent</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>Ekki tókst að tilkynna breytingu</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>Ekki tókst að tilkynna þér um breytingu á því hvernig þú skráir þig inn. Ef þetta varst ekki þú skaltu skoða virkni reikningsins.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Reikningur stofnaður</target>

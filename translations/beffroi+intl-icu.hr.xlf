@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Obavijest o promjeni nije dostavljena</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>Promjena nije mogla biti javljena</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>Promjena načina prijave nije vam mogla biti javljena. Ako to niste bili vi, provjerite aktivnost računa.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Račun izrađen</target>

@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Http\Account\ReachedOnTheSessionAloneInterface;
 use App\Http\AccountAccess;
 use App\Http\AccountHomePage;
+use App\Http\UntoldChange;
 use App\Http\LoginTarget;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,6 +23,7 @@ final readonly class AccountController implements ReachedOnTheSessionAloneInterf
         private AccountAccess $account,
         private LoginTarget $loginTargets,
         private AccountHomePage $page,
+        private UntoldChange $untold,
     ) {
     }
 
@@ -34,6 +36,6 @@ final readonly class AccountController implements ReachedOnTheSessionAloneInterf
         }
         $this->loginTargets->forget($request->getSession());
 
-        return $this->page->render($session);
+        return $this->page->render($session, $this->untold->take($request->getSession(), $session));
     }
 }

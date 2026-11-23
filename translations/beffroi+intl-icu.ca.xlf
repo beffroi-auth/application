@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Notificació d'un canvi no lliurada</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>No s'ha pogut notificar un canvi</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>No s'ha pogut notificar-li un canvi en els seus mètodes d'inici de sessió. Si no ha estat vostè, consulti l'activitat del compte.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Compte creat</target>

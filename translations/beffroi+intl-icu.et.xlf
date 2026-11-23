@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Muudatuse teavitust ei edastatud</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>Muudatusest ei saanud teatada</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>Teie sisselogimisviiside muudatusest ei saanud teile teatada. Kui see polnud teie, vaadake konto tegevust.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Konto loodud</target>

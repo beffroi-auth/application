@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Notificação de uma alteração não entregue</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>Não foi possível notificar uma alteração</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>Não foi possível notificá-lo de uma alteração nos seus métodos de início de sessão. Se não reconhece esta alteração, consulte a atividade da conta.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Conta criada</target>

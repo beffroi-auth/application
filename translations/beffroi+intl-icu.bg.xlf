@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Недоставено известие за промяна</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>Промяна не можа да бъде съобщена</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>Промяна в начините ви за вход не можа да ви бъде съобщена. Ако не сте били вие, проверете активността в акаунта си.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Създаден акаунт</target>

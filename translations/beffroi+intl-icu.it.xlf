@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Notifica di una modifica non recapitata</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>Non è stato possibile notificare una modifica</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>Non è stato possibile notificarLe una modifica ai Suoi metodi di accesso. Se non è stato Lei, controllare l'attività dell'account.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Account creato</target>

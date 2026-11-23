@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Обавештење о промени није достављено</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>Промена није могла бити јављена</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>Промена начина пријаве није вам могла бити јављена. Ако то нисте били ви, проверите активност налога.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Налог направљен</target>

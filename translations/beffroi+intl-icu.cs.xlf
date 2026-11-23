@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Oznámení o změně nedoručeno</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>Změnu nebylo možné oznámit</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>Změnu způsobů přihlášení vám nebylo možné oznámit. Pokud změna nepochází od vás, zkontrolujte aktivitu účtu.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Účet vytvořen</target>

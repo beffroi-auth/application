@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Notificare despre o modificare nelivrată</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>O modificare nu a putut fi notificată</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>O modificare a metodelor de conectare nu v-a putut fi notificată. Dacă nu ați fost dumneavoastră, verificați activitatea contului.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Cont creat</target>
