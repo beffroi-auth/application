@@ -110,7 +110,6 @@
                 <thead>
                     <tr>
                         <th>{{ 'notifications.channels.kind'|trans }}</th>
-                        <th>{{ 'notifications.channels.apart'|trans }}</th>
                         {% for channel in channels %}
                             <th data-channel="{{ channel }}">{{ ('notifications.channel.' ~ channel)|trans }}</th>
                         {% endfor %}
@@ -120,7 +119,6 @@
                     {% set every_kind = 'notifications.channels.every_kind'|trans %}
                     <tr data-kind="every">
                         <td>{{ every_kind }}</td>
-                        <td></td>
                         {% for channel in channels %}
                             <td><input type="checkbox" name="every[]" value="{{ channel }}" aria-label="{{ 'notifications.channels.by'|trans({kind: every_kind, channel: ('notifications.channel.' ~ channel)|trans}) }}" {% if chosen.forEveryKind is null or channel in chosen.forEveryKind %}checked{% endif %}></td>
                         {% endfor %}
@@ -130,17 +128,20 @@
                         {% set apart = chosen.setApart[kind.name] ?? null %}
                         {% set reaching = apart ?? chosen.forEveryKind %}
                         <tr data-kind="{{ kind.name }}">
-                            <td>{{ named }}</td>
-                            <td><input type="checkbox" name="apart[]" value="{{ kind.name }}" aria-label="{{ 'notifications.channels.apart_label'|trans({kind: named}) }}" {% if apart is not null %}checked{% endif %}></td>
+                            <td>
+                                {{ named }}
+                                <label data-apart><input type="checkbox" name="apart[]" value="{{ kind.name }}" aria-label="{{ 'notifications.channels.apart_label'|trans({kind: named}) }}" {% if apart is not null %}checked{% endif %}> {{ 'notifications.channels.apart'|trans }}</label>
+                            </td>
+                            <td colspan="{{ channels|length }}" data-following>{{ 'notifications.channels.following'|trans }}</td>
                             {% for channel in channels %}
-                                <td><input type="checkbox" name="channels[{{ kind.name }}][]" value="{{ channel }}" aria-label="{{ 'notifications.channels.by'|trans({kind: named, channel: ('notifications.channel.' ~ channel)|trans}) }}" {% if reaching is null or channel in reaching %}checked{% endif %}></td>
+                                <td data-own><input type="checkbox" name="channels[{{ kind.name }}][]" value="{{ channel }}" aria-label="{{ 'notifications.channels.by'|trans({kind: named, channel: ('notifications.channel.' ~ channel)|trans}) }}" {% if reaching is null or channel in reaching %}checked{% endif %}></td>
                             {% endfor %}
                         </tr>
                     {% endfor %}
                     {% for kind in every_channel_kinds %}
                         <tr data-kind="{{ kind.name }}" data-every-channel>
                             <td>{{ ('notifications.kind.' ~ kind.name)|trans }}</td>
-                            <td colspan="{{ channels|length + 1 }}">{{ 'notifications.channels.every_channel'|trans }}</td>
+                            <td colspan="{{ channels|length }}">{{ 'notifications.channels.every_channel'|trans }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

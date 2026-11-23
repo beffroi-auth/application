@@ -2159,11 +2159,15 @@
       </trans-unit>
       <trans-unit id="notifications.channels.apart" resname="notifications.channels.apart">
         <source>notifications.channels.apart</source>
-        <target>Custom</target>
+        <target>Customise</target>
       </trans-unit>
       <trans-unit id="notifications.channels.apart_label" resname="notifications.channels.apart_label">
         <source>notifications.channels.apart_label</source>
-        <target>{kind}: custom</target>
+        <target>{kind}: customise</target>
+      </trans-unit>
+      <trans-unit id="notifications.channels.following" resname="notifications.channels.following">
+        <source>notifications.channels.following</source>
+        <target>Default channels</target>
       </trans-unit>
       <trans-unit id="notifications.channels.by" resname="notifications.channels.by">
         <source>notifications.channels.by</source>

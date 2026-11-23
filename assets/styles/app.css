@@ -680,6 +680,30 @@
         @apply checkbox checkbox-sm;
     }
 
+    /* Each box and each sentence of the channels starts under its heading, the last column as the others. */
+    main[data-page="account"] form[data-channels] tbody td {
+        @apply text-left;
+    }
+
+    main[data-page="account"] form[data-channels] label[data-apart] {
+        @apply mt-1 flex items-center gap-2 font-normal text-base-content/70;
+    }
+
+    main[data-page="account"] form[data-channels] label[data-apart] input {
+        @apply shrink-0;
+    }
+
+    /* The form reads the boxes of a kind only once it is set apart: before, the line says the default
+       channels in their place, and a box hidden this way leaves the order of the keyboard too. */
+    main[data-page="account"] form[data-channels] tr:has(input[name="apart[]"]:checked) td[data-following],
+    main[data-page="account"] form[data-channels] tr:has(input[name="apart[]"]:not(:checked)) td[data-own] {
+        @apply hidden;
+    }
+
+    main[data-page="account"] form[data-channels] td[data-following] {
+        @apply text-base-content/60;
+    }
+
     /*
      * What a table is narrowed to, read above it: the words, the choices and the periods side by side,
      * going on to the next line on a screen too narrow for them, then the button that reads them and the
