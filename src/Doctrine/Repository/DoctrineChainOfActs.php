@@ -34,7 +34,7 @@ final readonly class DoctrineChainOfActs implements ChainOfActsInterface
     /**
      * The columns of an act a link is computed from, under the alias "j".
      */
-    public const string ACT = 'j.id, j.tenant_id, j.act, j.occurred_at, j.subject, j.client, j.author, j.context';
+    public const string ACT = 'j.id, j.tenant_id, j.act, j.occurred_at, j.subject, j.client, j.author, j.context, j.reason, j.method';
 
     public function __construct(
         private EntityManagers $managers,
@@ -177,6 +177,8 @@ final readonly class DoctrineChainOfActs implements ChainOfActsInterface
             self::nullableString($row['client'] ?? null),
             self::nullableString($row['author'] ?? null),
             $context,
+            self::nullableString($row['reason'] ?? null),
+            self::nullableString($row['method'] ?? null),
         );
     }
 
