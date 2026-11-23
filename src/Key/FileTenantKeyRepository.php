@@ -213,8 +213,10 @@ final readonly class FileTenantKeyRepository implements TenantKeyRepositoryInter
                 self::date($path, $document['created_at'] ?? null),
                 self::date($path, $document['activation_due_at'] ?? null),
             );
-            if ($status !== KeyStatus::Staged) {
-                $key->activate(self::date($path, $document['activated_at'] ?? null));
+            $activatedAt = $document['activated_at'] ?? null;
+            // A key that a newer one or a compromise retired while it waited was never active.
+            if ($status === KeyStatus::Active || $status !== KeyStatus::Staged && $activatedAt !== null) {
+                $key->activate(self::date($path, $activatedAt));
             }
             if ($status === KeyStatus::Retiring || $status === KeyStatus::Retired) {
                 $key->startRetiring(self::date($path, $document['retiring_at'] ?? null), self::date($path, $document['retirement_due_at'] ?? null));
