@@ -183,6 +183,7 @@ use App\Http\AuthorizationResponder;
 use App\Http\AuthorizationResponderInterface;
 use App\Http\BrowserSession;
 use App\Http\DatabaseSessions;
+use App\Http\SealedSessionRows;
 use App\Http\CrossSitePost;
 use App\Http\CrossSiteSessionCookie;
 use App\Http\BrowserPreferences;
@@ -852,6 +853,7 @@ use Jose\Component\Signature\Algorithm\HS256;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bridge\Doctrine\Messenger\DoctrineDbalCloseConnectionMiddleware;
 use Symfony\Bridge\Doctrine\Messenger\DoctrineDbalPingConnectionMiddleware;
+use Symfony\Bridge\Doctrine\SchemaListener\PdoSessionHandlerSchemaListener;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\RateLimiter\Storage\CacheStorage;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\inline_service;
@@ -951,10 +953,16 @@ return static function (ContainerConfigurator $container): void {
     $services->set(RequestContextFactory::class);
     $services->set(FapiInteractionId::class);
     $services->set(BrowserSession::class);
-    $services
-        ->set(DatabaseSessions::class)
-        ->factory([DatabaseSessions::class, 'onTheConnectionOf'])
-        ->args([service('doctrine.dbal.default_connection'), service('beffroi.personal_data.encrypter')]);
+    $services->set(DatabaseSessions::class)->args([service('doctrine.dbal.default_connection'), service('beffroi.personal_data.encrypter')]);
+    // The listener DoctrineBundle declares reads session.handler, which is no PdoSessionHandler.
+    $services->set('beffroi.session_rows_schema_listener', PdoSessionHandlerSchemaListener::class)->args([
+        inline_service(SealedSessionRows::class)->factory([SealedSessionRows::class, 'onTheConnectionOf'])->args([
+            service('doctrine.dbal.default_connection'),
+            service('beffroi.personal_data.encrypter'),
+        ]),
+    ])->tag('doctrine.event_listener', [
+        'event' => 'postGenerateSchema',
+    ]);
     $services->set(InteractionPages::class);
     $services->set(CrossSitePost::class);
     $services->set(CrossSiteSessionCookie::class);

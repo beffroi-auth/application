@@ -8,6 +8,7 @@ use App\Doctrine\PersonalData\TenantScopedEncrypter;
 use App\Doctrine\TenantSynchronizer;
 use App\Http\DatabaseSessions;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\DriverManager;
 use function json_encode;
 use PHPUnit\Framework\Attributes\Test;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -42,7 +43,7 @@ final class SessionsInTheDatabaseTest extends KernelTestCase
         $written->read(self::COOKIE);
         $written->write(self::COOKIE, 'the data of the browser');
         $written->close();
-        $another = DatabaseSessions::onTheConnectionOf(self::database(), self::sealer());
+        $another = new DatabaseSessions(self::database(), self::sealer());
 
         // When
         $another->open('', 'beffroi');
@@ -72,6 +73,30 @@ final class SessionsInTheDatabaseTest extends KernelTestCase
         static::assertStringNotContainsString('the data of the browser', (string) json_encode($dump));
     }
 
+    /**
+     * A worker serves every request with the same handler, while Doctrine closes its connection once
+     * idle_connection_ttl has passed and the network drops one left idle.
+     */
+    #[Test]
+    public function aSessionOpensOnTheConnectionDoctrineHoldsOnceTheOneOfThePreviousSessionWasDropped(): void
+    {
+        // Given
+        $sessions = self::sessions();
+        $sessions->open('', 'beffroi');
+        $sessions->read(self::COOKIE);
+        $sessions->write(self::COOKIE, 'the data of the browser');
+        $sessions->close();
+        self::dropTheConnectionOfDoctrine();
+
+        // When
+        $sessions->open('', 'beffroi');
+        $read = $sessions->read(self::COOKIE);
+        $sessions->close();
+
+        // Then
+        static::assertSame('the data of the browser', $read);
+    }
+
     private static function sessions(): DatabaseSessions
     {
         $sessions = self::getContainer()->get(DatabaseSessions::class);
@@ -86,6 +111,20 @@ final class SessionsInTheDatabaseTest extends KernelTestCase
         static::assertInstanceOf(Connection::class, $connection);
 
         return $connection;
+    }
+
+    /**
+     * The server ends the backend, as a restart or a dropped idle connection does, then Doctrine lets the connection
+     * go, as its idle connection listener does.
+     */
+    private static function dropTheConnectionOfDoctrine(): void
+    {
+        $doctrine = self::database();
+        $backend = $doctrine->fetchOne('SELECT pg_backend_pid()');
+        $administrator = DriverManager::getConnection($doctrine->getParams());
+        $administrator->fetchOne('SELECT pg_terminate_backend(?, 5000)', [$backend]);
+        $administrator->close();
+        $doctrine->close();
     }
 
     private static function sealer(): TenantScopedEncrypter
