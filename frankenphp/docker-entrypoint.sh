@@ -36,9 +36,11 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 		fi
 
 		# The migrations of the bundle (beffroi_* tables) come with its migrations path, not from ./migrations.
-		# The HTTP server migrates; a worker (compose.yaml) starts once it is healthy and finds the schema.
+		# The HTTP server migrates, then writes the row of the tenant its environment describes; a worker
+		# (compose.yaml) starts once it is healthy and finds both.
 		if [ "$1" = 'frankenphp' ]; then
 			php bin/console doctrine:migrations:migrate --no-interaction --all-or-nothing
+			php bin/console beffroi:tenant:synchronize --no-interaction
 		fi
 	fi
 
