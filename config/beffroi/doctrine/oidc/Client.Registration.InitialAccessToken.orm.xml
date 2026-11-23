@@ -19,7 +19,8 @@
         </field>
         <field name="name" type="string" column="name" length="255"/>
         <field name="registrationsAllowed" type="integer" column="registrations_allowed"/>
-        <field name="registrationsServed" type="integer" column="registrations_served"/>
+        <!-- Written by spend() alone, through the connection: a flush writing the count its request read would put an older count over a newer one. -->
+        <field name="registrationsServed" type="integer" column="registrations_served" updatable="false"/>
         <field name="issuedAt" type="datetime_immutable" column="issued_at"/>
         <field name="expiresAt" type="datetime_immutable" column="expires_at"/>
         <field name="revokedAt" type="datetime_immutable" column="revoked_at" nullable="true"/>
