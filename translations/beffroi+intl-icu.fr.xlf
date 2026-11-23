@@ -1117,6 +1117,26 @@
         <source>language.fr</source>
         <target>Français</target>
       </trans-unit>
+      <trans-unit id="language.de" resname="language.de">
+        <source>language.de</source>
+        <target>Deutsch</target>
+      </trans-unit>
+      <trans-unit id="language.es" resname="language.es">
+        <source>language.es</source>
+        <target>Español</target>
+      </trans-unit>
+      <trans-unit id="language.it" resname="language.it">
+        <source>language.it</source>
+        <target>Italiano</target>
+      </trans-unit>
+      <trans-unit id="language.nl" resname="language.nl">
+        <source>language.nl</source>
+        <target>Nederlands</target>
+      </trans-unit>
+      <trans-unit id="language.pl" resname="language.pl">
+        <source>language.pl</source>
+        <target>Polski</target>
+      </trans-unit>
       <trans-unit id="d1a7f3b9c2" resname="sessions.title">
         <source>sessions.title</source>
         <target>Sessions ouvertes</target>
