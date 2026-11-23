@@ -11,6 +11,8 @@ use Beffroi\Core\Domain\Ticket\Ticket;
 use Beffroi\Core\Port\DeadRecordsInterface;
 use Beffroi\Core\Port\TicketRepositoryInterface;
 use DateTimeImmutable;
+use function sprintf;
+use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
 /**
@@ -50,6 +52,26 @@ abstract readonly class DoctrineTicketRepository extends DoctrineRepository impl
             'createdAt' => 'ASC',
             'id' => 'ASC',
         ]);
+    }
+
+    /**
+     * Through the connection, not the unit of work, which answers with the copy it already holds.
+     */
+    public function holdsSpent(Ticket $ticket): bool
+    {
+        $manager = $this->manager();
+        $metadata = $manager->getClassMetadata($this->class);
+        $row = $manager->getConnection()->fetchAssociative(
+            sprintf('SELECT %s FROM %s WHERE %s = :id', $metadata->getColumnName('spentAt'), $metadata->getTableName(), $metadata->getColumnName('id')),
+            [
+                'id' => $ticket->id,
+            ],
+            [
+                'id' => UuidType::NAME,
+            ],
+        );
+
+        return $row === false || $row[$metadata->getColumnName('spentAt')] !== null;
     }
 
     public function save(Ticket $ticket): void

@@ -12,6 +12,7 @@ use App\Http\TotpProvisioningStore;
 use App\Http\WhatWasRefused;
 use Beffroi\Core\Application\Ticket\TotpTicketRedemption;
 use Beffroi\Core\Exception\CredentialEnrolmentFailedException;
+use Beffroi\Core\Exception\TicketRefusedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -66,6 +67,8 @@ final readonly class TotpTicketEnrolmentController
             $this->redemption->spend($ticket, $provisioning, $request->request->getString(TotpEnrolmentController::CODE_PARAMETER), $context);
         } catch (CredentialEnrolmentFailedException) {
             return $this->refused($request, TotpEnrolmentController::REFUSED);
+        } catch (TicketRefusedException) {
+            return $this->pages->error(Response::HTTP_NOT_FOUND, TotpTicketController::REFUSED);
         }
         $this->provisionings->forget($request->getSession());
 

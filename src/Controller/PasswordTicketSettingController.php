@@ -15,6 +15,7 @@ use Beffroi\Core\Domain\Credential\PlainPassword;
 use Beffroi\Core\Exception\CredentialEnrolmentFailedException;
 use Beffroi\Core\Exception\PasswordChangeRefusedException;
 use Beffroi\Core\Exception\PasswordRefusedException;
+use Beffroi\Core\Exception\TicketRefusedException;
 use function hash_equals;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -80,6 +81,8 @@ final readonly class PasswordTicketSettingController
             return $this->refused($request, $exception->refusal->value);
         } catch (CredentialEnrolmentFailedException) {
             return $this->refused($request, self::NOT_ADMITTED);
+        } catch (TicketRefusedException) {
+            return $this->pages->error(Response::HTTP_NOT_FOUND, PasswordTicketController::REFUSED);
         }
 
         return $this->pages->afterTheForm(AccountController::ROUTE);

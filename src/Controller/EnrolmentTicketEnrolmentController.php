@@ -11,9 +11,9 @@ use App\Http\PresentedTicket;
 use App\Http\RequestContextFactory;
 use App\Http\WhatWasRefused;
 use Beffroi\Core\Application\Enrolment\EnrolmentTicketRedemption;
-use Beffroi\Core\Application\Passkey\PasskeyEnrolment;
 use Beffroi\Core\Exception\CredentialEnrolmentFailedException;
 use Beffroi\Core\Exception\PasskeyAttestationRefusedException;
+use Beffroi\Core\Exception\TicketRefusedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -40,7 +40,6 @@ final readonly class EnrolmentTicketEnrolmentController
     public function __construct(
         private PresentedTicket $tickets,
         private EnrolmentTicketRedemption $redemption,
-        private PasskeyEnrolment $enrolment,
         private PasskeyOptionsStore $options,
         private FormToken $formTokens,
         private WhatWasRefused $refusals,
@@ -73,8 +72,8 @@ final readonly class EnrolmentTicketEnrolmentController
             return $this->refused($request, self::NO_CEREMONY);
         }
         try {
-            $this->enrolment->complete(
-                $ticket->user,
+            $this->redemption->enrol(
+                $ticket,
                 $request->request->getString(self::NAME_PARAMETER),
                 $options,
                 $attestation,
@@ -84,8 +83,9 @@ final readonly class EnrolmentTicketEnrolmentController
             return $this->refused($request, $exception->refusal->value);
         } catch (CredentialEnrolmentFailedException) {
             return $this->refused($request, self::REFUSED);
+        } catch (TicketRefusedException) {
+            return $this->pages->error(Response::HTTP_NOT_FOUND, EnrolmentTicketController::REFUSED);
         }
-        $this->redemption->spend($ticket);
 
         return $this->pages->afterTheForm(AccountController::ROUTE);
     }
