@@ -39,6 +39,6 @@ final readonly class IssueLogoutTokenHandler
         if ($session === null || $client === null) {
             return;
         }
-        $this->logout->tell($client, $session, $message->context);
+        $this->logout->tell($client, $session, $message->context, $message->administrator);
     }
 }

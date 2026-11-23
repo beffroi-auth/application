@@ -19,6 +19,7 @@ final readonly class SendLogoutToken implements LogoutTokenNotification
         public Uuid $sessionId,
         public Subject $subject,
         public RequestContext $context,
+        public ?Subject $administrator = null,
     ) {
     }
 }

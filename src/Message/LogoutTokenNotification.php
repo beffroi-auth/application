@@ -26,4 +26,9 @@ interface LogoutTokenNotification extends Notification
     public Subject $subject { get; }
 
     public RequestContext $context { get; }
+
+    /**
+     * The administrator of the tenant who ended the session, by the subject of their account.
+     */
+    public ?Subject $administrator { get; }
 }
