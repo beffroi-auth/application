@@ -12,11 +12,13 @@ use App\Doctrine\Listener\ClientResolver;
 use Beffroi\Core\Domain\Tenant\Tenant;
 use Beffroi\Core\Port\DeadRecordsInterface;
 use DateTimeImmutable;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Types\Types;
 use Beffroi\Oidc\Domain\Consent\Consent;
 use Beffroi\Oidc\Domain\Token\RefreshToken;
 use Beffroi\Oidc\Domain\Token\RefreshTokenFamily;
 use Beffroi\Oidc\Port\RefreshTokenRepositoryInterface;
+use Beffroi\Oidc\Port\RefreshTokenRotationInterface;
 use Beffroi\Oidc\Port\RefreshTokensOfAConsentInterface;
 use SortDirection;
 use function sprintf;
@@ -29,6 +31,7 @@ use Symfony\Component\Uid\Uuid;
 final readonly class DoctrineRefreshTokenRepository extends DoctrineRepository implements
     DeadRecordsInterface,
     RefreshTokenRepositoryInterface,
+    RefreshTokenRotationInterface,
     RefreshTokensOfAConsentInterface
 {
     public function __construct(
@@ -146,6 +149,40 @@ final readonly class DoctrineRefreshTokenRepository extends DoctrineRepository i
             ->getResult();
 
         return array_values(array_filter($tokens, ClientResolver::isResolved(...)));
+    }
+
+    /**
+     * Through the connection, not the unit of work: of two requests presenting the same token, one rotates it.
+     */
+    public function rotate(RefreshToken $token, DateTimeImmutable $now): bool
+    {
+        $manager = $this->manager();
+        $metadata = $manager->getClassMetadata(RefreshToken::class);
+        $rotatedAt = $metadata->getColumnName('rotatedAt');
+        $claimed =
+            $manager->getConnection()->executeStatement(
+                sprintf(
+                    'UPDATE %s SET %s = :now WHERE %s = :tokenHash AND %s IS NULL AND %s IS NULL',
+                    $metadata->getTableName(),
+                    $rotatedAt,
+                    $metadata->getColumnName('tokenHash'),
+                    $rotatedAt,
+                    $metadata->getColumnName('revokedAt'),
+                ),
+                [
+                    'now' => $now,
+                    'tokenHash' => $token->tokenHash,
+                ],
+                [
+                    'now' => Types::DATETIME_IMMUTABLE,
+                    'tokenHash' => ParameterType::STRING,
+                ],
+            ) === 1;
+        if ($claimed) {
+            $token->rotate($now);
+        }
+
+        return $claimed;
     }
 
     public function save(RefreshToken $token): void
