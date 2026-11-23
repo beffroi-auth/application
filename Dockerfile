@@ -30,6 +30,7 @@ ENV PHP_INI_SCAN_DIR=":$PHP_INI_DIR/app.conf.d"
 COPY --link apps/beffroi/frankenphp/conf.d/10-app.ini $PHP_INI_DIR/app.conf.d/
 COPY --link --chmod=755 apps/beffroi/frankenphp/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 COPY --link --chmod=755 apps/beffroi/frankenphp/docker-healthcheck.php /usr/local/bin/docker-healthcheck
+COPY --link --chmod=755 apps/beffroi/frankenphp/docker-request-bounds.sh /usr/local/bin/docker-request-bounds
 COPY --link apps/beffroi/frankenphp/Caddyfile /etc/frankenphp/Caddyfile
 COPY --link apps/beffroi/frankenphp/worker.Caddyfile /etc/frankenphp/worker.Caddyfile
 COPY --link apps/beffroi/frankenphp/mtls.Caddyfile /etc/frankenphp/mtls.Caddyfile
@@ -112,7 +113,7 @@ ENV PHP_INI_SCAN_DIR=":/usr/local/etc/php/app.conf.d"
 ENV XDG_CONFIG_HOME=/config XDG_DATA_HOME=/data GODEBUG=cgocheck=0
 ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt OPENSSL_CONF=/etc/ssl/openssl.cnf
 
-COPY --link --from=frankenphp_prod_builder /usr/local/bin/frankenphp /usr/local/bin/php /usr/local/bin/docker-php-entrypoint /usr/local/bin/docker-entrypoint /usr/local/bin/docker-healthcheck /usr/local/bin/
+COPY --link --from=frankenphp_prod_builder /usr/local/bin/frankenphp /usr/local/bin/php /usr/local/bin/docker-php-entrypoint /usr/local/bin/docker-entrypoint /usr/local/bin/docker-healthcheck /usr/local/bin/docker-request-bounds /usr/local/bin/
 COPY --link --from=frankenphp_prod_builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
 COPY --link --from=frankenphp_prod_builder /usr/local/etc/php /usr/local/etc/php
 COPY --link --from=frankenphp_prod_builder /tmp/libs /usr/lib/
@@ -139,7 +140,8 @@ COPY --chown=33:0 --from=frankenphp_prod_builder /app/var /app/var
 # (TLS_TERMINATION, issue #908). Behind such a proxy, the site of the administration API is adapted too, and
 # must carry the directives a deployment gives it (CADDY_ADMINISTRATION_EXTRA_DIRECTIVES, issue #1042); each
 # listener carries the options a deployment gives them all (CADDY_SERVER_OPTIONS) and bounds the headers of a
-# request, and each site its body (issue #1191).
+# request, and each site its body (issue #1191); docker-request-bounds passes a size of 1B and one of 7EiB, and
+# stops on a size of each of their variables that bounds nothing (issue #1198).
 # The configuration is adapted and not validated: validating provisions it, which draws the key of the internal
 # CA of Caddy into /data, and every deployment of the image would start with the same one.
 RUN set -eux; \
@@ -160,6 +162,10 @@ RUN set -eux; \
     test "$(echo "${behind_a_proxy}" | grep -o '"max_header_bytes":16384' | wc -l)" -eq 2; \
     echo "${behind_a_proxy}" | grep -q '"max_size":2097152'; \
     echo "${behind_a_proxy}" | grep -q '"max_size":262144'; \
+    CADDY_MAX_HEADER_SIZE=1B CADDY_REQUEST_BODY_MAX_SIZE=7EiB docker-request-bounds; \
+    for nothing in CADDY_MAX_HEADER_SIZE=0KiB CADDY_REQUEST_BODY_MAX_SIZE=0.4B CADDY_ADMINISTRATION_REQUEST_BODY_MAX_SIZE=8EiB; do \
+        if env "${nothing}" docker-request-bounds; then exit 1; fi; \
+    done; \
     test -z "$(php -m 2>&1 >/dev/null)"
 
 USER 33
