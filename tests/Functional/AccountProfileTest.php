@@ -34,22 +34,25 @@ final class AccountProfileTest extends BrowserTestCase
         $page = $this->profilePage();
 
         // Then
-        static::assertSame([
-            'phone_number',
-            'name',
-            'given_name',
-            'family_name',
-            'middle_name',
-            'nickname',
-            'preferred_username',
-            'birthdate',
-            'gender',
-            'locale',
-            'zoneinfo',
-            'profile',
-            'picture',
-            'website',
-        ], $page->filter('form[data-editable]')->extract(['data-editable']));
+        static::assertSame(
+            [
+                'phone_number',
+                'name',
+                'given_name',
+                'family_name',
+                'middle_name',
+                'nickname',
+                'preferred_username',
+                'birthdate',
+                'gender',
+                'locale',
+                'zoneinfo',
+                'profile',
+                'picture',
+                'website',
+            ],
+            $page->filter('form[data-editable]')->extract(['data-editable']),
+        );
     }
 
     #[Test]
@@ -64,7 +67,7 @@ final class AccountProfileTest extends BrowserTestCase
 
         // Then
         static::assertSame(
-            ['That is not a value this provider can hold for that.'],
+            ['This value is not valid.'],
             $page->filter('form[data-editable="zoneinfo"] ul li')->extract(['_text']),
         );
         static::assertCount(0, $page->filter('form[data-editable="nickname"] ul li'));

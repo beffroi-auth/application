@@ -22,7 +22,7 @@ final class AccountHomeTest extends BrowserTestCase
         static::assertSame('/account/passkeys', $card->filter('a')->attr('href'));
         static::assertSame('Your passkeys', $card->filter('a')->text());
         static::assertSame(
-            'Signing in with your device rather than a password.',
+            'Sign in with your device, without a password.',
             $card->filter('p[data-section-about]')->text(),
         );
         static::assertSame('No passkey', $card->filter('span[data-state]')->text());

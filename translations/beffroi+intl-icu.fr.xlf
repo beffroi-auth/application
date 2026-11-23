@@ -11,39 +11,39 @@
       </trans-unit>
       <trans-unit id="456091ca2c" resname="login.prompt">
         <source>login.prompt</source>
-        <target>{client} vous demande de vous connecter.</target>
+        <target>Connectez-vous pour continuer vers {client}.</target>
       </trans-unit>
       <trans-unit id="80fbd248a3" resname="login.reauthentication">
         <source>login.reauthentication</source>
-        <target>Veuillez vous reconnecter pour continuer.</target>
+        <target>Reconnectez-vous pour continuer.</target>
       </trans-unit>
       <trans-unit id="d3cdf3d871" resname="login.step_up">
         <source>login.step_up</source>
-        <target>{client} exige une connexion plus forte que celle que vous avez.</target>
+        <target>{client} demande une connexion plus sûre.</target>
       </trans-unit>
       <trans-unit id="bc176883bc" resname="login.step_up_alone">
         <source>login.step_up_alone</source>
-        <target>Une connexion plus forte que celle que vous avez est exigée.</target>
+        <target>Une connexion plus sûre est demandée.</target>
       </trans-unit>
       <trans-unit id="6282806c35" resname="login.step_up.passkey">
         <source>login.step_up.passkey</source>
-        <target>Une passkey la satisferait.</target>
+        <target>Une passkey convient.</target>
       </trans-unit>
       <trans-unit id="2063082125" resname="login.step_up.password">
         <source>login.step_up.password</source>
-        <target>Votre mot de passe la satisferait.</target>
+        <target>Votre mot de passe convient.</target>
       </trans-unit>
       <trans-unit id="9702602430" resname="login.step_up.totp">
         <source>login.step_up.totp</source>
-        <target>Votre mot de passe suivi du code de votre application d'authentification la satisferait.</target>
+        <target>Votre mot de passe suivi d'un code de votre application d'authentification convient.</target>
       </trans-unit>
       <trans-unit id="55b0f4b87b" resname="login.failed">
         <source>login.failed</source>
-        <target>La connexion a échoué. Vérifiez votre nom d’utilisateur et votre mot de passe, puis réessayez.</target>
+        <target>Nom d'utilisateur ou mot de passe incorrect.</target>
       </trans-unit>
       <trans-unit id="04690da6d3" resname="login.username">
         <source>login.username</source>
-        <target>Nom d’utilisateur</target>
+        <target>Nom d'utilisateur</target>
       </trans-unit>
       <trans-unit id="f65ca78fed" resname="login.password">
         <source>login.password</source>
@@ -67,11 +67,11 @@
       </trans-unit>
       <trans-unit id="55eb317d06" resname="consent.request">
         <source>consent.request</source>
-        <target>{client} demande l’accès à :</target>
+        <target>{client} demande l'accès à :</target>
       </trans-unit>
       <trans-unit id="57188e00f3" resname="consent.authorization_details">
         <source>consent.authorization_details</source>
-        <target>{client} demande en outre l’autorisation de :</target>
+        <target>{client} demande aussi l'autorisation de :</target>
       </trans-unit>
       <trans-unit id="dd97b47622" resname="consent.policy_uri">
         <source>consent.policy_uri</source>
@@ -79,7 +79,7 @@
       </trans-unit>
       <trans-unit id="c7a5045153" resname="consent.tos_uri">
         <source>consent.tos_uri</source>
-        <target>Conditions d’utilisation de {client}</target>
+        <target>Conditions d'utilisation de {client}</target>
       </trans-unit>
       <trans-unit id="8043c439f3" resname="consent.client_uri">
         <source>consent.client_uri</source>
@@ -95,7 +95,7 @@
       </trans-unit>
       <trans-unit id="bbb000871f" resname="scope.openid">
         <source>scope.openid</source>
-        <target>Qui vous êtes : votre identifiant chez ce fournisseur</target>
+        <target>Votre identifiant</target>
       </trans-unit>
       <trans-unit id="2e384f832b" resname="scope.profile">
         <source>scope.profile</source>
@@ -115,7 +115,7 @@
       </trans-unit>
       <trans-unit id="33607b30f0" resname="scope.offline_access">
         <source>scope.offline_access</source>
-        <target>Un accès en votre absence, jusqu’à ce que vous le révoquiez</target>
+        <target>Un accès en votre absence, jusqu'à ce que vous le retiriez</target>
       </trans-unit>
       <trans-unit id="aac9493a9a" resname="logout.title">
         <source>logout.title</source>
@@ -127,7 +127,7 @@
       </trans-unit>
       <trans-unit id="5c9a3f6527" resname="logout.prompt.anonymous">
         <source>logout.prompt.anonymous</source>
-        <target>Votre déconnexion est demandée.</target>
+        <target>Une application demande à vous déconnecter.</target>
       </trans-unit>
       <trans-unit id="beb2b22fa9" resname="logout.signed_in_as">
         <source>logout.signed_in_as</source>
@@ -155,43 +155,43 @@
       </trans-unit>
       <trans-unit id="66be09af33" resname="still_signed_in.unchanged">
         <source>still_signed_in.unchanged</source>
-        <target>Rien n’a été modifié.</target>
+        <target>Rien n'a été modifié.</target>
       </trans-unit>
       <trans-unit id="49a8c3fb96" resname="error.title">
         <source>error.title</source>
-        <target>Requête refusée</target>
+        <target>Impossible de continuer</target>
       </trans-unit>
       <trans-unit id="3d21b51c86" resname="error.default">
         <source>error.default</source>
-        <target>Ce fournisseur ne peut pas servir la requête. Recommencez depuis l’application.</target>
+        <target>Cette demande ne peut pas aboutir. Recommencez depuis l'application.</target>
       </trans-unit>
       <trans-unit id="607d0dc2ff" resname="error.unknown_interaction">
         <source>error.unknown_interaction</source>
-        <target>Aucune requête n’attend cette page. Recommencez depuis l’application.</target>
+        <target>Cette demande est introuvable. Recommencez depuis l'application.</target>
       </trans-unit>
       <trans-unit id="feaea8469d" resname="error.interaction_expired">
         <source>error.interaction_expired</source>
-        <target>La requête a pris trop de temps. Recommencez depuis l’application.</target>
+        <target>Cette demande a expiré. Recommencez depuis l'application.</target>
       </trans-unit>
       <trans-unit id="35d471521d" resname="error.interaction_completed">
         <source>error.interaction_completed</source>
-        <target>La requête a déjà reçu sa réponse. Recommencez depuis l’application.</target>
+        <target>Cette demande est déjà terminée. Recommencez depuis l'application.</target>
       </trans-unit>
       <trans-unit id="7a2863564f" resname="error.invalid_csrf_token">
         <source>error.invalid_csrf_token</source>
-        <target>Le formulaire n’a pas été envoyé depuis ce fournisseur. Recommencez depuis l’application.</target>
+        <target>Le formulaire n'est plus valable. Recommencez depuis l'application.</target>
       </trans-unit>
       <trans-unit id="9b1e13b67f" resname="error.invalid_request">
         <source>error.invalid_request</source>
-        <target>L’application a envoyé une requête que ce fournisseur ne peut pas servir. Recommencez depuis l’application.</target>
+        <target>L'application a envoyé une demande invalide. Recommencez depuis l'application.</target>
       </trans-unit>
       <trans-unit id="7afc04115d" resname="error.too_many_requests">
         <source>error.too_many_requests</source>
-        <target>Ce fournisseur a reçu trop de requêtes et n’a pas servi celle-ci. Patientez un instant, puis recommencez depuis l’application.</target>
+        <target>Trop de demandes. Patientez un instant, puis recommencez depuis l'application.</target>
       </trans-unit>
       <trans-unit id="0357cea9c3" resname="error.no_login_to_begin">
         <source>error.no_login_to_begin</source>
-        <target>Aucune application de ce fournisseur n’ouvre une connexion depuis cette page. Recommencez depuis l’application.</target>
+        <target>Ce lien ne mène à aucune application. Recommencez depuis l'application.</target>
       </trans-unit>
       <trans-unit id="276b888c75" resname="login.passkey">
         <source>login.passkey</source>
@@ -199,11 +199,11 @@
       </trans-unit>
       <trans-unit id="d88f3b782b" resname="login.passkey_failed">
         <source>login.passkey_failed</source>
-        <target>La passkey n’a pas pu être utilisée. Réessayez, ou connectez-vous avec votre mot de passe.</target>
+        <target>La passkey n'a pas fonctionné. Réessayez.</target>
       </trans-unit>
       <trans-unit id="login.passkey_only" resname="login.passkey_only">
         <source>login.passkey_only</source>
-        <target>Ce fournisseur vous connecte avec votre passkey.</target>
+        <target>Connectez-vous avec votre passkey.</target>
       </trans-unit>
       <trans-unit id="login.address" resname="login.address">
         <source>login.address</source>
@@ -215,7 +215,7 @@
       </trans-unit>
       <trans-unit id="login.address_unreadable" resname="login.address_unreadable">
         <source>login.address_unreadable</source>
-        <target>Cette adresse ne peut pas être lue. Vérifiez-la, puis réessayez.</target>
+        <target>Cette adresse n'est pas valide.</target>
       </trans-unit>
       <trans-unit id="login.other_address" resname="login.other_address">
         <source>login.other_address</source>
@@ -223,19 +223,19 @@
       </trans-unit>
       <trans-unit id="account.federated_domain" resname="account.federated_domain">
         <source>account.federated_domain</source>
-        <target>Votre organisation vous connecte : aucun mot de passe, aucune passkey ni aucune application d’authentification de ce compte ne vous connecte, et aucun n’y est ajouté.</target>
+        <target>Vous vous connectez par votre organisation : rien n'est à configurer ici.</target>
       </trans-unit>
       <trans-unit id="passkeys.error.federated_domain" resname="passkeys.error.federated_domain">
         <source>passkeys.error.federated_domain</source>
-        <target>Votre organisation vous connecte : aucune passkey n’est ajoutée à ce compte.</target>
+        <target>Vous vous connectez par votre organisation : aucune passkey ne peut être ajoutée.</target>
       </trans-unit>
       <trans-unit id="two_factor.error.federated_domain" resname="two_factor.error.federated_domain">
         <source>two_factor.error.federated_domain</source>
-        <target>Votre organisation vous connecte : aucune application d’authentification n’est configurée pour ce compte.</target>
+        <target>Vous vous connectez par votre organisation : aucune application d'authentification ne peut être configurée.</target>
       </trans-unit>
       <trans-unit id="password.error.federated_domain" resname="password.error.federated_domain">
         <source>password.error.federated_domain</source>
-        <target>Votre organisation vous connecte : aucun mot de passe n’est posé pour ce compte.</target>
+        <target>Vous vous connectez par votre organisation : aucun mot de passe ne peut être défini.</target>
       </trans-unit>
       <trans-unit id="a71d2a8f04" resname="account.title">
         <source>account.title</source>
@@ -263,11 +263,11 @@
       </trans-unit>
       <trans-unit id="0fe4f1a644" resname="account.two_factor.state.none">
         <source>account.two_factor.state.none</source>
-        <target>Aucune application d’authentification</target>
+        <target>Aucune application d'authentification</target>
       </trans-unit>
       <trans-unit id="ab8c5a2fff" resname="account.two_factor.state.active">
         <source>account.two_factor.state.active</source>
-        <target>Une application d’authentification</target>
+        <target>Une application d'authentification</target>
       </trans-unit>
       <trans-unit id="ee464a5f53" resname="account.back">
         <source>account.back</source>
@@ -281,13 +281,9 @@
         <source>profile.title</source>
         <target>Vos informations</target>
       </trans-unit>
-      <trans-unit id="be9758262f" resname="profile.explanation">
-        <source>profile.explanation</source>
-        <target>Voici tout ce que ce fournisseur détient à votre sujet. Une application obtient ce que vous l'autorisez à obtenir et rien d'autre ; vos passkeys, votre application d'authentification et les applications que vous avez autorisées ont chacune leur page.</target>
-      </trans-unit>
       <trans-unit id="76abe8899b" resname="profile.account">
         <source>profile.account</source>
-        <target>Votre compte ici</target>
+        <target>Votre compte</target>
       </trans-unit>
       <trans-unit id="5b974a26e1" resname="profile.about_you">
         <source>profile.about_you</source>
@@ -295,7 +291,7 @@
       </trans-unit>
       <trans-unit id="eaa27dc1d2" resname="profile.none">
         <source>profile.none</source>
-        <target>Vous n'avez rien dit de vous à ce fournisseur.</target>
+        <target>Aucune information pour l'instant.</target>
       </trans-unit>
       <trans-unit id="b0e678f0e9" resname="profile.verified">
         <source>profile.verified</source>
@@ -323,7 +319,7 @@
       </trans-unit>
       <trans-unit id="4f812be1b4" resname="profile.email_verified">
         <source>profile.email_verified</source>
-        <target>Si l'adresse e-mail est vérifiée</target>
+        <target>Adresse e-mail vérifiée</target>
       </trans-unit>
       <trans-unit id="d2921f1caa" resname="profile.phone_number">
         <source>profile.phone_number</source>
@@ -331,7 +327,7 @@
       </trans-unit>
       <trans-unit id="860cda4c62" resname="profile.phone_number_verified">
         <source>profile.phone_number_verified</source>
-        <target>Si le numéro de téléphone est vérifié</target>
+        <target>Numéro de téléphone vérifié</target>
       </trans-unit>
       <trans-unit id="7c02d4292c" resname="profile.name">
         <source>profile.name</source>
@@ -419,7 +415,7 @@
       </trans-unit>
       <trans-unit id="81402f59a0" resname="passkeys.none">
         <source>passkeys.none</source>
-        <target>Vous n’avez pas encore de passkey.</target>
+        <target>Vous n'avez pas encore de passkey.</target>
       </trans-unit>
       <trans-unit id="ef84f1b8d3" resname="passkeys.name">
         <source>passkeys.name</source>
@@ -463,7 +459,7 @@
       </trans-unit>
       <trans-unit id="f86312f8a9" resname="passkeys.error.browser">
         <source>passkeys.error.browser</source>
-        <target>La passkey n’a pas pu être créée. Réessayez.</target>
+        <target>La passkey n'a pas pu être créée. Réessayez.</target>
       </trans-unit>
       <trans-unit id="d3eb8fcaa3" resname="passkeys.error.invalid_name">
         <source>passkeys.error.invalid_name</source>
@@ -471,15 +467,15 @@
       </trans-unit>
       <trans-unit id="769bbfbeaa" resname="passkeys.error.no_ceremony">
         <source>passkeys.error.no_ceremony</source>
-        <target>Aucune passkey n’était en cours de création. Réessayez.</target>
+        <target>L'ajout de la passkey a expiré. Réessayez.</target>
       </trans-unit>
       <trans-unit id="c5d11b8713" resname="passkeys.error.refused">
         <source>passkeys.error.refused</source>
-        <target>Ce fournisseur a refusé la passkey. Réessayez avec une autre.</target>
+        <target>Cette passkey a été refusée. Essayez-en une autre.</target>
       </trans-unit>
       <trans-unit id="750c174f43" resname="passkeys.held_by">
         <source>passkeys.held_by</source>
-        <target>Conservée par</target>
+        <target>Authentificateur</target>
       </trans-unit>
       <trans-unit id="02820b7d95" resname="passkeys.authenticator.unknown">
         <source>passkeys.authenticator.unknown</source>
@@ -487,15 +483,15 @@
       </trans-unit>
       <trans-unit id="passkeys.model_proof.declared" resname="passkeys.model_proof.declared">
         <source>passkeys.model_proof.declared</source>
-        <target>Modèle déclaré par l’authentificateur</target>
+        <target>Modèle déclaré, non vérifié</target>
       </trans-unit>
       <trans-unit id="passkeys.model_proof.verified" resname="passkeys.model_proof.verified">
         <source>passkeys.model_proof.verified</source>
-        <target>Modèle vérifié par son attestation</target>
+        <target>Modèle vérifié</target>
       </trans-unit>
       <trans-unit id="passkeys.model_proof.enterprise" resname="passkeys.model_proof.enterprise">
         <source>passkeys.model_proof.enterprise</source>
-        <target>Clé attestée pour votre organisation</target>
+        <target>Clé de votre organisation</target>
       </trans-unit>
       <trans-unit id="passkeys.serial_number" resname="passkeys.serial_number">
         <source>passkeys.serial_number</source>
@@ -507,15 +503,11 @@
       </trans-unit>
       <trans-unit id="passkeys.error.organisation_keys_only" resname="passkeys.error.organisation_keys_only">
         <source>passkeys.error.organisation_keys_only</source>
-        <target>Votre organisation n’accepte que les clés qu’elle vous a remises. Utilisez l’une d’elles.</target>
+        <target>Seules les clés remises par votre organisation sont acceptées.</target>
       </trans-unit>
       <trans-unit id="passkeys.error.model_under_security_alert" resname="passkeys.error.model_under_security_alert">
         <source>passkeys.error.model_under_security_alert</source>
-        <target>Ce modèle d’authentificateur fait l’objet d’une alerte de sécurité et n’est plus accepté. Utilisez-en un autre.</target>
-      </trans-unit>
-      <trans-unit id="dbb47ea9ff" resname="passkeys.authenticator.declared">
-        <source>passkeys.authenticator.declared</source>
-        <target>Un authentificateur dont le modèle est déclaré est nommé d’après ce qu’il a dit à l’ajout de la passkey : rien ne l’a vérifié.</target>
+        <target>Ce modèle est sous alerte de sécurité et n'est plus accepté. Utilisez-en un autre.</target>
       </trans-unit>
       <trans-unit id="fd60213150" resname="passkeys.certification.NOT_FIDO_CERTIFIED">
         <source>passkeys.certification.NOT_FIDO_CERTIFIED</source>
@@ -563,23 +555,23 @@
       </trans-unit>
       <trans-unit id="9f5464da31" resname="passkeys.backup.single_device">
         <source>passkeys.backup.single_device</source>
-        <target>Passkey liée à son appareil</target>
+        <target>Liée à un appareil</target>
       </trans-unit>
       <trans-unit id="8fdac8b403" resname="passkeys.backup.backed_up">
         <source>passkeys.backup.backed_up</source>
-        <target>Passkey synchronisée, sauvegardée</target>
+        <target>Synchronisée</target>
       </trans-unit>
       <trans-unit id="4150fe9928" resname="passkeys.backup.not_backed_up">
         <source>passkeys.backup.not_backed_up</source>
-        <target>Passkey synchronisée, pas sauvegardée actuellement</target>
+        <target>Synchronisable, non sauvegardée</target>
       </trans-unit>
       <trans-unit id="e0e39cd225" resname="passkeys.reached_through">
         <source>passkeys.reached_through</source>
-        <target>Atteinte par {ways}</target>
+        <target>Via {ways}</target>
       </trans-unit>
       <trans-unit id="bacb48e58b" resname="passkeys.transport.internal">
         <source>passkeys.transport.internal</source>
-        <target>son appareil</target>
+        <target>l'appareil</target>
       </trans-unit>
       <trans-unit id="29728954a8" resname="passkeys.transport.hybrid">
         <source>passkeys.transport.hybrid</source>
@@ -587,15 +579,15 @@
       </trans-unit>
       <trans-unit id="a6b962c0d4" resname="passkeys.transport.usb">
         <source>passkeys.transport.usb</source>
-        <target>une clé de sécurité en USB</target>
+        <target>USB</target>
       </trans-unit>
       <trans-unit id="0ec9969fae" resname="passkeys.transport.nfc">
         <source>passkeys.transport.nfc</source>
-        <target>une clé de sécurité en NFC</target>
+        <target>NFC</target>
       </trans-unit>
       <trans-unit id="6b5407b258" resname="passkeys.transport.ble">
         <source>passkeys.transport.ble</source>
-        <target>une clé de sécurité en Bluetooth</target>
+        <target>Bluetooth</target>
       </trans-unit>
       <trans-unit id="d93f9670bc" resname="passkeys.transport.smart-card">
         <source>passkeys.transport.smart-card</source>
@@ -607,7 +599,7 @@
       </trans-unit>
       <trans-unit id="7a2dedee21" resname="code.prompt">
         <source>code.prompt</source>
-        <target>{client} vous demande de vous connecter. Saisissez le code affiché par votre application d'authentification, ou l'un de vos codes de secours.</target>
+        <target>Saisissez le code de votre application d'authentification ou un code de secours.</target>
       </trans-unit>
       <trans-unit id="da69e8a447" resname="code.code">
         <source>code.code</source>
@@ -619,27 +611,27 @@
       </trans-unit>
       <trans-unit id="c609c5cc7e" resname="code.failed.code_refused">
         <source>code.failed.code_refused</source>
-        <target>Le code a été refusé. Réessayez avec le code que l'application affiche maintenant.</target>
+        <target>Code incorrect. Saisissez le code affiché maintenant.</target>
       </trans-unit>
       <trans-unit id="504d18ce7a" resname="code.failed.backup_code_refused">
         <source>code.failed.backup_code_refused</source>
-        <target>Ce code de secours n'est pas valable, ou il a déjà servi. Chaque code ne sert qu'une fois.</target>
+        <target>Ce code de secours est incorrect ou a déjà servi.</target>
       </trans-unit>
       <trans-unit id="af360d0c03" resname="code.failed.too_many_attempts">
         <source>code.failed.too_many_attempts</source>
-        <target>Trop de codes ont été essayés. Patientez un instant, puis réessayez.</target>
+        <target>Trop d'essais. Patientez un instant, puis réessayez.</target>
       </trans-unit>
       <trans-unit id="8cdae7d238" resname="consents.title">
         <source>consents.title</source>
-        <target>Les applications que vous avez autorisées</target>
+        <target>Applications autorisées</target>
       </trans-unit>
       <trans-unit id="b40383a420" resname="consents.none">
         <source>consents.none</source>
-        <target>Vous n’avez autorisé aucune application.</target>
+        <target>Aucune application autorisée.</target>
       </trans-unit>
       <trans-unit id="792b29ed69" resname="consents.explanation">
         <source>consents.explanation</source>
-        <target>Une application que vous avez autorisée ne vous est plus redemandée. La retirer retire aussi l’accès qu’elle détient : elle vous le redemandera la prochaine fois que vous l’utiliserez.</target>
+        <target>Retirer l'accès d'une application l'oblige à vous redemander votre autorisation.</target>
       </trans-unit>
       <trans-unit id="d697faa88f" resname="consents.application">
         <source>consents.application</source>
@@ -655,7 +647,7 @@
       </trans-unit>
       <trans-unit id="d729adbd9a" resname="consents.revoke">
         <source>consents.revoke</source>
-        <target>Retirer</target>
+        <target>Retirer l'accès</target>
       </trans-unit>
       <trans-unit id="68e780445d" resname="two_factor.title">
         <source>two_factor.title</source>
@@ -663,11 +655,11 @@
       </trans-unit>
       <trans-unit id="two_factor.not_admitted" resname="two_factor.not_admitted">
         <source>two_factor.not_admitted</source>
-        <target>Ce fournisseur vous connecte avec votre passkey : votre compte n'a pas besoin d'application d'authentification.</target>
+        <target>Vous vous connectez avec une passkey : aucune application d'authentification n'est nécessaire.</target>
       </trans-unit>
       <trans-unit id="120102f7ce" resname="two_factor.none">
         <source>two_factor.none</source>
-        <target>Votre compte n'a pas encore d'application d'authentification. Une fois configurée, un code de l'application vous sera demandé après votre mot de passe.</target>
+        <target>Aucune application d'authentification. Une fois configurée, son code vous sera demandé après votre mot de passe.</target>
       </trans-unit>
       <trans-unit id="126fd373df" resname="two_factor.set_up">
         <source>two_factor.set_up</source>
@@ -675,7 +667,7 @@
       </trans-unit>
       <trans-unit id="f17b1d335e" resname="two_factor.active">
         <source>two_factor.active</source>
-        <target>Une application d'authentification est configurée depuis le {date}.</target>
+        <target>Application d'authentification configurée le {date}.</target>
       </trans-unit>
       <trans-unit id="1642acc9b6" resname="two_factor.last_used_at">
         <source>two_factor.last_used_at</source>
@@ -723,19 +715,19 @@
       </trans-unit>
       <trans-unit id="94905118d7" resname="two_factor.enrolled.done">
         <source>two_factor.enrolled.done</source>
-        <target>Votre application d'authentification est configurée. Désormais, un code de l'application vous sera demandé après votre mot de passe.</target>
+        <target>Votre application d'authentification est configurée. Son code vous sera demandé après votre mot de passe.</target>
       </trans-unit>
       <trans-unit id="87b3bb2962" resname="two_factor.enrolled.codes">
         <source>two_factor.enrolled.codes</source>
-        <target>Conservez ces codes de secours en lieu sûr. Chacun vous connecte une fois, à la place d'un code de l'application, si vous la perdez. Ils ne sont affichés que maintenant.</target>
+        <target>Conservez ces codes en lieu sûr : ils ne seront plus affichés. Chacun remplace une fois le code de l'application si vous la perdez.</target>
       </trans-unit>
       <trans-unit id="732a6b396d" resname="two_factor.error.refused">
         <source>two_factor.error.refused</source>
-        <target>Le code ne correspond pas. Saisissez le code que l'application affiche maintenant.</target>
+        <target>Code incorrect. Saisissez le code affiché maintenant.</target>
       </trans-unit>
       <trans-unit id="56a44ece6f" resname="two_factor.error.no_provisioning">
         <source>two_factor.error.no_provisioning</source>
-        <target>Aucune configuration n'était en cours, ou elle a pris trop de temps. Recommencez.</target>
+        <target>La configuration a expiré. Recommencez.</target>
       </trans-unit>
       <trans-unit id="71292a8b65" resname="two_factor.error.already_enrolled">
         <source>two_factor.error.already_enrolled</source>
@@ -751,11 +743,11 @@
       </trans-unit>
       <trans-unit id="884d5c03f9" resname="form_post.title">
         <source>form_post.title</source>
-        <target>Retour vers l’application</target>
+        <target>Retour vers l'application</target>
       </trans-unit>
       <trans-unit id="2965dcacbb" resname="form_post.explanation">
         <source>form_post.explanation</source>
-        <target>Votre navigateur vous renvoie vers l’application. S’il ne se passe rien, utilisez le bouton ci-dessous.</target>
+        <target>Si rien ne se passe, utilisez le bouton Continuer.</target>
       </trans-unit>
       <trans-unit id="899a3c277e" resname="form_post.continue">
         <source>form_post.continue</source>
@@ -767,7 +759,7 @@
       </trans-unit>
       <trans-unit id="155202e7b3" resname="front_channel_logout.asked">
         <source>front_channel_logout.asked</source>
-        <target>Nous avons demandé aux applications où vous vous êtes connecté avec ce compte de vous déconnecter. Celles que votre navigateur nous laisse joindre ont été prévenues ; il peut en bloquer certaines, et celles-là vous déconnecteront à votre prochaine visite.</target>
+        <target>Vos applications ont été invitées à vous déconnecter. Celles que votre navigateur bloque le feront à votre prochaine visite.</target>
       </trans-unit>
       <trans-unit id="1e7bfc09fa" resname="front_channel_logout.continue">
         <source>front_channel_logout.continue</source>
@@ -780,10 +772,6 @@
       <trans-unit id="2a09e75af2" resname="login.prompt_alone">
         <source>login.prompt_alone</source>
         <target>Connectez-vous pour continuer.</target>
-      </trans-unit>
-      <trans-unit id="386016f13c" resname="code.prompt_alone">
-        <source>code.prompt_alone</source>
-        <target>Connectez-vous pour continuer. Saisissez le code affiché par votre application d'authentification, ou un de vos codes de secours.</target>
       </trans-unit>
       <trans-unit id="dc02dea145" resname="device.title">
         <source>device.title</source>
@@ -803,11 +791,11 @@
       </trans-unit>
       <trans-unit id="9795377dd9" resname="device.refused.unknown_code">
         <source>device.refused.unknown_code</source>
-        <target>Ce code n'est pas un code que nous attendons. Vérifiez le code affiché par votre appareil et saisissez-le à nouveau.</target>
+        <target>Code inconnu. Vérifiez le code affiché par votre appareil.</target>
       </trans-unit>
       <trans-unit id="f530b41973" resname="device.refused.too_many_attempts">
         <source>device.refused.too_many_attempts</source>
-        <target>Trop de codes ont été saisis depuis ici. Attendez une minute et réessayez.</target>
+        <target>Trop d'essais. Patientez une minute, puis réessayez.</target>
       </trans-unit>
       <trans-unit id="99e6bfe694" resname="device.approval.title">
         <source>device.approval.title</source>
@@ -815,7 +803,7 @@
       </trans-unit>
       <trans-unit id="37c90fe35d" resname="device.approval.signed_in_as">
         <source>device.approval.signed_in_as</source>
-        <target>Vous êtes connecté en tant que {username}.</target>
+        <target>Session ouverte pour {username}.</target>
       </trans-unit>
       <trans-unit id="a6aca898f1" resname="device.approval.request">
         <source>device.approval.request</source>
@@ -827,15 +815,15 @@
       </trans-unit>
       <trans-unit id="a6f6ea1b9e" resname="device.approval.unknown_address">
         <source>device.approval.unknown_address</source>
-        <target>une adresse que nous n'avons pas pu lire</target>
+        <target>une adresse inconnue</target>
       </trans-unit>
       <trans-unit id="e3833693f9" resname="device.approval.unknown_agent">
         <source>device.approval.unknown_agent</source>
-        <target>un appareil qui s'est nommé auprès de nous</target>
+        <target>un appareil inconnu</target>
       </trans-unit>
       <trans-unit id="2ac67d203a" resname="device.approval.unexpected">
         <source>device.approval.unexpected</source>
-        <target>Si vous n'avez rien lancé depuis un de vos appareils, refusez. Personne n'a jamais besoin d'un code de votre part.</target>
+        <target>Si vous n'avez pas lancé cette demande, refusez-la.</target>
       </trans-unit>
       <trans-unit id="f62ada85d7" resname="device.approval.allow">
         <source>device.approval.allow</source>
@@ -855,11 +843,11 @@
       </trans-unit>
       <trans-unit id="3a6d124638" resname="device.answered.approved">
         <source>device.answered.approved</source>
-        <target>{client} peut désormais utiliser votre compte. Retournez à votre appareil, il continuera de lui-même.</target>
+        <target>{client} peut désormais utiliser votre compte. Revenez à votre appareil.</target>
       </trans-unit>
       <trans-unit id="b3cdc73ad3" resname="device.answered.denied">
         <source>device.answered.denied</source>
-        <target>{client} a été refusé. Rien ne lui a été remis, et vous pouvez fermer cette page.</target>
+        <target>{client} n'a pas accès à votre compte. Vous pouvez fermer cette page.</target>
       </trans-unit>
       <trans-unit id="7ea1ce200f" resname="device.approval.provider">
         <source>device.approval.provider</source>
@@ -867,7 +855,7 @@
       </trans-unit>
       <trans-unit id="1fdfeca8b7" resname="approvals.title">
         <source>approvals.title</source>
-        <target>Des demandes vous attendent</target>
+        <target>Demandes en attente</target>
       </trans-unit>
       <trans-unit id="a7cbe7f52a" resname="approvals.provider">
         <source>approvals.provider</source>
@@ -875,7 +863,7 @@
       </trans-unit>
       <trans-unit id="3cbe156f9c" resname="approvals.nothing">
         <source>approvals.nothing</source>
-        <target>Rien ne vous attend. Si une application vous a dit le contraire, ce n'était pas nous.</target>
+        <target>Aucune demande en attente.</target>
       </trans-unit>
       <trans-unit id="2f2cc83054" resname="approvals.request">
         <source>approvals.request</source>
@@ -891,15 +879,15 @@
       </trans-unit>
       <trans-unit id="42210e2c97" resname="approvals.unknown_address">
         <source>approvals.unknown_address</source>
-        <target>une adresse que nous n'avons pas pu lire</target>
+        <target>une adresse inconnue</target>
       </trans-unit>
       <trans-unit id="5cb6f3dc54" resname="approvals.unknown_agent">
         <source>approvals.unknown_agent</source>
-        <target>un client qui s'est nommé auprès de nous</target>
+        <target>un client inconnu</target>
       </trans-unit>
       <trans-unit id="a6a9c0f2d8" resname="approvals.unexpected">
         <source>approvals.unexpected</source>
-        <target>Si vous n'avez rien lancé vous-même, refusez. Personne n'a jamais besoin que vous autorisiez à sa place.</target>
+        <target>Si vous n'avez pas lancé une demande, refusez-la.</target>
       </trans-unit>
       <trans-unit id="6ce56f5d12" resname="approvals.allow">
         <source>approvals.allow</source>
@@ -911,7 +899,7 @@
       </trans-unit>
       <trans-unit id="afba73eebf" resname="approvals.refused.nothing_to_answer">
         <source>approvals.refused.nothing_to_answer</source>
-        <target>Cette demande n'attend plus de réponse. Voici ce qu'il reste.</target>
+        <target>Cette demande n'attend plus de réponse.</target>
       </trans-unit>
       <trans-unit id="8e71b29d2d" resname="approvals.answered.approved.title">
         <source>approvals.answered.approved.title</source>
@@ -923,11 +911,11 @@
       </trans-unit>
       <trans-unit id="921a96cc05" resname="approvals.answered.approved">
         <source>approvals.answered.approved</source>
-        <target>{client} peut désormais utiliser votre compte. Retournez là où vous avez commencé, cela continuera de soi-même.</target>
+        <target>{client} peut désormais utiliser votre compte. Revenez là où vous avez commencé.</target>
       </trans-unit>
       <trans-unit id="965ccbcb18" resname="approvals.answered.denied">
         <source>approvals.answered.denied</source>
-        <target>{client} a été refusé. Rien ne lui a été remis, et vous pouvez fermer cette page.</target>
+        <target>{client} n'a pas accès à votre compte. Vous pouvez fermer cette page.</target>
       </trans-unit>
       <trans-unit id="93dc1e5079" resname="notifications.title">
         <source>notifications.title</source>
@@ -935,11 +923,11 @@
       </trans-unit>
       <trans-unit id="07e99afba9" resname="notifications.what_is_sent">
         <source>notifications.what_is_sent</source>
-        <target>Un navigateur ajouté ici est prévenu quand quelque chose attend votre réponse. Ce qui lui est dit, c'est qui demande et ce qui a été écrit ; il ne porte jamais une demande et n'en approuve aucune, vous venez toujours ici pour la voir.</target>
+        <target>Un navigateur ajouté ici reçoit une notification quand une demande attend votre réponse. Vous répondez toujours ici.</target>
       </trans-unit>
       <trans-unit id="1a8a70cf10" resname="notifications.none">
         <source>notifications.none</source>
-        <target>Aucun de vos navigateurs n'est prévenu.</target>
+        <target>Aucun navigateur ajouté.</target>
       </trans-unit>
       <trans-unit id="6bee5ae6f1" resname="notifications.label">
         <source>notifications.label</source>
@@ -955,7 +943,7 @@
       </trans-unit>
       <trans-unit id="87dc9c5a99" resname="notifications.last_pushed_at">
         <source>notifications.last_pushed_at</source>
-        <target>Dernier message</target>
+        <target>Dernière notification</target>
       </trans-unit>
       <trans-unit id="cbcf139564" resname="notifications.never_pushed">
         <source>notifications.never_pushed</source>
@@ -963,35 +951,31 @@
       </trans-unit>
       <trans-unit id="349298c2df" resname="notifications.revoke">
         <source>notifications.revoke</source>
-        <target>Ne plus prévenir ce navigateur</target>
-      </trans-unit>
-      <trans-unit id="9874b08d83" resname="notifications.new_label">
-        <source>notifications.new_label</source>
-        <target>Nommez ce navigateur</target>
+        <target>Retirer</target>
       </trans-unit>
       <trans-unit id="2fada520c3" resname="notifications.subscribe">
         <source>notifications.subscribe</source>
-        <target>Prévenir ce navigateur</target>
+        <target>Ajouter ce navigateur</target>
       </trans-unit>
       <trans-unit id="fb344c54e6" resname="notifications.unsupported">
         <source>notifications.unsupported</source>
-        <target>Ce navigateur ne peut pas être prévenu ; utilisez-en un qui sait afficher des notifications.</target>
+        <target>Ce navigateur ne gère pas les notifications.</target>
       </trans-unit>
       <trans-unit id="092d481e7c" resname="notifications.not_served">
         <source>notifications.not_served</source>
-        <target>Ce fournisseur ne prévient pas les navigateurs.</target>
+        <target>Les notifications de navigateur ne sont pas disponibles.</target>
       </trans-unit>
       <trans-unit id="b7d8776630" resname="notifications.error.browser">
         <source>notifications.error.browser</source>
-        <target>Ce navigateur n'a pas été ajouté. Il a peut-être refusé les notifications.</target>
+        <target>Le navigateur n'a pas été ajouté. Vérifiez que les notifications sont autorisées.</target>
       </trans-unit>
       <trans-unit id="e773e70d91" resname="notifications.error.refused">
         <source>notifications.error.refused</source>
-        <target>Ce que ce navigateur a envoyé n'est pas une adresse à laquelle un service de notification pourrait livrer.</target>
+        <target>Ce navigateur a envoyé un abonnement invalide. Réessayez.</target>
       </trans-unit>
       <trans-unit id="99fed0616f" resname="notifications.error.not_served">
         <source>notifications.error.not_served</source>
-        <target>Ce fournisseur ne prévient pas les navigateurs.</target>
+        <target>Les notifications de navigateur ne sont pas disponibles.</target>
       </trans-unit>
       <trans-unit id="a7c31de490" resname="account.approvals.state">
         <source>account.approvals.state</source>
@@ -999,7 +983,7 @@
       </trans-unit>
       <trans-unit id="e0bc57b68b" resname="account.notifications.state">
         <source>account.notifications.state</source>
-        <target>{count, plural, =0 {Aucun navigateur prévenu} one {Un navigateur prévenu} other {# navigateurs prévenus}}</target>
+        <target>{count, plural, =0 {Aucun navigateur} one {Un navigateur} other {# navigateurs}}</target>
       </trans-unit>
       <trans-unit id="8929e85d47" resname="approval.notice.title">
         <source>approval.notice.title</source>
@@ -1067,27 +1051,27 @@
       </trans-unit>
       <trans-unit id="d1a7f3b9c2" resname="sessions.title">
         <source>sessions.title</source>
-        <target>Où vous êtes connecté</target>
+        <target>Sessions ouvertes</target>
       </trans-unit>
       <trans-unit id="f7c2e9a4b1" resname="sessions.explanation">
         <source>sessions.explanation</source>
-        <target>Chaque ligne est un navigateur ou une application qui tient une session ouverte en votre nom. En fermer une déconnecte partout où cette session est allée.</target>
+        <target>Fermer une session vous déconnecte de toutes les applications ouvertes avec elle.</target>
       </trans-unit>
       <trans-unit id="a9d4f1c7e3" resname="sessions.proved">
         <source>sessions.proved</source>
-        <target>Prouvé</target>
+        <target>Méthode</target>
       </trans-unit>
       <trans-unit id="b2e7a3d9f4" resname="sessions.opened_at">
         <source>sessions.opened_at</source>
-        <target>Ouverte</target>
+        <target>Ouverte le</target>
       </trans-unit>
       <trans-unit id="c5f1b8e2a7" resname="sessions.last_seen">
         <source>sessions.last_seen</source>
-        <target>Vue pour la dernière fois</target>
+        <target>Dernière activité</target>
       </trans-unit>
       <trans-unit id="d8a2c7f3b1" resname="sessions.from">
         <source>sessions.from</source>
-        <target>Depuis</target>
+        <target>Origine</target>
       </trans-unit>
       <trans-unit id="f3c8a1e7b2" resname="sessions.this_browser">
         <source>sessions.this_browser</source>
@@ -1111,59 +1095,59 @@
       </trans-unit>
       <trans-unit id="b4f8a2c6e1" resname="application.holds">
         <source>application.holds</source>
-        <target>Ce qu’elle peut encore faire</target>
+        <target>Son accès actuel</target>
       </trans-unit>
       <trans-unit id="c7a1d4f8b2" resname="application.renewable">
         <source>application.renewable</source>
-        <target>{count, plural, =0 {Rien de ce qu’elle détient ne peut être renouvelé.} one {Un jeton qu’elle détient peut encore être renouvelé.} other {# jetons qu’elle détient peuvent encore être renouvelés.}}</target>
+        <target>{count, plural, =0 {Elle ne peut pas prolonger son accès.} other {Elle peut prolonger son accès sans vous.}}</target>
       </trans-unit>
       <trans-unit id="d2b8f1a7c4" resname="application.last_issued">
         <source>application.last_issued</source>
-        <target>Dernière délivrance</target>
+        <target>Dernier accès délivré :</target>
       </trans-unit>
       <trans-unit id="e5c1a8d2f7" resname="application.self_contained">
         <source>application.self_contained</source>
-        <target>Un jeton d’accès déjà délivré reste utilisable jusqu’à son expiration, quoi qu’on reprenne ici ; ce que ce fournisseur en dit, si on le lui demande, est la vérité à partir de cet instant.</target>
+        <target>Un accès déjà délivré reste valable jusqu'à son expiration, même si vous le retirez.</target>
       </trans-unit>
       <trans-unit id="f8d2b7a1c5" resname="application.pending">
         <source>application.pending</source>
-        <target>Ce qu’elle attend</target>
+        <target>Ce qu'elle attend</target>
       </trans-unit>
       <trans-unit id="a3e9c2f7b4" resname="application.nothing_pending">
         <source>application.nothing_pending</source>
-        <target>Elle n’attend rien de vous.</target>
+        <target>Elle n'attend rien de vous.</target>
       </trans-unit>
       <trans-unit id="b6f2d8a3c9" resname="application.answer_them">
         <source>application.answer_them</source>
-        <target>Répondre à ce qui attend</target>
+        <target>Voir les demandes en attente</target>
       </trans-unit>
       <trans-unit id="c9a3e1f8b5" resname="application.take_it_back">
         <source>application.take_it_back</source>
-        <target>Tout reprendre</target>
+        <target>Retirer l'accès</target>
       </trans-unit>
       <trans-unit id="d4b9f2a8c3" resname="application.take_it_back_means">
         <source>application.take_it_back_means</source>
-        <target>Elle vous le demandera à nouveau la prochaine fois qu’elle en aura besoin, et ce qu’elle détient cesse de se renouveler.</target>
+        <target>Elle vous redemandera votre autorisation à sa prochaine utilisation.</target>
       </trans-unit>
       <trans-unit id="acts.title" resname="acts.title">
         <source>acts.title</source>
-        <target>Ce qui s'est passé sur votre compte</target>
+        <target>Activité du compte</target>
       </trans-unit>
       <trans-unit id="acts.explanation" resname="acts.explanation">
         <source>acts.explanation</source>
-        <target>Chaque acte que ce fournisseur a écrit en votre nom : les fois où quelqu'un s'est connecté en votre nom et avec quoi il l'a prouvé, celles où quelqu'un a essayé sans y parvenir, ce qui a changé sur votre compte, et ce qu'un administrateur de votre organisation en a consulté ou changé. Une ligne que vous ne reconnaissez pas vaut un nouveau mot de passe.</target>
+        <target>Si vous ne reconnaissez pas une ligne, changez votre mot de passe.</target>
       </trans-unit>
       <trans-unit id="acts.what" resname="acts.what">
         <source>acts.what</source>
-        <target>Ce qui s'est passé</target>
+        <target>Événement</target>
       </trans-unit>
       <trans-unit id="acts.when" resname="acts.when">
         <source>acts.when</source>
-        <target>Quand</target>
+        <target>Date</target>
       </trans-unit>
       <trans-unit id="acts.from" resname="acts.from">
         <source>acts.from</source>
-        <target>D'où</target>
+        <target>Origine</target>
       </trans-unit>
       <trans-unit id="acts.by_an_administrator" resname="acts.by_an_administrator">
         <source>acts.by_an_administrator</source>
@@ -1195,7 +1179,7 @@
       </trans-unit>
       <trans-unit id="act.totp.used" resname="act.totp.used">
         <source>act.totp.used</source>
-        <target>Code de votre application accepté</target>
+        <target>Code d'authentification accepté</target>
       </trans-unit>
       <trans-unit id="act.backup_code.used" resname="act.backup_code.used">
         <source>act.backup_code.used</source>
@@ -1207,19 +1191,19 @@
       </trans-unit>
       <trans-unit id="act.credential.enrolled" resname="act.credential.enrolled">
         <source>act.credential.enrolled</source>
-        <target>Un moyen de connexion a été ajouté</target>
+        <target>Moyen de connexion ajouté</target>
       </trans-unit>
       <trans-unit id="act.credential.revoked" resname="act.credential.revoked">
         <source>act.credential.revoked</source>
-        <target>Un moyen de connexion a été supprimé</target>
+        <target>Moyen de connexion retiré</target>
       </trans-unit>
       <trans-unit id="act.credential.forgotten" resname="act.credential.forgotten">
         <source>act.credential.forgotten</source>
-        <target>Un moyen de connexion a été supprimé, ce fournisseur ne l'autorisant plus</target>
+        <target>Moyen de connexion supprimé, car plus autorisé</target>
       </trans-unit>
       <trans-unit id="act.credential.renamed" resname="act.credential.renamed">
         <source>act.credential.renamed</source>
-        <target>Un moyen de connexion a été renommé</target>
+        <target>Moyen de connexion renommé</target>
       </trans-unit>
       <trans-unit id="act.password.changed" resname="act.password.changed">
         <source>act.password.changed</source>
@@ -1235,15 +1219,15 @@
       </trans-unit>
       <trans-unit id="act.person.provisioned" resname="act.person.provisioned">
         <source>act.person.provisioned</source>
-        <target>Compte créé à votre première connexion par votre organisation</target>
+        <target>Compte créé via votre organisation</target>
       </trans-unit>
       <trans-unit id="act.person.described_themselves" resname="act.person.described_themselves">
         <source>act.person.described_themselves</source>
-        <target>Vos informations ont changé</target>
+        <target>Informations modifiées</target>
       </trans-unit>
       <trans-unit id="act.person.described" resname="act.person.described">
         <source>act.person.described</source>
-        <target>Vos informations ont été changées</target>
+        <target>Informations modifiées</target>
       </trans-unit>
       <trans-unit id="act.person.disabled" resname="act.person.disabled">
         <source>act.person.disabled</source>
@@ -1267,51 +1251,47 @@
       </trans-unit>
       <trans-unit id="act.consent.revoked" resname="act.consent.revoked">
         <source>act.consent.revoked</source>
-        <target>Autorisation d'une application retirée</target>
+        <target>Accès d'une application retiré</target>
       </trans-unit>
       <trans-unit id="act.archive.asked" resname="act.archive.asked">
         <source>act.archive.asked</source>
-        <target>Dossier de vos données demandé</target>
+        <target>Copie de vos données demandée</target>
       </trans-unit>
       <trans-unit id="act.archive.taken" resname="act.archive.taken">
         <source>act.archive.taken</source>
-        <target>Dossier de vos données téléchargé</target>
+        <target>Copie de vos données téléchargée</target>
       </trans-unit>
       <trans-unit id="act.archive.dropped" resname="act.archive.dropped">
         <source>act.archive.dropped</source>
-        <target>Dossier de vos données supprimé</target>
+        <target>Copie de vos données supprimée</target>
       </trans-unit>
       <trans-unit id="act.administration.person_read" resname="act.administration.person_read">
         <source>act.administration.person_read</source>
-        <target>Votre compte a été consulté</target>
+        <target>Compte consulté</target>
       </trans-unit>
       <trans-unit id="act.administration.sessions_read" resname="act.administration.sessions_read">
         <source>act.administration.sessions_read</source>
-        <target>Vos sessions ouvertes ont été consultées</target>
+        <target>Sessions consultées</target>
       </trans-unit>
       <trans-unit id="act.administration.membership_read" resname="act.administration.membership_read">
         <source>act.administration.membership_read</source>
-        <target>Votre appartenance à un groupe a été consultée</target>
+        <target>Appartenance à un groupe consultée</target>
       </trans-unit>
       <trans-unit id="act.administration.consents_read" resname="act.administration.consents_read">
         <source>act.administration.consents_read</source>
-        <target>Les applications que vous avez autorisées ont été consultées</target>
+        <target>Applications autorisées consultées</target>
       </trans-unit>
       <trans-unit id="act.administration.journal_read" resname="act.administration.journal_read">
         <source>act.administration.journal_read</source>
-        <target>Ce qui s'est passé sur votre compte a été consulté</target>
-      </trans-unit>
-      <trans-unit id="profile.what_you_may_change" resname="profile.what_you_may_change">
-        <source>profile.what_you_may_change</source>
-        <target>Ce que vous pouvez changer</target>
+        <target>Activité du compte consultée</target>
       </trans-unit>
       <trans-unit id="profile.change_explanation" resname="profile.change_explanation">
         <source>profile.change_explanation</source>
-        <target>Ce que ce fournisseur vous laisse dire de vous ici. Un champ vide reprend ce que vous aviez dit.</target>
+        <target>Videz un champ pour effacer l'information.</target>
       </trans-unit>
       <trans-unit id="profile.change_nothing" resname="profile.change_nothing">
         <source>profile.change_nothing</source>
-        <target>Ce fournisseur ne vous laisse rien changer ici de ce qu'il détient de vous. Ce qui est au-dessus est ce qu'il détient.</target>
+        <target>Ces informations ne peuvent pas être modifiées ici.</target>
       </trans-unit>
       <trans-unit id="profile.save" resname="profile.save">
         <source>profile.save</source>
@@ -1319,11 +1299,11 @@
       </trans-unit>
       <trans-unit id="profile.claim_not_open" resname="profile.claim_not_open">
         <source>profile.claim_not_open</source>
-        <target>Ce fournisseur ne vous laisse pas changer cela ici.</target>
+        <target>Cette information ne peut pas être modifiée ici.</target>
       </trans-unit>
       <trans-unit id="profile.claim_refused" resname="profile.claim_refused">
         <source>profile.claim_refused</source>
-        <target>Ce n'est pas une valeur que ce fournisseur peut retenir pour cela.</target>
+        <target>Cette valeur n'est pas valable.</target>
       </trans-unit>
       <trans-unit id="profile.nothing" resname="profile.nothing">
         <source>profile.nothing</source>
@@ -1339,7 +1319,7 @@
       </trans-unit>
       <trans-unit id="archive.explanation" resname="archive.explanation">
         <source>archive.explanation</source>
-        <target>Tout ce que ce fournisseur détient à votre sujet, dans un seul fichier. Demandez-le ici : il est construit en arrière-plan, et vous le téléchargez une fois prêt.</target>
+        <target>Toutes vos données dans un seul fichier, prêt quelques minutes après votre demande.</target>
       </trans-unit>
       <trans-unit id="archive.what_it_holds" resname="archive.what_it_holds">
         <source>archive.what_it_holds</source>
@@ -1347,35 +1327,35 @@
       </trans-unit>
       <trans-unit id="archive.chapter.profile" resname="archive.chapter.profile">
         <source>archive.chapter.profile</source>
-        <target>Votre compte et tout ce que vous avez dit de vous</target>
+        <target>Votre compte et vos informations</target>
       </trans-unit>
       <trans-unit id="archive.chapter.credentials" resname="archive.chapter.credentials">
         <source>archive.chapter.credentials</source>
-        <target>Vos moyens de preuve, sans les secrets eux-mêmes</target>
+        <target>Vos moyens de connexion, sans leurs secrets</target>
       </trans-unit>
       <trans-unit id="archive.chapter.linked_identities" resname="archive.chapter.linked_identities">
         <source>archive.chapter.linked_identities</source>
-        <target>Les comptes avec lesquels vous vous connectez ailleurs, et ce qu'ils nous ont dit</target>
+        <target>Vos comptes liés et ce qu'ils ont transmis</target>
       </trans-unit>
       <trans-unit id="archive.chapter.groups" resname="archive.chapter.groups">
         <source>archive.chapter.groups</source>
-        <target>Les groupes auxquels vous appartenez, et d'où vient chaque appartenance</target>
+        <target>Vos groupes et l'origine de chacun</target>
       </trans-unit>
       <trans-unit id="archive.chapter.consents" resname="archive.chapter.consents">
         <source>archive.chapter.consents</source>
-        <target>Les applications auxquelles vous avez consenti, et ce que chacune peut obtenir</target>
+        <target>Les applications autorisées et ce que chacune obtient</target>
       </trans-unit>
       <trans-unit id="archive.chapter.sessions" resname="archive.chapter.sessions">
         <source>archive.chapter.sessions</source>
-        <target>Les endroits où vous êtes connecté en ce moment</target>
+        <target>Vos sessions ouvertes</target>
       </trans-unit>
       <trans-unit id="archive.chapter.journal" resname="archive.chapter.journal">
         <source>archive.chapter.journal</source>
-        <target>Tout ce qui a été enregistré de ce que vous avez fait ici</target>
+        <target>L'activité de votre compte</target>
       </trans-unit>
       <trans-unit id="archive.chapter.changes" resname="archive.chapter.changes">
         <source>archive.chapter.changes</source>
-        <target>Ce que vous avez changé de votre dossier, et ce qu'il disait avant</target>
+        <target>L'historique des modifications de vos informations</target>
       </trans-unit>
       <trans-unit id="archive.chapter.disclosures" resname="archive.chapter.disclosures">
         <source>archive.chapter.disclosures</source>
@@ -1391,11 +1371,11 @@
       </trans-unit>
       <trans-unit id="archive.being_built" resname="archive.being_built">
         <source>archive.being_built</source>
-        <target>Votre fichier est en cours de construction. Revenez sur cette page dans quelques minutes.</target>
+        <target>Votre fichier est en préparation. Revenez dans quelques minutes.</target>
       </trans-unit>
       <trans-unit id="archive.stalled" resname="archive.stalled">
         <source>archive.stalled</source>
-        <target>Votre fichier n'a pas été construit. Plus rien ne s'en occupe : demandez-en un nouveau, ou supprimez la demande.</target>
+        <target>La préparation de votre fichier a échoué. Demandez-en un nouveau.</target>
       </trans-unit>
       <trans-unit id="archive.ready" resname="archive.ready">
         <source>archive.ready</source>
@@ -1403,7 +1383,7 @@
       </trans-unit>
       <trans-unit id="archive.expired" resname="archive.expired">
         <source>archive.expired</source>
-        <target>Votre fichier a été conservé un temps et n'existe plus. Demandez-en un nouveau.</target>
+        <target>Votre fichier a expiré. Demandez-en un nouveau.</target>
       </trans-unit>
       <trans-unit id="archive.asked_at" resname="archive.asked_at">
         <source>archive.asked_at</source>
@@ -1411,7 +1391,7 @@
       </trans-unit>
       <trans-unit id="archive.built_at" resname="archive.built_at">
         <source>archive.built_at</source>
-        <target>Construit le {moment}.</target>
+        <target>Préparé le {moment}.</target>
       </trans-unit>
       <trans-unit id="archive.expires_at" resname="archive.expires_at">
         <source>archive.expires_at</source>
@@ -1427,15 +1407,15 @@
       </trans-unit>
       <trans-unit id="archive.wrapped_explanation" resname="archive.wrapped_explanation">
         <source>archive.wrapped_explanation</source>
-        <target>Vous pouvez aussi télécharger le même fichier dans un conteneur que seule votre phrase secrète ouvre. Choisissez une phrase d'au moins {minimum} caractères, plusieurs mots plutôt qu'un mot de passe : rien ici ne la conserve, donc personne ne peut vous la redonner, et elle est la seule chose entre ce fichier et qui finira par le détenir. Ouvrir un .{container} chiffré ainsi demande un outil d'archivage comme 7-Zip ou Keka ; les gestionnaires de fichiers de Windows et de macOS ne le lisent pas.</target>
+        <target>Vous pouvez aussi le télécharger chiffré par une phrase secrète d'au moins {minimum} caractères. Elle n'est conservée nulle part : perdue, le fichier ne s'ouvre plus. Ouvrez le .{container} avec 7-Zip ou Keka.</target>
       </trans-unit>
       <trans-unit id="archive.download_wrapped" resname="archive.download_wrapped">
         <source>archive.download_wrapped</source>
-        <target>Télécharger sous cette phrase</target>
+        <target>Télécharger chiffré</target>
       </trans-unit>
       <trans-unit id="archive.passphrase_refused" resname="archive.passphrase_refused">
         <source>archive.passphrase_refused</source>
-        <target>Ce n'est pas une phrase secrète sous laquelle ce fichier peut partir. Plusieurs mots, au moins {minimum, number} caractères.</target>
+        <target>Phrase secrète trop faible : utilisez plusieurs mots, au moins {minimum, number} caractères.</target>
       </trans-unit>
       <trans-unit id="archive.kept_for" resname="archive.kept_for">
         <source>archive.kept_for</source>
@@ -1455,11 +1435,11 @@
       </trans-unit>
       <trans-unit id="account.archive.being_built" resname="account.archive.being_built">
         <source>account.archive.being_built</source>
-        <target>en construction</target>
+        <target>en préparation</target>
       </trans-unit>
       <trans-unit id="account.archive.stalled" resname="account.archive.stalled">
         <source>account.archive.stalled</source>
-        <target>la dernière demande n'a pas été construite</target>
+        <target>échec de la préparation</target>
       </trans-unit>
       <trans-unit id="account.archive.ready" resname="account.archive.ready">
         <source>account.archive.ready</source>
@@ -1467,27 +1447,23 @@
       </trans-unit>
       <trans-unit id="account.archive.expired" resname="account.archive.expired">
         <source>account.archive.expired</source>
-        <target>le dernier fichier a expiré</target>
-      </trans-unit>
-      <trans-unit id="profile.what_you_changed" resname="profile.what_you_changed">
-        <source>profile.what_you_changed</source>
-        <target>Ce que vous avez changé</target>
+        <target>fichier expiré</target>
       </trans-unit>
       <trans-unit id="profile.changed_nothing" resname="profile.changed_nothing">
         <source>profile.changed_nothing</source>
-        <target>Rien de votre dossier n'a encore changé.</target>
+        <target>Aucune modification pour l'instant.</target>
       </trans-unit>
       <trans-unit id="profile.changed_what" resname="profile.changed_what">
         <source>profile.changed_what</source>
-        <target>Quoi</target>
+        <target>Information</target>
       </trans-unit>
       <trans-unit id="profile.changed_from" resname="profile.changed_from">
         <source>profile.changed_from</source>
-        <target>Il disait</target>
+        <target>Avant</target>
       </trans-unit>
       <trans-unit id="profile.changed_to" resname="profile.changed_to">
         <source>profile.changed_to</source>
-        <target>Il dit</target>
+        <target>Après</target>
       </trans-unit>
       <trans-unit id="profile.changed_when" resname="profile.changed_when">
         <source>profile.changed_when</source>
@@ -1499,7 +1475,7 @@
       </trans-unit>
       <trans-unit id="pager.pages" resname="pager.pages">
         <source>pager.pages</source>
-        <target>Les pages de ce tableau</target>
+        <target>Pagination</target>
       </trans-unit>
       <trans-unit id="pager.rows" resname="pager.rows">
         <source>pager.rows</source>
@@ -1527,15 +1503,11 @@
       </trans-unit>
       <trans-unit id="changes.title" resname="changes.title">
         <source>changes.title</source>
-        <target>Ce qui a changé dans votre dossier</target>
-      </trans-unit>
-      <trans-unit id="changes.explanation" resname="changes.explanation">
-        <source>changes.explanation</source>
-        <target>Chaque changement de votre dossier, fait par vous ou par un administrateur de votre organisation, le plus récent d'abord. Ce qu'une application de ce fournisseur lit est le dossier tel qu'il est maintenant.</target>
+        <target>Historique des modifications</target>
       </trans-unit>
       <trans-unit id="changes.none_in_period" resname="changes.none_in_period">
         <source>changes.none_in_period</source>
-        <target>Rien n'a changé sur ces jours.</target>
+        <target>Aucune modification sur cette période.</target>
       </trans-unit>
       <trans-unit id="changes.by_you" resname="changes.by_you">
         <source>changes.by_you</source>
@@ -1543,7 +1515,7 @@
       </trans-unit>
       <trans-unit id="filter.period" resname="filter.period">
         <source>filter.period</source>
-        <target>Les jours sur lesquels ce tableau est lu</target>
+        <target>Période</target>
       </trans-unit>
       <trans-unit id="filter.from" resname="filter.from">
         <source>filter.from</source>
@@ -1555,15 +1527,15 @@
       </trans-unit>
       <trans-unit id="filter.apply" resname="filter.apply">
         <source>filter.apply</source>
-        <target>Lire ces jours</target>
+        <target>Filtrer</target>
       </trans-unit>
       <trans-unit id="filter.clear" resname="filter.clear">
         <source>filter.clear</source>
-        <target>Tout lire</target>
+        <target>Tout afficher</target>
       </trans-unit>
       <trans-unit id="passkeys.new_default" resname="passkeys.new_default">
         <source>passkeys.new_default</source>
-        <target>Nouvelle clé</target>
+        <target>Nouvelle passkey</target>
       </trans-unit>
       <trans-unit id="passkeys.rename" resname="passkeys.rename">
         <source>passkeys.rename</source>
@@ -1583,7 +1555,7 @@
       </trans-unit>
       <trans-unit id="notifications.error.invalid_label" resname="notifications.error.invalid_label">
         <source>notifications.error.invalid_label</source>
-        <target>Ce n'est pas un nom qu'un navigateur peut porter. Saisissez de 1 à 255 caractères.</target>
+        <target>Donnez au navigateur un nom de 1 à 255 caractères.</target>
       </trans-unit>
       <trans-unit id="archive.cancel" resname="archive.cancel">
         <source>archive.cancel</source>
@@ -1595,11 +1567,11 @@
       </trans-unit>
       <trans-unit id="archive.drop_explanation" resname="archive.drop_explanation">
         <source>archive.drop_explanation</source>
-        <target>Une fois le fichier récupéré, ce fournisseur n'a aucune raison de le garder. Le supprimer ici le retire maintenant plutôt qu'à la date ci-dessus.</target>
+        <target>Une fois le fichier téléchargé, vous pouvez le supprimer sans attendre son expiration.</target>
       </trans-unit>
       <trans-unit id="archive.nothing_to_drop" resname="archive.nothing_to_drop">
         <source>archive.nothing_to_drop</source>
-        <target>Il n'y avait rien à supprimer. C'est peut-être déjà parti.</target>
+        <target>Il n'y a plus rien à supprimer.</target>
       </trans-unit>
       <trans-unit id="sessions.end_others" resname="sessions.end_others">
         <source>sessions.end_others</source>
@@ -1607,27 +1579,27 @@
       </trans-unit>
       <trans-unit id="sessions.none" resname="sessions.none">
         <source>sessions.none</source>
-        <target>Aucune session n'est ouverte en votre nom.</target>
+        <target>Aucune session ouverte.</target>
       </trans-unit>
       <trans-unit id="sessions.none_in_period" resname="sessions.none_in_period">
         <source>sessions.none_in_period</source>
-        <target>Aucune de vos sessions n'a été ouverte sur ces jours.</target>
+        <target>Aucune session ouverte sur cette période.</target>
       </trans-unit>
       <trans-unit id="consents.none_in_period" resname="consents.none_in_period">
         <source>consents.none_in_period</source>
-        <target>Vous n'avez autorisé aucune application sur ces jours.</target>
+        <target>Aucune application autorisée sur cette période.</target>
       </trans-unit>
       <trans-unit id="acts.none_in_period" resname="acts.none_in_period">
         <source>acts.none_in_period</source>
-        <target>Rien n'a été enregistré sur ces jours.</target>
+        <target>Rien sur cette période.</target>
       </trans-unit>
       <trans-unit id="notifications.none_in_period" resname="notifications.none_in_period">
         <source>notifications.none_in_period</source>
-        <target>Aucun de vos navigateurs n'a été associé sur ces jours.</target>
+        <target>Aucun navigateur ajouté sur cette période.</target>
       </trans-unit>
       <trans-unit id="passkeys.none_in_period" resname="passkeys.none_in_period">
         <source>passkeys.none_in_period</source>
-        <target>Vous n'avez enrôlé aucune clé d'accès sur ces jours.</target>
+        <target>Aucune passkey ajoutée sur cette période.</target>
       </trans-unit>
       <trans-unit id="password.title" resname="password.title">
         <source>password.title</source>
@@ -1635,55 +1607,55 @@
       </trans-unit>
       <trans-unit id="password.none" resname="password.none">
         <source>password.none</source>
-        <target>Vous n'avez pas de mot de passe : vous vous connectez autrement. Rien à remplacer ici.</target>
+        <target>Vous n'avez pas de mot de passe : vous vous connectez autrement.</target>
       </trans-unit>
       <trans-unit id="password.changed_at" resname="password.changed_at">
         <source>password.changed_at</source>
-        <target>Écrit pour la dernière fois {date}.</target>
+        <target>Modifié le {date}.</target>
       </trans-unit>
       <trans-unit id="password.what_happens" resname="password.what_happens">
         <source>password.what_happens</source>
-        <target>Saisissez le mot de passe que vous utilisez, puis celui que vous voulez à la place. Tous les autres navigateurs connectés en votre nom sont déconnectés ; celui-ci reste.</target>
+        <target>Changer votre mot de passe vous déconnecte de vos autres navigateurs.</target>
       </trans-unit>
       <trans-unit id="password.current" resname="password.current">
         <source>password.current</source>
-        <target>Le mot de passe que vous utilisez</target>
+        <target>Mot de passe actuel</target>
       </trans-unit>
       <trans-unit id="password.new" resname="password.new">
         <source>password.new</source>
-        <target>Le mot de passe que vous voulez à la place</target>
+        <target>Nouveau mot de passe</target>
       </trans-unit>
       <trans-unit id="password.change" resname="password.change">
         <source>password.change</source>
-        <target>Remplacer mon mot de passe</target>
+        <target>Changer le mot de passe</target>
       </trans-unit>
       <trans-unit id="password.error.wrong_password" resname="password.error.wrong_password">
         <source>password.error.wrong_password</source>
-        <target>Ce n'est pas le mot de passe que vous utilisez.</target>
+        <target>Mot de passe actuel incorrect.</target>
       </trans-unit>
       <trans-unit id="password.error.same_as_before" resname="password.error.same_as_before">
         <source>password.error.same_as_before</source>
-        <target>Ce mot de passe est celui que vous avez déjà. Choisissez-en un autre.</target>
+        <target>C'est déjà votre mot de passe. Choisissez-en un autre.</target>
       </trans-unit>
       <trans-unit id="password.error.no_password_held" resname="password.error.no_password_held">
         <source>password.error.no_password_held</source>
-        <target>Vous n'avez pas de mot de passe : il n'y a rien à remplacer.</target>
+        <target>Vous n'avez pas de mot de passe à changer.</target>
       </trans-unit>
       <trans-unit id="password.again" resname="password.again">
         <source>password.again</source>
-        <target>Le même, encore</target>
+        <target>Confirmez le nouveau mot de passe</target>
       </trans-unit>
       <trans-unit id="password.breached" resname="password.breached">
         <source>password.breached</source>
-        <target>Ce mot de passe figure dans une liste de mots de passe compromis ({date}) : quelqu'un d'autre le détient. Remplacez-le maintenant.</target>
+        <target>Votre mot de passe figure dans une fuite de données ({date}). Changez-le maintenant.</target>
       </trans-unit>
       <trans-unit id="password.demanded" resname="password.demanded">
         <source>password.demanded</source>
-        <target>Vous êtes ici au lieu de la page où vous alliez. Remplacez votre mot de passe et cette page s'ouvrira ; quittez celle-ci et la question vous sera reposée à votre prochaine connexion.</target>
+        <target>Changez votre mot de passe pour continuer. Sinon, cela vous sera redemandé à votre prochaine connexion.</target>
       </trans-unit>
       <trans-unit id="password.strength.nothing" resname="password.strength.nothing">
         <source>password.strength.nothing</source>
-        <target>deviné tout de suite</target>
+        <target>très faible</target>
       </trans-unit>
       <trans-unit id="password.strength.weak" resname="password.strength.weak">
         <source>password.strength.weak</source>
@@ -1703,31 +1675,31 @@
       </trans-unit>
       <trans-unit id="password.error.too_short" resname="password.error.too_short">
         <source>password.error.too_short</source>
-        <target>Un mot de passe fait au moins {minimum} caractères.</target>
+        <target>Le mot de passe doit faire au moins {minimum} caractères.</target>
       </trans-unit>
       <trans-unit id="password.error.too_long" resname="password.error.too_long">
         <source>password.error.too_long</source>
-        <target>C'est plus long qu'un mot de passe ne peut l'être.</target>
+        <target>Ce mot de passe est trop long.</target>
       </trans-unit>
       <trans-unit id="password.error.too_weak" resname="password.error.too_weak">
         <source>password.error.too_weak</source>
-        <target>Ce mot de passe est trop facile à deviner. Allongez-le, ou employez plusieurs mots ; rien n'a à être une majuscule, un chiffre ou un symbole.</target>
+        <target>Ce mot de passe est trop facile à deviner. Allongez-le ou utilisez plusieurs mots.</target>
       </trans-unit>
       <trans-unit id="password.error.breached" resname="password.error.breached">
         <source>password.error.breached</source>
-        <target>Ce mot de passe figure dans une liste de mots de passe compromis : quelqu'un d'autre le détient déjà. Posez-en un autre.</target>
+        <target>Ce mot de passe figure dans une fuite de données. Choisissez-en un autre.</target>
       </trans-unit>
       <trans-unit id="password.error.not_checked" resname="password.error.not_checked">
         <source>password.error.not_checked</source>
-        <target>La liste des mots de passe compromis n'a pas pu être consultée : rien n'a été écrit. Réessayez.</target>
+        <target>Le mot de passe n'a pas pu être vérifié. Réessayez.</target>
       </trans-unit>
       <trans-unit id="password.error.not_confirmed" resname="password.error.not_confirmed">
         <source>password.error.not_confirmed</source>
-        <target>Les deux mots de passe saisis ne sont pas identiques.</target>
+        <target>Les deux mots de passe ne correspondent pas.</target>
       </trans-unit>
       <trans-unit id="account.password.state" resname="account.password.state">
         <source>account.password.state</source>
-        <target>{days, plural, =0 {écrit aujourd'hui} one {écrit hier} other {écrit il y a # jours}}</target>
+        <target>{days, plural, =0 {modifié aujourd'hui} one {modifié hier} other {modifié il y a # jours}}</target>
       </trans-unit>
       <trans-unit id="account.password.none" resname="account.password.none">
         <source>account.password.none</source>
@@ -1739,7 +1711,7 @@
       </trans-unit>
       <trans-unit id="two_factor.backup_codes.renew" resname="two_factor.backup_codes.renew">
         <source>two_factor.backup_codes.renew</source>
-        <target>Tirer de nouveaux codes de secours</target>
+        <target>Générer de nouveaux codes de secours</target>
       </trans-unit>
       <trans-unit id="two_factor.backup_codes.title" resname="two_factor.backup_codes.title">
         <source>two_factor.backup_codes.title</source>
@@ -1747,7 +1719,7 @@
       </trans-unit>
       <trans-unit id="two_factor.backup_codes.renewed" resname="two_factor.backup_codes.renewed">
         <source>two_factor.backup_codes.renewed</source>
-        <target>Voici vos nouveaux codes de secours. Ceux que vous aviez viennent de cesser de fonctionner.</target>
+        <target>Vos anciens codes ne fonctionnent plus.</target>
       </trans-unit>
       <trans-unit id="provenance.device" resname="provenance.device">
         <source>provenance.device</source>
@@ -1771,7 +1743,7 @@
       </trans-unit>
       <trans-unit id="two_factor.backup_codes.not_copied" resname="two_factor.backup_codes.not_copied">
         <source>two_factor.backup_codes.not_copied</source>
-        <target>Ce navigateur n'a pas laissé la page écrire dans votre presse-papiers. Sélectionnez les codes et copiez-les vous-même.</target>
+        <target>La copie a échoué. Sélectionnez les codes et copiez-les.</target>
       </trans-unit>
       <trans-unit id="two_factor.enrol.step_secret" resname="two_factor.enrol.step_secret">
         <source>two_factor.enrol.step_secret</source>
@@ -1791,75 +1763,75 @@
       </trans-unit>
       <trans-unit id="two_factor.enrol.key_not_copied" resname="two_factor.enrol.key_not_copied">
         <source>two_factor.enrol.key_not_copied</source>
-        <target>Ce navigateur n'a pas laissé la page écrire dans votre presse-papiers. Sélectionnez la clé et copiez-la vous-même.</target>
+        <target>La copie a échoué. Sélectionnez la clé et copiez-la.</target>
       </trans-unit>
       <trans-unit id="enrolment_ticket.title" resname="enrolment_ticket.title">
         <source>enrolment_ticket.title</source>
-        <target>Posez une passkey</target>
+        <target>Ajoutez une passkey</target>
       </trans-unit>
       <trans-unit id="enrolment_ticket.prompt" resname="enrolment_ticket.prompt">
         <source>enrolment_ticket.prompt</source>
-        <target>Ce lien pose une passkey pour vous connecter en tant que {username}. Il fonctionne une fois.</target>
+        <target>Ajoutez une passkey au compte {username}. Ce lien ne sert qu'une fois.</target>
       </trans-unit>
       <trans-unit id="enrolment_ticket.enrol" resname="enrolment_ticket.enrol">
         <source>enrolment_ticket.enrol</source>
-        <target>Poser ma passkey</target>
+        <target>Ajouter ma passkey</target>
       </trans-unit>
       <trans-unit id="enrolment_ticket.unsupported" resname="enrolment_ticket.unsupported">
         <source>enrolment_ticket.unsupported</source>
-        <target>Cette page demande un navigateur capable de tenir une passkey. Ouvrez le lien sur un appareil qui en a un.</target>
+        <target>Ce navigateur ne peut pas créer de passkey. Ouvrez le lien sur un autre appareil.</target>
       </trans-unit>
       <trans-unit id="enrolment_ticket.error.no_ceremony" resname="enrolment_ticket.error.no_ceremony">
         <source>enrolment_ticket.error.no_ceremony</source>
-        <target>Aucune passkey n'était en cours de création. Réessayez.</target>
+        <target>L'ajout de la passkey a expiré. Réessayez.</target>
       </trans-unit>
       <trans-unit id="enrolment_ticket.error.organisation_keys_only" resname="enrolment_ticket.error.organisation_keys_only">
         <source>enrolment_ticket.error.organisation_keys_only</source>
-        <target>Votre organisation n'accepte que les clés qu'elle vous a remises. Utilisez l'une d'elles.</target>
+        <target>Seules les clés remises par votre organisation sont acceptées.</target>
       </trans-unit>
       <trans-unit id="enrolment_ticket.error.model_under_security_alert" resname="enrolment_ticket.error.model_under_security_alert">
         <source>enrolment_ticket.error.model_under_security_alert</source>
-        <target>Ce modèle d'authentificateur fait l'objet d'une alerte de sécurité et n'est plus accepté. Utilisez-en un autre.</target>
+        <target>Ce modèle est sous alerte de sécurité et n'est plus accepté. Utilisez-en un autre.</target>
       </trans-unit>
       <trans-unit id="enrolment_ticket.error.refused" resname="enrolment_ticket.error.refused">
         <source>enrolment_ticket.error.refused</source>
-        <target>La passkey n'a pas pu être posée. Réessayez.</target>
+        <target>La passkey n'a pas pu être ajoutée. Réessayez.</target>
       </trans-unit>
       <trans-unit id="error.enrolment_ticket_refused" resname="error.enrolment_ticket_refused">
         <source>error.enrolment_ticket_refused</source>
-        <target>Ce lien n'ouvre rien : il a déjà servi, ou son délai est passé ; demandez-en un autre.</target>
+        <target>Ce lien a déjà servi ou a expiré. Demandez-en un autre.</target>
       </trans-unit>
       <trans-unit id="act.enrolment_ticket.issued" resname="act.enrolment_ticket.issued">
         <source>act.enrolment_ticket.issued</source>
-        <target>Un lien pour poser un moyen de connexion a été émis pour ce compte</target>
+        <target>Lien d'ajout d'une passkey émis</target>
       </trans-unit>
       <trans-unit id="password_ticket.title" resname="password_ticket.title">
         <source>password_ticket.title</source>
-        <target>Posez un nouveau mot de passe</target>
+        <target>Choisissez un nouveau mot de passe</target>
       </trans-unit>
       <trans-unit id="password_ticket.prompt" resname="password_ticket.prompt">
         <source>password_ticket.prompt</source>
-        <target>Ce lien pose un nouveau mot de passe pour vous connecter en tant que {username}. Il fonctionne une fois.</target>
+        <target>Nouveau mot de passe du compte {username}. Ce lien ne sert qu'une fois.</target>
       </trans-unit>
       <trans-unit id="password_ticket.what_happens" resname="password_ticket.what_happens">
         <source>password_ticket.what_happens</source>
-        <target>Une fois posé, chacune de vos sessions prend fin, sur chaque appareil : reconnectez-vous avec le nouveau mot de passe.</target>
+        <target>Toutes vos sessions seront fermées : reconnectez-vous ensuite avec le nouveau mot de passe.</target>
       </trans-unit>
       <trans-unit id="password_ticket.submit" resname="password_ticket.submit">
         <source>password_ticket.submit</source>
-        <target>Poser mon mot de passe</target>
+        <target>Enregistrer le mot de passe</target>
       </trans-unit>
       <trans-unit id="password.error.not_admitted" resname="password.error.not_admitted">
         <source>password.error.not_admitted</source>
-        <target>Votre organisation vous connecte sans mot de passe : ce lien n'en pose aucun.</target>
+        <target>Votre organisation n'autorise pas de mot de passe pour votre compte.</target>
       </trans-unit>
       <trans-unit id="error.password_ticket_refused" resname="error.password_ticket_refused">
         <source>error.password_ticket_refused</source>
-        <target>Ce lien n'ouvre rien : il a déjà servi, ou son délai est passé ; demandez-en un autre.</target>
+        <target>Ce lien a déjà servi ou a expiré. Demandez-en un autre.</target>
       </trans-unit>
       <trans-unit id="act.password_ticket.issued" resname="act.password_ticket.issued">
         <source>act.password_ticket.issued</source>
-        <target>Un lien pour poser un nouveau mot de passe a été émis pour ce compte</target>
+        <target>Lien de nouveau mot de passe émis</target>
       </trans-unit>
       <trans-unit id="totp_ticket.title" resname="totp_ticket.title">
         <source>totp_ticket.title</source>
@@ -1867,15 +1839,15 @@
       </trans-unit>
       <trans-unit id="totp_ticket.prompt" resname="totp_ticket.prompt">
         <source>totp_ticket.prompt</source>
-        <target>Ce lien configure une application d'authentification pour vous connecter en tant que {username}, à la place de celle que ce compte tient. Il fonctionne une fois.</target>
+        <target>Nouvelle application d'authentification du compte {username}. Ce lien ne sert qu'une fois.</target>
       </trans-unit>
       <trans-unit id="totp_ticket.what_happens" resname="totp_ticket.what_happens">
         <source>totp_ticket.what_happens</source>
-        <target>Une fois configurée, l'application que ce compte tenait ne fonctionne plus et chacune de vos sessions prend fin, sur chaque appareil : reconnectez-vous avec un code de la nouvelle application.</target>
+        <target>L'ancienne application cessera de fonctionner et toutes vos sessions seront fermées.</target>
       </trans-unit>
       <trans-unit id="totp_ticket.enrolled" resname="totp_ticket.enrolled">
         <source>totp_ticket.enrolled</source>
-        <target>Votre nouvelle application d'authentification est configurée, et chacune de vos sessions a pris fin. Désormais, un code de l'application vous sera demandé après votre mot de passe.</target>
+        <target>Votre nouvelle application d'authentification est configurée et vos sessions sont fermées.</target>
       </trans-unit>
       <trans-unit id="totp_ticket.sign_in" resname="totp_ticket.sign_in">
         <source>totp_ticket.sign_in</source>
@@ -1883,23 +1855,19 @@
       </trans-unit>
       <trans-unit id="two_factor.error.not_admitted" resname="two_factor.error.not_admitted">
         <source>two_factor.error.not_admitted</source>
-        <target>Votre organisation n'admet aucune application d'authentification pour vous : ce lien n'en configure aucune.</target>
+        <target>Votre organisation n'autorise pas d'application d'authentification pour votre compte.</target>
       </trans-unit>
       <trans-unit id="error.totp_ticket_refused" resname="error.totp_ticket_refused">
         <source>error.totp_ticket_refused</source>
-        <target>Ce lien n'ouvre rien : il a déjà servi, ou son délai est passé ; demandez-en un autre.</target>
+        <target>Ce lien a déjà servi ou a expiré. Demandez-en un autre.</target>
       </trans-unit>
       <trans-unit id="act.totp_ticket.issued" resname="act.totp_ticket.issued">
         <source>act.totp_ticket.issued</source>
-        <target>Un lien pour configurer une application d'authentification a été émis pour ce compte</target>
+        <target>Lien de configuration d'une application d'authentification émis</target>
       </trans-unit>
       <trans-unit id="post_again.title" resname="post_again.title">
         <source>post_again.title</source>
         <target>Connexion en cours</target>
-      </trans-unit>
-      <trans-unit id="post_again.explanation" resname="post_again.explanation">
-        <source>post_again.explanation</source>
-        <target>Votre navigateur arrive d’un autre site sans votre session. Utilisez le bouton ci-dessous pour continuer.</target>
       </trans-unit>
       <trans-unit id="post_again.continue" resname="post_again.continue">
         <source>post_again.continue</source>
@@ -1907,11 +1875,7 @@
       </trans-unit>
       <trans-unit id="saml_post.title" resname="saml_post.title">
         <source>saml_post.title</source>
-        <target>Retour vers l’application</target>
-      </trans-unit>
-      <trans-unit id="saml_post.explanation" resname="saml_post.explanation">
-        <source>saml_post.explanation</source>
-        <target>Votre navigateur vous renvoie vers l’application. Utilisez le bouton ci-dessous pour continuer.</target>
+        <target>Retour vers l'application</target>
       </trans-unit>
       <trans-unit id="saml_post.continue" resname="saml_post.continue">
         <source>saml_post.continue</source>
@@ -1921,25 +1885,21 @@
         <source>saml_post.upstream.title</source>
         <target>Connexion avec votre organisation</target>
       </trans-unit>
-      <trans-unit id="saml_post.upstream.explanation" resname="saml_post.upstream.explanation">
-        <source>saml_post.upstream.explanation</source>
-        <target>Votre navigateur vous envoie vers la connexion de votre organisation. Utilisez le bouton ci-dessous pour continuer.</target>
-      </trans-unit>
       <trans-unit id="error.saml_request_refused" resname="error.saml_request_refused">
         <source>error.saml_request_refused</source>
-        <target>L’application a envoyé une demande de connexion que ce fournisseur ne peut pas accepter. Recommencez depuis l’application.</target>
+        <target>L'application a envoyé une demande de connexion invalide. Recommencez depuis l'application.</target>
       </trans-unit>
       <trans-unit id="error.saml_logout_refused" resname="error.saml_logout_refused">
         <source>error.saml_logout_refused</source>
-        <target>L’application a envoyé une demande de déconnexion que ce fournisseur ne peut pas accepter. Déconnectez-vous à nouveau depuis l’application.</target>
+        <target>L'application a envoyé une demande de déconnexion invalide. Déconnectez-vous à nouveau depuis l'application.</target>
       </trans-unit>
       <trans-unit id="error.saml_assertion_refused" resname="error.saml_assertion_refused">
         <source>error.saml_assertion_refused</source>
-        <target>La connexion avec votre organisation n’a pas abouti. Recommencez depuis l’application.</target>
+        <target>La connexion avec votre organisation n'a pas abouti. Recommencez depuis l'application.</target>
       </trans-unit>
       <trans-unit id="error.saml_upstream_sign_on_refused" resname="error.saml_upstream_sign_on_refused">
         <source>error.saml_upstream_sign_on_refused</source>
-        <target>La connexion avec votre organisation ne peut pas commencer ici. Recommencez depuis l’application.</target>
+        <target>La connexion avec votre organisation ne peut pas commencer ici. Recommencez depuis l'application.</target>
       </trans-unit>
       <trans-unit id="controls.close" resname="controls.close">
         <source>controls.close</source>
@@ -1959,7 +1919,7 @@
       </trans-unit>
       <trans-unit id="e1f3a5b7d2" resname="theme.system">
         <source>theme.system</source>
-        <target>Comme le navigateur demande</target>
+        <target>Système</target>
       </trans-unit>
       <trans-unit id="f4a6b8c1e3" resname="navigation.pages">
         <source>navigation.pages</source>
@@ -1971,15 +1931,15 @@
       </trans-unit>
       <trans-unit id="b1c3d5e7a9" resname="navigation.group.record">
         <source>navigation.group.record</source>
-        <target>Votre dossier</target>
+        <target>Données personnelles</target>
       </trans-unit>
       <trans-unit id="c2d4e6f8b1" resname="navigation.group.sign_in">
         <source>navigation.group.sign_in</source>
-        <target>Comment vous vous connectez</target>
+        <target>Sécurité</target>
       </trans-unit>
       <trans-unit id="d3e5f7a9c2" resname="navigation.group.activity">
         <source>navigation.group.activity</source>
-        <target>Ce qui s'est passé</target>
+        <target>Activité</target>
       </trans-unit>
       <trans-unit id="e4f6a8b2c1" resname="navigation.where_you_are">
         <source>navigation.where_you_are</source>
@@ -1987,71 +1947,71 @@
       </trans-unit>
       <trans-unit id="navigation.description.approvals" resname="navigation.description.approvals">
         <source>navigation.description.approvals</source>
-        <target>Demandé en votre nom, et en attente de votre réponse.</target>
+        <target>Les demandes qui attendent votre réponse.</target>
       </trans-unit>
       <trans-unit id="navigation.description.profile" resname="navigation.description.profile">
         <source>navigation.description.profile</source>
-        <target>Ce que ce fournisseur tient de vous, et ce que vous pouvez corriger.</target>
+        <target>Consultez et corrigez vos informations.</target>
       </trans-unit>
       <trans-unit id="navigation.description.archive" resname="navigation.description.archive">
         <source>navigation.description.archive</source>
-        <target>Demandez une copie de tout cela, et téléchargez-la ici.</target>
+        <target>Téléchargez une copie de vos données.</target>
       </trans-unit>
       <trans-unit id="navigation.description.password" resname="navigation.description.password">
         <source>navigation.description.password</source>
-        <target>Celui que vous tapez pour vous connecter, changé ici.</target>
+        <target>Changez votre mot de passe.</target>
       </trans-unit>
       <trans-unit id="navigation.description.passkeys" resname="navigation.description.passkeys">
         <source>navigation.description.passkeys</source>
-        <target>Se connecter avec votre appareil plutôt qu'avec un mot de passe.</target>
+        <target>Connectez-vous avec votre appareil, sans mot de passe.</target>
       </trans-unit>
       <trans-unit id="navigation.description.two_factor" resname="navigation.description.two_factor">
         <source>navigation.description.two_factor</source>
-        <target>Une seconde preuve après votre mot de passe, depuis une application d'authentification.</target>
+        <target>Un code en plus de votre mot de passe.</target>
       </trans-unit>
       <trans-unit id="navigation.description.notifications" resname="navigation.description.notifications">
         <source>navigation.description.notifications</source>
-        <target>Les navigateurs prévenus quand quelque chose vous attend.</target>
+        <target>Comment recevoir vos notifications.</target>
       </trans-unit>
       <trans-unit id="navigation.description.sessions" resname="navigation.description.sessions">
         <source>navigation.description.sessions</source>
-        <target>Les navigateurs et les applications qui tiennent une session en votre nom.</target>
+        <target>Les appareils connectés à votre compte.</target>
       </trans-unit>
       <trans-unit id="navigation.description.consents" resname="navigation.description.consents">
         <source>navigation.description.consents</source>
-        <target>Ce que chaque application obtient de vous, et comment le reprendre.</target>
+        <target>Ce que chaque application obtient de vous.</target>
       </trans-unit>
       <trans-unit id="navigation.description.acts" resname="navigation.description.acts">
         <source>navigation.description.acts</source>
-        <target>Tout ce qui s'est passé sur votre compte, et comment quelqu'un y est entré.</target>
+        <target>Connexions et modifications de votre compte.</target>
       </trans-unit>
       <trans-unit id="mail_encryption.title" resname="mail_encryption.title">
         <source>mail_encryption.title</source>
-        <target>Courriel chiffré</target>
+        <target>E-mails chiffrés</target>
       </trans-unit>
       <trans-unit id="mail_encryption.explanation" resname="mail_encryption.explanation">
         <source>mail_encryption.explanation</source>
-        <target>Le courriel que ce fournisseur écrit à {address} peut être chiffré pour un certificat (S/MIME) ou une clé publique (OpenPGP) que vous donnez, qui doit nommer cette adresse : seul votre client de messagerie le lit alors. Son expéditeur, son destinataire, sa date et son objet restent lisibles en chemin.</target>
+        <target>Les e-mails envoyés à {address} peuvent être chiffrés pour votre certificat S/MIME ou votre clé OpenPGP, qui doit porter cette adresse. L'expéditeur, le destinataire, la date et l'objet restent lisibles.</target>
       </trans-unit>
       <trans-unit id="mail_encryption.no_address" resname="mail_encryption.no_address">
         <source>mail_encryption.no_address</source>
-        <target>Le courriel est chiffré pour une adresse vérifiée, et votre compte n’en a aucune.</target>
+        <target>Le chiffrement demande une adresse e-mail vérifiée, et votre compte n'en a pas.</target>
       </trans-unit>
       <trans-unit id="mail_encryption.none" resname="mail_encryption.none">
         <source>mail_encryption.none</source>
-        <target>Le courriel qui vous est écrit n’est pas chiffré.</target>
+        <target>Vos e-mails ne sont pas chiffrés.</target>
       </trans-unit>
       <trans-unit id="mail_encryption.held" resname="mail_encryption.held">
         <source>mail_encryption.held</source>
-        <target>Le courriel qui vous est écrit est chiffré en {format} pour la clé {fingerprint}. S’il ne peut pas l’être, rien ne vous est écrit.</target>
+        <target>Vos e-mails sont chiffrés en {format} pour la clé {fingerprint}. Un e-mail qui ne peut pas être chiffré n'est pas envoyé.</target>
       </trans-unit>
       <trans-unit id="mail_encryption.valid_until" resname="mail_encryption.valid_until">
         <source>mail_encryption.valid_until</source>
-        <target>Valable jusqu’au {date}.</target>
+        <target>Valable jusqu'au {date}.</target>
       </trans-unit>
       <trans-unit id="mail_encryption.remove" resname="mail_encryption.remove">
         <source>mail_encryption.remove</source>
-        <target>Ne plus chiffrer mon courriel</target>
+        <target>Ne plus chiffrer mes e-mails</target>
       </trans-unit>
       <trans-unit id="mail_encryption.format" resname="mail_encryption.format">
         <source>mail_encryption.format</source>
@@ -2063,11 +2023,11 @@
       </trans-unit>
       <trans-unit id="mail_encryption.material_help" resname="mail_encryption.material_help">
         <source>mail_encryption.material_help</source>
-        <target>S/MIME : votre certificat seul, en PEM. OpenPGP : votre clé publique seule, en armure ASCII. Il remplace celui que vous aviez donné.</target>
+        <target>S/MIME : le certificat seul, en PEM. OpenPGP : la clé publique seule, en armure ASCII. Remplace le précédent.</target>
       </trans-unit>
       <trans-unit id="mail_encryption.give" resname="mail_encryption.give">
         <source>mail_encryption.give</source>
-        <target>Chiffrer mon courriel pour lui</target>
+        <target>Chiffrer mes e-mails</target>
       </trans-unit>
       <trans-unit id="mail_encryption.kind.smime" resname="mail_encryption.kind.smime">
         <source>mail_encryption.kind.smime</source>
@@ -2079,27 +2039,27 @@
       </trans-unit>
       <trans-unit id="mail_encryption.error.unreadable" resname="mail_encryption.error.unreadable">
         <source>mail_encryption.error.unreadable</source>
-        <target>Ce n’est pas un certificat ou une clé publique que ce fournisseur lit.</target>
+        <target>Ce certificat ou cette clé publique est illisible.</target>
       </trans-unit>
       <trans-unit id="mail_encryption.error.not_for_encryption" resname="mail_encryption.error.not_for_encryption">
         <source>mail_encryption.error.not_for_encryption</source>
-        <target>Ce certificat ou cette clé ne chiffre pas de courriel : un certificat S/MIME porte une clé RSA de 2048 bits au moins, une clé OpenPGP une sous-clé qui chiffre.</target>
+        <target>Ce certificat ou cette clé ne permet pas de chiffrer : il faut une clé RSA d'au moins 2048 bits (S/MIME) ou une sous-clé de chiffrement (OpenPGP).</target>
       </trans-unit>
       <trans-unit id="mail_encryption.error.not_valid_now" resname="mail_encryption.error.not_valid_now">
         <source>mail_encryption.error.not_valid_now</source>
-        <target>Ce certificat ou cette clé a expiré, est révoqué, ou n’est pas encore valable.</target>
+        <target>Ce certificat ou cette clé a expiré, est révoqué ou n'est pas encore valable.</target>
       </trans-unit>
       <trans-unit id="mail_encryption.error.another_address" resname="mail_encryption.error.another_address">
         <source>mail_encryption.error.another_address</source>
-        <target>Ce certificat ou cette clé ne nomme pas votre adresse vérifiée.</target>
+        <target>Ce certificat ou cette clé ne porte pas votre adresse vérifiée.</target>
       </trans-unit>
       <trans-unit id="mail_encryption.error.no_verified_address" resname="mail_encryption.error.no_verified_address">
         <source>mail_encryption.error.no_verified_address</source>
-        <target>Le courriel est chiffré pour une adresse vérifiée, et votre compte n’en a aucune.</target>
+        <target>Le chiffrement demande une adresse e-mail vérifiée, et votre compte n'en a pas.</target>
       </trans-unit>
       <trans-unit id="profile.mail_encryption" resname="profile.mail_encryption">
         <source>profile.mail_encryption</source>
-        <target>Courriel chiffré</target>
+        <target>E-mails chiffrés</target>
       </trans-unit>
       <trans-unit id="notifications.channels.title" resname="notifications.channels.title">
         <source>notifications.channels.title</source>
@@ -2107,11 +2067,11 @@
       </trans-unit>
       <trans-unit id="notifications.channels.explanation" resname="notifications.channels.explanation">
         <source>notifications.channels.explanation</source>
-        <target>Choisissez les canaux qui vous préviennent de chaque sorte de notification. Une sorte que vous ne mettez pas à part suit le choix fait pour toutes. Un e-mail ne part que vers une adresse marquée vérifiée, un SMS que vers un numéro marqué vérifié, et l'un comme l'autre ne fait que vous prévenir : vous répondez ici, sur votre compte.</target>
+        <target>Choisissez les canaux par défaut, ou personnalisez-les pour une notification. Un e-mail ou un SMS ne part que vers une adresse ou un numéro vérifié.</target>
       </trans-unit>
       <trans-unit id="notifications.channels.none" resname="notifications.channels.none">
         <source>notifications.channels.none</source>
-        <target>Ce fournisseur ne vous prévient par aucun canal : ce qui vous attend et ce qui change sur votre compte sont sur ces pages.</target>
+        <target>Aucun canal de notification n'est disponible.</target>
       </trans-unit>
       <trans-unit id="notifications.channels.kind" resname="notifications.channels.kind">
         <source>notifications.channels.kind</source>
@@ -2119,11 +2079,11 @@
       </trans-unit>
       <trans-unit id="notifications.channels.apart" resname="notifications.channels.apart">
         <source>notifications.channels.apart</source>
-        <target>Choix à part</target>
+        <target>Personnalisé</target>
       </trans-unit>
       <trans-unit id="notifications.channels.apart_label" resname="notifications.channels.apart_label">
         <source>notifications.channels.apart_label</source>
-        <target>{kind} : choix à part</target>
+        <target>{kind} : personnalisé</target>
       </trans-unit>
       <trans-unit id="notifications.channels.by" resname="notifications.channels.by">
         <source>notifications.channels.by</source>
@@ -2131,15 +2091,15 @@
       </trans-unit>
       <trans-unit id="notifications.channels.every_kind" resname="notifications.channels.every_kind">
         <source>notifications.channels.every_kind</source>
-        <target>Toute sorte qui n'est pas à part</target>
+        <target>Par défaut</target>
       </trans-unit>
       <trans-unit id="notifications.channels.every_channel" resname="notifications.channels.every_channel">
         <source>notifications.channels.every_channel</source>
-        <target>Votre choix ne s'y applique pas : chaque canal qui porte cet avis vous prévient.</target>
+        <target>Toujours envoyée par tous les canaux.</target>
       </trans-unit>
       <trans-unit id="notifications.channels.save" resname="notifications.channels.save">
         <source>notifications.channels.save</source>
-        <target>Enregistrer ces canaux</target>
+        <target>Enregistrer</target>
       </trans-unit>
       <trans-unit id="notifications.channels.not_chosen" resname="notifications.channels.not_chosen">
         <source>notifications.channels.not_chosen</source>
@@ -2163,23 +2123,23 @@
       </trans-unit>
       <trans-unit id="notifications.kind.pending_approval" resname="notifications.kind.pending_approval">
         <source>notifications.kind.pending_approval</source>
-        <target>Une demande qui attend votre approbation</target>
+        <target>Demande à approuver</target>
       </trans-unit>
       <trans-unit id="notifications.kind.credential_change" resname="notifications.kind.credential_change">
         <source>notifications.kind.credential_change</source>
-        <target>Un changement de vos moyens de connexion</target>
+        <target>Changement de vos moyens de connexion</target>
       </trans-unit>
       <trans-unit id="profile.notification_channels" resname="profile.notification_channels">
         <source>profile.notification_channels</source>
-        <target>Canaux de toute sorte de notification qui n'est pas à part</target>
+        <target>Canaux de notification par défaut</target>
       </trans-unit>
       <trans-unit id="profile.notification_channels.pending_approval" resname="profile.notification_channels.pending_approval">
         <source>profile.notification_channels.pending_approval</source>
-        <target>Canaux d'une demande qui attend votre approbation</target>
+        <target>Canaux des demandes à approuver</target>
       </trans-unit>
       <trans-unit id="act.notification_channels.chosen" resname="act.notification_channels.chosen">
         <source>act.notification_channels.chosen</source>
-        <target>Canaux des notifications choisis</target>
+        <target>Canaux de notification modifiés</target>
       </trans-unit>
       <trans-unit id="confirmation.offer" resname="confirmation.offer">
         <source>confirmation.offer</source>
@@ -2187,7 +2147,7 @@
       </trans-unit>
       <trans-unit id="confirmation.offer_explanation" resname="confirmation.offer_explanation">
         <source>confirmation.offer_explanation</source>
-        <target>Une adresse est confirmée une fois revenu le code envoyé là. D'ici là, rien d'autre que ce code ne lui est envoyé.</target>
+        <target>Tant qu'une adresse n'est pas confirmée, elle ne reçoit que son code de confirmation.</target>
       </trans-unit>
       <trans-unit id="confirmation.send" resname="confirmation.send">
         <source>confirmation.send</source>
@@ -2195,7 +2155,7 @@
       </trans-unit>
       <trans-unit id="confirmation.email.title" resname="confirmation.email.title">
         <source>confirmation.email.title</source>
-        <target>Confirmer votre adresse électronique</target>
+        <target>Confirmer votre adresse e-mail</target>
       </trans-unit>
       <trans-unit id="confirmation.phone_number.title" resname="confirmation.phone_number.title">
         <source>confirmation.phone_number.title</source>
@@ -2203,7 +2163,7 @@
       </trans-unit>
       <trans-unit id="confirmation.sent" resname="confirmation.sent">
         <source>confirmation.sent</source>
-        <target>Un code a été envoyé à {address}. Saisissez-le ici, ou ouvrez le lien qui l'accompagne.</target>
+        <target>Un code a été envoyé à {address}. Saisissez-le ici ou ouvrez le lien qui l'accompagne.</target>
       </trans-unit>
       <trans-unit id="confirmation.code" resname="confirmation.code">
         <source>confirmation.code</source>
@@ -2219,11 +2179,11 @@
       </trans-unit>
       <trans-unit id="confirmation.refused" resname="confirmation.refused">
         <source>confirmation.refused</source>
-        <target>Ce code ne confirme rien. Vérifiez-le, ou envoyez-vous un autre code.</target>
+        <target>Code incorrect ou expiré. Vérifiez-le ou demandez-en un autre.</target>
       </trans-unit>
       <trans-unit id="confirmation.link_prompt" resname="confirmation.link_prompt">
         <source>confirmation.link_prompt</source>
-        <target>Ouvrir ce lien n'a rien confirmé. Confirmez ici que l'adresse à laquelle il a été envoyé est la vôtre.</target>
+        <target>Confirmez que cette adresse est la vôtre.</target>
       </trans-unit>
       <trans-unit id="confirmation.link_submit" resname="confirmation.link_submit">
         <source>confirmation.link_submit</source>
@@ -2239,19 +2199,19 @@
       </trans-unit>
       <trans-unit id="confirmation.notice.body" resname="confirmation.notice.body">
         <source>confirmation.notice.body</source>
-        <target>Votre code de confirmation est {code}, valable jusqu'au {until}. Saisissez-le sur la page de votre compte, ou confirmez par le lien ci-dessous. Si vous ne l'avez pas demandé, ignorez ce message.</target>
+        <target>Votre code de confirmation : {code}, valable jusqu'au {until}. Saisissez-le dans votre compte ou ouvrez le lien ci-dessous. Si vous n'avez rien demandé, ignorez ce message.</target>
       </trans-unit>
       <trans-unit id="error.address_confirmation_refused" resname="error.address_confirmation_refused">
         <source>error.address_confirmation_refused</source>
-        <target>Ce lien ne confirme rien. Il a déjà servi, il a expiré ou un code plus récent l'a remplacé ; envoyez-vous un autre code depuis votre compte.</target>
+        <target>Ce lien a déjà servi, a expiré ou a été remplacé. Envoyez un nouveau code depuis votre compte.</target>
       </trans-unit>
       <trans-unit id="act.address.confirmation_sent" resname="act.address.confirmation_sent">
         <source>act.address.confirmation_sent</source>
-        <target>Un code de confirmation a été envoyé à l'une de vos adresses</target>
+        <target>Code de confirmation envoyé</target>
       </trans-unit>
       <trans-unit id="act.address.established" resname="act.address.established">
         <source>act.address.established</source>
-        <target>L'une de vos adresses a été confirmée</target>
+        <target>Adresse confirmée</target>
       </trans-unit>
     </body>
   </file>

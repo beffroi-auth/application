@@ -20,19 +20,22 @@ final class AccountNavigationTest extends BrowserTestCase
         $page = $this->accountPage('/account');
 
         // Then
-        static::assertSame([
-            '/account',
-            '/account/approvals',
-            '/account/profile',
-            '/account/archive',
-            '/account/password',
-            '/account/passkeys',
-            '/account/two-factor',
-            '/account/notifications',
-            '/account/sessions',
-            '/account/consents',
-            '/account/acts',
-        ], $page->filter('#layout-sidebar-pages a')->extract(['href']));
+        static::assertSame(
+            [
+                '/account',
+                '/account/approvals',
+                '/account/profile',
+                '/account/archive',
+                '/account/password',
+                '/account/passkeys',
+                '/account/two-factor',
+                '/account/notifications',
+                '/account/sessions',
+                '/account/consents',
+                '/account/acts',
+            ],
+            $page->filter('#layout-sidebar-pages a')->extract(['href']),
+        );
     }
 
     #[Test]
@@ -46,7 +49,7 @@ final class AccountNavigationTest extends BrowserTestCase
 
         // Then
         static::assertSame(
-            ['Your record', 'How you sign in', 'What has happened'],
+            ['Personal data', 'Security', 'Activity'],
             $page->filter('#layout-sidebar-pages ul[aria-label]')->extract(['aria-label']),
         );
     }
@@ -78,7 +81,7 @@ final class AccountNavigationTest extends BrowserTestCase
 
         // Then
         static::assertSame(
-            ['Your account', 'Where you are signed in'],
+            ['Your account', 'Open sessions'],
             $page->filter('header[data-page-header] nav li')->each(static fn (Crawler $item): string => $item->text()),
         );
         static::assertCount(0, $page->filter('a[data-back]'));
