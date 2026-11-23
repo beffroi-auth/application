@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 /**
  * Consumes the budget of the origin before any work a route asks for, on the address behind the trusted proxies and
  * never on a "client_id", which a caller can choose for somebody else. An IPv6 address counts by its /64, the prefix
- * before the 64 bits of its interface identifier (RFC 4291 §2.5.1), which one host may choose at will.
+ * before the 64 bits of its interface identifier (RFC 4291 §2.5.1), which a host draws itself (RFC 8981 §3.3.1).
  */
 #[AsEventListener(event: KernelEvents::REQUEST, priority: self::PRIORITY)]
 final readonly class OriginLoadListener
