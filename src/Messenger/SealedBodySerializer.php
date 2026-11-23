@@ -9,6 +9,7 @@ use function array_map;
 use function array_values;
 use function base64_decode;
 use function base64_encode;
+use DateTimeImmutable;
 use Beffroi\Core\Exception\InvalidJweException;
 use Beffroi\Core\Port\AmbientTenantInterface;
 use Beffroi\Core\Port\MessageBodyOpenerInterface;
@@ -16,11 +17,13 @@ use Beffroi\Core\Port\MessageBodySealerInterface;
 use function is_array;
 use function is_object;
 use function is_string;
+use function is_subclass_of;
 use function serialize;
 use function sprintf;
 use function str_starts_with;
 use function strlen;
 use function substr;
+use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\MessageDecodingFailedException;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
@@ -39,6 +42,14 @@ final readonly class SealedBodySerializer implements SerializerInterface
     public const string STAMP_HEADER_PREFIX = 'X-Message-Stamp-';
 
     public const string TYPE_HEADER = 'type';
+
+    /**
+     * What a stamp of the component holds besides scalars: the exception of an ErrorDetailsStamp, the moment of a
+     * RedeliveryStamp. Whoever writes to the transport writes the headers, and no key seals them.
+     *
+     * @var list<class-string>
+     */
+    private const array HELD_BY_A_STAMP = [FlattenException::class, DateTimeImmutable::class];
 
     public function __construct(
         private AmbientTenantInterface $tenants,
@@ -195,10 +206,10 @@ final readonly class SealedBodySerializer implements SerializerInterface
             }
             $class = substr($name, strlen(self::STAMP_HEADER_PREFIX));
             $decoded = base64_decode($value, true);
-            $read = $decoded === false
+            $read = $decoded === false || ! is_subclass_of($class, StampInterface::class)
                 ? false
                 : @unserialize($decoded, [
-                    'allowed_classes' => true,
+                    'allowed_classes' => [$class, ...self::HELD_BY_A_STAMP],
                 ]);
             if (! is_array($read)) {
                 $failure ??= new MessageDecodingFailedException(sprintf('The header of the stamp "%s" does not read back.', $class));
