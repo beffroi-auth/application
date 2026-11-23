@@ -17,6 +17,11 @@ final readonly class Moments
 
     private const string CLOCK = ' zzz';
 
+    /**
+     * The English of the catalogue is British, which ICU does not take "en" for.
+     */
+    private const array WRITTEN_AS = ['en' => 'en_GB'];
+
     public function __construct(
         private UserTimeZone $zones,
     ) {
@@ -25,7 +30,7 @@ final readonly class Moments
     public function write(DateTimeImmutable $moment, ?User $reader, string $locale): string
     {
         $zone = $this->zones->of($reader);
-        $formatter = new IntlDateFormatter($locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT, $zone);
+        $formatter = new IntlDateFormatter(self::WRITTEN_AS[$locale] ?? $locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT, $zone);
         $pattern = $formatter->getPattern();
         if ($pattern !== false) {
             $formatter->setPattern($pattern . self::CLOCK);
