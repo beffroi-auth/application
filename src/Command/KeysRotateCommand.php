@@ -22,7 +22,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'beffroi:keys:rotate',
-    description: 'Stage a new key, sealed by the configured KMS and published at once; it takes over once the staging delay elapsed, or at once with --now; --compromised retires the previous key, and every key waiting to take over, with no window.',
+    description: 'Stage a new key, sealed by the configured KMS and published at once; it takes over once the staging delay elapsed, or at once with --now; --compromised retires the previous key, and every other key of its algorithm, with no window.',
 )]
 final readonly class KeysRotateCommand
 {
@@ -49,7 +49,7 @@ final readonly class KeysRotateCommand
         )]
         bool $now = false,
         #[Option(
-            description: 'The active key is compromised: the new key takes over at once, and the compromised one and every key of its algorithm waiting to take over leave the JWK Set with no window.',
+            description: 'The active key is compromised: the new key takes over at once, and the compromised one, the keys of its algorithm waiting to take over and those still retiring leave the JWK Set with no window.',
         )]
         bool $compromised = false,
     ): int {
