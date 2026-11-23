@@ -159,6 +159,7 @@ use App\Http\AccountAccess;
 use App\Http\AskedPage;
 use App\Http\AskedPeriod;
 use App\Http\AskedWord;
+use App\Http\UntoldChange;
 use App\Http\WhatWasRefused;
 use App\Http\AccountHomePage;
 use App\Http\Account\AccountSections;
@@ -969,6 +970,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(AskedWord::class);
     $services->set(PageOfRows::class);
     $services->set(WhatWasRefused::class);
+    $services->set(UntoldChange::class);
     $services->set(FormToken::class);
     $services->set(LoginTarget::class);
     $services->set(LoginAddresses::class);

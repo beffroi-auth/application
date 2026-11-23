@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Μη παράδοση ειδοποίησης αλλαγής</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>Μια αλλαγή δεν γνωστοποιήθηκε</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>Μια αλλαγή στους τρόπους σύνδεσής σας δεν μπόρεσε να σας γνωστοποιηθεί. Αν δεν ήσασταν εσείς, ελέγξτε τη δραστηριότητα του λογαριασμού σας.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Δημιουργία λογαριασμού</target>

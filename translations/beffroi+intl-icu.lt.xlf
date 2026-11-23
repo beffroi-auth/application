@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Pranešimas apie pakeitimą nepristatytas</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>Apie pakeitimą pranešti nepavyko</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>Apie jūsų prisijungimo būdų pakeitimą jums pranešti nepavyko. Jei tai buvote ne jūs, peržiūrėkite paskyros veiklą.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Paskyra sukurta</target>

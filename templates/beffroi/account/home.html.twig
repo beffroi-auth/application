@@ -18,6 +18,9 @@
 {% block title %}{{ 'account.title'|trans }}{% endblock %}
 
 {% block content %}
+    {% if untold_change %}
+        <p data-untold-change>{{ 'untold_change.text'|trans }} <a href="{{ path('beffroi_interaction_account_acts', {act: 'credential_change.not_told'}) }}">{{ 'acts.title'|trans }}</a></p>
+    {% endif %}
     {% set cards = account_cards() %}
     <ul data-sections="{{ sections|length }}">
         {% for section in sections %}

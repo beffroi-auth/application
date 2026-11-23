@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Nie dostarczono powiadomienia o zmianie</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>Nie udało się powiadomić o zmianie</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>Nie udało się powiadomić Cię o zmianie metod logowania. Jeśli to nie Ty, sprawdź aktywność konta.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Utworzono konto</target>

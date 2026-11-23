@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Paziņojums par izmaiņām nav piegādāts</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>Par izmaiņām neizdevās paziņot</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>Par izmaiņām jūsu pierakstīšanās veidos jums neizdevās paziņot. Ja tas nebijāt jūs, pārbaudiet darbības kontā.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Konts izveidots</target>

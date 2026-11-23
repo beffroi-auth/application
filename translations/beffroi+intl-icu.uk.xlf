@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Не доставлено сповіщення про зміну</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>Не вдалося повідомити про зміну</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>Не вдалося повідомити вас про зміну способів входу. Якщо це були не ви, перегляньте активність облікового запису.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Обліковий запис створено</target>

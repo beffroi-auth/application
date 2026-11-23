@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Melding van een wijziging niet bezorgd</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>Een wijziging kon niet worden gemeld</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>Een wijziging in uw inlogmethoden kon u niet worden gemeld. Was u dit niet? Bekijk dan uw accountactiviteit.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Account aangemaakt</target>

@@ -1413,6 +1413,14 @@
         <source>act.credential_change.not_told</source>
         <target>Muutosilmoitusta ei toimitettu</target>
       </trans-unit>
+      <trans-unit id="untold_change.title" resname="untold_change.title">
+        <source>untold_change.title</source>
+        <target>Muutoksesta ei voitu ilmoittaa</target>
+      </trans-unit>
+      <trans-unit id="untold_change.text" resname="untold_change.text">
+        <source>untold_change.text</source>
+        <target>Kirjautumistapoihisi tehdystä muutoksesta ei voitu ilmoittaa sinulle. Jos se et ollut sinä, tarkista tilin tapahtumat.</target>
+      </trans-unit>
       <trans-unit id="act.person.created" resname="act.person.created">
         <source>act.person.created</source>
         <target>Tili luotu</target>

@@ -16,12 +16,16 @@ final readonly class AccountHomePage
     ) {
     }
 
-    public function render(AuthenticationSession $session): Response
+    /**
+     * @param bool $untoldChange whether to tell the person that a change to their credentials was not notified
+     */
+    public function render(AuthenticationSession $session, bool $untoldChange = false): Response
     {
         return $this->pages->render('account/home.html.twig', [
             'user' => $session->user,
             'signed_in_since' => $session->establishedAt,
             'sections' => $this->sections->of($session->user),
+            'untold_change' => $untoldChange,
         ]);
     }
 }
