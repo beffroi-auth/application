@@ -44,6 +44,13 @@ final readonly class LocalesSection extends ConfigurationSection
             }
             $locales[] = $locale;
         }
+        if (! in_array($defaultLocale, $enabledLocales, true)) {
+            throw new InvalidConfigurationException(sprintf(
+                'The default locale "%s" has no catalogue in the application, which has "%s".',
+                $defaultLocale,
+                implode('", "', $enabledLocales),
+            ));
+        }
         if ($locales === []) {
             return new ServedLocales($enabledLocales, $defaultLocale);
         }
