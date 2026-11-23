@@ -341,6 +341,26 @@
         @apply input w-full;
     }
 
+    /* A field of several lines is drawn as a field, the base layer of Tailwind leaving it no border and no
+       ground, and it fills the form whatever the form aligns its other children on. */
+    main form textarea {
+        @apply textarea w-full;
+    }
+
+    /* A choice of one among a few is read on one line under the word that names it, each answer a button
+       and its word, spaced so that a click meant for one never lands on the other. */
+    main form fieldset {
+        @apply flex flex-wrap items-center gap-x-6 gap-y-2;
+    }
+
+    main form fieldset legend {
+        @apply label mb-2;
+    }
+
+    main form input[type="radio"] {
+        @apply radio radio-sm;
+    }
+
     main form button[type="submit"] {
         @apply btn btn-primary;
     }
@@ -1215,5 +1235,11 @@
 
     main[data-page="account"] p[data-passkeys-unsupported] {
         @apply text-sm text-base-content/50;
+    }
+
+    /* A certificate or a public key is pasted as the block its file holds, lines of base64 of one length,
+       and is read in the letters of code so that the block keeps its shape. */
+    main[data-page="account"] form[data-mail-encryption="give"] textarea {
+        @apply font-mono text-sm;
     }
 }
