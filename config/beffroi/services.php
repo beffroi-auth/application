@@ -512,6 +512,7 @@ use Beffroi\Core\Bridge\Password\Algorithm\Pbkdf2Sha512;
 use Beffroi\Core\Bridge\Uid\SymfonyUuidGenerator;
 use Beffroi\Core\Bridge\Password\NativePasswordHasher;
 use Beffroi\Core\Bridge\Password\PasswordHasherRegistry;
+use Beffroi\Core\Bridge\Password\Pbkdf2PasswordHasher;
 use Beffroi\Core\Bridge\Password\WiredPasswordAlgorithms;
 use Beffroi\Core\Bridge\Session\WiredAuthenticationPredicates;
 use Beffroi\Core\Domain\Session\PhishingResistant;
@@ -1625,6 +1626,10 @@ return static function (ContainerConfigurator $container): void {
     $services->alias('beffroi.password_algorithms', PasswordAlgorithmsInterface::class)->public();
 
     $services->set(NativePasswordHasher::class)->tag('beffroi.password_hasher');
+    $services
+        ->set(Pbkdf2PasswordHasher::class)
+        ->args([service(NativePasswordHasher::class)])
+        ->tag('beffroi.password_hasher');
     $services->set(PasswordHasherRegistry::class)->args([tagged_iterator('beffroi.password_hasher'), service(PasswordAlgorithmsInterface::class)]);
     $services->alias(PasswordHasherInterface::class, PasswordHasherRegistry::class);
     $services->set(DecoyHash::class);
