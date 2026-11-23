@@ -740,8 +740,13 @@
         @apply mt-0 flex flex-row items-center gap-2;
     }
 
+    /* The button is the text of the theme on its ground, ink on paper or paper on ink: the neutral of
+       DaisyUI is nearly black in the dark theme as in the light one, a button nobody sees on a dark card. */
     main[data-page="account"] form[data-filter="table"] button[data-filter="apply"] {
-        @apply btn btn-sm btn-neutral;
+        @apply btn btn-sm;
+
+        --btn-color: var(--color-base-content);
+        --btn-fg: var(--color-base-100);
     }
 
     main[data-page="account"] form[data-filter="table"] a[data-filter="clear"] {
