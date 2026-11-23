@@ -192,6 +192,9 @@ beffroi:
     # What a "login_hint" names, on the login page and in a backchannel request (OIDC Core §3.1.2.1, CIBA Core §7.1).
     interaction:
         login_hint: '%env(BEFFROI_INTERACTION_LOGIN_HINT)%'
+    # The languages the pages and the messages are served in, every one the application has a catalogue for unless
+    # the deployment names some (architecture §5.7, OpenID Connect Discovery 1.0 §3).
+    locales: '%env(json:BEFFROI_LOCALES)%'
     backchannel_authentication:
         login_hint: '%env(BEFFROI_BACKCHANNEL_AUTHENTICATION_LOGIN_HINT)%'
         client_notification_timeout: '%env(float:BEFFROI_CLIENT_NOTIFICATION_TIMEOUT)%'

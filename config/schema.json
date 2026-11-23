@@ -1259,6 +1259,22 @@
                         },
                         "description": "The pages a browser is sent to while an authorization request waits for a login or a consent (architecture §4.3)."
                     },
+                    "locales": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/types/array_null",
+                                "items": {
+                                    "$ref": "#/$defs/types/scalar"
+                                }
+                            },
+                            {
+                                "type": [
+                                    "string"
+                                ]
+                            }
+                        ],
+                        "description": "The languages the pages and the messages are served in, among those the application has a catalogue for (\"framework.enabled_locales\"), the default locale (\"framework.default_locale\") among them. Empty, the default, serves every one. The discovery document announces them in \"ui_locales_supported\" (OpenID Connect Discovery 1.0 §3)."
+                    },
                     "back_channel_logout": {
                         "$ref": "#/$defs/types/object_null",
                         "properties": {

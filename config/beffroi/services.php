@@ -180,6 +180,7 @@ use App\Http\SessionsPage;
 use App\Http\ActsPage;
 use App\Locale\KnownLocales;
 use App\Locale\LocalePreference;
+use App\Locale\AnnouncedUiLocales;
 use App\Locale\ServedLocales;
 use App\Locale\UserLocale;
 use App\Http\InteractionPages;
@@ -996,10 +997,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(ArchiveSection::class)->tag('beffroi.account_section');
     $services->set(AccountSections::class)->args([tagged_iterator('beffroi.account_section')]);
     $services->set(AccountHomePage::class);
-    $services->set(ServedLocales::class)->args([
-        '$enabledLocales' => '%kernel.enabled_locales%',
-        '$defaultLocale' => '%kernel.default_locale%',
-    ]);
+    $services->set(ServedLocales::class);
     $services->set(UserLocale::class);
     $services->set(LocalePreference::class)->tag('beffroi.browser_preference');
     $services->set(BrowserPreferences::class)->args([tagged_iterator('beffroi.browser_preference')]);
@@ -1988,6 +1986,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(AnnouncedUserInfo::class)->tag('beffroi.oidc.metadata');
     $services->set(AnnouncedClientAuthentication::class)->tag('beffroi.oidc.metadata');
     $services->set(AnnouncedClaims::class)->tag('beffroi.oidc.metadata');
+    $services->set(AnnouncedUiLocales::class)->tag('beffroi.oidc.metadata');
     $services->set(AnnouncedRequestObjects::class)->tag('beffroi.oidc.metadata');
     $services->set(AnnouncedPkce::class)->tag('beffroi.oidc.metadata');
     $services->set(AnnouncedRevocation::class)->tag('beffroi.oidc.metadata');

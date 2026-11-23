@@ -37,6 +37,7 @@ use App\Configuration\ClientRegistrationSection;
 use App\Configuration\ClientsSection;
 use App\Configuration\ExposesParametersInterface;
 use App\Configuration\InteractionSection;
+use App\Configuration\LocalesSection;
 use App\Configuration\ConfigurationSectionInterface;
 use App\Configuration\DpopSection;
 use App\Configuration\GeoipSection;
@@ -323,6 +324,7 @@ final class BeffroiExtension extends AbstractExtension
             new GeoipSection(),
             new PasswordsSection(),
             new InteractionSection(),
+            new LocalesSection(),
             new BackChannelLogoutSection(),
             new BackchannelAuthenticationSection(),
             new WebPushSection(),
