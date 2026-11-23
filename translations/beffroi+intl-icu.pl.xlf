@@ -125,10 +125,6 @@
         <source>logout.prompt.client</source>
         <target>{client} prosi o wylogowanie.</target>
       </trans-unit>
-      <trans-unit id="5c9a3f6527" resname="logout.prompt.anonymous">
-        <source>logout.prompt.anonymous</source>
-        <target>Aplikacja prosi o wylogowanie.</target>
-      </trans-unit>
       <trans-unit id="beb2b22fa9" resname="logout.signed_in_as">
         <source>logout.signed_in_as</source>
         <target>Zalogowano jako {username}. Czy chcesz się wylogować?</target>
@@ -987,7 +983,7 @@
       </trans-unit>
       <trans-unit id="07e99afba9" resname="notifications.what_is_sent">
         <source>notifications.what_is_sent</source>
-        <target>Przeglądarka dodana tutaj otrzymuje powiadomienie, gdy prośba czeka na Twoją odpowiedź. Odpowiadasz zawsze tutaj.</target>
+        <target>Przeglądarka dodana tutaj otrzymuje powiadomienie, gdy prośba czeka na Twoją odpowiedź i gdy zmieniają się Twoje metody logowania. Odpowiadasz zawsze tutaj.</target>
       </trans-unit>
       <trans-unit id="1a8a70cf10" resname="notifications.none">
         <source>notifications.none</source>

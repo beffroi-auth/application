@@ -34,8 +34,8 @@
     {% elseif requirement is not null and requirement.value != 'no_session' %}
         <p data-requirement="{{ requirement.value }}">{{ 'login.reauthentication'|trans }}</p>
     {% endif %}
-    {% if failed %}
-        <p data-error="authentication_failed">{{ 'login.failed'|trans }}</p>
+    {% if failed is not null %}
+        <p data-error="authentication_failed" data-failed="{{ failed }}">{{ (failed == 'passkey' ? 'login.passkey_failed' : 'login.failed')|trans }}</p>
     {% endif %}
     {% if 'password' in offered %}
         <form method="post" action="{{ path('beffroi_interaction_login', interaction is null ? {} : {interaction: interaction.id}) }}">

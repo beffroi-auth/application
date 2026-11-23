@@ -7,8 +7,10 @@
 {% block title %}{{ 'logout.title'|trans }}{% endblock %}
 
 {% block content %}
+    {# A request that names no client may come from the menu of the account as well as from an application,
+       so it is attributed to nobody. #}
     <p data-reason="{{ reason.value }}">
-        {% if client is not null %}{{ 'logout.prompt.client'|trans_with_client(client.registration.presentation.name) }}{% else %}{{ 'logout.prompt.anonymous'|trans }}{% endif %}
+        {% if client is not null %}{{ 'logout.prompt.client'|trans_with_client(client.registration.presentation.name) }}{% endif %}
         {{ 'logout.signed_in_as'|trans({username: user.username}) }}
     </p>
     <form method="post" action="{{ path('beffroi_interaction_logout') }}">

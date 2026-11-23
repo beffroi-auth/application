@@ -125,10 +125,6 @@
         <source>logout.prompt.client</source>
         <target>{client} solicita cerrar su sesión.</target>
       </trans-unit>
-      <trans-unit id="5c9a3f6527" resname="logout.prompt.anonymous">
-        <source>logout.prompt.anonymous</source>
-        <target>Una aplicación solicita cerrar su sesión.</target>
-      </trans-unit>
       <trans-unit id="beb2b22fa9" resname="logout.signed_in_as">
         <source>logout.signed_in_as</source>
         <target>Ha iniciado sesión como {username}. ¿Desea cerrar sesión?</target>
@@ -987,7 +983,7 @@
       </trans-unit>
       <trans-unit id="07e99afba9" resname="notifications.what_is_sent">
         <source>notifications.what_is_sent</source>
-        <target>Un navegador añadido aquí recibe una notificación cuando una solicitud espera su respuesta. Usted siempre responde aquí.</target>
+        <target>Un navegador añadido aquí recibe una notificación cuando una solicitud espera su respuesta y cuando cambian sus métodos de inicio de sesión. Usted siempre responde aquí.</target>
       </trans-unit>
       <trans-unit id="1a8a70cf10" resname="notifications.none">
         <source>notifications.none</source>

@@ -98,9 +98,20 @@ final readonly class PasskeyLoginAuthenticator implements AuthenticatorInterface
         return $this->handler->onAuthenticationSuccess($request, $token);
     }
 
+    /**
+     * A refusal of the checker of the user reaches the login page as a refusal of the passkey, which is what
+     * the person tried.
+     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
-        return $this->handler->onAuthenticationFailure($request, $exception);
+        $refusal = $exception instanceof PasskeyLoginException
+            ? $exception
+            : new PasskeyLoginException(
+                AuthenticationFailureCause::of($exception) ?? AuthenticationFailureReason::InvalidCredential,
+                previous: $exception,
+            );
+
+        return $this->handler->onAuthenticationFailure($request, $refusal);
     }
 
     public function isInteractive(): bool

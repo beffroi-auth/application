@@ -125,10 +125,6 @@
         <source>logout.prompt.client</source>
         <target>Aplikacija {client} prosi za vašo odjavo.</target>
       </trans-unit>
-      <trans-unit id="5c9a3f6527" resname="logout.prompt.anonymous">
-        <source>logout.prompt.anonymous</source>
-        <target>Aplikacija prosi za vašo odjavo.</target>
-      </trans-unit>
       <trans-unit id="beb2b22fa9" resname="logout.signed_in_as">
         <source>logout.signed_in_as</source>
         <target>Prijavljeni ste kot {username}. Se želite odjaviti?</target>
@@ -987,7 +983,7 @@
       </trans-unit>
       <trans-unit id="07e99afba9" resname="notifications.what_is_sent">
         <source>notifications.what_is_sent</source>
-        <target>Brskalnik, dodan tukaj, prejme obvestilo, ko zahteva čaka na vaš odgovor. Odgovorite vedno tukaj.</target>
+        <target>Brskalnik, dodan tukaj, prejme obvestilo, ko zahteva čaka na vaš odgovor in ko se spremenijo vaši načini prijave. Odgovorite vedno tukaj.</target>
       </trans-unit>
       <trans-unit id="1a8a70cf10" resname="notifications.none">
         <source>notifications.none</source>

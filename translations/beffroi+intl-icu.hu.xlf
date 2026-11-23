@@ -125,10 +125,6 @@
         <source>logout.prompt.client</source>
         <target>A(z) {client} az Ön kijelentkeztetését kéri.</target>
       </trans-unit>
-      <trans-unit id="5c9a3f6527" resname="logout.prompt.anonymous">
-        <source>logout.prompt.anonymous</source>
-        <target>Egy alkalmazás az Ön kijelentkeztetését kéri.</target>
-      </trans-unit>
       <trans-unit id="beb2b22fa9" resname="logout.signed_in_as">
         <source>logout.signed_in_as</source>
         <target>Bejelentkezett felhasználó: {username}. Ki szeretne jelentkezni?</target>
@@ -987,7 +983,7 @@
       </trans-unit>
       <trans-unit id="07e99afba9" resname="notifications.what_is_sent">
         <source>notifications.what_is_sent</source>
-        <target>Az itt hozzáadott böngésző értesítést kap, ha egy kérés az Ön válaszára vár. Válaszolni mindig itt kell.</target>
+        <target>Az itt hozzáadott böngésző értesítést kap, ha egy kérés az Ön válaszára vár, és ha megváltoznak a bejelentkezési módjai. Válaszolni mindig itt kell.</target>
       </trans-unit>
       <trans-unit id="1a8a70cf10" resname="notifications.none">
         <source>notifications.none</source>

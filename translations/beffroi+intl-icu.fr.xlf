@@ -125,10 +125,6 @@
         <source>logout.prompt.client</source>
         <target>{client} demande à vous déconnecter.</target>
       </trans-unit>
-      <trans-unit id="5c9a3f6527" resname="logout.prompt.anonymous">
-        <source>logout.prompt.anonymous</source>
-        <target>Une application demande à vous déconnecter.</target>
-      </trans-unit>
       <trans-unit id="beb2b22fa9" resname="logout.signed_in_as">
         <source>logout.signed_in_as</source>
         <target>Session ouverte pour {username}. Voulez-vous vous déconnecter ?</target>
@@ -987,7 +983,7 @@
       </trans-unit>
       <trans-unit id="07e99afba9" resname="notifications.what_is_sent">
         <source>notifications.what_is_sent</source>
-        <target>Un navigateur ajouté ici reçoit une notification quand une demande attend votre réponse. Vous répondez toujours ici.</target>
+        <target>Un navigateur ajouté ici reçoit une notification quand une demande attend votre réponse et quand vos moyens de connexion changent. Vous répondez toujours ici.</target>
       </trans-unit>
       <trans-unit id="1a8a70cf10" resname="notifications.none">
         <source>notifications.none</source>

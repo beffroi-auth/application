@@ -125,10 +125,6 @@
         <source>logout.prompt.client</source>
         <target>{client} palub teid välja logida.</target>
       </trans-unit>
-      <trans-unit id="5c9a3f6527" resname="logout.prompt.anonymous">
-        <source>logout.prompt.anonymous</source>
-        <target>Rakendus palub teid välja logida.</target>
-      </trans-unit>
       <trans-unit id="beb2b22fa9" resname="logout.signed_in_as">
         <source>logout.signed_in_as</source>
         <target>Olete sisse logitud kasutajana {username}. Kas soovite välja logida?</target>
@@ -987,7 +983,7 @@
       </trans-unit>
       <trans-unit id="07e99afba9" resname="notifications.what_is_sent">
         <source>notifications.what_is_sent</source>
-        <target>Siia lisatud brauser saab teavituse, kui päring ootab teie vastust. Vastate alati siin.</target>
+        <target>Siia lisatud brauser saab teavituse, kui päring ootab teie vastust ja kui teie sisselogimisviisid muutuvad. Vastate alati siin.</target>
       </trans-unit>
       <trans-unit id="1a8a70cf10" resname="notifications.none">
         <source>notifications.none</source>

@@ -125,10 +125,6 @@
         <source>logout.prompt.client</source>
         <target>{client} prašo jus atjungti.</target>
       </trans-unit>
-      <trans-unit id="5c9a3f6527" resname="logout.prompt.anonymous">
-        <source>logout.prompt.anonymous</source>
-        <target>Programa prašo jus atjungti.</target>
-      </trans-unit>
       <trans-unit id="beb2b22fa9" resname="logout.signed_in_as">
         <source>logout.signed_in_as</source>
         <target>Prisijungta kaip {username}. Ar norite atsijungti?</target>
@@ -987,7 +983,7 @@
       </trans-unit>
       <trans-unit id="07e99afba9" resname="notifications.what_is_sent">
         <source>notifications.what_is_sent</source>
-        <target>Čia pridėta naršyklė gauna pranešimą, kai užklausa laukia jūsų atsakymo. Atsakote visada čia.</target>
+        <target>Čia pridėta naršyklė gauna pranešimą, kai užklausa laukia jūsų atsakymo ir kai pasikeičia jūsų prisijungimo būdai. Atsakote visada čia.</target>
       </trans-unit>
       <trans-unit id="1a8a70cf10" resname="notifications.none">
         <source>notifications.none</source>

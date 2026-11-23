@@ -125,10 +125,6 @@
         <source>logout.prompt.client</source>
         <target>{client} pyytää kirjaamaan sinut ulos.</target>
       </trans-unit>
-      <trans-unit id="5c9a3f6527" resname="logout.prompt.anonymous">
-        <source>logout.prompt.anonymous</source>
-        <target>Sovellus pyytää kirjaamaan sinut ulos.</target>
-      </trans-unit>
       <trans-unit id="beb2b22fa9" resname="logout.signed_in_as">
         <source>logout.signed_in_as</source>
         <target>Olet kirjautunut käyttäjänä {username}. Haluatko kirjautua ulos?</target>
@@ -987,7 +983,7 @@
       </trans-unit>
       <trans-unit id="07e99afba9" resname="notifications.what_is_sent">
         <source>notifications.what_is_sent</source>
-        <target>Tähän lisätty selain saa ilmoituksen, kun pyyntö odottaa vastaustasi. Vastaat aina täällä.</target>
+        <target>Tähän lisätty selain saa ilmoituksen, kun pyyntö odottaa vastaustasi ja kun kirjautumistapasi muuttuvat. Vastaat aina täällä.</target>
       </trans-unit>
       <trans-unit id="1a8a70cf10" resname="notifications.none">
         <source>notifications.none</source>

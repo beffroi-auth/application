@@ -341,6 +341,16 @@
         @apply btn btn-primary mt-6 no-underline;
     }
 
+    /* The button that copies the backup codes an enrolment by ticket shows, under them on a page of an
+       interaction (totp_ticket_enrolled.html.twig). */
+    main:not([data-page]) p[data-copy-line] {
+        @apply mt-4 flex items-center gap-3;
+    }
+
+    main:not([data-page]) p[data-copy-line] button[data-copy] {
+        @apply btn btn-outline;
+    }
+
     /* A form the script of the provider keeps hidden until it has a browser for it stays hidden. */
     main form:not([hidden]) {
         @apply mt-6 flex flex-col gap-4;

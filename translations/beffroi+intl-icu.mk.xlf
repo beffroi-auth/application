@@ -125,10 +125,6 @@
         <source>logout.prompt.client</source>
         <target>{client} бара да ве одјави.</target>
       </trans-unit>
-      <trans-unit id="5c9a3f6527" resname="logout.prompt.anonymous">
-        <source>logout.prompt.anonymous</source>
-        <target>Една апликација бара да ве одјави.</target>
-      </trans-unit>
       <trans-unit id="beb2b22fa9" resname="logout.signed_in_as">
         <source>logout.signed_in_as</source>
         <target>Најавени сте како {username}. Дали сакате да се одјавите?</target>
@@ -987,7 +983,7 @@
       </trans-unit>
       <trans-unit id="07e99afba9" resname="notifications.what_is_sent">
         <source>notifications.what_is_sent</source>
-        <target>Прелистувач додаден тука добива известување кога барање чека ваш одговор. Секогаш одговарате тука.</target>
+        <target>Прелистувач додаден тука добива известување кога барање чека ваш одговор и кога ќе се променат вашите начини на најава. Секогаш одговарате тука.</target>
       </trans-unit>
       <trans-unit id="1a8a70cf10" resname="notifications.none">
         <source>notifications.none</source>

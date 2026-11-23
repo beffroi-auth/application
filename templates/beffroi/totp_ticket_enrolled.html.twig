@@ -10,14 +10,14 @@
     <script src="{{ path('beffroi_interaction_copy_script') }}" defer></script>
 {% endblock %}
 
-{% block action %}
-    <button type="button" data-copy="backup-codes" hidden>{{ 'two_factor.backup_codes.copy'|trans }}</button>
-    <span data-copied hidden>{{ 'two_factor.backup_codes.copied'|trans }}</span>
-{% endblock %}
-
+{# The skeleton of an interaction has no row of actions, so the button that copies the codes follows them. #}
 {% block content %}
     <p data-two-factor="enrolled">{{ 'totp_ticket.enrolled'|trans }}</p>
     <p>{{ 'two_factor.enrolled.codes'|trans }}</p>
     {{ include('@Beffroi/account/_backup_codes.html.twig', {backup_codes: backup_codes}) }}
+    <p data-copy-line>
+        <button type="button" data-copy="backup-codes" hidden>{{ 'two_factor.backup_codes.copy'|trans }}</button>
+        <span data-copied hidden>{{ 'two_factor.backup_codes.copied'|trans }}</span>
+    </p>
     <nav><a href="{{ path('beffroi_interaction_account') }}" data-sign-in>{{ 'totp_ticket.sign_in'|trans }}</a></nav>
 {% endblock %}

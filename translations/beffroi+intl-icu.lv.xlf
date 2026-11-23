@@ -125,10 +125,6 @@
         <source>logout.prompt.client</source>
         <target>{client} pieprasa jūsu izrakstīšanos.</target>
       </trans-unit>
-      <trans-unit id="5c9a3f6527" resname="logout.prompt.anonymous">
-        <source>logout.prompt.anonymous</source>
-        <target>Kāda lietotne pieprasa jūsu izrakstīšanos.</target>
-      </trans-unit>
       <trans-unit id="beb2b22fa9" resname="logout.signed_in_as">
         <source>logout.signed_in_as</source>
         <target>Sesija atvērta lietotājam {username}. Vai vēlaties izrakstīties?</target>
@@ -987,7 +983,7 @@
       </trans-unit>
       <trans-unit id="07e99afba9" resname="notifications.what_is_sent">
         <source>notifications.what_is_sent</source>
-        <target>Šeit pievienota pārlūkprogramma saņem paziņojumu, kad pieprasījums gaida jūsu atbildi. Jūs vienmēr atbildat šeit.</target>
+        <target>Šeit pievienota pārlūkprogramma saņem paziņojumu, kad pieprasījums gaida jūsu atbildi un kad mainās jūsu pierakstīšanās veidi. Jūs vienmēr atbildat šeit.</target>
       </trans-unit>
       <trans-unit id="1a8a70cf10" resname="notifications.none">
         <source>notifications.none</source>

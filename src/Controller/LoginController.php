@@ -18,6 +18,7 @@ use App\Http\LoginAddresses;
 use App\Http\WhatWasRefused;
 use App\Saml\ServiceProviderRoutes;
 use App\Saml\UpstreamDiscovery;
+use App\Security\PasskeyLoginException;
 use App\Http\RequestContextFactory;
 use App\Http\StepUpOffer;
 use Beffroi\Oidc\Application\Authorization\AuthorizationHandler;
@@ -34,6 +35,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 #[AsController]
@@ -148,6 +150,7 @@ final readonly class LoginController
     {
         $lastUsername = $this->authentication->getLastUsername();
         $hinted = $interaction === null ? null : $this->hints->userNamedBy($interaction->request);
+        $error = $this->authentication->getLastAuthenticationError();
 
         return $this->pages->render('login.html.twig', [
             'interaction' => $interaction,
@@ -155,9 +158,21 @@ final readonly class LoginController
             'requirement' => $requirement,
             'step_up' => $stepUp,
             'username' => $lastUsername === '' ? $hinted?->username : $lastUsername,
-            'failed' => $this->authentication->getLastAuthenticationError() !== null,
+            'failed' => self::failed($error),
             'offered' => $this->offered->kinds($tenant),
             'after_the_address' => $afterTheAddress,
         ]);
+    }
+
+    /**
+     * The login a refusal was of, so that a refused passkey is never told it typed a wrong password.
+     */
+    private static function failed(?AuthenticationException $error): ?string
+    {
+        if ($error === null) {
+            return null;
+        }
+
+        return $error instanceof PasskeyLoginException ? 'passkey' : 'password';
     }
 }
