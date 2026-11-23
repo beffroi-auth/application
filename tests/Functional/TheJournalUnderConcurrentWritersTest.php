@@ -22,7 +22,7 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Uid\Uuid;
 
 /**
- * Decision 0058, with the processes of decision 0053: two servers and a worker write the journal at once, each on a
+ * Decision 0060, with the processes of decision 0053: two servers and a worker write the journal at once, each on a
  * connection of its own, and the head of the chain they lock orders their acts.
  */
 final class TheJournalUnderConcurrentWritersTest extends KernelTestCase

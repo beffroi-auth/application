@@ -14,7 +14,7 @@ use function sprintf;
 use Throwable;
 
 /**
- * Decision 0058: every act the journal keeps, each computed again from the one before it, against the last signature.
+ * Decision 0060: every act the journal keeps, each computed again from the one before it, against the last signature.
  * Red at the first act that does not follow, named by its position and never by what it holds.
  */
 final readonly class JournalHoldsTogether implements CheckInterface

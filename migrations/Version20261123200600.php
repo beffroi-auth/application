@@ -19,7 +19,7 @@ final class Version20261123200600 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'The chain of the acts of the journal of each tenant, and its head (decision 0058, issue #1206).';
+        return 'The chain of the acts of the journal of each tenant, and its head (decision 0060, issue #1206).';
     }
 
     public function up(Schema $schema): void
