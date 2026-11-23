@@ -2389,6 +2389,10 @@
         <source>confirmation.refused</source>
         <target>Погрешен или истечен код. Проверете го или побарајте друг.</target>
       </trans-unit>
+      <trans-unit id="confirmation.withheld" resname="confirmation.withheld">
+        <source>confirmation.withheld</source>
+        <target>Испратени се премногу кодови. Обидете се повторно подоцна.</target>
+      </trans-unit>
       <trans-unit id="confirmation.link_prompt" resname="confirmation.link_prompt">
         <source>confirmation.link_prompt</source>
         <target>Потврдете дека оваа адреса е ваша.</target>
@@ -2416,6 +2420,10 @@
       <trans-unit id="act.address.confirmation_sent" resname="act.address.confirmation_sent">
         <source>act.address.confirmation_sent</source>
         <target>Испратен код за потврдување</target>
+      </trans-unit>
+      <trans-unit id="act.address.confirmation_withheld" resname="act.address.confirmation_withheld">
+        <source>act.address.confirmation_withheld</source>
+        <target>Кодот за потврдување не е испратен: достигнато ограничување</target>
       </trans-unit>
       <trans-unit id="act.address.established" resname="act.address.established">
         <source>act.address.established</source>

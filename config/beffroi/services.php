@@ -908,6 +908,8 @@ use Beffroi\Core\Application\Confirmation\AddressEstablishment;
 use Beffroi\Core\Domain\Confirmation\ConfirmableEmail;
 use Beffroi\Core\Domain\Confirmation\ConfirmablePhoneNumber;
 use Beffroi\Core\Port\AddressConfirmationSenderInterface;
+use Beffroi\Core\Port\ConfirmationSendLimiterInterface;
+use App\Confirmation\RateLimitedConfirmationSends;
 
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
@@ -1243,6 +1245,13 @@ return static function (ContainerConfigurator $container): void {
     $services->set(AddressConfirmationRedeeming::class);
     $services->set(QueuedAddressConfirmationSender::class);
     $services->alias(AddressConfirmationSenderInterface::class, QueuedAddressConfirmationSender::class);
+    // The limits and the interval are filled in by ConfirmationSection; the store and the lock are those of the attempts.
+    $services->set(RateLimitedConfirmationSends::class)->args([
+        '$storage' => inline_service(CacheStorage::class)->args([service('cache.rate_limiter')]),
+        '$locks' => service('lock.factory'),
+        '$secret' => '%kernel.secret%',
+    ]);
+    $services->alias(ConfirmationSendLimiterInterface::class, RateLimitedConfirmationSends::class);
     $services->set('beffroi.address_establishment.email', AddressEstablishment::class)->args([
         '$kind' => service(ConfirmableEmail::class),
         '$confirmations' => service(DoctrineEmailConfirmationRepository::class),

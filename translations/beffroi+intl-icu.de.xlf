@@ -2389,6 +2389,10 @@
         <source>confirmation.refused</source>
         <target>Falscher oder abgelaufener Code. Prüfen Sie ihn oder fordern Sie einen neuen an.</target>
       </trans-unit>
+      <trans-unit id="confirmation.withheld" resname="confirmation.withheld">
+        <source>confirmation.withheld</source>
+        <target>Zu viele Codes gesendet. Versuchen Sie es später erneut.</target>
+      </trans-unit>
       <trans-unit id="confirmation.link_prompt" resname="confirmation.link_prompt">
         <source>confirmation.link_prompt</source>
         <target>Bestätigen Sie, dass diese Adresse Ihnen gehört.</target>
@@ -2416,6 +2420,10 @@
       <trans-unit id="act.address.confirmation_sent" resname="act.address.confirmation_sent">
         <source>act.address.confirmation_sent</source>
         <target>Bestätigungscode gesendet</target>
+      </trans-unit>
+      <trans-unit id="act.address.confirmation_withheld" resname="act.address.confirmation_withheld">
+        <source>act.address.confirmation_withheld</source>
+        <target>Bestätigungscode nicht gesendet: Limit erreicht</target>
       </trans-unit>
       <trans-unit id="act.address.established" resname="act.address.established">
         <source>act.address.established</source>

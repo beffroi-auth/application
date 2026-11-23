@@ -9,7 +9,9 @@ use App\Http\Account\ReachedOnTheSessionAloneInterface;
 use App\Http\AccountAccess;
 use App\Http\InteractionPages;
 use App\Http\RequestContextFactory;
+use App\Http\WhatWasRefused;
 use Beffroi\Core\Exception\AddressConfirmationRefusedException;
+use Beffroi\Core\Exception\AddressConfirmationWithheldException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -17,7 +19,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * NIST SP 800-63B-4 §4.2.1.2: a code and a link sent to the address of the person that awaits its confirmation.
+ * NIST SP 800-63B-4 §4.2.1.2: a code and a link sent to the address of the person that awaits its confirmation, within
+ * the budgets of decision 0014.
  */
 #[AsController]
 final readonly class AccountAddressConfirmationSendController implements ReachedOnTheSessionAloneInterface
@@ -26,10 +29,13 @@ final readonly class AccountAddressConfirmationSendController implements Reached
 
     public const string CSRF_TOKEN_ID = 'beffroi_address_confirmation_send';
 
+    public const string WITHHELD = 'confirmation_withheld';
+
     public function __construct(
         private AccountAccess $account,
         private WiredAddressConfirmations $confirmations,
         private RequestContextFactory $contexts,
+        private WhatWasRefused $refusals,
         private InteractionPages $pages,
     ) {
     }
@@ -53,6 +59,8 @@ final readonly class AccountAddressConfirmationSendController implements Reached
             $establishment->send($session->user, $this->contexts->fromRequest($request));
         } catch (AddressConfirmationRefusedException) {
             return $this->pages->afterTheForm(AccountProfileController::ROUTE);
+        } catch (AddressConfirmationWithheldException) {
+            $this->refusals->keep($request, self::WITHHELD);
         }
 
         return $this->pages->afterTheForm(AccountAddressConfirmationController::ROUTE, ['claim' => $claim]);

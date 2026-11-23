@@ -2389,6 +2389,10 @@
         <source>confirmation.refused</source>
         <target>Hibás vagy lejárt kód. Ellenőrizze, vagy kérjen újat.</target>
       </trans-unit>
+      <trans-unit id="confirmation.withheld" resname="confirmation.withheld">
+        <source>confirmation.withheld</source>
+        <target>Túl sok kódot küldtünk. Próbálja újra később.</target>
+      </trans-unit>
       <trans-unit id="confirmation.link_prompt" resname="confirmation.link_prompt">
         <source>confirmation.link_prompt</source>
         <target>Erősítse meg, hogy ez a cím az Öné.</target>
@@ -2416,6 +2420,10 @@
       <trans-unit id="act.address.confirmation_sent" resname="act.address.confirmation_sent">
         <source>act.address.confirmation_sent</source>
         <target>Megerősítő kód elküldve</target>
+      </trans-unit>
+      <trans-unit id="act.address.confirmation_withheld" resname="act.address.confirmation_withheld">
+        <source>act.address.confirmation_withheld</source>
+        <target>Megerősítő kód nincs elküldve: korlát elérve</target>
       </trans-unit>
       <trans-unit id="act.address.established" resname="act.address.established">
         <source>act.address.established</source>

@@ -2092,6 +2092,13 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             interval?: int|Param, // Seconds the window covers. // Default: 60
  *         },
  *     },
+ *     confirmation?: array{ // The confirmations of an address (decisions 0014 and 0048): a code and a link sent by mail or by SMS to an address nobody verified yet.
+ *         sends?: array{ // How many confirmations go out in a window, counted for the person who asks and for the address they go to, whatever the tenant. Past either budget nothing is sent, the page says so, and the refusal is an act of the person. The budgets always exist; these are their numbers.
+ *             person_limit?: int|Param, // Confirmations sent for one person in the window. // Default: 5
+ *             address_limit?: int|Param, // Confirmations sent to one address in the window, more than for one person. // Default: 10
+ *             interval?: int|Param, // Seconds the window covers. // Default: 86400
+ *         },
+ *     },
  *     journal?: array{ // The acts of the provider, written down and forgotten again (issue #454): who did what, when and from where. Nothing turns it on; what is configured is how long an act is kept.
  *         retention?: int|Param, // Days an act is kept before the timed step forgets it; six months by default, the duration the deliberation 2021-122 of the CNIL holds for a log of connections. A deployment under another obligation says its own. // Default: 180
  *     },

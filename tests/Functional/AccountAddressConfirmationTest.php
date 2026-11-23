@@ -6,11 +6,13 @@ namespace App\Tests\Functional;
 
 use function array_key_last;
 use function array_values;
+use App\Configuration\ConfirmationSection;
 use Beffroi\Core\Domain\Identity\EmailAddress;
 use Beffroi\Core\Domain\Identity\Profile;
 use Beffroi\Core\Domain\Identity\User;
 use Beffroi\Core\Port\UserRepositoryInterface;
 use PHPUnit\Framework\Attributes\Test;
+use Psr\Cache\CacheItemPoolInterface;
 use function preg_match;
 use function sprintf;
 use Symfony\Component\DomCrawler\Crawler;
@@ -60,6 +62,8 @@ final class AccountAddressConfirmationTest extends BrowserTestCase
         $dispatcher = self::service('event_dispatcher', EventDispatcherInterface::class);
         $dispatcher->addSubscriber($this->mails);
         $dispatcher->addSubscriber($this->texts);
+        // The budgets of the sends are kept between two tests, and every test texts the same number.
+        self::service('cache.rate_limiter', CacheItemPoolInterface::class)->clear();
     }
 
     protected function tearDown(): void
@@ -208,6 +212,46 @@ final class AccountAddressConfirmationTest extends BrowserTestCase
         // Then
         static::assertSame(['address_confirmation_refused'], $page->filter('[data-refusal]')->extract(['data-refusal']));
         static::assertNull(self::reread($alice)->verifiedPhoneNumber());
+    }
+
+    /**
+     * Decision 0014
+     */
+    #[Test]
+    public function aCodePastTheBudgetOfThePersonIsNotTexted(): void
+    {
+        // Given
+        $this->signIn(self::user());
+        $this->writeTheNumber();
+        for ($send = 1; $send <= ConfirmationSection::DEFAULT_PERSON_LIMIT; ++$send) {
+            $this->sendTheCode('phone_number');
+        }
+
+        // When
+        $this->sendTheCode('phone_number');
+
+        // Then
+        static::assertCount(ConfirmationSection::DEFAULT_PERSON_LIMIT, $this->texts->getEvents()->getMessages());
+    }
+
+    /**
+     * Decision 0014
+     */
+    #[Test]
+    public function aCodePastTheBudgetOfThePersonIsRefusedInOneSentence(): void
+    {
+        // Given
+        $this->signIn(self::user());
+        $this->writeTheNumber();
+        for ($send = 1; $send <= ConfirmationSection::DEFAULT_PERSON_LIMIT; ++$send) {
+            $this->sendTheCode('phone_number');
+        }
+
+        // When
+        $page = $this->sendTheCode('phone_number');
+
+        // Then
+        static::assertSame(['Too many codes sent. Try again later.'], $page->filter('[data-refusal="confirmation_withheld"]')->extract(['_text']));
     }
 
     #[Test]
