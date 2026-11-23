@@ -16,14 +16,14 @@
  *
  * The field marked data-password-strength names, in that attribute, the element the rung is written into;
  * data-strength-labels carries the five words for it, in the language of the page, and
- * data-strength-floor the rung the server asks for. The estimate counts the bytes of the password as the
- * core counts them, so a password of accents is worth here what it is worth there.
+ * data-strength-floor the rung the server asks for. The estimate counts the characters of the password, its
+ * code points, as the core counts them, so a password of accents is worth here what it is worth there.
  */
 (() => {
     'use strict';
 
     const field = document.querySelector('input[data-password-strength]');
-    if (!field || typeof TextEncoder !== 'function') {
+    if (!field) {
         return;
     }
     const meter = document.getElementById(field.dataset.passwordStrength);
@@ -42,26 +42,27 @@
     }
     const floor = Number.parseInt(field.dataset.strengthFloor ?? '0', 10);
 
-    /* The alphabets a byte can belong to and what each one adds to the pool, as PasswordStrength counts
-       them: one byte belongs to one alphabet, and a password that draws from an alphabet at all pays for
-       the whole of it. */
-    const poolOf = (bytes) => {
+    /* The alphabets a character can belong to and what each one adds to the pool, as PasswordStrength
+       counts them: one character belongs to one alphabet, and a password that draws from an alphabet at all
+       pays for the whole of it. */
+    const poolOf = (characters) => {
         let control = 0;
         let digits = 0;
         let capitals = 0;
         let letters = 0;
         let symbols = 0;
         let beyond = 0;
-        for (const byte of bytes) {
-            if (byte < 32 || byte === 127) {
+        for (const character of characters) {
+            const code = character.codePointAt(0);
+            if (code < 32 || code === 127) {
                 control = 33;
-            } else if (byte >= 48 && byte <= 57) {
+            } else if (code >= 48 && code <= 57) {
                 digits = 10;
-            } else if (byte >= 65 && byte <= 90) {
+            } else if (code >= 65 && code <= 90) {
                 capitals = 26;
-            } else if (byte >= 97 && byte <= 122) {
+            } else if (code >= 97 && code <= 122) {
                 letters = 26;
-            } else if (byte >= 128) {
+            } else if (code >= 128) {
                 beyond = 128;
             } else {
                 symbols = 33;
@@ -71,17 +72,18 @@
         return control + digits + capitals + letters + symbols + beyond;
     };
 
-    /* The distinct bytes pay for the pool they are drawn from, the repeated ones for the alphabet the
-       password itself turned out to use, which is smaller. */
+    /* The distinct characters pay for the pool they are drawn from, the repeated ones for the alphabet the
+       password itself turned out to use, which is smaller. Array.from splits a string into code points,
+       where its length would count the halves of a surrogate pair. */
     const bitsOf = (value) => {
-        const bytes = new TextEncoder().encode(value);
-        if (bytes.length === 0) {
+        const characters = Array.from(value);
+        if (characters.length === 0) {
             return 0;
         }
-        const distinct = new Set(bytes);
+        const distinct = new Set(characters);
 
         return distinct.size * Math.log2(poolOf(distinct))
-            + (bytes.length - distinct.size) * Math.log2(distinct.size);
+            + (characters.length - distinct.size) * Math.log2(distinct.size);
     };
 
     const rungOf = (bits) => {
