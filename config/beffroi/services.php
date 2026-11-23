@@ -240,6 +240,7 @@ use App\Security\InteractionLoginHandler;
 use App\Security\LoginFailureListener;
 use App\Security\LoginSuccessListener;
 use App\Security\PasskeyLogin;
+use App\Security\LoginFormToken;
 use App\Security\PasskeyLoginAuthenticator;
 use App\Security\UpstreamAssertionAuthenticator;
 use App\Security\PasswordLoginAuthenticator;
@@ -1293,6 +1294,7 @@ return static function (ContainerConfigurator $container): void {
             iterator([service(UpstreamLogin::class)]),
         ]),
     ]);
+    $services->set(LoginFormToken::class);
     $services->set(PasswordLoginAuthenticator::class);
     $services->set(PasskeyLoginAuthenticator::class);
     $services->set(SecondFactorGate::class);

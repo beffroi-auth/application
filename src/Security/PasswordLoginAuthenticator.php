@@ -15,9 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
-use Symfony\Component\Security\Csrf\CsrfToken;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\InteractiveAuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
@@ -27,18 +24,8 @@ use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use function trim;
 
-/**
- * Checks the form token before the core counts an attempt; Symfony's CSRF badge would be checked too late.
- */
 final readonly class PasswordLoginAuthenticator implements AuthenticatorInterface, InteractiveAuthenticatorInterface, AuthenticationEntryPointInterface
 {
-    /**
-     * The provider's own, so that no stateless token identifier an application declares covers these forms.
-     */
-    public const string CSRF_TOKEN_ID = 'beffroi_login';
-
-    public const string CSRF_TOKEN_PARAMETER = '_csrf_token';
-
     public const string USERNAME_PARAMETER = '_username';
 
     public const string PASSWORD_PARAMETER = '_password';
@@ -46,7 +33,7 @@ final readonly class PasswordLoginAuthenticator implements AuthenticatorInterfac
     public function __construct(
         private TenantProvider $tenants,
         private PasswordVerification $verification,
-        private CsrfTokenManagerInterface $csrfTokens,
+        private LoginFormToken $formToken,
         private RequestContextFactory $contexts,
         private InteractionLoginHandler $handler,
         private InteractionPages $pages,
@@ -65,7 +52,7 @@ final readonly class PasswordLoginAuthenticator implements AuthenticatorInterfac
         if ($request->hasSession()) {
             $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $username);
         }
-        $this->checkTheFormToken($request);
+        $this->formToken->check($request);
         if ($username === '' || $password === '') {
             throw new BadCredentialsException('The login carries no username or no password.');
         }
@@ -116,16 +103,5 @@ final readonly class PasswordLoginAuthenticator implements AuthenticatorInterfac
     public function isInteractive(): bool
     {
         return true;
-    }
-
-    /**
-     * @throws InvalidCsrfTokenException
-     */
-    private function checkTheFormToken(Request $request): void
-    {
-        $token = new CsrfToken(self::CSRF_TOKEN_ID, $request->request->getString(self::CSRF_TOKEN_PARAMETER));
-        if (! $this->csrfTokens->isTokenValid($token)) {
-            throw new InvalidCsrfTokenException('Invalid CSRF token.');
-        }
     }
 }
