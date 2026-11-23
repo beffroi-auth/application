@@ -877,6 +877,7 @@ use Beffroi\Core\Application\Push\PushSubscriptionRevocation;
 use Beffroi\Core\Application\Push\PushSubscriptionEnrolment;
 use App\Configuration\MutualTlsSection;
 use App\Configuration\SamlSection;
+use App\Configuration\SecretFile;
 use App\Configuration\SwitchedServices;
 use App\Configuration\WebPushSection;
 use App\Security\UpstreamLogin;
@@ -1330,6 +1331,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set(KeysOpenedAtWorkerStart::class)->args([service(KeysOpenedAtStart::BY_THE_CONSUMER)]);
     $services->set(NotificationRetryPolicy::class);
     $services->set(LaneDsn::class);
+    $services->set(SecretFile::class);
     $services->set(MessengerContract::SERIALIZER, SealedBodySerializer::class)->args([
         service(TenantProvider::class),
         service(MessageBodySealerInterface::class),

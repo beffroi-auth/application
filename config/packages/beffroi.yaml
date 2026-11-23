@@ -60,7 +60,7 @@ beffroi:
         key_id: '%env(BEFFROI_KMS_KEY_ID)%'
         # The secrets that bind the data keys, the list a rotation of APP_SECRET keeps the old one second in;
         # the secret of the kernel alone while the variable is not set.
-        data_key_secrets: '%env(default:app.data_key_secrets:json:BEFFROI_DATA_KEY_SECRETS)%'
+        data_key_secrets: '%env(default:app.data_key_secrets:json:beffroi_secret:BEFFROI_DATA_KEY_SECRETS)%'
         storage: '%kernel.project_dir%/var/keys'
         # Read at runtime with the lifetimes of the tokens, so that "castor demo --rotate" can shorten the windows
         # of a rotation for its run without recompiling anything (.env documents the values). The staging delay
@@ -90,10 +90,10 @@ beffroi:
     # on, and the DSN is the deployment's: an empty variable, which "default::" makes no DSN at all, leaves it off, and
     # no mail or text leaves the deployment. A mail is written from the sender named beside its DSN.
     mail:
-        dsn: '%env(default::BEFFROI_MAIL_DSN)%'
+        dsn: '%env(default::beffroi_secret:BEFFROI_MAIL_DSN)%'
         sender: '%env(default::BEFFROI_MAIL_SENDER)%'
     sms:
-        dsn: '%env(default::BEFFROI_SMS_DSN)%'
+        dsn: '%env(default::beffroi_secret:BEFFROI_SMS_DSN)%'
     # The tenant is a SAML identity provider until its deployment turns it off (beffroi/saml, issue
     # beffroi-auth/beffroi#728): its signing key is drawn by "castor provision" under SAML-SIGNING, kept by the KMS and
     # rotated as every key of the tenant, and its metadata is served at /saml/metadata, the certificate of each key in
@@ -136,7 +136,7 @@ beffroi:
         # "beffroi:geoip:refresh", empty until a licence key is named, which every flow of the provider is
         # served without, a session and an act of the journal then saying an address and no place.
         storage: '%kernel.project_dir%/var/geoip'
-        license_key: '%env(GEOIP_LICENSE_KEY)%'
+        license_key: '%env(beffroi_secret:GEOIP_LICENSE_KEY)%'
     passwords:
         breached:
             # The list of compromised passwords a password posed here is compared against (NIST SP

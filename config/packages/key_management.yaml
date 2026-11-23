@@ -23,9 +23,9 @@ services:
     beffroi.kms.op:
         class: Symfony\Component\KeyManagement\EncrypterInterface
         factory: ['@key_management.factory', 'fromString']
-        arguments: ['%env(BEFFROI_KMS_DSN)%']
+        arguments: ['%env(beffroi_secret:BEFFROI_KMS_DSN)%']
 
     beffroi.kms.second:
         class: Symfony\Component\KeyManagement\EncrypterInterface
         factory: ['@key_management.factory', 'fromString']
-        arguments: ['%env(BEFFROI_KMS_DSN_SECOND)%']
+        arguments: ['%env(beffroi_secret:BEFFROI_KMS_DSN_SECOND)%']

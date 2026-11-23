@@ -34,6 +34,9 @@ COPY --link apps/beffroi/frankenphp/conf.d/10-app.ini $PHP_INI_DIR/app.conf.d/
 COPY --link --chmod=755 apps/beffroi/frankenphp/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 COPY --link --chmod=755 apps/beffroi/frankenphp/docker-healthcheck.php /usr/local/bin/docker-healthcheck
 COPY --link --chmod=755 apps/beffroi/frankenphp/docker-request-bounds.sh /usr/local/bin/docker-request-bounds
+# Named gpg and found before Debian's, so that every run of gpg, Symfony's included, gets none of the environment of the
+# provider (decision 0030, issue #1372).
+COPY --link --chmod=755 apps/beffroi/frankenphp/docker-gpg.sh /usr/local/bin/gpg
 COPY --link apps/beffroi/frankenphp/Caddyfile /etc/frankenphp/Caddyfile
 COPY --link apps/beffroi/frankenphp/worker.Caddyfile /etc/frankenphp/worker.Caddyfile
 COPY --link apps/beffroi/frankenphp/mtls.Caddyfile /etc/frankenphp/mtls.Caddyfile
@@ -106,6 +109,17 @@ RUN set -eux; \
     done; \
     rm -rf /var/lib/apt/lists/*
 
+# The gpg the processes find hands Debian's its PATH and GNUPGHOME and nothing else: played here with env in place of
+# Debian's gpg, in a stage no image carries, it prints no variable it was started with.
+RUN set -eux; \
+    test "$(command -v gpg)" = /usr/local/bin/gpg; \
+    mv /usr/bin/gpg /usr/bin/gpg.debian; \
+    ln -s /usr/bin/env /usr/bin/gpg; \
+    environment="$(APP_SECRET=leaked GNUPGHOME=/tmp/gnupg gpg | sort | tr '\n' ' ')"; \
+    rm /usr/bin/gpg; \
+    mv /usr/bin/gpg.debian /usr/bin/gpg; \
+    test "${environment}" = 'GNUPGHOME=/tmp/gnupg PATH=/usr/bin:/bin '
+
 # The production image: Debian slim, of the release the FrankenPHP image is built on, with FrankenPHP, PHP,
 # the extensions and the libraries they load, the packages and the application, and nothing to compile,
 # install or download with (issue #932). Every process runs as www-data, named by its number so that a
@@ -119,7 +133,7 @@ ENV PHP_INI_SCAN_DIR=":/usr/local/etc/php/app.conf.d"
 ENV XDG_CONFIG_HOME=/config XDG_DATA_HOME=/data GODEBUG=cgocheck=0
 ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt OPENSSL_CONF=/etc/ssl/openssl.cnf
 
-COPY --link --from=frankenphp_prod_builder /usr/local/bin/frankenphp /usr/local/bin/php /usr/local/bin/docker-php-entrypoint /usr/local/bin/docker-entrypoint /usr/local/bin/docker-healthcheck /usr/local/bin/docker-request-bounds /usr/local/bin/
+COPY --link --from=frankenphp_prod_builder /usr/local/bin/frankenphp /usr/local/bin/php /usr/local/bin/docker-php-entrypoint /usr/local/bin/docker-entrypoint /usr/local/bin/docker-healthcheck /usr/local/bin/docker-request-bounds /usr/local/bin/gpg /usr/local/bin/
 COPY --link --from=frankenphp_prod_builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
 COPY --link --from=frankenphp_prod_builder /usr/local/etc/php /usr/local/etc/php
 COPY --link --from=frankenphp_prod_builder /tmp/libs /usr/lib/
@@ -158,6 +172,7 @@ RUN set -eux; \
     chmod -R g=u /app/var /data /config; \
     find / -xdev -perm /6000 -type f -exec chmod a-s {} +; \
     frankenphp version; \
+    test "$(command -v gpg)" = /usr/local/bin/gpg; \
     frankenphp adapt --config /etc/frankenphp/Caddyfile | grep -q '"admin":{"disabled":true}'; \
     TLS_TERMINATION=proxy SERVER_NAME=:80 frankenphp adapt --config /etc/frankenphp/Caddyfile > /dev/null; \
     behind_a_proxy="$(TLS_TERMINATION=proxy SERVER_NAME=:80 ADMINISTRATION_SERVER_NAME=:81 \
