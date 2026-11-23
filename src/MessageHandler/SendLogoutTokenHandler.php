@@ -43,6 +43,7 @@ final readonly class SendLogoutTokenHandler
                 $message->subject,
                 $message->sessionId,
                 $delivery->detail,
+                $message->administrator,
             ),
         );
     }

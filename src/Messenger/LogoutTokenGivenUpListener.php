@@ -39,6 +39,7 @@ final readonly class LogoutTokenGivenUpListener
                 $message->subject,
                 $message->sessionId,
                 ExceptionTrail::of($event->getThrowable()),
+                $message->administrator,
             ),
         );
     }
