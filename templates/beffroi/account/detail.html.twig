@@ -10,5 +10,5 @@
     {%- else -%}
         {{ detail.value }}
     {%- endif -%}
-    {%- if detail.verified is not null %} <span data-verified="{{ detail.verified ? 'yes' : 'no' }}">{{ (detail.verified ? 'profile.verified' : 'profile.unverified')|trans }}</span>{% endif -%}
+    {{- include('@Beffroi/account/verification.html.twig', {detail: detail}) -}}
 </dd>

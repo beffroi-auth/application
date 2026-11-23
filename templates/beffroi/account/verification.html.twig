@@ -1,0 +1,4 @@
+{# Whether a contact detail was verified, written after its value wherever the detail is shown, read or
+   typed into: a state of the detail, and not more of its value. #}
+{% trans_default_domain 'beffroi' %}
+{%- if detail.verified is not null %} <span data-verified="{{ detail.verified ? 'yes' : 'no' }}">{{ (detail.verified ? 'profile.verified' : 'profile.unverified')|trans }}</span>{% endif -%}

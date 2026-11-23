@@ -1075,6 +1075,20 @@
         @apply border-base-300 bg-base-100;
     }
 
+    /* The field and whether its value was verified share the column of the values, as on a line nobody may
+       change here. */
+    main[data-page="account"] form[data-editable] span[data-field] {
+        @apply flex min-w-0 items-center;
+    }
+
+    main[data-page="account"] form[data-editable] span[data-field] > :is(input, select) {
+        @apply min-w-0 flex-1;
+    }
+
+    main[data-page="account"] form[data-editable] span[data-field] > span[data-verified] {
+        @apply shrink-0;
+    }
+
     main[data-page="account"] form[data-editable] button[data-save] {
         @apply btn btn-primary btn-sm invisible;
     }

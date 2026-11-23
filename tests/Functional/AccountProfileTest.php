@@ -6,6 +6,7 @@ namespace App\Tests\Functional;
 
 use Beffroi\Core\Domain\Identity\Profile;
 use Beffroi\Core\Port\UserRepositoryInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use function sprintf;
 use Symfony\Component\DomCrawler\Crawler;
@@ -53,6 +54,38 @@ final class AccountProfileTest extends BrowserTestCase
             ],
             $page->filter('form[data-editable]')->extract(['data-editable']),
         );
+    }
+
+    /**
+     * OIDC Core §5.1
+     */
+    #[Test]
+    #[DataProvider('provideVerifications')]
+    public function theFieldOfANumberThePersonMayChangeSaysWhetherItWasVerified(bool $verified, string $said): void
+    {
+        // Given
+        $alice = self::user();
+        $alice->changePhoneNumber('+33612345678', $verified, self::now());
+        self::service('test.beffroi.users', UserRepositoryInterface::class)->save($alice);
+        $this->signIn($alice);
+
+        // When
+        $page = $this->profilePage();
+
+        // Then
+        static::assertSame(
+            [$said],
+            $page->filter('form[data-editable="phone_number"] span[data-verified]')->extract(['data-verified']),
+        );
+    }
+
+    /**
+     * @return iterable<string, array{bool, string}>
+     */
+    public static function provideVerifications(): iterable
+    {
+        yield 'verified' => [true, 'yes'];
+        yield 'not verified' => [false, 'no'];
     }
 
     #[Test]

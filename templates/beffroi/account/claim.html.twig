@@ -17,7 +17,7 @@
         {%- else -%}
             <span data-nothing>{{ 'profile.nothing'|trans }}</span>
         {%- endif -%}
-        {%- if detail.verified is not null %} <span data-verified="{{ detail.verified ? 'yes' : 'no' }}">{{ (detail.verified ? 'profile.verified' : 'profile.unverified')|trans }}</span>{% endif -%}
+        {{- include('@Beffroi/account/verification.html.twig', {detail: detail}) -}}
         {%- if detail.key == 'email' and detail.verified %} <a href="{{ path('beffroi_interaction_account_mail_encryption') }}" data-mail-encryption-link>{{ 'mail_encryption.title'|trans }}</a>{% endif -%}
     </span>
 </li>

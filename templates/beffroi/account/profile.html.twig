@@ -50,7 +50,10 @@
                     <li data-claim="{{ detail.key }}">
                         {{ form_start(form, {attr: {'data-editable': detail.key}}) }}
                             {{ form_label(form.value) }}
-                            {{ form_widget(form.value) }}
+                            <span data-field>
+                                {{- form_widget(form.value) -}}
+                                {{- include('@Beffroi/account/verification.html.twig', {detail: detail}) -}}
+                            </span>
                             {# A set of several hundred is typed into with the whole set suggested
                                (beffroi-auth/beffroi#479). No type of the component renders a datalist and
                                these pages run no script, so the page renders it beside the field and the
