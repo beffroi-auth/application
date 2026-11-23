@@ -10,8 +10,8 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 /**
- * The token of the forms of the logins, checked before anything of the login is read: Symfony's CSRF badge is checked
- * once the passport is built, after the core has counted an attempt or a ceremony was taken out of the session.
+ * The token of the forms of the logins, checked before the core is handed anything and before a ceremony is taken out
+ * of the session: Symfony's CSRF badge is checked once the passport is built, after both.
  */
 final readonly class LoginFormToken
 {
