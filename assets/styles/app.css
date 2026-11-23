@@ -681,10 +681,10 @@
     }
 
     /*
-     * What a table is narrowed to, read above it: the choices and the periods side by side, going on to
-     * the next line on a screen too narrow for them, then the button that reads them and the way back to
-     * the table as it opens. It is a card of its own above the card of the table, because it narrows the
-     * whole of it and not one page.
+     * What a table is narrowed to, read above it: the words, the choices and the periods side by side,
+     * going on to the next line on a screen too narrow for them, then the button that reads them and the
+     * way back to the table as it opens. It is a card of its own above the card of the table, because it
+     * narrows the whole of it and not one page.
      */
     main[data-page="account"] form[data-filter="table"] {
         @apply gap-3 rounded-box border border-base-300 bg-base-100 p-4;
@@ -694,15 +694,21 @@
         @apply mt-0 flex flex-row flex-wrap items-end gap-x-6 gap-y-3;
     }
 
-    /* A choice and a period are named above their fields, in the words and the shape of the head of the
-       column they narrow, so that the eye goes from the one to the other. */
-    main[data-page="account"] form[data-filter="table"] div[data-filter-choice] {
+    /* A few words, a choice and a period are named above their fields, in the words and the shape of the
+       head of the column they narrow, so that the eye goes from the one to the other. */
+    main[data-page="account"] form[data-filter="table"] :is(div[data-filter-text], div[data-filter-choice]) {
         @apply mt-0 flex flex-col gap-1;
     }
 
-    main[data-page="account"] form[data-filter="table"] div[data-filter-choice] label,
+    main[data-page="account"] form[data-filter="table"] :is(div[data-filter-text], div[data-filter-choice]) label,
     main[data-page="account"] form[data-filter="table"] fieldset[data-filter-period] legend {
         @apply mb-1 p-0 text-xs font-medium uppercase tracking-wide text-base-content/50;
+    }
+
+    /* A search is drawn as a field: the base layer of Tailwind leaves it no border and no ground, and it
+       would read as the card it sits on. */
+    main[data-page="account"] form[data-filter="table"] div[data-filter-text] input {
+        @apply input input-sm w-auto min-w-44;
     }
 
     main[data-page="account"] form[data-filter="table"] div[data-filter-choice] select {
