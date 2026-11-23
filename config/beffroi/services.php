@@ -226,6 +226,7 @@ use App\Load\RateLimitedClientLoad;
 use App\MessageHandler\TellUserOfPendingApprovalHandler;
 use App\MessageHandler\QueueLogoutTokenHandler;
 use App\Messenger\EventBusDispatcher;
+use App\Messenger\FailedMessagesSealedTo;
 use App\Messenger\KeysOpenedAtWorkerStart;
 use App\Messenger\LaneDsn;
 use App\Messenger\LogoutTokenGivenUpListener;
@@ -1551,7 +1552,10 @@ return static function (ContainerConfigurator $container): void {
     ]);
     $services->set(NamedKey::class);
     $services->set(KeyStaging::class);
-    $services->set(KeyRetirement::class);
+    $services->set(KeyRetirement::class)->args([
+        '$holds' => tagged_iterator('beffroi.retirement_hold'),
+    ]);
+    $services->set(FailedMessagesSealedTo::class)->tag('beffroi.retirement_hold');
     $services->set(KeyTakeOver::class);
     $services->set(KeySuccession::class);
 
