@@ -125,7 +125,7 @@ RUN set -eux; \
 # install or download with (issue #932). Every process runs as www-data, named by its number so that a
 # runtime can tell it is not root: the code is root's and only read, var/ and what Caddy keeps are www-data's,
 # group 0 holding what the owner holds for a runtime that draws the uid itself.
-FROM debian:13.7-slim@sha256:a72b4433de1cf7d6bae0c4cee74d0547f58601a643b3375f070c51600d63b6b2 AS frankenphp_prod
+FROM debian:13.8-slim@sha256:8aa5a7bf5a1955bddbe7d74fcdd0b91ab30e74362a8b73af672b0481b35b44a0 AS frankenphp_prod
 
 ENV APP_ENV=prod
 ENV FRANKENPHP_CONFIG="import worker.Caddyfile"
