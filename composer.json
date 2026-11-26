@@ -69,7 +69,7 @@
         "symfony/validator": "8.2.*",
         "symfony/yaml": "8.2.*",
         "symfonycasts/tailwind-bundle": "^1.0",
-        "twig/twig": "^3.21"
+        "twig/twig": "^3.31.1"
     },
     "config": {
         "allow-plugins": {
